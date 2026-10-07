@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LCA Carbon Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: engineering ledger. Inputs grouped by life-cycle stage on the left, a sticky results panel on the right; stacks on phones with results first. */
+:root {
+  --bg: #F1F4F3;
+  --surface: #FFFFFF;
+  --surface-2: #E8EEEC;
+  --ink: #16201E;
+  --muted: #586A65;
+  --line: #D3DCD9;
+  --accent: #1D5C7A;
+  --accent-ink: #FFFFFF;
+  --warn: #9A5B12;
+  --warn-bg: #FBF0DF;
+  --st-materials: #8A6A3B;
+  --st-manufacturing: #4A5A8C;
+  --st-distribution: #2E8577;
+  --st-use: #B8582F;
+  --st-eol: #6F767D;
+  --s1: #1D5C7A;
+  --s2: #4F93B2;
+  --s3: #A6CADA;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1413; --surface: #161F1D; --surface-2: #1D2826; --ink: #E3EBE8; --muted: #93A59F; --line: #2A3835;
+    --accent: #79B9D6; --accent-ink: #0E1413; --warn: #E8B36A; --warn-bg: #2C2416;
+    --st-materials: #C9A36B; --st-manufacturing: #8E9DD6; --st-distribution: #5CC0AE; --st-use: #E58A62; --st-eol: #A3AAB1;
+    --s1: #A4D4E9; --s2: #5C9DBA; --s3: #33657B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1413; --surface: #161F1D; --surface-2: #1D2826; --ink: #E3EBE8; --muted: #93A59F; --line: #2A3835;
+  --accent: #79B9D6; --accent-ink: #0E1413; --warn: #E8B36A; --warn-bg: #2C2416;
+  --st-materials: #C9A36B; --st-manufacturing: #8E9DD6; --st-distribution: #5CC0AE; --st-use: #E58A62; --st-eol: #A3AAB1;
+  --s1: #A4D4E9; --s2: #5C9DBA; --s3: #33657B;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+.num, .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Masthead */
+.masthead { display: grid; gap: 18px; padding-bottom: 22px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: clamp(30px, 4.5vw, 46px); font-weight: 700; letter-spacing: -.01em; line-height: 1.05; }
+.lede { max-width: 68ch; color: var(--muted); margin: 0; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px 16px; align-items: end; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label, .label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.field input { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); }
+.seg button { flex: 1; padding: 8px 10px; border: 0; background: transparent; cursor: pointer; white-space: nowrap; font-size: 14px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { padding: 7px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); cursor: pointer; font-size: 14px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+.btn.danger { border-color: var(--warn); color: var(--warn); }
+.toast { font-size: 13px; color: var(--muted); }
+.banner { display: flex; gap: 10px; align-items: baseline; padding: 10px 14px; background: var(--warn-bg); color: var(--ink); border-left: 3px solid var(--warn); font-size: 14px; }
+.banner strong { color: var(--warn); }
+#csvFallback { width: 100%; min-height: 120px; font-family: var(--f-mono); font-size: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 8px; }
+
+/* App grid */
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; margin-top: 24px; align-items: start; }
+.stages { display: grid; gap: 22px; min-width: 0; }
+.summary { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: grid; gap: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+@media (max-width: 980px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .summary { position: static; order: -1; }
+}
+
+/* Stage sections */
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.stage-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.stage-no { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-mono); font-weight: 500; color: var(--surface); background: var(--c); }
+.stage-head h2 { font-size: 20px; font-weight: 600; }
+.stage-hint { font-size: 13px; color: var(--muted); }
+.stage-total { text-align: right; }
+.stage-total .num { font-size: 18px; font-weight: 500; }
+.stage-total .unit-l { font-size: 12px; color: var(--muted); }
+.stage.excluded { opacity: .55; }
+.stage.excluded .stage-total .num { text-decoration: line-through; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; background: var(--surface-2); color: var(--muted); margin-left: 6px; vertical-align: 2px; }
+
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 860px; }
+th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 8px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th.r, td.r { text-align: right; }
+td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: 0; }
+td input, td select { width: 100%; padding: 6px 7px; border: 1px solid transparent; border-radius: 3px; background: var(--surface-2); font-size: 14px; }
+td input:hover, td select:hover { border-color: var(--line); }
+td input.num { text-align: right; }
+td input.edited { border-color: var(--warn); }
+td .unit { font-family: var(--f-mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
+td.em { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
+.col-act { width: 24%; } .col-note { width: 20%; } .col-qty { width: 12%; } .col-unit { width: 7%; } .col-ef { width: 11%; } .col-scope { width: 8%; } .col-em { width: 12%; } .col-x { width: 36px; }
+.icon-btn { width: 28px; height: 28px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
+.icon-btn:hover { background: var(--surface-2); color: var(--warn); }
+.stage-foot { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); }
+.add { border: 1px dashed var(--line); background: transparent; padding: 6px 12px; border-radius: 4px; cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; }
+.add:hover { border-color: var(--accent); }
+.empty { padding: 16px; color: var(--muted); font-size: 14px; }
+
+/* Summary */
+.total .label { display: block; }
+.total-figure { font-family: var(--f-display); font-size: 46px; font-weight: 700; line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.total-figure small { font-family: var(--f-body); font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.kpi { background: var(--surface-2); border-radius: 4px; padding: 10px 12px; min-width: 0; }
+.kpi .v { font-family: var(--f-mono); font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.kpi .k { font-size: 12px; color: var(--muted); }
+.block h3 { font-size: 15px; font-weight: 600; letter-spacing: .02em; margin-bottom: 10px; }
+.bars { display: grid; gap: 9px; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; font-size: 13px; }
+.bar-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-row .vl { font-family: var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.track { grid-column: 1 / -1; height: 8px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.fill { height: 100%; background: var(--c); border-radius: 2px; transition: width .35s ease; }
+.bar-row.off .nm, .bar-row.off .vl { color: var(--muted); font-style: italic; }
+.stack { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--surface-2); gap: 2px; }
+.stack div { background: var(--c); transition: flex-basis .35s ease; min-width: 0; }
+.legend { display: grid; gap: 6px; margin-top: 10px; font-size: 13px; }
+.legend div { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
+.sw { width: 12px; height: 12px; border-radius: 2px; background: var(--c); }
+.legend .num { color: var(--muted); }
+.legend .pct { width: 3.5em; text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+ol.hot { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
+ol.hot li span { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.note { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+.method { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; max-width: 90ch; }
+.method h2 { font-size: 18px; font-weight: 600; }
+.method p { margin: 0; font-size: 14px; color: var(--muted); }
+
+@media (max-width: 520px) {
+  .wrap { padding-inline: 16px; }
+  .total-figure { font-size: 38px; }
+  .stage-head { grid-template-columns: auto minmax(0, 1fr); }
+  .stage-total { grid-column: 1 / -1; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .fill, .stack div { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Life cycle assessment · GHG Protocol scopes · ISO 14040/14067 stages</div>
+    <h1>LCA Carbon Ledger</h1>
+    <p class="lede">Enter a year of activity data for each life-cycle stage. Each line is multiplied by an emission factor (kg CO₂e per unit) to give tonnes of CO₂e, then rolled up by stage, by scope, and per product unit.</p>
+    <div class="meta">
+      <div class="field"><label for="company">Company</label><input id="company" type="text" placeholder="Company name"></div>
+      <div class="field"><label for="year">Reporting year</label><input id="year" type="number" min="1990" max="2100" step="1"></div>
+      <div class="field"><label for="fuName">Functional unit</label><input id="fuName" type="text" placeholder="e.g. one ceiling fan"></div>
+      <div class="field"><label for="fuQty">Units produced in year</label><input id="fuQty" type="number" min="0" step="any"></div>
+      <div class="field"><span class="label" id="boundaryLbl">System boundary</span>
+        <div class="seg" role="group" aria-labelledby="boundaryLbl">
+          <button type="button" id="bGate" data-boundary="gate">Cradle-to-gate</button>
+          <button type="button" id="bGrave" data-boundary="grave">Cradle-to-grave</button>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn primary" id="copyCsv">Copy results as CSV</button>
+      <button type="button" class="btn" id="loadExample">Load example</button>
+      <span id="clearWrap"><button type="button" class="btn" id="clearAll">Start blank</button></span>
+      <span class="toast" id="toast" role="status" aria-live="polite"></span>
+    </div>
+    <textarea id="csvFallback" hidden readonly aria-label="CSV output"></textarea>
+    <div class="banner" id="exampleBanner" hidden><strong>Example data.</strong><span>These figures describe a fictional fan manufacturer so you can see how the ledger works. Use “Start blank” to enter your own.</span></div>
+  </header>
+
+  <div class="app">
+    <main class="stages" id="stages"></main>
+    <aside class="summary" id="summary" aria-label="Results"></aside>
+  </div>
+
+  <section class="method">
+    <h2>Method and factor sources</h2>
+    <p>Emissions (t CO₂e) = activity quantity × emission factor (kg CO₂e per unit) ÷ 1,000. Library factors are typical published values from the US EPA GHG Emission Factors Hub, UK DESNZ/DEFRA conversion factors, worldsteel and IAI averages, the Mexican national grid factor (SEMARNAT/CRE) and IPCC AR6 100-year GWPs for refrigerants. They are reasonable defaults for screening. For a verified inventory, replace them with factors from your own sources, supplier EPDs or a licensed LCI database such as ecoinvent; edited factors are outlined so reviewers can see them.</p>
+    <p>Scope defaults follow the GHG Protocol: fuels and refrigerant leaks at your own sites are Scope 1, purchased electricity is Scope 2 (location-based), and everything upstream or downstream is Scope 3. Change the scope on any line if your boundary differs. Cradle-to-gate excludes the use and end-of-life stages from all totals.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  const STAGES = [
+    { id: 'materials', name: 'Raw material acquisition', hint: 'Purchased materials and packaging · Scope 3, Cat 1', def: 'steel' },
+    { id: 'manufacturing', name: 'Manufacturing & operations', hint: 'Fuels, electricity, refrigerants, waste and water at your sites · Scopes 1, 2 and 3 (Cat 5)', def: 'elec_mx' },
+    { id: 'distribution', name: 'Transport & distribution', hint: 'Inbound and outbound freight, business travel · Scope 3, Cat 4, 6 and 9', def: 'truck' },
+    { id: 'use', name: 'Use of sold products', hint: 'Energy the product consumes over its lifetime · Scope 3, Cat 11', def: 'elec_us', grave: true },
+    { id: 'eol', name: 'End of life', hint: 'Disposal and treatment of sold products · Scope 3, Cat 12', def: 'recycling', grave: true },
+  ];
+
+  // ef = kg CO2e per unit
+  const FACTORS = [
+    { g: 'Materials', key: 'steel', name: 'Steel, primary (BF-BOF)', unit: 'kg', ef: 1.92, kind: 'mat' },
+    { g: 'Materials', key: 'steel_eaf', name: 'Steel, recycled (EAF)', unit: 'kg', ef: 0.67, kind: 'mat' },
+    { g: 'Materials', key: 'alu', name: 'Aluminium, primary', unit: 'kg', ef: 16.0, kind: 'mat' },
+    { g: 'Materials', key: 'alu_rec', name: 'Aluminium, recycled', unit: 'kg', ef: 0.6, kind: 'mat' },
+    { g: 'Materials', key: 'copper', name: 'Copper', unit: 'kg', ef: 3.8, kind: 'mat' },
+    { g: 'Materials', key: 'abs', name: 'ABS plastic', unit: 'kg', ef: 3.1, kind: 'mat' },
+    { g: 'Materials', key: 'pe', name: 'Polyethylene (HDPE/LDPE)', unit: 'kg', ef: 1.9, kind: 'mat' },
+    { g: 'Materials', key: 'pet', name: 'PET', unit: 'kg', ef: 2.2, kind: 'mat' },
+    { g: 'Materials', key: 'cement', name: 'Portland cement (CEM I)', unit: 'kg', ef: 0.85, kind: 'mat' },
+    { g: 'Materials', key: 'concrete', name: 'Ready-mix concrete (30 MPa)', unit: 'm³', ef: 300, kind: 'mat' },
+    { g: 'Materials', key: 'glass', name: 'Glass', unit: 'kg', ef: 0.85, kind: 'mat' },
+    { g: 'Materials', key: 'cardboard', name: 'Corrugated cardboard', unit: 'kg', ef: 0.94, kind: 'mat' },
+    { g: 'Materials', key: 'paper', name: 'Paper', unit: 'kg', ef: 0.92, kind: 'mat' },
+    { g: 'Fuels', key: 'natgas', name: 'Natural gas', unit: 'm³', ef: 2.02, kind: 'fuel' },
+    { g: 'Fuels', key: 'diesel', name: 'Diesel', unit: 'L', ef: 2.70, kind: 'fuel' },
+    { g: 'Fuels', key: 'gasoline', name: 'Gasoline', unit: 'L', ef: 2.32, kind: 'fuel' },
+    { g: 'Fuels', key: 'lpg', name: 'LPG (propane)', unit: 'L', ef: 1.51, kind: 'fuel' },
+    { g: 'Electricity', key: 'elec_mx', name: 'Grid electricity, Mexico', unit: 'kWh', ef: 0.444, kind: 'elec' },
+    { g: 'Electricity', key: 'elec_us', name: 'Grid electricity, US average', unit: 'kWh', ef: 0.371, kind: 'elec' },
+    { g: 'Electricity', key: 'elec_eu', name: 'Grid electricity, EU average', unit: 'kWh', ef: 0.25, kind: 'elec' },
+    { g: 'Electricity', key: 'elec_ren', name: 'Renewable electricity (with certificates)', unit: 'kWh', ef: 0, kind: 'elec' },
+    { g: 'Refrigerant leaks', key: 'r134a', name: 'R-134a leaked', unit: 'kg', ef: 1530, kind: 'refrig' },
+    { g: 'Refrigerant leaks', key: 'r410a', name: 'R-410A leaked', unit: 'kg', ef: 2256, kind: 'refrig' },
+    { g: 'Refrigerant leaks', key: 'r32', name: 'R-32 leaked', unit: 'kg', ef: 771, kind: 'refrig' },
+    { g: 'Transport', key: 'truck', name: 'Road freight, HGV average', unit: 't·km', ef: 0.107, kind: 'transport' },
+    { g: 'Transport', key: 'rail', name: 'Rail freight', unit: 't·km', ef: 0.028, kind: 'transport' },
+    { g: 'Transport', key: 'sea', name: 'Sea freight, container ship', unit: 't·km', ef: 0.016, kind: 'transport' },
+    { g: 'Transport', key: 'air', name: 'Air freight', unit: 't·km', ef: 0.60, kind: 'transport' },
+    { g: 'Transport', key: 'car', name: 'Car travel, average', unit: 'km', ef: 0.17, kind: 'transport' },
+    { g: 'Transport', key: 'flight', name: 'Air travel, economy', unit: 'p·km', ef: 0.15, kind: 'transport' },
+    { g: 'Waste & water', key: 'landfill_mixed', name: 'Landfill, mixed commercial waste', unit: 'kg', ef: 0.467, kind: 'waste' },
+    { g: 'Waste & water', key: 'landfill_inert', name: 'Landfill, metals & plastics', unit: 'kg', ef: 0.009, kind: 'waste' },
+    { g: 'Waste & water', key: 'recycling', name: 'Recycling (open loop)', unit: 'kg', ef: 0.021, kind: 'waste' },
+    { g: 'Waste & water', key: 'incineration', name: 'Incineration', unit: 'kg', ef: 0.021, kind: 'waste' },
+    { g: 'Waste & water', key: 'water', name: 'Water supply', unit: 'm³', ef: 0.15, kind: 'waste' },
+    { g: 'Waste & water', key: 'wastewater', name: 'Wastewater treatment', unit: 'm³', ef: 0.27, kind: 'waste' },
+    { g: 'Other', key: 'custom', name: 'Custom factor…', unit: 'unit', ef: 0, kind: 'custom' },
+  ];
+  const F = Object.fromEntries(FACTORS.map(f => [f.key, f]));
+  const STORE = 'lca-ledger-v1';
+
+  function defaultScope(stage, key) {
+    const k = F[key] ? F[key].kind : 'custom';
+    if (stage === 'manufacturing') {
+      if (k === 'fuel' || k === 'refrig') return 1;
+      if (k === 'elec') return 2;
+    }
+    return 3;
+  }
+
+  let seq = 1;
+  function row(stage, key, qty, note) {
+    const f = F[key];
+    return { id: 'r' + (seq++), stage, key, note: note || '', qty: qty ?? '', unit: f.unit, ef: f.ef, scope: defaultScope(stage, key) };
+  }
+
+  function example() {
+    return {
+      company: 'Ventura Fans (example)', year: 2025, fuName: 'one ceiling fan', fuQty: 120000, boundary: 'grave', isExample: true,
+      rows: [
+        row('materials', 'steel', 850000, 'Motor housings and blades'),
+        row('materials', 'alu', 60000, 'Die-cast motor covers'),
+        row('materials', 'copper', 90000, 'Motor windings'),
+        row('materials', 'abs', 70000, 'Light kit and switch housings'),
+        row('materials', 'cardboard', 25000, 'Retail boxes'),
+        row('manufacturing', 'elec_mx', 2400000, 'Plant meter, Apodaca NL'),
+        row('manufacturing', 'natgas', 180000, 'Paint-line ovens'),
+        row('manufacturing', 'diesel', 12000, 'Forklifts and backup generator'),
+        row('manufacturing', 'r410a', 15, 'HVAC top-ups from service log'),
+        row('manufacturing', 'landfill_mixed', 40000, 'Plant general waste'),
+        row('manufacturing', 'water', 15000, 'Municipal supply'),
+        row('distribution', 'sea', 3000000, 'Motors from supplier, Asia to Manzanillo'),
+        row('distribution', 'truck', 1200000, 'Plant to US distribution centres'),
+        row('distribution', 'flight', 400000, 'Business travel'),
+        row('use', 'elec_us', 81000000, '45 W × 1,500 h/yr × 10 yr × 120,000 fans'),
+        row('eol', 'recycling', 750000, 'Metal scrap recovered'),
+        row('eol', 'landfill_inert', 70000, 'Plastic parts'),
+        row('eol', 'landfill_mixed', 25000, 'Packaging discarded by buyers'),
+      ],
+    };
+  }
+  function blank() {
+    return { company: '', year: new Date().getFullYear() - 1, fuName: '', fuQty: '', boundary: 'grave', isExample: false,
+      rows: STAGES.map(s => row(s.id, s.def, '')) };
+  }
+
+  let state;
+  try {
+    const raw = localStorage.getItem(STORE);
+    if (raw) {
+      state = JSON.parse(raw);
+      state.rows.forEach(r => { const n = parseInt(String(r.id).slice(1), 10); if (n >= seq) seq = n + 1; });
+    }
+  } catch (e) { state = null; }
+  if (!state || !Array.isArray(state.rows)) state = example();
+
+  function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtT = t => (Math.abs(t) >= 1000 ? nf0.format(t) : Math.abs(t) >= 10 ? nf1.format(t) : nf2.format(t));
+  const pct = (a, b) => (b > 0 ? Math.round((a / b) * 100) + '%' : '–');
+
+  const emis = r => { const q = parseFloat(r.qty), e = parseFloat(r.ef); return isFinite(q) && isFinite(e) ? (q * e) / 1000 : 0; };
+  const included = stageId => state.boundary === 'grave' || !STAGES.find(s => s.id === stageId).grave;
+
+  // ---------- rendering ----------
+  const optionsHtml = sel => {
+    let out = '', g = null;
+    FACTORS.forEach(f => {
+      if (f.g !== g) { if (g) out += '</optgroup>'; out += `<optgroup label="${esc(f.g)}">`; g = f.g; }
+      out += `<option value="${f.key}"${f.key === sel ? ' selected' : ''}>${esc(f.name)}</option>`;
+    });
+    return out + '</optgroup>';
+  };
+
+  function rowHtml(r) {
+    const lib = F[r.key];
+    const edited = r.key !== 'custom' && lib && Number(r.ef) !== lib.ef;
+    const unitCell = r.key === 'custom'
+      ? `<input id="${r.id}-unit" data-field="unit" type="text" value="${esc(r.unit)}" aria-label="Unit">`
+      : `<span class="unit">${esc(r.unit)}</span>`;
+    return `<tr data-id="${r.id}">
+      <td><select id="${r.id}-key" data-field="key" aria-label="Activity">${optionsHtml(r.key)}</select></td>
+      <td><input id="${r.id}-note" data-field="note" type="text" value="${esc(r.note)}" placeholder="Source, site or supplier" aria-label="Description"></td>
+      <td><input id="${r.id}-qty" data-field="qty" class="num" type="number" step="any" min="0" value="${esc(r.qty)}" placeholder="0" aria-label="Quantity"></td>
+      <td>${unitCell}</td>
+      <td><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(r.ef)}" aria-label="Emission factor, kg CO2e per unit"${edited ? ` title="Library value: ${lib.ef}"` : ''}></td>
+      <td><select id="${r.id}-scope" data-field="scope" aria-label="Scope">${[1, 2, 3].map(s => `<option value="${s}"${+r.scope === s ? ' selected' : ''}>S${s}</option>`).join('')}</select></td>
+      <td class="em r" data-em>${fmtT(emis(r))}</td>
+      <td><button type="button" class="icon-btn" data-remove aria-label="Remove line">×</button></td>
+    </tr>`;
+  }
+
+  function renderStages() {
+    $('stages').innerHTML = STAGES.map((s, i) => {
+      const rows = state.rows.filter(r => r.stage === s.id);
+      const off = !included(s.id);
+      return `<section class="stage${off ? ' excluded' : ''}" data-stage="${s.id}" style="--c: var(--st-${s.id})">
+        <div class="stage-head">
+          <div class="stage-no" aria-hidden="true">${i + 1}</div>
+          <div><h2>${esc(s.name)}${off ? '<span class="tag">Excluded</span>' : ''}</h2><div class="stage-hint">${esc(s.hint)}</div></div>
+          <div class="stage-total"><div class="num" data-stage-total></div><div class="unit-l">t CO₂e</div></div>
+        </div>
+        ${rows.length ? `<div class="table-scroll"><table>
+          <colgroup><col class="col-act"><col class="col-note"><col class="col-qty"><col class="col-unit"><col class="col-ef"><col class="col-scope"><col class="col-em"><col class="col-x"></colgroup>
+          <thead><tr><th>Activity</th><th>Description</th><th class="r">Quantity</th><th>Unit</th><th class="r">kg CO₂e / unit</th><th>Scope</th><th class="r">t CO₂e</th><th><span hidden>Remove</span></th></tr></thead>
+          <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`
+          : `<div class="empty">No lines in this stage yet.</div>`}
+        <div class="stage-foot"><button type="button" class="add" data-add="${s.id}">+ Add line</button><span class="note">${rows.length} line${rows.length === 1 ? '' : 's'}</span></div>
+      </section>`;
+    }).join('');
+    updateTotals();
+  }
+
+  function renderMeta() {
+    $('company').value = state.company || '';
+    $('year').value = state.year || '';
+    $('fuName').value = state.fuName || '';
+    $('fuQty').value = state.fuQty ?? '';
+    $('bGate').setAttribute('aria-pressed', state.boundary === 'gate');
+    $('bGrave').setAttribute('aria-pressed', state.boundary === 'grave');
+    $('exampleBanner').hidden = !state.isExample;
+  }
+
+  function totals() {
+    const byStage = {}, byScope = { 1: 0, 2: 0, 3: 0 };
+    STAGES.forEach(s => (byStage[s.id] = 0));
+    let total = 0;
+    state.rows.forEach(r => {
+      const e = emis(r);
+      byStage[r.stage] += e;
+      if (included(r.stage)) { byScope[r.scope] += e; total += e; }
+    });
+    return { byStage, byScope, total };
+  }
+
+  function updateTotals() {
+    const t = totals();
+    document.querySelectorAll('.stage').forEach(el => {
+      el.querySelector('[data-stage-total]').textContent = fmtT(t.byStage[el.dataset.stage]);
+    });
+    renderSummary(t);
+  }
+
+  function renderSummary(t) {
+    const fuQty = parseFloat(state.fuQty);
+    const perUnit = fuQty > 0 ? (t.total * 1000) / fuQty : null;
+    const maxStage = Math.max(...STAGES.filter(s => included(s.id)).map(s => t.byStage[s.id]), 0);
+    const hot = state.rows.filter(r => included(r.stage) && emis(r) > 0).sort((a, b) => emis(b) - emis(a)).slice(0, 5);
+    const lines = state.rows.filter(r => included(r.stage) && emis(r) > 0).length;
+    const scopeNames = { 1: 'Scope 1 · direct', 2: 'Scope 2 · electricity', 3: 'Scope 3 · value chain' };
+
+    $('summary').innerHTML = `
+      <div class="total">
+        <span class="label">${esc(state.company || 'Company')} · ${esc(state.year || '')} · ${state.boundary === 'gate' ? 'cradle-to-gate' : 'cradle-to-grave'}</span>
+        <div class="total-figure">${fmtT(t.total)}<small>t CO₂e</small></div>
+        <div class="kpis">
+          <div class="kpi"><div class="v">${perUnit === null ? '–' : (perUnit >= 100 ? nf0.format(perUnit) : nf1.format(perUnit))}</div><div class="k">kg CO₂e per ${esc(state.fuName || 'unit')}</div></div>
+          <div class="kpi"><div class="v">${lines}</div><div class="k">activity lines counted</div></div>
+        </div>
+      </div>
+      <div class="block">
+        <h3>By life-cycle stage</h3>
+        <div class="bars">${STAGES.map(s => {
+          const on = included(s.id), v = t.byStage[s.id];
+          return `<div class="bar-row${on ? '' : ' off'}" style="--c: var(--st-${s.id})">
+            <span class="nm">${esc(s.name)}</span><span class="vl">${on ? fmtT(v) + ' t · ' + pct(v, t.total) : 'excluded'}</span>
+            <div class="track"><div class="fill" style="width:${on && maxStage > 0 ? (v / maxStage) * 100 : 0}%"></div></div>
+          </div>`;
+        }).join('')}</div>
+      </div>
+      <div class="block">
+        <h3>By GHG Protocol scope</h3>
+        <div class="stack" role="img" aria-label="Scope split: ${[1, 2, 3].map(s => 'Scope ' + s + ' ' + pct(t.byScope[s], t.total)).join(', ')}">
+          ${[1, 2, 3].map(s => `<div style="--c: var(--s${s}); flex: 0 0 ${t.total > 0 ? (t.byScope[s] / t.total) * 100 : 0}%"></div>`).join('')}
+        </div>
+        <div class="legend">${[1, 2, 3].map(s => `<div style="--c: var(--s${s})"><span class="sw"></span><span>${scopeNames[s]}</span><span class="num">${fmtT(t.byScope[s])} t</span><span class="pct">${pct(t.byScope[s], t.total)}</span></div>`).join('')}</div>
+      </div>
+      <div class="block">
+        <h3>Hotspots</h3>
+        ${hot.length ? `<ol class="hot">${hot.map(r => `<li>${esc(F[r.key].kind === 'custom' ? (r.note || 'Custom line') : F[r.key].name)}${r.note && F[r.key].kind !== 'custom' ? ' — ' + esc(r.note) : ''} <span>${fmtT(emis(r))} t · ${pct(emis(r), t.total)}</span></li>`).join('')}</ol>`
+          : '<p class="note">Enter quantities to see which activities drive the footprint.</p>'}
+      </div>
+      <p class="note">Totals cover only the lines entered. Scope 3 is complete only when every relevant category has activity data.</p>`;
+  }
+
+  // ---------- events ----------
+  const stagesEl = $('stages');
+  const findRow = id => state.rows.find(r => r.id === id);
+  function touched() { if (state.isExample) { state.isExample = false; $('exampleBanner').hidden = true; } save(); }
+
+  stagesEl.addEventListener('input', e => {
+    const tr = e.target.closest('tr[data-id]'); if (!tr) return;
+    const r = findRow(tr.dataset.id), f = e.target.dataset.field;
+    if (!r || !f || f === 'key' || f === 'scope') return;
+    r[f] = e.target.value;
+    if (f === 'ef') {
+      const lib = F[r.key];
+      const edited = r.key !== 'custom' && Number(r.ef) !== lib.ef;
+      e.target.classList.toggle('edited', edited);
+      e.target.title = edited ? 'Library value: ' + lib.ef : '';
+    }
+    tr.querySelector('[data-em]').textContent = fmtT(emis(r));
+    updateTotals(); touched();
+  });
+
+  stagesEl.addEventListener('change', e => {
+    const tr = e.target.closest('tr[data-id]'); if (!tr) return;
+    const r = findRow(tr.dataset.id), f = e.target.dataset.field;
+    if (!r) return;
+    if (f === 'key') {
+      const lib = F[e.target.value];
+      r.key = lib.key; r.unit = lib.unit; r.ef = lib.ef; r.scope = defaultScope(r.stage, lib.key);
+      tr.outerHTML = rowHtml(r);
+      document.getElementById(r.id + (lib.key === 'custom' ? '-unit' : '-qty')).focus();
+    } else if (f === 'scope') {
+      r.scope = +e.target.value;
+    } else return;
+    updateTotals(); touched();
+  });
+
+  stagesEl.addEventListener('click', e => {
+    const add = e.target.closest('[data-add]');
+    if (add) {
+      const s = STAGES.find(x => x.id === add.dataset.add);
+      const r = row(s.id, s.def, '');
+      state.rows.push(r);
+      renderStages(); touched();
+      document.getElementById(r.id + '-key').focus();
+      return;
+    }
+    const rm = e.target.closest('[data-remove]');
+    if (rm) {
+      const id = rm.closest('tr').dataset.id;
+      state.rows = state.rows.filter(r => r.id !== id);
+      renderStages(); touched();
+    }
+  });
+
+  [['company', 'company'], ['year', 'year'], ['fuName', 'fuName'], ['fuQty', 'fuQty']].forEach(([id, key]) => {
+    $(id).addEventListener('input', e => { state[key] = e.target.value; renderSummary(totals()); touched(); });
+  });
+
+  document.querySelectorAll('[data-boundary]').forEach(b => b.addEventListener('click', () => {
+    state.boundary = b.dataset.boundary; renderMeta(); renderStages(); touched();
+  }));
+
+  let toastTimer;
+  function toast(msg) { $('toast').textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(() => ($('toast').textContent = ''), 3500); }
+
+  $('loadExample').addEventListener('click', () => {
+    state = example(); save(); renderMeta(); renderStages(); $('csvFallback').hidden = true; toast('Example loaded');
+  });
+
+  const clearWrap = $('clearWrap');
+  function resetClearButton() { clearWrap.innerHTML = '<button type="button" class="btn" id="clearAll">Start blank</button>'; }
+  clearWrap.addEventListener('click', e => {
+    const id = e.target.id;
+    if (id === 'clearAll') {
+      clearWrap.innerHTML = '<button type="button" class="btn danger" id="clearYes">Clear all lines</button> <button type="button" class="btn" id="clearNo">Cancel</button>';
+      $('clearNo').focus();
+    } else if (id === 'clearYes') {
+      state = blank(); save(); renderMeta(); renderStages(); resetClearButton(); $('csvFallback').hidden = true; toast('Ledger cleared');
+    } else if (id === 'clearNo') {
+      resetClearButton();
+    }
+  });
+
+  function csv() {
+    const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    const head = ['Stage', 'Activity', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Scope', 'Emissions (t CO2e)', 'Included in total'];
+    const body = state.rows.map(r => [
+      STAGES.find(s => s.id === r.stage).name, F[r.key].name, r.note, r.qty, r.unit, r.ef, 'Scope ' + r.scope, emis(r).toFixed(3), included(r.stage) ? 'yes' : 'no',
+    ]);
+    return [head, ...body].map(l => l.map(q).join(',')).join('\n');
+  }
+  $('copyCsv').addEventListener('click', () => {
+    const text = csv();
+    const fb = $('csvFallback');
+    const fallback = () => { fb.value = text; fb.hidden = false; fb.focus(); fb.select(); toast('Copy the selected text below'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => { fb.hidden = true; toast('Copied ' + state.rows.length + ' lines as CSV'); }, fallback);
+    } else fallback();
+  });
+
+  renderMeta();
+  renderStages();
+})();
+</script>
+</body>
+</html>
