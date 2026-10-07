@@ -136,6 +136,18 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .topbar.compact .tile:not([aria-expanded="true"]) .eyebrow { max-height: 0; opacity: 0; }
 .topbar.compact .tile:not([aria-expanded="true"]) { gap: 0; justify-content: center; }
 .topbar.compact .cta { flex-direction: row-reverse; justify-content: space-between; align-items: center; }
+/* With a mouse (as on sincro.es): hovering a tile opens its dropdown, and the label slides from the bottom of the tile to the top */
+@media (hover: hover) and (min-width: 921px) {
+  .tile, .cta { position: relative; }
+  .tile .tl, .cta .lbl { position: absolute; left: 12px; right: 32px; top: calc(100% - 30px); line-height: 20px; transition: top .3s ease; }
+  .cta { min-width: 184px; }
+  .cta .lbl { right: 28px; white-space: nowrap; }
+  .tile:hover .tl, .tile[aria-expanded="true"] .tl, .cta:hover .lbl { top: 10px; }
+  .tile .eyebrow { transition: max-height .35s ease, opacity .2s ease, transform .3s ease; }
+  .tile:hover .eyebrow, .tile[aria-expanded="true"] .eyebrow { opacity: 0 !important; transform: translateY(-10px); }
+  .cta .arr, .topbar.compact .cta .arr { position: absolute; right: 12px; top: 12px; }
+  .topbar.compact .cta { flex-direction: column; }
+}
 .topbar.menu-open .bar-in > :not(.menu), .topbar.menu-open .grp:not(.open), .topbar.menu-open .cta { opacity: .3; filter: blur(2px); transition: opacity .3s ease, filter .3s ease; }
 .scrim { position: fixed; inset: 0; z-index: 55; background: rgb(15 17 16 / .28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility 0s linear .3s; }
 .scrim.on { visibility: visible; opacity: 1; transition: opacity .3s ease; }
@@ -482,7 +494,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
           <p class="drop-foot" data-es="GHG Protocol, RENE México e ISO 14040/14067, con cada factor citado.">GHG Protocol, RENE México and ISO 14040/14067, with every factor cited.</p>
         </div>
       </div>
-      <a class="cta" href="#ledgerTitle"><span class="arr" aria-hidden="true">↗</span><span data-es="Empezar inventario">Start inventory</span></a>
+      <a class="cta" href="#ledgerTitle"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
     </nav>
     <div class="nav-tools">
       <div class="seg pill" role="group" aria-label="Operations in" data-es-aria-label="Operaciones en">
@@ -1897,6 +1909,18 @@ td.em.memo { color: var(--muted); font-style: italic; }
     const openTile = t => tiles.forEach(x => { const on = x === t; x.setAttribute('aria-expanded', on); x.parentElement.classList.toggle('open', on); });
     const closeAll = () => { openTile(null); bar.classList.remove('sheet'); menuBtn.setAttribute('aria-expanded', false); sync(); };
     tiles.forEach(t => t.addEventListener('click', () => { openTile(t.getAttribute('aria-expanded') === 'true' ? null : t); sync(); }));
+    // with a mouse, hovering a group opens it; leaving closes it after a short grace period (to cross the gap to the dropdown)
+    const hoverable = window.matchMedia && matchMedia('(hover: hover) and (min-width: 921px)');
+    let leaveT;
+    const hovering = () => hoverable && hoverable.matches && !bar.classList.contains('sheet');
+    const stay = () => { clearTimeout(leaveT); leaveT = null; };
+    const leaveSoon = () => { if (!leaveT) leaveT = setTimeout(() => { leaveT = null; openTile(null); sync(); }, 220); };
+    bar.querySelectorAll('.grp').forEach(g => {
+      const t = g.querySelector('.tile');
+      g.addEventListener('mouseenter', () => { if (!hovering()) return; stay(); openTile(t); sync(); });
+      g.addEventListener('mouseleave', () => { if (hovering()) leaveSoon(); });
+    });
+    scrim.addEventListener('mousemove', () => { if (hovering() && bar.classList.contains('menu-open')) leaveSoon(); });
     menuBtn.addEventListener('click', () => {
       const on = !bar.classList.contains('sheet');
       if (!on) openTile(null);
