@@ -33,6 +33,7 @@
   --c-transport: #2E8577;
   --c-waste: #6F767D;
   --c-custom: #A08A2E;
+  --on-c: #FFFFFF;
   --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
   --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -43,7 +44,7 @@
     --accent: #79B9D6; --accent-ink: #0E1413; --warn: #E8B36A; --warn-bg: #2C2416;
     --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
     --s1: #A4D4E9; --s2: #5C9DBA; --s3: #33657B;
-    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E;
+    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0E1413;
     color-scheme: dark;
   }
 }
@@ -52,11 +53,12 @@
   --accent: #79B9D6; --accent-ink: #0E1413; --warn: #E8B36A; --warn-bg: #2C2416;
   --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
   --s1: #A4D4E9; --s2: #5C9DBA; --s3: #33657B;
-  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E;
+  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0E1413;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 24px; }
 h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
@@ -103,7 +105,7 @@ button, input, select { font: inherit; color: inherit; }
 .meter i { display: block; height: 100%; background: var(--c); transition: width .35s ease; }
 
 /* Charts */
-.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 16px; }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); grid-auto-flow: dense; gap: 16px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
 .card h3 { font-size: 16px; font-weight: 600; }
 .card .cap { font-size: 12.5px; color: var(--muted); margin: -8px 0 0; }
@@ -142,7 +144,45 @@ svg .wedge:hover, svg .wedge.hot { opacity: .75; }
 .bar-row[data-tip]:hover .nm { color: var(--accent); }
 [data-tip] { cursor: default; }
 svg text { font-family: var(--f-body); }
-@media (max-width: 760px) { .radial-wrap { grid-template-columns: minmax(0, 1fr); } }
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
+.ctl { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg.seg-sm button { flex: none; padding: 5px 10px; font-size: 13px; }
+.radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr) minmax(0, 260px); align-items: start; }
+.tm { position: relative; height: 440px; border-radius: 4px; overflow: hidden; background: var(--surface-2); }
+.tm-scope { position: absolute; border: 2px solid var(--surface); background: var(--surface); }
+.tm-sh { height: 22px; padding: 0 8px; display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-sh small { font-family: var(--f-mono); font-weight: 400; color: var(--muted); font-size: 12px; }
+.tm-body { position: absolute; left: 0; right: 0; bottom: 0; }
+.tm-cell { position: absolute; background: var(--c); border: 1px solid var(--surface); color: var(--on-c); padding: 5px 7px; overflow: hidden; display: grid; align-content: start; gap: 1px; font-size: 12.5px; line-height: 1.25; transition: filter .2s; }
+.tm-cell:hover, .tm-cell.hot { filter: brightness(1.12) saturate(1.1); }
+.tm-cell b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tm-cell span { font-family: var(--f-mono); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .9; }
+.g-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px 16px; }
+.g-sum div { display: grid; gap: 2px; }
+.g-sum b { font-family: var(--f-display); font-size: 22px; font-weight: 700; line-height: 1.1; }
+.g-sum span { font-size: 12.5px; color: var(--muted); }
+.gantt { display: grid; grid-template-columns: minmax(110px, 250px) repeat(12, minmax(0, 1fr)); row-gap: 3px; font-size: 13px; }
+.g-grid { border-left: 1px solid var(--line); }
+.g-band { background: var(--warn-bg); }
+.g-m { text-align: center; font-size: 11.5px; font-weight: 600; color: var(--muted); padding-bottom: 2px; }
+.g-m.pk { color: var(--warn); }
+.g-m .short { display: none; }
+.g-axis { font-size: 11.5px; color: var(--muted); align-self: end; padding-right: 8px; line-height: 1.35; }
+.g-axis b { font-family: var(--f-mono); font-weight: 500; }
+.g-col { height: 96px; display: flex; align-items: flex-end; padding: 0 3px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+.g-col i { display: block; width: 100%; background: var(--accent); border-radius: 2px 2px 0 0; transition: height .35s ease, filter .2s; }
+.g-col.pk i { background: var(--warn); }
+.g-col:hover i, .g-col.hot i { filter: brightness(1.15) saturate(1.1); }
+.g-lbl { display: grid; min-width: 0; padding: 3px 8px 3px 0; line-height: 1.3; }
+.g-lbl .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.g-lbl .vl { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.g-bar { align-self: center; height: 16px; margin: 0 2px; border-radius: 3px; background: var(--c); transition: filter .2s; }
+.g-bar:hover, .g-bar.hot { filter: brightness(1.15) saturate(1.1); }
+.mm { display: flex; align-items: center; gap: 2px; }
+.mm select { padding-inline: 3px; }
+.mm span { color: var(--muted); }
+@media (max-width: 760px) { .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); } .tm { height: 360px; } }
+@media (max-width: 640px) { .g-m .long { display: none; } .g-m .short { display: inline; } .gantt { grid-template-columns: minmax(96px, 130px) repeat(12, minmax(0, 1fr)); } .g-col { padding: 0 1px; } .g-bar { margin: 0 1px; } }
 @media (max-width: 420px) { .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; } .donut-legend { width: 100%; } }
 ol.hot, ul.gaps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
 ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -164,7 +204,7 @@ ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted
 .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; background: var(--surface-2); color: var(--muted); margin-left: 6px; vertical-align: 2px; }
 
 .table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 1120px; }
+table { width: 100%; border-collapse: collapse; min-width: 1240px; }
 th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 8px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th.r, td.r { text-align: right; }
 td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -176,7 +216,7 @@ td input.num { text-align: right; }
 td input.edited { border-color: var(--warn); }
 td .unit { font-family: var(--f-mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
 td.em { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
-.col-act { width: 18%; } .col-sup { width: 13%; } .col-note { width: 15%; } .col-qty { width: 10%; } .col-unit { width: 5%; } .col-ef { width: 9%; } .col-scope { width: 7%; } .col-em { width: 9%; } .col-ev { width: 11%; } .col-x { width: 40px; }
+.col-act { width: 16%; } .col-sup { width: 12%; } .col-note { width: 13%; } .col-qty { width: 9%; } .col-unit { width: 5%; } .col-ef { width: 8%; } .col-scope { width: 6%; } .col-per { width: 12%; } .col-em { width: 8%; } .col-ev { width: 11%; } .col-x { width: 40px; }
 .icon-btn { min-width: 28px; height: 28px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
 .icon-btn:hover { background: var(--surface-2); color: var(--miss); }
 .icon-btn.armed { font-size: 12px; font-weight: 600; color: var(--miss); padding: 0 6px; }
@@ -230,7 +270,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   .stage-head { grid-template-columns: auto minmax(0, 1fr); }
   .stage-total { grid-column: 1 / -1; text-align: left; }
 }
-@media (prefers-reduced-motion: reduce) { .fill, .meter i { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .fill, .meter i, .g-col i { transition: none; } }
 </style>
 </head>
 <body>
@@ -274,7 +314,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   <section class="method">
     <h2>Method, evidence and factor sources</h2>
     <p>Emissions (t CO₂e) = activity quantity × emission factor (kg CO₂e per unit) ÷ 1,000. Library factors are typical published values from the US EPA GHG Emission Factors Hub, UK DESNZ/DEFRA conversion factors, worldsteel and IAI averages, the Mexican national grid factor (SEMARNAT/CRE) and IPCC AR6 100-year GWPs for refrigerants. They are reasonable defaults for screening. For a verified inventory, replace them with factors from your own sources, supplier EPDs or a licensed LCI database such as ecoinvent; edited factors are outlined so reviewers can see them.</p>
-    <p>Scope defaults follow the GHG Protocol: fuels and refrigerant leaks at your own sites are Scope 1, purchased electricity is Scope 2 (location-based), and everything upstream or downstream is Scope 3. Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope.</p>
+    <p>Scope defaults follow the GHG Protocol: fuels and refrigerant leaks at your own sites are Scope 1, purchased electricity is Scope 2 (location-based), and everything upstream or downstream is Scope 3. Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
     <p>Evidence status: a line is <b>missing</b> until a file is attached, <b>attached</b> once a document is on file, and <b>verified</b> when a reviewer confirms the document supports the quantity entered. Coverage is weighted by emissions. Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
   </section>
 </div>
@@ -397,10 +437,13 @@ tr.ev-row > td { padding: 0 6px 12px; }
   function row(stage, key, qty, note, supplier, ev) {
     const f = F[key];
     return {
-      id: 'r' + (seq++), stage, key, note: note || '', supplier: supplier || '', qty: qty ?? '', unit: f.unit, ef: f.ef, scope: defaultScope(stage, key),
+      id: 'r' + (seq++), stage, key, note: note || '', supplier: supplier || '', qty: qty ?? '', unit: f.unit, ef: f.ef, scope: defaultScope(stage, key), m0: 0, m1: 11,
       evidence: Object.assign({ doc: defaultDoc(key, stage), ref: '', period: '', verified: false, files: [] }, ev || {}),
     };
   }
+
+  // months the activity happened in (0 = Jan), inclusive
+  const months = (r, a, b) => Object.assign(r, { m0: a, m1: b });
 
   function example() {
     const P = 'Jan–Dec 2025';
@@ -409,22 +452,23 @@ tr.ev-row > td { padding: 0 6px 12px; }
       rows: [
         row('materials', 'steel', 850000, 'Motor housings and blades', 'Aceros Cumbre (example)', { ref: 'PO-2025-0113', period: P }),
         row('materials', 'alu', 60000, 'Die-cast motor covers', 'Fundición Lumen (example)', { ref: 'PO-2025-0187', period: P }),
-        row('materials', 'copper', 90000, 'Motor windings', 'Cobre Andino (example)'),
-        row('materials', 'abs', 70000, 'Light kit and switch housings', 'PoliPlast Norte (example)'),
-        row('materials', 'cardboard', 25000, 'Retail boxes', 'Cartonera Regia (example)'),
+        months(row('materials', 'copper', 90000, 'Motor windings', 'Cobre Andino (example)'), 1, 8),
+        months(row('materials', 'abs', 70000, 'Light kit and switch housings', 'PoliPlast Norte (example)'), 1, 7),
+        months(row('materials', 'cardboard', 25000, 'Retail boxes', 'Cartonera Regia (example)'), 2, 7),
         row('manufacturing', 'elec_mx', 2400000, 'Plant meter, Apodaca NL', 'Electric utility (CFE)', { ref: 'Service no. 0000-EXAMPLE', period: P }),
-        row('manufacturing', 'natgas', 180000, 'Paint-line ovens', 'Gas distributor (example)', { period: P }),
+        months(row('manufacturing', 'natgas', 130000, 'Paint-line ovens, peak season', 'Gas distributor (example)', { period: 'Jan–Aug 2025' }), 0, 7),
+        months(row('manufacturing', 'natgas', 50000, 'Paint-line ovens, low season', 'Gas distributor (example)', { period: 'Sep–Dec 2025' }), 8, 11),
         row('manufacturing', 'diesel', 12000, 'Forklifts and backup generator', 'Fuel distributor (example)'),
-        row('manufacturing', 'r410a', 15, 'HVAC top-ups from service log', 'Clima Técnica (example)'),
+        months(row('manufacturing', 'r410a', 15, 'HVAC top-ups from service log', 'Clima Técnica (example)'), 5, 7),
         row('manufacturing', 'landfill_mixed', 40000, 'Plant general waste', 'Waste hauler (example)'),
         row('manufacturing', 'water', 15000, 'Municipal supply', 'Water utility (example)'),
-        row('distribution', 'sea', 3000000, 'Motors shipped Asia to Manzanillo', 'Ocean carrier (example)'),
-        row('distribution', 'truck', 1200000, 'Plant to US distribution centres', 'Transportes Sierra (example)'),
-        row('distribution', 'flight', 400000, 'Business travel', 'Travel agency (example)'),
-        row('use', 'elec_us', 81000000, '45 W × 1,500 h/yr × 10 yr × 120,000 fans', ''),
-        row('eol', 'recycling', 750000, 'Metal scrap recovered', ''),
-        row('eol', 'landfill_inert', 70000, 'Plastic parts', ''),
-        row('eol', 'landfill_mixed', 25000, 'Packaging discarded by buyers', ''),
+        months(row('distribution', 'sea', 3000000, 'Motors shipped Asia to Manzanillo', 'Ocean carrier (example)'), 0, 4),
+        months(row('distribution', 'truck', 1200000, 'Plant to US distribution centres', 'Transportes Sierra (example)'), 2, 8),
+        months(row('distribution', 'flight', 400000, 'Business travel', 'Travel agency (example)'), 8, 10),
+        months(row('use', 'elec_us', 81000000, '45 W × 1,500 h/yr × 10 yr × 120,000 fans', ''), 2, 7),
+        months(row('eol', 'recycling', 750000, 'Metal scrap recovered', ''), 2, 7),
+        months(row('eol', 'landfill_inert', 70000, 'Plastic parts', ''), 2, 7),
+        months(row('eol', 'landfill_mixed', 25000, 'Packaging discarded by buyers', ''), 2, 7),
       ],
     };
   }
@@ -474,6 +518,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
   state.rows.forEach(r => {
     const n = parseInt(String(r.id).slice(1), 10); if (n >= seq) seq = n + 1;
     if (r.supplier == null) r.supplier = '';
+    if (r.m0 == null) r.m0 = 0;
+    if (r.m1 == null) r.m1 = 11;
     if (!r.evidence) r.evidence = { doc: defaultDoc(r.key, r.stage), ref: '', period: '', verified: false, files: [] };
   });
   const expanded = new Set();
@@ -495,6 +541,10 @@ tr.ev-row > td { padding: 0 6px 12px; }
   const kindOf = r => (F[r.key] ? F[r.key].kind : 'custom');
   const evStatus = r => (r.evidence.files.length === 0 ? 'miss' : r.evidence.verified ? 'ok' : 'att');
   const lineName = r => (r.key === 'custom' ? (r.note || 'Custom line') : F[r.key].name);
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const clampM = (v, d) => { const n = parseInt(v, 10); return isFinite(n) ? Math.min(11, Math.max(0, n)) : d; };
+  const mSpan = r => { const a = clampM(r.m0, 0); return [a, Math.max(a, clampM(r.m1, 11))]; };
+  const periodLabel = (a, b) => (a === 0 && b === 11 ? 'Full year' : a === b ? MONTHS[a] : MONTHS[a] + '–' + MONTHS[b]);
 
   // ---------- ledger rendering ----------
   const optionsHtml = sel => {
@@ -515,7 +565,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   function evHtml(r) {
     const ev = r.evidence, d = DOCS[ev.doc] || DOCS.other, sug = DOCS[defaultDoc(r.key, r.stage)];
     const hasFiles = ev.files.length > 0;
-    return `<tr class="ev-row" data-id="${r.id}" id="${r.id}-ev"><td colspan="10"><div class="ev">
+    return `<tr class="ev-row" data-id="${r.id}" id="${r.id}-ev"><td colspan="11"><div class="ev">
       <div class="ev-hint"><b>Suggested evidence for this line:</b> ${esc(sug[0])}. ${esc(sug[1])}${ev.doc !== defaultDoc(r.key, r.stage) ? `<br><b>${esc(d[0])}:</b> ${esc(d[1])}` : ''}</div>
       <div class="ev-grid">
         <div class="field"><label for="${r.id}-doc">Document type</label><select id="${r.id}-doc" data-ev-field="doc">${Object.entries(DOCS).map(([k, v]) => `<option value="${k}"${k === ev.doc ? ' selected' : ''}>${esc(v[0])}</option>`).join('')}</select></div>
@@ -550,6 +600,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
       <td>${unitCell}</td>
       <td><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(r.ef)}" aria-label="Emission factor, kg CO2e per unit"${edited ? ` title="Library value: ${lib.ef}"` : ''}></td>
       <td><select id="${r.id}-scope" data-field="scope" aria-label="Scope">${[1, 2, 3].map(s => `<option value="${s}"${+r.scope === s ? ' selected' : ''}>S${s}</option>`).join('')}</select></td>
+      <td><div class="mm">${['m0', 'm1'].map((f, i) => `${i ? '<span aria-hidden="true">–</span>' : ''}<select id="${r.id}-${f}" data-field="${f}" aria-label="${i ? 'Last month' : 'First month'} of activity">${MONTHS.map((m, j) => `<option value="${j}"${mSpan(r)[i] === j ? ' selected' : ''}>${m}</option>`).join('')}</select>`).join('')}</div></td>
       <td class="em r" data-em>${fmtT(emis(r))}</td>
       <td data-chip>${chipHtml(r)}</td>
       <td><button type="button" class="icon-btn" data-remove aria-label="Remove line">×</button></td>
@@ -567,8 +618,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
           <div class="stage-total"><div class="num" data-stage-total></div><div class="unit-l">t CO₂e</div></div>
         </div>
         ${rows.length ? `<div class="table-scroll"><table>
-          <colgroup><col class="col-act"><col class="col-sup"><col class="col-note"><col class="col-qty"><col class="col-unit"><col class="col-ef"><col class="col-scope"><col class="col-em"><col class="col-ev"><col class="col-x"></colgroup>
-          <thead><tr><th>Activity</th><th>Supplier</th><th>Description</th><th class="r">Quantity</th><th>Unit</th><th class="r">kg CO₂e / unit</th><th>Scope</th><th class="r">t CO₂e</th><th>Evidence</th><th><span class="vh">Remove</span></th></tr></thead>
+          <colgroup><col class="col-act"><col class="col-sup"><col class="col-note"><col class="col-qty"><col class="col-unit"><col class="col-ef"><col class="col-scope"><col class="col-per"><col class="col-em"><col class="col-ev"><col class="col-x"></colgroup>
+          <thead><tr><th>Activity</th><th>Supplier</th><th>Description</th><th class="r">Quantity</th><th>Unit</th><th class="r">kg CO₂e / unit</th><th>Scope</th><th>Months</th><th class="r">t CO₂e</th><th>Evidence</th><th><span class="vh">Remove</span></th></tr></thead>
           <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`
           : `<div class="empty">No lines in this stage yet.</div>`}
         <div class="stage-foot"><button type="button" class="add" data-add="${s.id}">+ Add line</button><span class="note">${rows.length} line${rows.length === 1 ? '' : 's'}</span></div>
@@ -605,6 +656,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   // ---------- totals & dashboard ----------
   function totals() {
     const byStage = {}, byScope = { 1: 0, 2: 0, 3: 0 }, byCat = {}, byCatScope = { 1: {}, 2: {}, 3: {} }, bySup = {}, byEv = { ok: 0, att: 0, miss: 0 };
+    const byMonth = { 1: Array(12).fill(0), 2: Array(12).fill(0), 3: Array(12).fill(0) };
     STAGES.forEach(s => (byStage[s.id] = 0));
     let total = 0;
     const lines = [];
@@ -619,9 +671,11 @@ tr.ev-row > td { padding: 0 6px 12px; }
       byCatScope[sc][k] = (byCatScope[sc][k] || 0) + e;
       bySup[sup] = (bySup[sup] || 0) + e;
       byEv[evStatus(r)] += e;
+      const [a, b] = mSpan(r);
+      for (let m = a; m <= b; m++) byMonth[sc][m] += e / (b - a + 1);
       lines.push(r);
     });
-    return { byStage, byScope, byCat, byCatScope, bySup, byEv, total, lines };
+    return { byStage, byScope, byCat, byCatScope, bySup, byEv, byMonth, total, lines };
   }
 
   function updateTotals() {
@@ -702,14 +756,28 @@ tr.ev-row > td { padding: 0 6px 12px; }
     </div>`;
   }
 
-  // Radial histogram: three scope sectors, one bar per category in each. Bar length on a square-root scale.
-  function radialCard(t, catOrder) {
-    const title = '<h3>Categories in each scope · radial histogram</h3>';
-    if (!(t.total > 0) || !catOrder.length) return `<div class="card full">${title}${emptyMsg}</div>`;
-    const R0 = 46, R1 = 150, GAP = 0.32, TAU = Math.PI * 2;
-    const span = (TAU - 3 * GAP) / 3, n = catOrder.length;
+  // Chart view choices: a per-viewer convenience kept in this browser
+  const UI_STORE = 'lca-ui-v1';
+  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all' };
+  try { Object.assign(ui, JSON.parse(localStorage.getItem(UI_STORE) || '{}')); } catch (e) {}
+  if (!['radial', 'treemap'].includes(ui.catView)) ui.catView = 'radial';
+  ['catScope', 'ganttScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
+  const saveUi = () => { try { localStorage.setItem(UI_STORE, JSON.stringify(ui)); } catch (e) {} };
+  const scopesOf = v => (v === 'all' ? [1, 2, 3] : [+v]);
+  const scopeName = v => (v === 'all' ? 'all scopes' : 'Scope ' + v);
+  const segHtml = (key, label, opts) => `<div class="seg seg-sm" role="group" aria-label="${label}">${opts.map(([val, txt]) =>
+    `<button type="button" data-ui="${key}" data-val="${val}" aria-pressed="${ui[key] === val}">${txt}</button>`).join('')}</div>`;
+  const scopeSeg = key => segHtml(key, 'Scope shown', [['all', 'All'], ['1', 'Scope 1'], ['2', 'Scope 2'], ['3', 'Scope 3']]);
+  const sumScopes = (t, scopes) => scopes.reduce((a, s) => a + t.byScope[s], 0);
+
+  // Radial histogram: one sector per scope shown, one bar per category in each. Bar length on a square-root scale.
+  function radialSvg(t, catOrder, scopes) {
+    const one = scopes.length === 1;
+    const order = one ? catOrder.filter(k => t.byCatScope[scopes[0]][k] > 0).sort((a, b) => t.byCatScope[scopes[0]][b] - t.byCatScope[scopes[0]][a]) : catOrder;
+    const R0 = 46, R1 = 150, GAP = one ? 0.6 : 0.32, TAU = Math.PI * 2;
+    const span = (TAU - scopes.length * GAP) / scopes.length, n = order.length;
     let max = 0;
-    [1, 2, 3].forEach(s => catOrder.forEach(k => { max = Math.max(max, t.byCatScope[s][k] || 0); }));
+    scopes.forEach(s => order.forEach(k => { max = Math.max(max, t.byCatScope[s][k] || 0); }));
     const rad = v => R0 + (R1 - R0) * Math.sqrt(v / max);
     const pt = (a, r) => `${(r * Math.sin(a)).toFixed(2)} ${(-r * Math.cos(a)).toFixed(2)}`;
     const wedge = (a0, a1, r0, r1) => {
@@ -721,11 +789,12 @@ tr.ev-row > td { padding: 0 6px 12px; }
     let svg = rings.map(v => `<circle cx="0" cy="0" r="${rad(v).toFixed(2)}" fill="none" style="stroke: var(--line)" stroke-width="0.8" ${v === max ? '' : 'stroke-dasharray="2 3"'}></circle>
       <text x="3" y="${(-rad(v) + 3.5).toFixed(2)}" style="fill: var(--muted); stroke: var(--surface); stroke-width: 3px; paint-order: stroke" font-size="8.5">${fmtT(v)}</text>`).join('');
     svg += `<circle cx="0" cy="0" r="${R0}" fill="none" style="stroke: var(--line)" stroke-width="0.8"></circle>`;
-    [1, 2, 3].forEach((s, i) => {
-      const start = GAP / 2 + i * (span + GAP), slot = span / n, pad = slot * 0.14;
+    const shownTotal = sumScopes(t, scopes);
+    scopes.forEach((s, i) => {
+      const start = GAP / 2 + i * (span + GAP), slot = span / n, pad = slot * (one ? 0.08 : 0.14);
       // sector track
       svg += `<path d="${wedge(start, start + span, R0, R1)}" style="fill: var(--surface-2)" opacity="0.45"></path>`;
-      catOrder.forEach((k, j) => {
+      order.forEach((k, j) => {
         const v = t.byCatScope[s][k] || 0;
         if (v <= 0) return;
         const a0 = start + j * slot + pad, a1 = start + (j + 1) * slot - pad;
@@ -733,26 +802,150 @@ tr.ev-row > td { padding: 0 6px 12px; }
       });
       // inner scope-colored arc marks which sector is which scope
       svg += `<path d="${wedge(start, start + span, R0 - 7, R0 - 2)}" style="fill: var(--s${s})"></path>`;
-      const mid = start + span / 2, lx = (R1 + 20) * Math.sin(mid), ly = -(R1 + 20) * Math.cos(mid);
-      const anchor = Math.abs(lx) < 20 ? 'middle' : lx > 0 ? 'start' : 'end';
-      svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" style="fill: var(--ink); font-weight: 600" font-size="12">Scope ${s}</text>
-        <text x="${lx.toFixed(1)}" y="${(ly + 13).toFixed(1)}" text-anchor="${anchor}" style="fill: var(--muted)" font-size="10">${fmtT(t.byScope[s])} t · ${pct(t.byScope[s], t.total)}</text>`;
+      if (!one) {
+        const mid = start + span / 2, lx = (R1 + 20) * Math.sin(mid), ly = -(R1 + 20) * Math.cos(mid);
+        const anchor = Math.abs(lx) < 20 ? 'middle' : lx > 0 ? 'start' : 'end';
+        svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" style="fill: var(--ink); font-weight: 600" font-size="12">Scope ${s}</text>
+          <text x="${lx.toFixed(1)}" y="${(ly + 13).toFixed(1)}" text-anchor="${anchor}" style="fill: var(--muted)" font-size="10">${fmtT(t.byScope[s])} t · ${pct(t.byScope[s], t.total)}</text>`;
+      }
     });
-    const biggest = [1, 2, 3].map(s => {
-      const top = catOrder.filter(k => t.byCatScope[s][k] > 0).sort((a, b) => t.byCatScope[s][b] - t.byCatScope[s][a])[0];
-      return top ? `<li>Scope ${s}: <b>${esc(CATS[top])}</b> <span>${fmtT(t.byCatScope[s][top])} t · ${pct(t.byCatScope[s][top], t.byScope[s])} of the scope</span></li>` : `<li>Scope ${s}: no emissions entered</li>`;
+    svg += `<text x="0" y="0" text-anchor="middle" style="fill: var(--ink); font-family: var(--f-display); font-weight: 700" font-size="15">${fmtT(shownTotal)}</text>
+      <text x="0" y="13" text-anchor="middle" style="fill: var(--muted)" font-size="9">${one ? 'Scope ' + scopes[0] : 't CO₂e'}</text>`;
+    return `<svg viewBox="-235 -195 470 ${one ? 360 : 400}" role="img" aria-label="Radial histogram of emission categories in ${scopeName(ui.catScope)}">${svg}</svg>`;
+  }
+
+  // Squarified treemap (Bruls et al.): items [{v, ...}] sorted largest first, laid out in the box x, y, w, h
+  function squarify(items, x, y, w, h) {
+    const total = items.reduce((a, i) => a + i.v, 0), out = [];
+    if (!(total > 0) || w <= 0 || h <= 0) return out;
+    let rest = items.filter(i => i.v > 0).map(i => Object.assign({ a: (i.v / total) * w * h }, i));
+    const worst = (row, side) => {
+      const sum = row.reduce((a, r) => a + r.a, 0), mx = Math.max(...row.map(r => r.a)), mn = Math.min(...row.map(r => r.a));
+      return Math.max((side * side * mx) / (sum * sum), (sum * sum) / (side * side * mn));
+    };
+    while (rest.length) {
+      const side = Math.min(w, h);
+      let i = 1;
+      while (i < rest.length && worst(rest.slice(0, i + 1), side) <= worst(rest.slice(0, i), side)) i++;
+      const row = rest.slice(0, i), sum = row.reduce((a, r) => a + r.a, 0);
+      if (w >= h) {
+        const cw = sum / h; let cy = y;
+        row.forEach(r => { const ch = r.a / cw; out.push(Object.assign({}, r, { x, y: cy, w: cw, h: ch })); cy += ch; });
+        x += cw; w -= cw;
+      } else {
+        const ch = sum / w; let cx = x;
+        row.forEach(r => { const cw = r.a / ch; out.push(Object.assign({}, r, { x: cx, y, w: cw, h: ch })); cx += cw; });
+        y += ch; h -= ch;
+      }
+      rest = rest.slice(i);
+    }
+    return out;
+  }
+
+  // The treemap is laid out in pixels after the card is on the page, then positioned in % so it stretches until the next redraw
+  let tmData = null;
+  function drawTreemap() {
+    const box = document.getElementById('treemap');
+    if (!box || !tmData) return;
+    const W = box.clientWidth, H = box.clientHeight;
+    if (!W || !H) return;
+    const { t, scopes } = tmData;
+    const pos = (c, bw, bh) => `left:${(c.x / bw) * 100}%;top:${(c.y / bh) * 100}%;width:${(c.w / bw) * 100}%;height:${(c.h / bh) * 100}%`;
+    const catItems = s => Object.entries(t.byCatScope[s]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ k, v, s }));
+    const cells = (list, bw, bh) => list.map(c => {
+      const label = c.w >= 64 && c.h >= 28, val = label && c.h >= 44;
+      return `<div class="tm-cell" style="--c: var(--c-${c.k});${pos(c, bw, bh)}"${tip(`Scope ${c.s} · ${CATS[c.k]}`, `${fmtT(c.v)} t CO₂e · ${pct(c.v, t.byScope[c.s])} of Scope ${c.s} · ${pct(c.v, t.total)} of total`)}>${label ? `<b>${esc(CATS[c.k])}</b>` : ''}${val ? `<span>${fmtT(c.v)} t · ${pct(c.v, scopes.length === 1 ? t.byScope[c.s] : t.total)}</span>` : ''}</div>`;
     }).join('');
+    let html;
+    if (scopes.length === 1) {
+      html = cells(squarify(catItems(scopes[0]), 0, 0, W, H), W, H);
+    } else {
+      html = squarify(scopes.filter(s => t.byScope[s] > 0).map(s => ({ s, v: t.byScope[s] })), 0, 0, W, H).map(g => {
+        const hdr = g.w >= 90 && g.h >= 64 ? 22 : 0, bh = g.h - hdr - 4, bw = g.w - 4;
+        return `<div class="tm-scope" style="${pos(g, W, H)}">${hdr ? `<div class="tm-sh"><span class="sw" style="--c: var(--s${g.s})"></span>Scope ${g.s}<small>${fmtT(g.v)} t · ${pct(g.v, t.total)}</small></div>` : ''}<div class="tm-body" style="top:${hdr}px">${cells(squarify(catItems(g.s), 0, 0, bw, bh), bw, bh)}</div></div>`;
+      }).join('');
+    }
+    box.innerHTML = html;
+  }
+  let tmTimer;
+  window.addEventListener('resize', () => { clearTimeout(tmTimer); tmTimer = setTimeout(drawTreemap, 120); });
+
+  // Categories per scope, as a radial histogram or a treemap, for one scope or all three
+  function catViewCard(t, catOrder) {
+    const scopes = scopesOf(ui.catScope), one = scopes.length === 1, shownTotal = sumScopes(t, scopes);
+    const head = `<div class="card-head"><h3>Categories in ${one ? 'Scope ' + scopes[0] : 'each scope'}</h3><div class="ctl">
+      ${segHtml('catView', 'Chart type', [['radial', 'Radial histogram'], ['treemap', 'Treemap']])}${scopeSeg('catScope')}</div></div>`;
+    tmData = null;
+    if (!(shownTotal > 0) || !catOrder.length) return `<div class="card full">${head}${t.total > 0 ? `<p class="note">No ${scopeName(ui.catScope)} emissions entered yet.</p>` : emptyMsg}</div>`;
+    const cap = ui.catView === 'treemap'
+      ? (one ? `Rectangle area is proportional to emissions; each rectangle is a category in Scope ${scopes[0]}. Hover for values.`
+        : 'Rectangle area is proportional to emissions. Each block is a scope, divided into its categories, so small scopes stay small. Pick a single scope to see it in detail.')
+      : (one ? `Each bar is a category in Scope ${scopes[0]}, largest first, clockwise from the top. Bar length uses a square-root scale so small sources stay visible; read exact values from the rings or hover a bar.`
+        : 'Each sector is a scope and each bar a category, in the same order in every sector. Bar length uses a square-root scale so small sources stay visible; read exact values from the rings or hover a bar.');
+    let side;
+    if (one) {
+      const s = scopes[0], ks = Object.entries(t.byCatScope[s]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+      side = `<div class="label">Scope ${s} · ${fmtT(t.byScope[s])} t CO₂e · ${pct(t.byScope[s], t.total)} of total</div>
+        <ol class="hot">${ks.map(([k, v]) => `<li><span class="sw" style="--c: var(--c-${k})"></span> ${esc(CATS[k])} <span>${fmtT(v)} t · ${pct(v, t.byScope[s])}</span></li>`).join('')}</ol>`;
+    } else {
+      const biggest = [1, 2, 3].map(s => {
+        const top = catOrder.filter(k => t.byCatScope[s][k] > 0).sort((a, b) => t.byCatScope[s][b] - t.byCatScope[s][a])[0];
+        return top ? `<li>Scope ${s}: <b>${esc(CATS[top])}</b> <span>${fmtT(t.byCatScope[s][top])} t · ${pct(t.byCatScope[s][top], t.byScope[s])} of the scope</span></li>` : `<li>Scope ${s}: no emissions entered</li>`;
+      }).join('');
+      side = `<div class="label">Largest category per scope</div><ul class="gaps">${biggest}</ul>
+        <div class="legend">${catOrder.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])}</span>`).join('')}</div>`;
+    }
+    let chart;
+    if (ui.catView === 'treemap') {
+      tmData = { t, scopes };
+      chart = `<div class="tm" id="treemap" role="img" aria-label="Treemap of emission categories in ${scopeName(ui.catScope)}"></div>`;
+    } else chart = radialSvg(t, catOrder, scopes);
     return `<div class="card full">
-      ${title}
-      <p class="cap">Each sector is a scope and each bar a category, in the same order in every sector. Bar length uses a square-root scale so small sources stay visible; read exact values from the rings or hover a bar.</p>
-      <div class="radial-wrap">
-        <svg viewBox="-235 -195 470 400" role="img" aria-label="Radial histogram of emission categories within Scope 1, 2 and 3">${svg}</svg>
-        <div class="radial-side">
-          <div class="label">Largest category per scope</div>
-          <ul class="gaps">${biggest}</ul>
-          <div class="legend">${catOrder.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])}</span>`).join('')}</div>
-        </div>
+      ${head}
+      <p class="cap">${cap}</p>
+      <div class="radial-wrap${ui.catView === 'treemap' ? ' tm-mode' : ''}">${chart}<div class="radial-side">${side}</div></div>
+    </div>`;
+  }
+
+  // Gantt: when each line's activity happened, with monthly totals on top to show the peak period
+  function ganttCard(t) {
+    const scopes = scopesOf(ui.ganttScope);
+    const head = `<div class="card-head"><h3>When emissions happen · monthly Gantt${state.year ? ' · ' + esc(state.year) : ''}</h3><div class="ctl">${scopeSeg('ganttScope')}</div></div>`;
+    const month = MONTHS.map((_, m) => scopes.reduce((a, s) => a + t.byMonth[s][m], 0));
+    const sum = month.reduce((a, v) => a + v, 0);
+    if (!(sum > 0)) return `<div class="card full">${head}${t.total > 0 ? `<p class="note">No ${scopeName(ui.ganttScope)} emissions entered yet.</p>` : emptyMsg}</div>`;
+    const max = Math.max(...month), peak = month.indexOf(max), low = month.indexOf(Math.min(...month));
+    const qs = [0, 1, 2, 3].map(q => month[q * 3] + month[q * 3 + 1] + month[q * 3 + 2]), pq = qs.indexOf(Math.max(...qs));
+    const lines = t.lines.filter(r => scopes.includes(+r.scope || 3));
+    const LIMIT = 14;
+    const shown = [...lines].sort((a, b) => emis(b) - emis(a)).slice(0, LIMIT)
+      .sort((a, b) => mSpan(a)[0] - mSpan(b)[0] || mSpan(a)[1] - mSpan(b)[1] || emis(b) - emis(a));
+    const hidden = lines.length - shown.length, hiddenT = lines.slice().sort((a, b) => emis(b) - emis(a)).slice(LIMIT).reduce((a, r) => a + emis(r), 0);
+    const N = shown.length + 2; // header row, monthly totals row, one row per line
+    let g = `<div class="g-band" style="grid-column:${peak + 2};grid-row:1 / span ${N}"></div>`;
+    g += MONTHS.map((_, m) => `<div class="g-grid" style="grid-column:${m + 2};grid-row:1 / span ${N}"></div>`).join('');
+    g += `<div style="grid-column:1;grid-row:1"></div>` + MONTHS.map((m, i) => `<div class="g-m${i === peak ? ' pk' : ''}" style="grid-column:${i + 2};grid-row:1"><span class="long">${m}</span><span class="short">${m[0]}</span></div>`).join('');
+    g += `<div class="g-axis" style="grid-column:1;grid-row:2">t CO₂e per month<br>peak <b>${fmtT(max)}</b></div>`;
+    g += month.map((v, i) => `<div class="g-col${i === peak ? ' pk' : ''}" style="grid-column:${i + 2};grid-row:2"${tip(`${MONTHS[i]}${state.year ? ' ' + state.year : ''}`, `${fmtT(v)} t CO₂e · ${pct(v, sum)} of the year`)}><i style="height:${max > 0 ? (v / max) * 100 : 0}%"></i></div>`).join('');
+    shown.forEach((r, i) => {
+      const [a, b] = mSpan(r), e = emis(r), n = b - a + 1, k = kindOf(r);
+      g += `<div class="g-lbl" style="grid-column:1;grid-row:${i + 3}"><span class="nm" title="${esc(lineName(r))}${r.note && r.key !== 'custom' ? ' — ' + esc(r.note) : ''}">${esc(lineName(r))}</span><span class="vl">${fmtT(e)} t · S${+r.scope || 3}</span></div>`;
+      g += `<div class="g-bar" style="--c: var(--c-${k});grid-column:${a + 2} / ${b + 3};grid-row:${i + 3}"${tip(`${lineName(r)}${r.supplier ? ' · ' + r.supplier : ''}`, `${periodLabel(a, b)} · ${fmtT(e)} t CO₂e · ${fmtT(e / n)} t per month · Scope ${+r.scope || 3}`)}></div>`;
+    });
+    const QN = ['Q1 (Jan–Mar)', 'Q2 (Apr–Jun)', 'Q3 (Jul–Sep)', 'Q4 (Oct–Dec)'];
+    const cats = [...new Set(shown.map(kindOf))];
+    return `<div class="card full">
+      ${head}
+      <p class="cap">Bars show the months each activity line covers (set in the ledger's Months column). Its emissions are spread evenly across those months and summed into the columns on top; the shaded month is the peak.</p>
+      <div class="g-sum">
+        <div><span>Peak month</span><b>${MONTHS[peak]}</b><span>${fmtT(max)} t · ${pct(max, sum)} of the year</span></div>
+        <div><span>Busiest quarter</span><b>${QN[pq].slice(0, 2)}</b><span>${QN[pq].slice(3, -1)} · ${fmtT(qs[pq])} t · ${pct(qs[pq], sum)}</span></div>
+        <div><span>Lowest month</span><b>${MONTHS[low]}</b><span>${fmtT(month[low])} t · ${pct(month[low], sum)} of the year</span></div>
+        <div><span>Monthly average</span><b>${fmtT(sum / 12)}</b><span>t CO₂e · ${scopeName(ui.ganttScope)}</span></div>
       </div>
+      <div class="table-scroll"><div class="gantt" role="img" aria-label="Gantt chart of activity months; peak month ${MONTHS[peak]}">${g}</div></div>
+      <div class="legend">${cats.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])}</span>`).join('')}</div>
+      ${hidden > 0 ? `<p class="note">The ${LIMIT} largest lines are drawn. ${hidden} smaller line${hidden === 1 ? '' : 's'} (${fmtT(hiddenT)} t) ${hidden === 1 ? 'is' : 'are'} included in the monthly totals.</p>` : ''}
     </div>`;
   }
 
@@ -839,7 +1032,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = donutCard(t) + catCard + radialCard(t, catOrder) + csCard + supCard + evCard + stageCard + hotCard;
+    $('charts').innerHTML = donutCard(t) + catCard + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + stageCard + hotCard;
+    drawTreemap();
   }
 
   // ---------- events ----------
@@ -853,7 +1047,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const ef = e.target.dataset.evField;
     if (ef === 'ref' || ef === 'period') { r.evidence[ef] = e.target.value; touched(); return; }
     const f = e.target.dataset.field;
-    if (!f || f === 'key' || f === 'scope') return;
+    if (!f || f === 'key' || f === 'scope' || f === 'm0' || f === 'm1') return;
     r[f] = e.target.value;
     if (f === 'ef') {
       const lib = F[r.key];
@@ -877,6 +1071,11 @@ tr.ev-row > td { padding: 0 6px 12px; }
       rerenderRow(r, r.id + (lib.key === 'custom' ? '-unit' : '-qty'));
     } else if (f === 'scope') {
       r.scope = +e.target.value;
+    } else if (f === 'm0' || f === 'm1') {
+      r[f] = +e.target.value;
+      // keep the range in order: moving one end past the other drags it along
+      if (r.m0 > r.m1) { if (f === 'm0') r.m1 = r.m0; else r.m0 = r.m1; }
+      tr.querySelector(`[data-field="${f === 'm0' ? 'm1' : 'm0'}"]`).value = f === 'm0' ? r.m1 : r.m0;
     } else if (e.target.dataset.evField === 'doc') {
       r.evidence.doc = e.target.value;
       rerenderRow(r, r.id + '-doc');
@@ -971,6 +1170,14 @@ tr.ev-row > td { padding: 0 6px 12px; }
   });
 
   $('charts').addEventListener('click', e => {
+    const sw = e.target.closest('[data-ui]');
+    if (sw) {
+      ui[sw.dataset.ui] = sw.dataset.val; saveUi();
+      renderCharts(totals());
+      const again = document.querySelector(`[data-ui="${sw.dataset.ui}"][data-val="${sw.dataset.val}"]`);
+      if (again) again.focus();
+      return;
+    }
     const go = e.target.closest('[data-goto]'); if (!go) return;
     const r = findRow(go.dataset.goto); if (!r) return;
     expanded.add(r.id);
@@ -1066,11 +1273,11 @@ tr.ev-row > td { padding: 0 6px 12px; }
 
   function csv() {
     const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
-    const head = ['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Scope', 'Emissions (t CO2e)', 'Included in total',
+    const head = ['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Scope', 'First month', 'Last month', 'Emissions (t CO2e)', 'Included in total',
       'Evidence status', 'Document type', 'Reference', 'Period', 'Files'];
     const label = { miss: 'Missing', att: 'Attached', ok: 'Verified' };
     const body = state.rows.map(r => [
-      STAGES.find(s => s.id === r.stage).name, F[r.key].name, CATS[kindOf(r)], r.supplier, r.note, r.qty, r.unit, r.ef, 'Scope ' + r.scope, emis(r).toFixed(3), included(r.stage) ? 'yes' : 'no',
+      STAGES.find(s => s.id === r.stage).name, F[r.key].name, CATS[kindOf(r)], r.supplier, r.note, r.qty, r.unit, r.ef, 'Scope ' + r.scope, MONTHS[mSpan(r)[0]], MONTHS[mSpan(r)[1]], emis(r).toFixed(3), included(r.stage) ? 'yes' : 'no',
       label[evStatus(r)], (DOCS[r.evidence.doc] || DOCS.other)[0], r.evidence.ref, r.evidence.period, r.evidence.files.map(f => f.name).join('; '),
     ]);
     return [head, ...body].map(l => l.map(q).join(',')).join('\n');
