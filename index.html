@@ -462,6 +462,45 @@ td.em.memo { color: var(--muted); font-style: italic; }
 .socials a span { transition: transform .25s ease; }
 .socials a:hover, .socials a:focus-visible { background: #FFFFFF; border-color: #FFFFFF; color: var(--forest); }
 .socials a:hover span { transform: translate(2px, -2px); }
+/* Help chat: floating button bottom-right, panel above it; a bottom sheet on phones */
+.help-fab { position: fixed; right: 20px; bottom: 20px; z-index: 50; display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px 12px 14px; border: 0; border-radius: 999px; background: var(--brand); color: #FFFFFF; font-family: var(--f-label); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 30px -10px rgb(7 42 200 / .7); transition: transform .25s ease, background .25s ease; }
+.help-fab:hover { transform: translateY(-2px); }
+.help-fab svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.help-fab .i-x, .help-fab[aria-expanded="true"] .i-chat { display: none; }
+.help-fab[aria-expanded="true"] .i-x { display: inline; }
+.help-chat { position: fixed; right: 20px; bottom: 84px; z-index: 50; width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100dvh - 120px)); display: flex; flex-direction: column; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 24px 60px -20px rgb(0 0 0 / .45); overflow: hidden; }
+.help-chat[hidden] { display: none; }
+.hc-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; background: var(--hero); color: #FFFFFF; }
+.hc-head .eyebrow { color: var(--hero-accent); }
+.hc-sub { font-size: 13px; color: rgb(255 255 255 / .72); margin-top: 4px; }
+.hc-x { width: 34px; height: 34px; flex: none; border: 1px solid rgb(255 255 255 / .3); border-radius: 50%; background: transparent; color: #FFFFFF; font-size: 20px; line-height: 1; cursor: pointer; }
+.hc-x:hover { background: #FFFFFF; color: var(--hero); }
+.hc-log { position: relative; flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; overscroll-behavior: contain; }
+.hc-msg { max-width: 88%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.45; }
+.hc-msg p { margin: 0; }
+.hc-msg p + p, .hc-msg p + ul, .hc-msg ul + p { margin-top: 6px; }
+.hc-msg ul { margin: 0; padding-left: 18px; }
+.hc-msg.bot { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 4px; }
+.hc-msg.me { align-self: flex-end; background: var(--brand); color: #FFFFFF; border-bottom-right-radius: 4px; }
+.hc-msg b { font-weight: 700; }
+.hc-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.hc-go, .hc-chip { padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--title); font-size: 12.5px; cursor: pointer; text-align: left; }
+.hc-go:hover, .hc-chip:hover { background: var(--go); border-color: var(--go); color: var(--go-ink); }
+.hc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.hc-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); }
+.hc-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: hcDot 1s infinite ease-in-out; }
+.hc-typing i:nth-child(2) { animation-delay: .15s; } .hc-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes hcDot { 0%, 80%, 100% { opacity: .3; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+.hc-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+.hc-form input { flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: inherit; font-size: 16px; }
+.hc-send { width: 42px; height: 42px; flex: none; border: 0; border-radius: 50%; background: var(--brand); color: #FFFFFF; font-size: 18px; cursor: pointer; }
+@media (max-width: 640px) {
+  .help-fab { right: 14px; bottom: 14px; padding: 12px; }
+  .help-fab .lbl { display: none; }
+  .help-chat { right: 0; left: 0; bottom: 0; width: 100%; height: min(78dvh, 640px); border-radius: 18px 18px 0 0; border-bottom: 0; }
+  .help-chat:not([hidden]) ~ .help-fab, body:has(.help-chat:not([hidden])) .help-fab { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hc-typing i { animation: none; } }
 
 @media (max-width: 520px) {
   .kpi.total .v { font-size: 36px; }
@@ -752,6 +791,18 @@ td.em.memo { color: var(--muted); font-style: italic; }
 </div>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
+<button type="button" class="help-fab" id="helpFab" aria-expanded="false" aria-controls="helpChat" aria-label="Help chat" data-es-aria-label="Chat de ayuda"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-chat" d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4A1.5 1.5 0 0 1 4 14.5z"/><path class="i-x" d="M6 6l12 12M18 6L6 18"/></svg><span class="lbl" data-es="Ayuda">Help</span></button>
+<section class="help-chat" id="helpChat" aria-label="Help chat" data-es-aria-label="Chat de ayuda" hidden>
+  <header class="hc-head">
+    <div><div class="eyebrow" data-es="Asistente CO2Trace">CO2Trace assistant</div><div class="hc-sub" data-es="Respuestas sobre la app y tu registro">Answers about the app and your ledger</div></div>
+    <button type="button" class="hc-x" id="helpClose" aria-label="Close" data-es-aria-label="Cerrar">×</button>
+  </header>
+  <div class="hc-log" id="helpLog" role="log" aria-live="polite"></div>
+  <form class="hc-form" id="helpForm" autocomplete="off">
+    <input id="helpInput" type="text" placeholder="Ask a question…" data-es-placeholder="Haz una pregunta…" aria-label="Your question" data-es-aria-label="Tu pregunta">
+    <button type="submit" class="hc-send" aria-label="Send" data-es-aria-label="Enviar">↑</button>
+  </form>
+</section>
 <dialog class="acct" id="acctDlg" data-mode="create" aria-labelledby="acctTitle">
   <form method="dialog">
     <div class="eyebrow" data-es="Cuentas de empresa">Company accounts</div>
@@ -2205,6 +2256,147 @@ td.em.memo { color: var(--muted); font-style: italic; }
   }
   $('copyCsv').addEventListener('click', () => copyText(csv(), L(`Copied ${state.rows.length} lines as CSV`, `Se copiaron ${state.rows.length} líneas en CSV`)));
   $('copyCoa').addEventListener('click', () => copyText(coaCsv(), 'Se copió el resumen RENE (COA) en CSV'));
+
+  // ---------- help chat: answers from a topic list (EN + ES keywords) plus live figures from the ledger ----------
+  (function helpChat() {
+    const fab = $('helpFab'), box = $('helpChat'), log = $('helpLog'), form = $('helpForm'), input = $('helpInput');
+    if (!fab || !box) return;
+    const norm = q => q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9₂ ]/g, ' ');
+    const top = obj => Object.entries(obj).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+    const stageName = id => (STAGES.find(s => s.id === id) || {}).name || id;
+    const go = (en, es, id) => ({ label: L(en, es), id });
+
+    // Live answers read the current ledger, so they always match the dashboard
+    const live = {
+      total() {
+        const t = totals(), q = parseFloat(state.fuQty);
+        if (!t.total) return { html: `<p>${L('Your ledger is empty, so the total is 0 t CO₂e. Enter quantities in the ledger, or load the example to see how it works.', 'Tu registro está vacío, así que el total es 0 t CO₂e. Captura cantidades en el registro o carga el ejemplo para ver cómo funciona.')}</p>`, acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] };
+        return { html: `<p>${L('Your footprint is', 'Tu huella es de')} <b>${fmtT(t.total)} t CO₂e</b> (${bnd()}, ${state.method}).</p>
+          <ul>${[1, 2, 3].map(s => `<li>${SC(s)}: ${fmtT(t.byScope[s])} t · ${pct(t.byScope[s], t.total)}</li>`).join('')}</ul>
+          ${q > 0 ? `<p>${L('Per', 'Por')} ${esc(state.fuName || L('unit', 'unidad'))}: <b>${nf1.format((t.total * 1000) / q)} kg CO₂e</b>.</p>` : ''}`,
+          acts: [go('See key metrics', 'Ver indicadores', 'kpis')] };
+      },
+      hot() {
+        const t = totals();
+        if (!t.total) return live.total();
+        const cat = top(t.byCat)[0], st = top(t.byStage)[0], sup = top(t.bySup).filter(([k]) => k)[0];
+        const big = t.lines.slice().sort((a, b) => emis(b) - emis(a))[0];
+        return { html: `<p>${L('Where most of your emissions come from:', 'De dónde vienen la mayoría de tus emisiones:')}</p><ul>
+          <li>${L('Category', 'Categoría')}: <b>${esc(CATS[cat[0]] || cat[0])}</b> · ${pct(cat[1], t.total)}</li>
+          <li>${L('Stage', 'Etapa')}: <b>${esc(stageName(st[0]))}</b> · ${pct(st[1], t.total)}</li>
+          ${sup ? `<li>${L('Supplier', 'Proveedor')}: <b>${esc(sup[0])}</b> · ${pct(sup[1], t.total)}</li>` : ''}
+          <li>${L('Single biggest line', 'Línea más grande')}: <b>${esc(F[big.key] ? F[big.key].name : big.note || L('custom line', 'línea personalizada'))}</b> · ${fmtT(emis(big))} t</li></ul>
+          <p>${L('Start reductions there; it moves the total most.', 'Empieza a reducir ahí; es lo que más mueve el total.')}</p>`,
+          acts: [go('See hotspots', 'Ver puntos críticos', 'c-hot'), go('Suppliers', 'Proveedores', 'c-sup')] };
+      },
+      evidence() {
+        const t = totals();
+        const miss = t.lines.filter(r => evStatus(r) === 'miss').sort((a, b) => emis(b) - emis(a));
+        return { html: `<p>${L('Each line has an <b>Evidence</b> button. Attach the bill, invoice or manifest behind the quantity; a reviewer then ticks <b>verified</b>. Status goes missing → attached → verified, and coverage is weighted by emissions.', 'Cada línea tiene un botón <b>Evidencia</b>. Adjunta el recibo, factura o manifiesto que respalda la cantidad; luego un revisor marca <b>verificada</b>. El estado pasa de faltante → adjunta → verificada, y la cobertura se pondera por emisiones.')}</p>
+          ${t.total ? `<p>${L('Right now', 'Ahora mismo')} <b>${pct(t.byEv.ok + t.byEv.att, t.total)}</b> ${L('of your emissions are documented', 'de tus emisiones están documentadas')}${miss.length ? `; ${miss.length} ${L(miss.length === 1 ? 'line has' : 'lines have', miss.length === 1 ? 'línea no tiene' : 'líneas no tienen')} ${L('no file yet. Start with', 'archivo todavía. Empieza por')} <b>${esc(F[miss[0].key] ? F[miss[0].key].name : miss[0].note || '')}</b> (${fmtT(emis(miss[0]))} t).` : '.'}</p>` : ''}
+          <p>${L('Files stay in this browser on this device; they are not uploaded.', 'Los archivos se quedan en este navegador y dispositivo; no se suben a ningún lado.')}</p>`,
+          acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] };
+      },
+      rene() {
+        const t = totals(), s12 = t.byScope[1] + t.byScope[2];
+        return { html: `<p>${L('México’s RENE (Registro Nacional de Emisiones) requires a report when a facility’s direct plus indirect emissions (Scopes 1 and 2) reach <b>25,000 t CO₂e</b> a year, using IPCC AR5 GWPs and the FESEN grid factor. The report goes in the annual COA.', 'El RENE exige reportar cuando las emisiones directas e indirectas de un establecimiento (alcances 1 y 2) llegan a <b>25,000 t CO₂e</b> al año, con PCG de IPCC AR5 y el factor eléctrico FESEN. El reporte va en la COA anual.')}</p>
+          ${state.region === 'mx' ? `<p>${L('Your Scopes 1 + 2:', 'Tus alcances 1 + 2:')} <b>${fmtT(s12)} t</b> · ${s12 >= RENE_T ? L('above the threshold: reporting is required.', 'arriba del umbral: el reporte es obligatorio.') : L(`below the threshold by ${fmtT(RENE_T - s12)} t.`, `debajo del umbral por ${fmtT(RENE_T - s12)} t.`)}</p>` : `<p>${L('Switch Operations to MX in the top bar to apply the Mexican rules.', 'Cambia Operaciones a MX en la barra superior para aplicar las reglas mexicanas.')}</p>`}`,
+          acts: [go('Reporting rules', 'Reglas de reporte', 'c-comp')] };
+      },
+    };
+
+    const TOPICS = [
+      { k: 'total footprint much emission emissions result tonnes tons cuanto cuanta huella total toneladas emito emitimos', a: live.total },
+      { k: 'biggest largest hotspot hotspots most reduce reduction where mayor mas grande punto critico criticos reducir reduccion donde', a: live.hot },
+      { k: 'evidence document documents receipt invoice bill attach file files verify verified missing coverage evidencia documento factura recibo adjuntar archivo verificar verificada faltante cobertura', a: live.evidence },
+      { k: 'rene coa threshold umbral mexico semarnat cedula 25000 25 000 obligatorio obligatory', a: live.rene },
+      { k: 'start started begin getting use first blank example tutorial empezar empiezo comenzar inicio iniciar usar funciona ejemplo blanco', a: () => ({ html: L(`<p>Three steps:</p><ul><li><b>Project setup</b> at the top: company, year, functional unit, country (US or MX) and boundary.</li><li><b>Activity ledger</b>: one line per activity in each life-cycle stage, with quantity, unit, supplier and months.</li><li><b>Dashboard</b> fills in as you type: totals by scope, category, stage, supplier and month.</li></ul><p>Use <b>Load example</b> to explore, or <b>Start blank</b> for your own data.</p>`, `<p>Tres pasos:</p><ul><li><b>Configuración del proyecto</b> arriba: empresa, año, unidad funcional, país (US o MX) y límite del sistema.</li><li><b>Registro de actividades</b>: una línea por actividad en cada etapa del ciclo de vida, con cantidad, unidad, proveedor y meses.</li><li>El <b>tablero</b> se llena mientras capturas: totales por alcance, categoría, etapa, proveedor y mes.</li></ul><p>Usa <b>Cargar ejemplo</b> para explorar o <b>Empezar en blanco</b> para tus datos.</p>`), acts: [go('Project setup', 'Configuración', 'projectSetup'), go('Ledger', 'Registro', 'ledgerTitle')] }) },
+      { k: 'add line row activity enter quantity unit delete remove agregar linea fila actividad capturar cantidad unidad borrar eliminar quitar', a: () => ({ html: L(`<p>In each stage of the ledger press <b>+ Add line</b>, pick the activity (fuel, electricity, material, transport…), then enter the quantity, unit, supplier and the months it happened. The kg CO₂e/unit comes from the factor library. The <b>×</b> on a line removes it.</p>`, `<p>En cada etapa del registro presiona <b>+ Agregar línea</b>, elige la actividad (combustible, electricidad, material, transporte…) y captura cantidad, unidad, proveedor y los meses en que ocurrió. Los kg CO₂e/unidad vienen de la biblioteca de factores. La <b>×</b> de una línea la elimina.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },
+      { k: 'scope scopes 1 2 3 direct indirect value chain alcance alcances directa directas indirecta indirectas cadena valor', a: () => ({ html: L(`<ul><li><b>Scope 1</b>: direct emissions from sources you own or control (fuels burned, company vehicles, refrigerant leaks).</li><li><b>Scope 2</b>: purchased electricity, steam or heat. In the US the total uses market-based; location-based is shown alongside.</li><li><b>Scope 3</b>: everything else in the value chain, such as purchased materials, transport, waste and product end of life.</li></ul>`, `<ul><li><b>Alcance 1</b>: emisiones directas de fuentes propias o controladas (combustibles, vehículos de la empresa, fugas de refrigerante).</li><li><b>Alcance 2</b>: electricidad, vapor o calor comprados; en México se usa el factor FESEN.</li><li><b>Alcance 3</b>: el resto de la cadena de valor, como materiales comprados, transporte, residuos y fin de vida del producto. El RENE no lo pide.</li></ul>`), acts: [go('Scope split', 'Distribución por alcance', 'c-scope')] }) },
+      { k: 'market location based scope 2 electricity grid egrid fesen electricidad red mercado ubicacion', a: () => ({ html: L(`<p>Electricity uses the grid factor of where it is consumed: <b>eGRID</b> subregions in the US and <b>FESEN</b> in México. Under GHG Protocol, US Scope 2 is reported two ways: <b>location-based</b> (the grid average) and <b>market-based</b> (your contracts and certificates). The total uses market-based; both appear on the Scope 2 card.</p>`, `<p>La electricidad usa el factor de la red donde se consume: <b>FESEN</b> en México y subregiones <b>eGRID</b> en EE. UU. En México los certificados de energía limpia no reducen el reporte RENE; el valor basado en mercado se muestra solo como memoria.</p>`), acts: [go('Key metrics', 'Indicadores', 'kpis')] }) },
+      { k: 'factor factors emission ef library source custom edit change own epa defra ecoinvent factores biblioteca fuente editar cambiar propio', a: () => ({ html: L(`<p>Each activity uses a cited factor from the library (EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México). Factors are stored as kg of each gas per unit and characterised with the chosen GWPs. You can edit a line’s factor or pick <b>Custom</b> to enter your own; edited lines are marked.</p>`, `<p>Cada actividad usa un factor citado de la biblioteca (SEMARNAT y FESEN para México; EPA, eGRID, IPCC y bases ICV para EE. UU.). Los factores se guardan como kg de cada gas por unidad y se caracterizan con los PCG elegidos. Puedes editar el factor de una línea o elegir <b>Personalizado</b> para capturar el tuyo; las líneas editadas quedan marcadas.</p>`), acts: [go('Libraries and method', 'Bibliotecas y método', 'libList')] }) },
+      { k: 'gwp ar4 ar5 ar6 ipcc method impact characterisation characterization metodo impacto pcg potencial calentamiento', a: () => ({ html: L(`<p>The impact method sets the global warming potentials (GWP100) used to turn each gas into CO₂e: IPCC <b>AR6</b>, AR5 or AR4. The US default is AR6; México’s RENE requires <b>AR5</b>. Change it under Impact method in Project setup.</p>`, `<p>El método de impacto define los potenciales de calentamiento (PCG100) que convierten cada gas en CO₂e: IPCC AR6, <b>AR5</b> o AR4. El RENE exige <b>AR5</b>; el umbral y la exportación COA usan AR5 de todos modos. Cámbialo en Método de impacto, en la configuración.</p>`), acts: [go('Project setup', 'Configuración', 'projectSetup')] }) },
+      { k: 'boundary cradle gate grave life cycle stage stages lca iso 14040 14044 14067 limite cuna puerta tumba ciclo vida etapa etapas acv', a: () => ({ html: L(`<p><b>Cradle-to-gate</b> counts raw materials, transport in and manufacturing, up to the factory gate. <b>Cradle-to-grave</b> adds distribution, use and end of life. Stages outside the boundary stay in the ledger but drop out of the totals. The method follows ISO 14040/14044 and ISO 14067.</p>`, `<p><b>De la cuna a la puerta</b> cuenta materias primas, transporte de entrada y manufactura, hasta la puerta de la fábrica. <b>De la cuna a la tumba</b> agrega distribución, uso y fin de vida. Las etapas fuera del límite se quedan en el registro pero salen de los totales. El método sigue ISO 14040/14044 e ISO 14067.</p>`), acts: [go('Goal and scope', 'Objetivo y alcance', 'setup')] }) },
+      { k: 'functional unit per unit product units produced unidad funcional por unidad producto producidas', a: () => ({ html: L(`<p>The functional unit is what the footprint is expressed per, for example “one ceiling fan”. Enter its name and the units produced in the year in Project setup; the KPI band then shows kg CO₂e per unit.</p>`, `<p>La unidad funcional es aquello por lo que se expresa la huella, por ejemplo “un ventilador de techo”. Captura su nombre y las unidades producidas en el año en la configuración; los indicadores muestran entonces kg CO₂e por unidad.</p>`), acts: [go('Project setup', 'Configuración', 'projectSetup')] }) },
+      { k: 'export csv download excel copy results report exportar exporto descargar copiar resultados reporte', a: () => ({ html: L(`<p><b>Copy results as CSV</b> in Project setup copies every line with its gases and CO₂e, ready to paste into Excel or Sheets. In México mode, <b>Copy RENE summary (COA)</b> copies the Scope 1 and 2 table in the COA layout.</p>`, `<p><b>Copiar resultados en CSV</b>, en la configuración, copia cada línea con sus gases y CO₂e, lista para pegar en Excel o Sheets. En modo México, <b>Copiar resumen RENE (COA)</b> copia la tabla de alcances 1 y 2 con el formato de la COA.</p>`), acts: [go('Export', 'Exportar', 'copyCsv')] }) },
+      { k: 'country region us usa united states mexico spanish english language pais region idioma ingles espanol estados unidos', a: () => ({ html: L(`<p>Use the <b>US / MX</b> switch in the top bar. It sets the factor library, impact method, reporting rules and language: US is GHG Protocol and EPA in English; MX is RENE and SEMARNAT in Spanish.</p>`, `<p>Usa el selector <b>US / MX</b> de la barra superior. Define la biblioteca de factores, el método de impacto, las reglas de reporte y el idioma: MX es RENE y SEMARNAT en español; US es GHG Protocol y EPA en inglés.</p>`) }) },
+      { k: 'save saved data privacy store stored where lost browser device cloud guardar guardado datos privacidad donde perder navegador dispositivo nube', a: () => ({ html: L(`<p>Everything is saved automatically in <b>this browser on this device</b>; nothing is sent to a server. Clearing site data or switching device starts fresh, so export a CSV as a backup. Company accounts with cloud storage are coming.</p>`, `<p>Todo se guarda automáticamente en <b>este navegador y dispositivo</b>; nada se envía a un servidor. Si borras los datos del sitio o cambias de dispositivo empiezas de cero, así que exporta un CSV como respaldo. Las cuentas de empresa con nube vienen pronto.</p>`) }) },
+      { k: 'account sign login log register password team members cuenta iniciar sesion registrar contrasena equipo miembros', a: () => ({ html: L(`<p>Company accounts are opening soon: one company profile with several members and roles, the ledger and evidence stored encrypted in the cloud, and a history of every change. For now the app works fully without an account.</p>`, `<p>Las cuentas de empresa abren pronto: un perfil de empresa con varios miembros y roles, el registro y la evidencia cifrados en la nube, y un historial de cada cambio. Por ahora la app funciona completa sin cuenta.</p>`) }) },
+      { k: 'gantt month months monthly seasonal mes meses mensual estacional', a: () => ({ html: L(`<p>Each line records the months its activity took place, and its emissions are spread evenly across them. The Gantt shows the monthly profile by scope. For seasonal bills, enter separate lines per period.</p>`, `<p>Cada línea registra los meses en que ocurrió su actividad y sus emisiones se reparten por igual entre ellos. El Gantt muestra el perfil mensual por alcance. Para recibos estacionales, captura líneas separadas por periodo.</p>`), acts: [go('Monthly Gantt', 'Gantt mensual', 'c-gantt')] }) },
+      { k: 'ghg protocol corporate standard check checks warning warnings advertencia revision revisiones protocolo', a: () => ({ html: L(`<p>The <b>Checks</b> card reviews your ledger against the reporting rules: missing data, edited factors, lines without evidence, boundary gaps. Fix the warnings before you report.</p>`, `<p>La tarjeta <b>Revisiones</b> compara tu registro con las reglas de reporte: datos faltantes, factores editados, líneas sin evidencia y huecos en el límite. Corrige las advertencias antes de reportar.</p>`), acts: [go('Checks', 'Revisiones', 'c-checks')] }) },
+      { k: 'about contact who company team social linkedin instagram nosotros contacto quien empresa redes', a: () => ({ html: L(`<p>CO2Trace is built to make every tonne traceable. Read our vision, mission and purpose, and find our socials, in About us.</p>`, `<p>CO2Trace está hecho para que cada tonelada sea rastreable. Lee nuestra visión, misión y propósito, y encuentra nuestras redes, en Nosotros.</p>`), acts: [go('About us', 'Nosotros', 'about')] }) },
+      { k: 'hello hi hey hola buenas thanks thank gracias', a: () => ({ html: L('<p>Hi! Ask me anything about CO2Trace or your footprint.</p>', '<p>¡Hola! Pregúntame lo que sea sobre CO2Trace o tu huella.</p>'), chips: true }) },
+    ].map(t => ({ ...t, words: t.k.split(' ') }));
+
+    const SUGGEST = () => [
+      L('What is my total footprint?', '¿Cuál es mi huella total?'),
+      L('Where are my biggest emissions?', '¿Dónde están mis mayores emisiones?'),
+      L('How do I get started?', '¿Cómo empiezo?'),
+      L('How do I attach evidence?', '¿Cómo adjunto evidencia?'),
+      L('What are Scopes 1, 2 and 3?', '¿Qué son los alcances 1, 2 y 3?'),
+      L('How do I export results?', '¿Cómo exporto resultados?'),
+    ];
+
+    function answer(q) {
+      const words = norm(q).split(/\s+/).filter(Boolean);
+      let best = null, score = 0;
+      TOPICS.forEach(t => {
+        const s = words.reduce((a, w) => a + (w.length > 1 && t.words.some(k => k === w || (w.length > 3 && k.length > 3 && (k.startsWith(w) || w.startsWith(k))) || (w.length >= 5 && k.length >= 5 && w.slice(0, 5) === k.slice(0, 5))) ? 1 : 0), 0);
+        if (s > score) { score = s; best = t; }
+      });
+      return best ? best.a() : { html: L(`<p>I don’t have an answer for that yet. Try one of these, or rephrase with a key word like “scope”, “evidence”, “factor” or “export”.</p>`, `<p>Todavía no tengo respuesta para eso. Prueba una de estas o reformula con una palabra clave como “alcance”, “evidencia”, “factor” o “exportar”.</p>`), chips: true };
+    }
+
+    function add(cls, html) {
+      const el = document.createElement('div');
+      el.className = 'hc-msg ' + cls; el.innerHTML = html;
+      log.appendChild(el); log.scrollTop = cls === 'bot' ? el.offsetTop - 12 : log.scrollHeight; return el;
+    }
+    function chips(into) {
+      const wrap = document.createElement('div'); wrap.className = 'hc-chips';
+      SUGGEST().forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hc-chip'; b.textContent = t; b.addEventListener('click', () => ask(t)); wrap.appendChild(b); });
+      into.appendChild(wrap);
+    }
+    function reply(r) {
+      const el = add('bot', r.html);
+      if (r.acts && r.acts.length) {
+        const a = document.createElement('div'); a.className = 'hc-acts';
+        r.acts.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hc-go'; b.textContent = x.label + ' ↗'; b.addEventListener('click', () => jump(x.id)); a.appendChild(b); });
+        el.appendChild(a);
+      }
+      if (r.chips) chips(el);
+    }
+    function jump(id) {
+      const t = $(id); if (!t) return;
+      if (t.tagName === 'DETAILS') t.open = true;
+      if (matchMedia('(max-width: 640px)').matches) toggle(false);
+      t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+    let busy = false;
+    function ask(q) {
+      q = q.trim(); if (!q || busy) return;
+      add('me', esc(q)); input.value = ''; busy = true;
+      const dots = document.createElement('div'); dots.className = 'hc-typing'; dots.innerHTML = '<i></i><i></i><i></i>';
+      log.appendChild(dots); log.scrollTop = log.scrollHeight;
+      setTimeout(() => { dots.remove(); busy = false; reply(answer(q)); }, 450);
+    }
+
+    let lang = null;
+    function toggle(on) {
+      box.hidden = !on; fab.setAttribute('aria-expanded', on);
+      if (!on) return;
+      if (lang !== state.region) {   // language follows the country, so restart the conversation when it changes
+        lang = state.region; log.innerHTML = '';
+        const hi = add('bot', L(`<p>Hi, I’m the CO2Trace assistant. I can explain how the app works and read figures from your ledger. What do you need?</p>`, `<p>Hola, soy el asistente de CO2Trace. Puedo explicarte cómo funciona la app y leer cifras de tu registro. ¿Qué necesitas?</p>`));
+        chips(hi);
+      }
+      if (matchMedia('(hover: hover)').matches) input.focus();
+    }
+    fab.addEventListener('click', () => toggle(box.hidden));
+    $('helpClose').addEventListener('click', () => { toggle(false); fab.focus(); });
+    form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !box.hidden) { toggle(false); fab.focus(); } });
+  })();
 
   renderMeta();
   renderStages();
