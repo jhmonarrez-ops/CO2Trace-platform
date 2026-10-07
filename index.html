@@ -93,7 +93,7 @@ button, input, select { font: inherit; color: inherit; }
 .hero-side { display: grid; gap: 24px; justify-items: start; }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
 .setup { border-top: 1px solid var(--hero-line); padding-top: 24px; display: grid; gap: 18px; }
-.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 20px; align-items: end; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: 14px 20px; align-items: end; }
 .field { display: grid; gap: 6px; min-width: 0; }
 .field label, .label { font-family: var(--f-label); font-size: 11px; font-weight: 400; letter-spacing: .16em; text-transform: uppercase; color: var(--slate); }
 .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
@@ -297,6 +297,37 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .viewer iframe { width: 100%; height: 75vh; border: 0; background: #FFFFFF; }
 .viewer .nopreview { padding: 32px; color: var(--muted); text-align: center; }
 
+/* Goal and scope panel */
+.panel { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); }
+.panel summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding: 20px 22px; cursor: pointer; list-style: none; }
+.panel summary::-webkit-details-marker { display: none; }
+.panel summary::after { content: "▾"; margin-left: auto; color: var(--muted); }
+.panel[open] summary::after { content: "▴"; }
+.panel summary .ttl { font-family: var(--f-display); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
+.panel-body { padding: 18px 22px 22px; display: grid; gap: 18px; border-top: 1px solid var(--line); }
+.panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px 20px; align-items: end; }
+.panel-grid .wide { grid-column: span 2; }
+@media (max-width: 520px) { .panel-grid .wide { grid-column: auto; } }
+.field textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; color: inherit; resize: vertical; }
+.libs { display: grid; gap: 8px; }
+
+/* Compliance, inventory and checks cards */
+.pill { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); color: var(--slate); white-space: nowrap; }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.ok { color: var(--ok); }
+.meter.thr { height: 8px; }
+.comp ul.gaps { font-size: 13px; }
+table.inv { min-width: 0; font-size: 13px; }
+table.inv td.num { white-space: nowrap; }
+table.inv tr.sum td { font-weight: 600; border-top: 1px solid var(--line); }
+ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+ul.checks li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 8px; background: var(--surface-2); }
+ul.checks .ck { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; }
+.ck-err .ck { color: var(--miss); }
+.ck-warn .ck { color: var(--warn); }
+.ck-info .ck { color: var(--slate); }
+td.em.memo { color: var(--muted); font-style: italic; }
+
 .method { background: var(--hero); color: #FFFFFF; border-radius: 18px; padding: clamp(28px, 5vw, 72px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 20px clamp(24px, 6vw, 96px); align-items: start; }
 .method .kicker { position: sticky; top: 24px; }
 .method .eyebrow { color: rgb(255 255 255 / .62); }
@@ -331,8 +362,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
     <div class="hero-copy">
       <h1>Trace every tonne, <em>from cradle to grave.</em></h1>
       <div class="hero-side">
-        <div class="eyebrow">Life cycle assessment · GHG Protocol · ISO 14040/14067</div>
-        <p class="lede">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Each line is multiplied by an emission factor (kg CO₂e per unit) to give tonnes of CO₂e, rolled up by scope, emission category, stage and supplier.</p>
+        <div class="eyebrow">Life cycle assessment · GHG Protocol · RENE México · ISO 14040/14067</div>
+        <p class="lede">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Choose where your operations are: the factor library, impact method and reporting rules follow the US (GHG Protocol, EPA) or México (RENE). Each line is converted to kilograms of each greenhouse gas, characterised to tonnes of CO₂e, and rolled up by scope, category, stage and supplier.</p>
       </div>
     </div>
     <div class="setup">
@@ -342,6 +373,13 @@ tr.ev-row > td { padding: 0 6px 12px; }
         <div class="field"><label for="year">Reporting year</label><input id="year" type="number" min="1990" max="2100" step="1"></div>
         <div class="field"><label for="fuName">Functional unit</label><input id="fuName" type="text" placeholder="e.g. one ceiling fan"></div>
         <div class="field"><label for="fuQty">Units produced in year</label><input id="fuQty" type="number" min="0" step="any"></div>
+        <div class="field"><span class="label" id="regionLbl">Operations in</span>
+          <div class="seg" role="group" aria-labelledby="regionLbl">
+            <button type="button" data-region="us">United States</button>
+            <button type="button" data-region="mx">México</button>
+          </div>
+        </div>
+        <div class="field"><label for="methodSel">Impact method</label><select id="methodSel"></select></div>
         <div class="field"><span class="label" id="boundaryLbl">System boundary</span>
           <div class="seg" role="group" aria-labelledby="boundaryLbl">
             <button type="button" id="bGate" data-boundary="gate">Cradle-to-gate</button>
@@ -351,6 +389,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
       </div>
       <div class="actions">
         <button type="button" class="btn primary" id="copyCsv">Copy results as CSV<span class="arr" aria-hidden="true">▶</span></button>
+        <button type="button" class="btn" id="copyCoa" hidden>Copy RENE (COA) summary</button>
         <button type="button" class="btn" id="loadExample">Load example</button>
         <span id="clearWrap"><button type="button" class="btn" id="clearAll">Start blank</button></span>
         <span class="toast" id="toast" role="status" aria-live="polite"></span>
@@ -362,6 +401,29 @@ tr.ev-row > td { padding: 0 6px 12px; }
 </header>
 
 <div class="wrap">
+
+  <details class="panel" id="setup">
+    <summary><span class="eyebrow">Goal and scope</span><span class="ttl">ISO 14044 goal and scope, libraries and impact method</span><span class="note">Organised as in SimaPro</span></summary>
+    <div class="panel-body">
+      <div class="panel-grid">
+        <div class="field wide"><label for="g-app">Intended application</label><input id="g-app" data-goal="app" type="text" placeholder="e.g. product carbon footprint, RENE check, supplier hotspots"></div>
+        <div class="field"><label for="g-audience">Intended audience</label><input id="g-audience" data-goal="audience" type="text" placeholder="Internal, customers, regulator"></div>
+        <div class="field"><label for="g-comparative">Comparison disclosed to the public</label><select id="g-comparative" data-goal="comparative"><option value="no">No</option><option value="yes">Yes: ISO 14044 critical review required</option></select></div>
+        <div class="field"><label for="g-allocation">Multi-output and recycling</label><select id="g-allocation" data-goal="allocation">
+          <option value="cutoff">Cut-off: recycled content enters burden-free</option><option value="mass">Allocation by mass</option><option value="economic">Allocation by economic value</option>
+          <option value="physical">Allocation by another physical relation</option><option value="substitution">System expansion (substitution)</option></select></div>
+        <div class="field"><label for="g-cutoff">Cut-off criteria</label><input id="g-cutoff" data-goal="cutoff" type="text" placeholder="e.g. inputs under 1% of mass and emissions"></div>
+        <div class="field wide"><label for="g-assumptions">Assumptions and limitations</label><textarea id="g-assumptions" data-goal="assumptions" rows="2"></textarea></div>
+        <div class="field" data-only="mx"><label for="g-rfc">RFC</label><input id="g-rfc" data-goal="rfc" type="text" autocomplete="off"></div>
+        <div class="field" data-only="mx"><label for="g-scian">SCIAN (NAICS) activity code</label><input id="g-scian" data-goal="scian" type="text" inputmode="numeric"></div>
+        <div class="field" data-only="mx"><label for="g-site">Establishment location</label><input id="g-site" data-goal="site" type="text" placeholder="Municipio, estado"></div>
+        <div class="field" data-only="us"><label for="g-usStates">States of operation</label><input id="g-usStates" data-goal="usStates" type="text" placeholder="e.g. TX, NM"></div>
+        <div class="field" data-only="us"><label for="g-ca">Does business in California</label><select id="g-ca" data-goal="ca"><option value="">Not answered</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+        <div class="field" data-only="us"><label for="g-rev1b">Annual revenue above $1 billion</label><select id="g-rev1b" data-goal="rev1b"><option value="">Not answered</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+      </div>
+      <div class="libs"><div class="label">Libraries and method in use</div><ul class="gaps" id="libList"></ul></div>
+    </div>
+  </details>
 
   <section aria-label="Key metrics" class="kpis" id="kpis"></section>
   <div class="workspace">
@@ -379,8 +441,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
   <section class="method" id="method" aria-labelledby="methodTitle">
     <div class="kicker"><div class="eyebrow">03 · Method</div><h2 id="methodTitle">Method, evidence and factor sources</h2></div>
     <div class="body">
-    <p>Emissions (t CO₂e) = activity quantity × emission factor (kg CO₂e per unit) ÷ 1,000. Library factors are typical published values from the US EPA GHG Emission Factors Hub, UK DESNZ/DEFRA conversion factors, worldsteel and IAI averages, the Mexican national grid factor (SEMARNAT/CRE) and IPCC AR6 100-year GWPs for refrigerants. They are reasonable defaults for screening. For a verified inventory, replace them with factors from your own sources, supplier EPDs or a licensed LCI database such as ecoinvent; edited factors are outlined so reviewers can see them.</p>
-    <p>Scope defaults follow the GHG Protocol: fuels and refrigerant leaks at your own sites are Scope 1, purchased electricity is Scope 2 (location-based), and everything upstream or downstream is Scope 3. Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
+    <div id="methodText" class="body"></div>
+    <p>Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
     <p>Evidence status: a line is <b>missing</b> until a file is attached, <b>attached</b> once a document is on file, and <b>verified</b> when a reviewer confirms the document supports the quantity entered. Coverage is weighted by emissions. Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
     </div>
     <p class="brand-foot">CO2Trace · carbon accounting and life cycle assessment</p>
@@ -410,47 +472,94 @@ tr.ev-row > td { padding: 0 6px 12px; }
     transport: 'Transport & travel', waste: 'Waste & water', custom: 'Other (custom)',
   };
 
-  // ef = kg CO2e per unit
+  // Impact methods (SimaPro "method"): 100-year GWPs per gas. 'CO2e' marks amounts that are already characterised
+  // (life-cycle datasets, the Mexican grid factor, edited factors), so switching method leaves them unchanged.
+  const GWP = {
+    AR6: { CO2: 1, CH4: 27.0, N2O: 273, 'HFC-32': 771, 'HFC-125': 3740, 'HFC-134a': 1530, 'HFC-143a': 5810, 'HCFC-22': 1960, CO2e: 1 },
+    AR5: { CO2: 1, CH4: 28, N2O: 265, 'HFC-32': 677, 'HFC-125': 3170, 'HFC-134a': 1300, 'HFC-143a': 4800, 'HCFC-22': 1760, CO2e: 1 },
+    AR4: { CO2: 1, CH4: 25, N2O: 298, 'HFC-32': 675, 'HFC-125': 3500, 'HFC-134a': 1430, 'HFC-143a': 4470, 'HCFC-22': 1810, CO2e: 1 },
+  };
+  const METHODS = {
+    AR6: 'IPCC AR6 GWP100 · GHG Protocol',
+    AR5: 'IPCC AR5 GWP100 · RENE, US EPA',
+    AR4: 'IPCC AR4 GWP100 · older inventories',
+  };
+  const GAS_NAMES = { CO2: 'CO₂ (fossil)', CH4: 'CH₄', N2O: 'N₂O', 'HFC-32': 'HFC-32', 'HFC-125': 'HFC-125', 'HFC-134a': 'HFC-134a', 'HFC-143a': 'HFC-143a', 'HCFC-22': 'HCFC-22 (R-22)', CO2e: 'CO₂e, pre-characterised' };
+  const REGIONS = {
+    us: { name: 'United States', method: 'AR6', grid: 'elec_us', framework: 'GHG Protocol · US EPA factors' },
+    mx: { name: 'México', method: 'AR5', grid: 'elec_mx', framework: 'RENE (LGCC) · GHG Protocol' },
+  };
+
+  // Gas amounts are kg of each gas per unit of activity. A factor carries either one set (gas) or one per country (us, mx).
+  const kg = (co2, ch4g, n2og) => ({ CO2: co2, CH4: ch4g / 1000, N2O: n2og / 1000 });
+  const lbMWh = (co2, ch4, n2o) => ({ CO2: co2 * 0.45359237 / 1000, CH4: ch4 * 0.45359237 / 1000, N2O: n2o * 0.45359237 / 1000 });
+  const EPA = 'US EPA GHG Emission Factors Hub 2025';
+  const RENE = 'Calculadora RENE v9.0 (SEMARNAT, Mar 2025): CONUEE heating value × IPCC 2006 factor';
+  const DESNZ = 'UK DESNZ conversion factors (screening value)';
+  const IND = 'Industry-average cradle-to-gate CO₂e (screening value)';
   const FACTORS = [
-    { g: 'Materials', key: 'steel', name: 'Steel, primary (BF-BOF)', unit: 'kg', ef: 1.92, kind: 'mat' },
-    { g: 'Materials', key: 'steel_eaf', name: 'Steel, recycled (EAF)', unit: 'kg', ef: 0.67, kind: 'mat' },
-    { g: 'Materials', key: 'alu', name: 'Aluminium, primary', unit: 'kg', ef: 16.0, kind: 'mat' },
-    { g: 'Materials', key: 'alu_rec', name: 'Aluminium, recycled', unit: 'kg', ef: 0.6, kind: 'mat' },
-    { g: 'Materials', key: 'copper', name: 'Copper', unit: 'kg', ef: 3.8, kind: 'mat' },
-    { g: 'Materials', key: 'abs', name: 'ABS plastic', unit: 'kg', ef: 3.1, kind: 'mat' },
-    { g: 'Materials', key: 'pe', name: 'Polyethylene (HDPE/LDPE)', unit: 'kg', ef: 1.9, kind: 'mat' },
-    { g: 'Materials', key: 'pet', name: 'PET', unit: 'kg', ef: 2.2, kind: 'mat' },
-    { g: 'Materials', key: 'cement', name: 'Portland cement (CEM I)', unit: 'kg', ef: 0.85, kind: 'mat' },
-    { g: 'Materials', key: 'concrete', name: 'Ready-mix concrete (30 MPa)', unit: 'm³', ef: 300, kind: 'mat' },
-    { g: 'Materials', key: 'glass', name: 'Glass', unit: 'kg', ef: 0.85, kind: 'mat' },
-    { g: 'Materials', key: 'cardboard', name: 'Corrugated cardboard', unit: 'kg', ef: 0.94, kind: 'mat' },
-    { g: 'Materials', key: 'paper', name: 'Paper', unit: 'kg', ef: 0.92, kind: 'mat' },
-    { g: 'Fuels', key: 'natgas', name: 'Natural gas', unit: 'm³', ef: 2.02, kind: 'fuel' },
-    { g: 'Fuels', key: 'diesel', name: 'Diesel', unit: 'L', ef: 2.70, kind: 'fuel' },
-    { g: 'Fuels', key: 'gasoline', name: 'Gasoline', unit: 'L', ef: 2.32, kind: 'fuel' },
-    { g: 'Fuels', key: 'lpg', name: 'LPG (propane)', unit: 'L', ef: 1.51, kind: 'fuel' },
-    { g: 'Electricity', key: 'elec_mx', name: 'Grid electricity, Mexico', unit: 'kWh', ef: 0.444, kind: 'elec' },
-    { g: 'Electricity', key: 'elec_us', name: 'Grid electricity, US average', unit: 'kWh', ef: 0.371, kind: 'elec' },
-    { g: 'Electricity', key: 'elec_eu', name: 'Grid electricity, EU average', unit: 'kWh', ef: 0.25, kind: 'elec' },
-    { g: 'Electricity', key: 'elec_ren', name: 'Renewable electricity (with certificates)', unit: 'kWh', ef: 0, kind: 'elec' },
-    { g: 'Refrigerant leaks', key: 'r134a', name: 'R-134a leaked', unit: 'kg', ef: 1530, kind: 'refrig' },
-    { g: 'Refrigerant leaks', key: 'r410a', name: 'R-410A leaked', unit: 'kg', ef: 2256, kind: 'refrig' },
-    { g: 'Refrigerant leaks', key: 'r32', name: 'R-32 leaked', unit: 'kg', ef: 771, kind: 'refrig' },
-    { g: 'Transport', key: 'truck', name: 'Road freight, HGV average', unit: 't·km', ef: 0.107, kind: 'transport' },
-    { g: 'Transport', key: 'rail', name: 'Rail freight', unit: 't·km', ef: 0.028, kind: 'transport' },
-    { g: 'Transport', key: 'sea', name: 'Sea freight, container ship', unit: 't·km', ef: 0.016, kind: 'transport' },
-    { g: 'Transport', key: 'air', name: 'Air freight', unit: 't·km', ef: 0.60, kind: 'transport' },
-    { g: 'Transport', key: 'car', name: 'Car travel, average', unit: 'km', ef: 0.17, kind: 'transport' },
-    { g: 'Transport', key: 'flight', name: 'Air travel, economy', unit: 'p·km', ef: 0.15, kind: 'transport' },
-    { g: 'Waste & water', key: 'landfill_mixed', name: 'Landfill, mixed commercial waste', unit: 'kg', ef: 0.467, kind: 'waste' },
-    { g: 'Waste & water', key: 'landfill_inert', name: 'Landfill, metals & plastics', unit: 'kg', ef: 0.009, kind: 'waste' },
-    { g: 'Waste & water', key: 'recycling', name: 'Recycling (open loop)', unit: 'kg', ef: 0.021, kind: 'waste' },
-    { g: 'Waste & water', key: 'incineration', name: 'Incineration', unit: 'kg', ef: 0.021, kind: 'waste' },
-    { g: 'Waste & water', key: 'water', name: 'Water supply', unit: 'm³', ef: 0.15, kind: 'waste' },
-    { g: 'Waste & water', key: 'wastewater', name: 'Wastewater treatment', unit: 'm³', ef: 0.27, kind: 'waste' },
-    { g: 'Other', key: 'custom', name: 'Custom factor…', unit: 'unit', ef: 0, kind: 'custom' },
+    { g: 'Materials', key: 'steel', name: 'Steel, primary (BF-BOF)', unit: 'kg', kind: 'mat', gas: { CO2e: 1.92 }, src: IND + ', worldsteel' },
+    { g: 'Materials', key: 'steel_eaf', name: 'Steel, recycled (EAF)', unit: 'kg', kind: 'mat', gas: { CO2e: 0.67 }, src: IND + ', worldsteel' },
+    { g: 'Materials', key: 'alu', name: 'Aluminium, primary', unit: 'kg', kind: 'mat', gas: { CO2e: 16.0 }, src: IND + ', IAI' },
+    { g: 'Materials', key: 'alu_rec', name: 'Aluminium, recycled', unit: 'kg', kind: 'mat', gas: { CO2e: 0.6 }, src: IND + ', IAI' },
+    { g: 'Materials', key: 'copper', name: 'Copper', unit: 'kg', kind: 'mat', gas: { CO2e: 3.8 }, src: IND },
+    { g: 'Materials', key: 'abs', name: 'ABS plastic', unit: 'kg', kind: 'mat', gas: { CO2e: 3.1 }, src: IND },
+    { g: 'Materials', key: 'pe', name: 'Polyethylene (HDPE/LDPE)', unit: 'kg', kind: 'mat', gas: { CO2e: 1.9 }, src: IND },
+    { g: 'Materials', key: 'pet', name: 'PET', unit: 'kg', kind: 'mat', gas: { CO2e: 2.2 }, src: IND },
+    { g: 'Materials', key: 'cement', name: 'Portland cement (CEM I)', unit: 'kg', kind: 'mat', gas: { CO2e: 0.85 }, src: IND },
+    { g: 'Materials', key: 'concrete', name: 'Ready-mix concrete (30 MPa)', unit: 'm³', kind: 'mat', gas: { CO2e: 300 }, src: IND },
+    { g: 'Materials', key: 'glass', name: 'Glass', unit: 'kg', kind: 'mat', gas: { CO2e: 0.85 }, src: IND },
+    { g: 'Materials', key: 'cardboard', name: 'Corrugated cardboard', unit: 'kg', kind: 'mat', gas: { CO2e: 0.94 }, src: IND },
+    { g: 'Materials', key: 'paper', name: 'Paper', unit: 'kg', kind: 'mat', gas: { CO2e: 0.92 }, src: IND },
+    { g: 'Fuels', key: 'natgas', name: 'Natural gas', unit: 'm³', kind: 'fuel', us: kg(1.92253, 0.036374, 0.0035315), mx: kg(1.88176, 0.033543, 0.0033543), srcUs: EPA + ', Table 1', srcMx: RENE + ' (gas seco)' },
+    { g: 'Fuels', key: 'diesel', name: 'Diesel, stationary equipment', unit: 'L', kind: 'fuel', us: kg(2.69720, 0.10831, 0.021134), mx: kg(2.82674, 0.11444, 0.022889), srcUs: EPA + ', Table 1', srcMx: RENE },
+    { g: 'Fuels', key: 'gasoline', name: 'Gasoline, stationary equipment', unit: 'L', kind: 'fuel', us: kg(2.31944, 0.100385, 0.021134), mx: kg(2.44662, 0.105914, 0.021183), srcUs: EPA + ', Table 1', srcMx: RENE },
+    { g: 'Fuels', key: 'lpg', name: 'LPG (propane)', unit: 'L', kind: 'fuel', us: kg(1.51106, 0.071326, 0.013209), mx: kg(1.64827, 0.0261216, 0.00261216), srcUs: EPA + ', Table 1', srcMx: RENE },
+    { g: 'Fuels', key: 'diesel_veh', name: 'Diesel, own or leased vehicles', unit: 'L', kind: 'fuel', mobile: true, us: kg(2.69720, 0.10831, 0.021134), mx: kg(2.82674, 0.14878, 0.14878), srcUs: EPA + ', Table 2 (CO₂); CH₄ and N₂O as Table 1', srcMx: RENE + ', transporte terrestre' },
+    { g: 'Fuels', key: 'gasoline_veh', name: 'Gasoline, own or leased vehicles', unit: 'L', kind: 'fuel', mobile: true, us: kg(2.31944, 0.100385, 0.021134), mx: kg(2.44662, 0.88262, 0.28244), srcUs: EPA + ', Table 2 (CO₂); CH₄ and N₂O as Table 1', srcMx: RENE + ', transporte terrestre' },
+    { g: 'Electricity', key: 'elec_mx', name: 'Grid electricity, Mexico (FESEN 2024)', unit: 'kWh', kind: 'elec', gas: { CO2e: 0.444 }, src: 'FESEN 2024, 0.444 t CO₂e/MWh (CRE; SEMARNAT notices 28 Feb 2025 and 29 May 2026)' },
+    { g: 'Electricity', key: 'elec_us', name: 'Grid electricity, US average (eGRID2023)', unit: 'kWh', kind: 'elec', gas: lbMWh(771.5, 0.057, 0.008), src: 'EPA eGRID2023 US average (' + EPA + ', Table 6)' },
+    { g: 'Electricity', key: 'elec_eu', name: 'Grid electricity, EU average', unit: 'kWh', kind: 'elec', gas: { CO2e: 0.25 }, src: 'EU average grid (screening value)' },
+    { g: 'Electricity', key: 'elec_ren', name: 'Renewable electricity (with certificates)', unit: 'kWh', kind: 'elec', us: {}, mx: { CO2e: 0.444 },
+      srcUs: 'Market-based: 0 with certificates (GHG Protocol Scope 2 Guidance); location-based uses the US average', srcMx: 'RENE does not recognise certificates: counted at FESEN 0.444; market-based 0 shown as a GHG Protocol memo' },
+    { g: 'Refrigerant leaks', key: 'r134a', name: 'R-134a leaked', unit: 'kg', kind: 'refrig', gas: { 'HFC-134a': 1 }, src: 'Pure HFC-134a × GWP of the selected method' },
+    { g: 'Refrigerant leaks', key: 'r410a', name: 'R-410A leaked', unit: 'kg', kind: 'refrig', gas: { 'HFC-32': 0.5, 'HFC-125': 0.5 }, src: 'Blend 50% HFC-32 / 50% HFC-125 by mass' },
+    { g: 'Refrigerant leaks', key: 'r404a', name: 'R-404A leaked', unit: 'kg', kind: 'refrig', gas: { 'HFC-125': 0.44, 'HFC-143a': 0.52, 'HFC-134a': 0.04 }, src: 'Blend 44% HFC-125 / 52% HFC-143a / 4% HFC-134a by mass' },
+    { g: 'Refrigerant leaks', key: 'r32', name: 'R-32 leaked', unit: 'kg', kind: 'refrig', gas: { 'HFC-32': 1 }, src: 'Pure HFC-32 × GWP of the selected method' },
+    { g: 'Refrigerant leaks', key: 'r22', name: 'R-22 (HCFC-22) leaked', unit: 'kg', kind: 'refrig', gas: { 'HCFC-22': 1 }, src: 'HCFC-22: reported under RENE; outside the scopes under the GHG Protocol' },
+    { g: 'Transport', key: 'truck', name: 'Road freight, truck', unit: 't·km', kind: 'transport', us: kg(0.127400, 0.0010959, 0.0036987), mx: { CO2e: 0.107 }, srcUs: EPA + ', Table 8 (medium and heavy-duty truck)', srcMx: DESNZ + ', HGV average' },
+    { g: 'Transport', key: 'rail', name: 'Rail freight', unit: 't·km', kind: 'transport', us: kg(0.014384, 0.0010959, 0.00034247), mx: { CO2e: 0.028 }, srcUs: EPA + ', Table 8', srcMx: DESNZ },
+    { g: 'Transport', key: 'sea', name: 'Sea freight, container ship', unit: 't·km', kind: 'transport', gas: { CO2e: 0.016 }, src: DESNZ },
+    { g: 'Transport', key: 'air', name: 'Air freight', unit: 't·km', kind: 'transport', us: kg(0.743850, 0, 0.022877), mx: { CO2e: 0.60 }, srcUs: EPA + ', Table 8', srcMx: DESNZ },
+    { g: 'Transport', key: 'car', name: 'Car travel, average', unit: 'km', kind: 'transport', us: kg(0.184548, 0.003666, 0.003293), mx: { CO2e: 0.17 }, srcUs: EPA + ', Table 8 (passenger car)', srcMx: DESNZ },
+    { g: 'Transport', key: 'flight', name: 'Air travel, economy', unit: 'p·km', kind: 'transport', gas: { CO2e: 0.15 }, src: DESNZ },
+    { g: 'Waste & water', key: 'landfill_mixed', name: 'Landfill, mixed commercial waste', unit: 'kg', kind: 'waste', gas: { CO2e: 0.467 }, src: DESNZ },
+    { g: 'Waste & water', key: 'landfill_inert', name: 'Landfill, metals & plastics', unit: 'kg', kind: 'waste', gas: { CO2e: 0.009 }, src: DESNZ },
+    { g: 'Waste & water', key: 'recycling', name: 'Recycling (open loop)', unit: 'kg', kind: 'waste', gas: { CO2e: 0.021 }, src: DESNZ },
+    { g: 'Waste & water', key: 'incineration', name: 'Incineration', unit: 'kg', kind: 'waste', gas: { CO2e: 0.021 }, src: DESNZ },
+    { g: 'Waste & water', key: 'water', name: 'Water supply', unit: 'm³', kind: 'waste', gas: { CO2e: 0.15 }, src: DESNZ },
+    { g: 'Waste & water', key: 'wastewater', name: 'Wastewater treatment', unit: 'm³', kind: 'waste', gas: { CO2e: 0.27 }, src: DESNZ },
+    { g: 'Other', key: 'custom', name: 'Custom factor…', unit: 'unit', kind: 'custom', gas: {}, src: 'Your own factor' },
   ];
+  // EPA eGRID2023 subregions (lb CO2, CH4, N2O per MWh, total output), offered when operations are in the US
+  [['AKGD', 'ASCC Alaska Grid', 899.0, 0.086, 0.012], ['AKMS', 'ASCC Miscellaneous', 519.4, 0.026, 0.004], ['AZNM', 'WECC Southwest', 740.8, 0.041, 0.006],
+    ['CAMX', 'WECC California', 436.7, 0.025, 0.003], ['ERCT', 'ERCOT All', 738.0, 0.043, 0.006], ['FRCC', 'FRCC All', 801.9, 0.042, 0.005],
+    ['HIMS', 'HICC Miscellaneous', 1122.1, 0.146, 0.022], ['HIOA', 'HICC Oahu', 1489.4, 0.134, 0.021], ['MROE', 'MRO East', 1402.0, 0.116, 0.017],
+    ['MROW', 'MRO West', 920.0, 0.097, 0.014], ['NEWE', 'NPCC New England', 537.2, 0.063, 0.008], ['NWPP', 'WECC Northwest', 631.7, 0.054, 0.008],
+    ['NYCW', 'NPCC NYC/Westchester', 974.7, 0.025, 0.003], ['NYLI', 'NPCC Long Island', 1180.7, 0.140, 0.018], ['NYUP', 'NPCC Upstate NY', 241.0, 0.011, 0.001],
+    ['PRMS', 'Puerto Rico Miscellaneous', 1543.0, 0.077, 0.012], ['RFCE', 'RFC East', 594.7, 0.036, 0.005], ['RFCM', 'RFC Michigan', 962.1, 0.082, 0.011],
+    ['RFCW', 'RFC West', 911.3, 0.071, 0.010], ['RMPA', 'WECC Rockies', 1036.0, 0.090, 0.013], ['SPNO', 'SPP North', 861.9, 0.087, 0.012],
+    ['SPSO', 'SPP South', 891.1, 0.055, 0.008], ['SRMV', 'SERC Mississippi Valley', 739.4, 0.032, 0.004], ['SRMW', 'SERC Midwest', 1238.3, 0.132, 0.019],
+    ['SRSO', 'SERC South', 840.9, 0.055, 0.008], ['SRTV', 'SERC Tennessee Valley', 895.7, 0.079, 0.011], ['SRVC', 'SERC Virginia/Carolina', 590.2, 0.045, 0.006],
+  ].forEach(([code, name, co2, ch4, n2o]) => {
+    const at = FACTORS.findIndex(f => f.g === 'Refrigerant leaks');
+    FACTORS.splice(at, 0, { g: 'Electricity · eGRID2023 subregions', key: 'egrid_' + code, name: `${code} · ${name}`, unit: 'kWh', kind: 'elec', only: 'us', gas: lbMWh(co2, ch4, n2o), src: `EPA eGRID2023 ${code} (${EPA}, Table 6)` });
+  });
   const F = Object.fromEntries(FACTORS.map(f => [f.key, f]));
+  // Version 1 stored one CO2e factor per line; these were its library values, used to tell edited factors apart on upgrade
+  const V1_EF = { steel: 1.92, steel_eaf: 0.67, alu: 16, alu_rec: 0.6, copper: 3.8, abs: 3.1, pe: 1.9, pet: 2.2, cement: 0.85, concrete: 300, glass: 0.85, cardboard: 0.94, paper: 0.92,
+    natgas: 2.02, diesel: 2.70, gasoline: 2.32, lpg: 1.51, elec_mx: 0.444, elec_us: 0.371, elec_eu: 0.25, elec_ren: 0, r134a: 1530, r410a: 2256, r32: 771,
+    truck: 0.107, rail: 0.028, sea: 0.016, air: 0.60, car: 0.17, flight: 0.15, landfill_mixed: 0.467, landfill_inert: 0.009, recycling: 0.021, incineration: 0.021, water: 0.15, wastewater: 0.27 };
 
   // Evidence document types and what each should show
   const DOCS = {
@@ -478,6 +587,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const k = F[key] ? F[key].kind : 'custom';
     if (k === 'elec') return stage === 'use' ? 'product_test' : 'elec_bill';
     if (key === 'natgas') return 'gas_bill';
+    if (F[key].mobile) return 'fuel_card';
     if (k === 'fuel') return 'fuel';
     if (k === 'refrig') return 'refrig';
     if (k === 'mat') return 'invoice';
@@ -494,6 +604,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
 
   function defaultScope(stage, key) {
     const k = F[key] ? F[key].kind : 'custom';
+    if (F[key] && F[key].mobile) return 1;
     if (stage === 'manufacturing') {
       if (k === 'fuel' || k === 'refrig') return 1;
       if (k === 'elec') return 2;
@@ -502,13 +613,18 @@ tr.ev-row > td { padding: 0 6px 12px; }
   }
 
   let seq = 1;
+  // ef holds a factor only when efEdit is set (an edited library factor or a custom line); otherwise the library supplies it
   function row(stage, key, qty, note, supplier, ev) {
     const f = F[key];
     return {
-      id: 'r' + (seq++), stage, key, note: note || '', supplier: supplier || '', qty: qty ?? '', unit: f.unit, ef: f.ef, scope: defaultScope(stage, key), m0: 0, m1: 11,
+      id: 'r' + (seq++), stage, key, note: note || '', supplier: supplier || '', qty: qty ?? '', unit: f.unit, ef: key === 'custom' ? 0 : '', efEdit: key === 'custom',
+      scope: defaultScope(stage, key), m0: 0, m1: 11,
       evidence: Object.assign({ doc: defaultDoc(key, stage), ref: '', period: '', verified: false, files: [] }, ev || {}),
     };
   }
+  const blankGoal = () => ({ app: '', audience: '', comparative: 'no', allocation: 'cutoff', cutoff: '', assumptions: '', rfc: '', scian: '', site: '', usStates: '', ca: '', rev1b: '' });
+  // the default activity for a new line: manufacturing starts on the grid of the country selected
+  const stageDefault = (s, region) => (s.id === 'manufacturing' ? REGIONS[region].grid : s.def);
 
   // months the activity happened in (0 = Jan), inclusive
   const months = (r, a, b) => Object.assign(r, { m0: a, m1: b });
@@ -516,7 +632,12 @@ tr.ev-row > td { padding: 0 6px 12px; }
   function example() {
     const P = 'Jan–Dec 2025';
     return {
-      company: 'Ventura Fans (example)', year: 2025, fuName: 'one ceiling fan', fuQty: 120000, boundary: 'grave', isExample: true,
+      v: 2, company: 'Ventura Fans (example)', year: 2025, fuName: 'one ceiling fan', fuQty: 120000, boundary: 'grave', isExample: true, region: 'mx', method: 'AR5',
+      goal: Object.assign(blankGoal(), {
+        app: 'Product carbon footprint of a ceiling fan and a check of RENE reporting duties', audience: 'Internal: operations and sustainability teams',
+        allocation: 'cutoff', cutoff: 'Inputs under 1% of product mass and of total emissions may be left out', assumptions: 'Use stage: 45 W, 1,500 h a year, 10-year life, US grid. Screening factors from the CO2Trace library.',
+        rfc: 'VFA000000XX0 (example)', scian: '335210 (example)', site: 'Apodaca, Nuevo León',
+      }),
       rows: [
         row('materials', 'steel', 850000, 'Motor housings and blades', 'Aceros Cumbre (example)', { ref: 'PO-2025-0113', period: P }),
         row('materials', 'alu', 60000, 'Die-cast motor covers', 'Fundición Lumen (example)', { ref: 'PO-2025-0187', period: P }),
@@ -527,6 +648,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
         months(row('manufacturing', 'natgas', 130000, 'Paint-line ovens, peak season', 'Gas distributor (example)', { period: 'Jan–Aug 2025' }), 0, 7),
         months(row('manufacturing', 'natgas', 50000, 'Paint-line ovens, low season', 'Gas distributor (example)', { period: 'Sep–Dec 2025' }), 8, 11),
         row('manufacturing', 'diesel', 12000, 'Forklifts and backup generator', 'Fuel distributor (example)'),
+        row('distribution', 'diesel_veh', 18000, 'Own delivery trucks, 6 units', 'Fuel distributor (example)'),
         months(row('manufacturing', 'r410a', 15, 'HVAC top-ups from service log', 'Clima Técnica (example)'), 5, 7),
         row('manufacturing', 'landfill_mixed', 40000, 'Plant general waste', 'Waste hauler (example)'),
         row('manufacturing', 'water', 15000, 'Municipal supply', 'Water utility (example)'),
@@ -540,9 +662,10 @@ tr.ev-row > td { padding: 0 6px 12px; }
       ],
     };
   }
-  function blank() {
-    return { company: '', year: new Date().getFullYear() - 1, fuName: '', fuQty: '', boundary: 'grave', isExample: false,
-      rows: STAGES.map(s => row(s.id, s.def, '')) };
+  function blank(region) {
+    return { v: 2, company: '', year: new Date().getFullYear() - 1, fuName: '', fuQty: '', boundary: 'grave', isExample: false,
+      region, method: REGIONS[region].method, goal: blankGoal(),
+      rows: STAGES.map(s => row(s.id, stageDefault(s, region), '')) };
   }
 
   // ---------- evidence file store (IndexedDB, this browser only) ----------
@@ -583,13 +706,19 @@ tr.ev-row > td { padding: 0 6px 12px; }
     if (raw) state = JSON.parse(raw);
   } catch (e) { state = null; }
   if (!state || !Array.isArray(state.rows) || state.isExample) state = example();
+  if (!REGIONS[state.region]) state.region = 'mx';
+  if (!GWP[state.method]) state.method = REGIONS[state.region].method;
+  state.goal = Object.assign(blankGoal(), state.goal || {});
+  state.rows = state.rows.filter(r => F[r.key]);
   state.rows.forEach(r => {
+    if (!state.v) r.efEdit = r.key === 'custom' || Number(r.ef) !== V1_EF[r.key];
     const n = parseInt(String(r.id).slice(1), 10); if (n >= seq) seq = n + 1;
     if (r.supplier == null) r.supplier = '';
     if (r.m0 == null) r.m0 = 0;
     if (r.m1 == null) r.m1 = 11;
     if (!r.evidence) r.evidence = { doc: defaultDoc(r.key, r.stage), ref: '', period: '', verified: false, files: [] };
   });
+  state.v = 2;
   const expanded = new Set();
 
   function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
@@ -604,7 +733,31 @@ tr.ev-row > td { padding: 0 6px 12px; }
   const pct = (a, b) => (b > 0 ? Math.round((a / b) * 100) + '%' : '–');
   const fmtSize = b => (b >= 1048576 ? nf1.format(b / 1048576) + ' MB' : nf0.format(Math.max(1, b / 1024)) + ' KB');
 
-  const emis = r => { const q = parseFloat(r.qty), e = parseFloat(r.ef); return isFinite(q) && isFinite(e) ? (q * e) / 1000 : 0; };
+  // ---------- calculation: inventory per gas, then characterisation with the selected method ----------
+  const libGases = key => { const f = F[key]; return f[state.region] || f.gas || {}; };
+  const libSrc = key => { const f = F[key]; return (state.region === 'us' ? f.srcUs : f.srcMx) || f.src || ''; };
+  const co2eOf = (gases, method) => Object.entries(gases).reduce((a, [g, v]) => a + v * GWP[method || state.method][g], 0);
+  const libEf = key => co2eOf(libGases(key));
+  const showEf = v => +Number(v).toPrecision(4);
+  const isEdited = r => r.key === 'custom' || !!r.efEdit;
+  const efOf = r => (isEdited(r) ? parseFloat(r.ef) : libEf(r.key));
+  const qtyOf = r => { const q = parseFloat(r.qty); return isFinite(q) ? q : 0; };
+  // tonnes of each gas on a line; edited and custom factors are already CO2e
+  const gasT = r => {
+    if (isEdited(r)) { const e = parseFloat(r.ef); return isFinite(e) ? { CO2e: (qtyOf(r) * e) / 1000 } : {}; }
+    return Object.fromEntries(Object.entries(libGases(r.key)).map(([g, v]) => [g, (qtyOf(r) * v) / 1000]));
+  };
+  const emisWith = (r, method) => Object.entries(gasT(r)).reduce((a, [g, t]) => a + t * GWP[method || state.method][g], 0);
+  const emis = r => emisWith(r);
+  // Montreal Protocol gases (HCFC-22) sit outside the scopes under the GHG Protocol; RENE counts them
+  const outside = r => state.region === 'us' && !isEdited(r) && 'HCFC-22' in libGases(r.key);
+  // Scope 2 both ways: certificates count as 0 market-based and at the national grid factor location-based
+  const certLine = r => r.key === 'elec_ren' && !isEdited(r);
+  const s2Location = r => (certLine(r) ? (qtyOf(r) * libEf(REGIONS[state.region].grid)) / 1000 : emis(r));
+  const s2Market = r => (certLine(r) ? 0 : emis(r));
+  const fmtGasKg = v => (v === 0 ? '0' : v >= 0.1 ? showEf(v) + ' kg' : showEf(v * 1000) + ' g');
+  const gasList = gases => Object.entries(gases).map(([g, v]) => `${GAS_NAMES[g]} ${fmtGasKg(v)}`).join(', ') || 'none';
+  const fmtMass = t => (t >= 1 ? fmtT(t) + ' t' : t >= 0.001 ? nf1.format(t * 1000) + ' kg' : t > 0 ? nf2.format(t * 1e6) + ' g' : '0');
   const included = stageId => state.boundary === 'grave' || !STAGES.find(s => s.id === stageId).grave;
   const kindOf = r => (F[r.key] ? F[r.key].kind : 'custom');
   const evStatus = r => (r.evidence.files.length === 0 ? 'miss' : r.evidence.verified ? 'ok' : 'att');
@@ -618,6 +771,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   const optionsHtml = sel => {
     let out = '', g = null;
     FACTORS.forEach(f => {
+      if (f.only && f.only !== state.region && f.key !== sel) return;
       if (f.g !== g) { if (g) out += '</optgroup>'; out += `<optgroup label="${esc(f.g)}">`; g = f.g; }
       out += `<option value="${f.key}"${f.key === sel ? ' selected' : ''}>${esc(f.name)}</option>`;
     });
@@ -654,9 +808,12 @@ tr.ev-row > td { padding: 0 6px 12px; }
   }
 
   function rowHtml(r) {
-    const lib = F[r.key];
-    const edited = r.key !== 'custom' && lib && Number(r.ef) !== lib.ef;
+    const edited = r.key !== 'custom' && isEdited(r);
     const open = expanded.has(r.id);
+    const ef = isEdited(r) ? r.ef : showEf(libEf(r.key));
+    const efTitle = r.key === 'custom' ? 'Your own factor, kg CO₂e per unit'
+      : `${edited ? 'Edited. ' : ''}Library: ${showEf(libEf(r.key))} kg CO₂e/unit with ${state.method}. Source: ${libSrc(r.key)}. Gases per unit: ${gasList(libGases(r.key))}`;
+    const out = outside(r);
     const unitCell = r.key === 'custom'
       ? `<input id="${r.id}-unit" data-field="unit" type="text" value="${esc(r.unit)}" aria-label="Unit">`
       : `<span class="unit">${esc(r.unit)}</span>`;
@@ -666,10 +823,10 @@ tr.ev-row > td { padding: 0 6px 12px; }
       <td><input id="${r.id}-note" data-field="note" type="text" value="${esc(r.note)}" placeholder="Site, product or detail" aria-label="Description"></td>
       <td><input id="${r.id}-qty" data-field="qty" class="num" type="number" step="any" min="0" value="${esc(r.qty)}" placeholder="0" aria-label="Quantity"></td>
       <td>${unitCell}</td>
-      <td><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(r.ef)}" aria-label="Emission factor, kg CO2e per unit"${edited ? ` title="Library value: ${lib.ef}"` : ''}></td>
+      <td><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(ef)}" aria-label="Emission factor, kg CO2e per unit" title="${esc(efTitle)}"></td>
       <td><select id="${r.id}-scope" data-field="scope" aria-label="Scope">${[1, 2, 3].map(s => `<option value="${s}"${+r.scope === s ? ' selected' : ''}>S${s}</option>`).join('')}</select></td>
       <td><div class="mm">${['m0', 'm1'].map((f, i) => `${i ? '<span aria-hidden="true">–</span>' : ''}<select id="${r.id}-${f}" data-field="${f}" aria-label="${i ? 'Last month' : 'First month'} of activity">${MONTHS.map((m, j) => `<option value="${j}"${mSpan(r)[i] === j ? ' selected' : ''}>${m}</option>`).join('')}</select>`).join('')}</div></td>
-      <td class="em r" data-em>${fmtT(emis(r))}</td>
+      <td class="em r${out ? ' memo' : ''}" data-em${out ? ' title="Outside the scopes under the GHG Protocol: reported separately, not in the total"' : ''}>${fmtT(emis(r))}${out ? '*' : ''}</td>
       <td data-chip>${chipHtml(r)}</td>
       <td><button type="button" class="icon-btn" data-remove aria-label="Remove line">×</button></td>
     </tr>${open ? evHtml(r) : ''}`;
@@ -719,19 +876,54 @@ tr.ev-row > td { padding: 0 6px 12px; }
     $('bGate').setAttribute('aria-pressed', state.boundary === 'gate');
     $('bGrave').setAttribute('aria-pressed', state.boundary === 'grave');
     $('exampleBanner').hidden = !state.isExample;
+    document.querySelectorAll('[data-region]').forEach(b => b.setAttribute('aria-pressed', b.dataset.region === state.region));
+    $('methodSel').innerHTML = Object.entries(METHODS).map(([k, v]) => `<option value="${k}"${k === state.method ? ' selected' : ''}>${esc(v)}</option>`).join('');
+    $('copyCoa').hidden = state.region !== 'mx';
+    renderSetup();
+    renderMethodText();
+  }
+
+  // Project setup: goal and scope fields, and the libraries and method in use (SimaPro's Goal and scope / Libraries)
+  const LIBS = {
+    mx: ['Fuels: Calculadora RENE v9.0 (SEMARNAT, March 2025): CONUEE heating values × IPCC 2006 factors, with separate factors for own or leased vehicles (fuentes móviles).',
+      'Electricity: FESEN 2024, 0.444 t CO₂e/MWh (CRE). SEMARNAT’s notice of 29 May 2026 keeps it for the 2026 COA while SENER prepares the 2025 factor.',
+      'Truck, rail, air freight and car travel: UK DESNZ conversion factors (screening values).'],
+    us: ['Fuels, truck, rail and air freight, car travel: US EPA GHG Emission Factors Hub 2025 (Tables 1, 2 and 8), per gas.',
+      'Electricity: EPA eGRID2023 US average and 26 subregions (location-based). Renewable electricity with certificates is 0 market-based.'],
+    both: ['Materials: industry-average cradle-to-gate CO₂e (worldsteel, IAI and similar) for screening. For a verified result, replace them with supplier EPDs or a licensed database such as ecoinvent.',
+      'Sea freight, flights, waste and water: UK DESNZ conversion factors (screening values).',
+      'Refrigerants: pure gases and blends by mass fraction (R-410A, R-404A), characterised with the impact method.'],
+  };
+  const ALLOC = { cutoff: 'cut-off (recycled content burden-free)', mass: 'allocation by mass', economic: 'allocation by economic value', physical: 'allocation by another physical relation', substitution: 'system expansion (substitution)' };
+  function renderSetup() {
+    document.querySelectorAll('[data-goal]').forEach(el => { el.value = state.goal[el.dataset.goal] ?? ''; });
+    document.querySelectorAll('[data-only]').forEach(el => { el.hidden = el.dataset.only !== state.region; });
+    $('libList').innerHTML = [
+      `Impact method: ${METHODS[state.method]}. CH₄ from combustion uses the non-fossil GWP.`,
+      `Framework: ${REGIONS[state.region].framework}. Multi-output processes: ${ALLOC[state.goal.allocation] || ALLOC.cutoff}.`,
+      ...LIBS[state.region], ...LIBS.both,
+    ].map(s => `<li>${esc(s)}</li>`).join('');
+  }
+  function renderMethodText() {
+    const common = 'Emissions (t CO₂e) = Σ over gases of quantity × kg of gas per unit × GWP ÷ 1,000. Each library factor holds the mass of each gas per unit, so the impact method can change without re-entering data. Edited and custom factors are taken as kg CO₂e per unit and do not change with the method; they are outlined so reviewers can see them.';
+    $('methodText').innerHTML = `<p>${common}</p>` + (state.region === 'mx'
+      ? '<p>With operations in México, fuels use the official RENE factors and electricity the FESEN grid factor. Direct emissions (Scope 1) cover fixed sources and the vehicles you own or lease; transport by other companies is not direct. Indirect emissions (Scope 2) cover purchased electricity at FESEN; RENE has no market-based method, so renewable certificates are shown only as a GHG Protocol memo. The RENE threshold check and the COA export always use IPCC AR5, as the Acuerdo of 14 Aug 2015 requires. Value-chain lines (Scope 3) are part of the life-cycle result but not of RENE.</p>'
+      : '<p>With operations in the United States, fuels, freight and car travel use the US EPA GHG Emission Factors Hub 2025, and electricity uses eGRID2023 (US average or a subregion). Scope 2 is reported location-based and market-based, as the GHG Protocol Scope 2 Guidance requires; the total uses the market-based figure. HCFC-22 is a Montreal Protocol gas and sits outside the scopes. The default method is AR6, as the GHG Protocol recommends; EPA’s GHGRP and the Hub use AR5.</p>');
   }
 
   // ---------- totals & dashboard ----------
   function totals() {
     const byStage = {}, byScope = { 1: 0, 2: 0, 3: 0 }, byCat = {}, byCatScope = { 1: {}, 2: {}, 3: {} }, bySup = {}, byEv = { ok: 0, att: 0, miss: 0 };
     const byMonth = { 1: Array(12).fill(0), 2: Array(12).fill(0), 3: Array(12).fill(0) };
+    const byGas = { 1: {}, 2: {}, 3: {} };
     STAGES.forEach(s => (byStage[s.id] = 0));
-    let total = 0;
-    const lines = [];
+    let total = 0, s2lb = 0, s2mb = 0, memo = 0;
+    const lines = [], memoLines = [];
     state.rows.forEach(r => {
-      const e = emis(r);
-      byStage[r.stage] += e;
+      const e = emis(r), out = outside(r);
+      if (!out) byStage[r.stage] += e;
       if (!included(r.stage) || e <= 0) return;
+      if (out) { memo += e; memoLines.push(r); return; }
       const k = kindOf(r), sc = +r.scope || 3, sup = r.supplier.trim() || '';
       total += e;
       byScope[sc] += e;
@@ -741,9 +933,11 @@ tr.ev-row > td { padding: 0 6px 12px; }
       byEv[evStatus(r)] += e;
       const [a, b] = mSpan(r);
       for (let m = a; m <= b; m++) byMonth[sc][m] += e / (b - a + 1);
+      Object.entries(gasT(r)).forEach(([g, v]) => (byGas[sc][g] = (byGas[sc][g] || 0) + v));
+      if (sc === 2) { s2lb += s2Location(r); s2mb += s2Market(r); }
       lines.push(r);
     });
-    return { byStage, byScope, byCat, byCatScope, bySup, byEv, byMonth, total, lines };
+    return { byStage, byScope, byCat, byCatScope, bySup, byEv, byMonth, byGas, total, lines, s2lb, s2mb, memo, memoLines };
   }
 
   function updateTotals() {
@@ -755,23 +949,28 @@ tr.ev-row > td { padding: 0 6px 12px; }
     renderCharts(t);
   }
 
-  const SCOPE_NAMES = { 1: 'Direct emissions', 2: 'Purchased electricity', 3: 'Value chain' };
+  const SN = s => (state.region === 'mx'
+    ? { 1: 'Direct (RENE)', 2: 'Indirect (RENE)', 3: 'Value chain (not in RENE)' }
+    : { 1: 'Direct emissions', 2: 'Purchased energy', 3: 'Value chain' })[s];
 
   function renderKpis(t) {
     const fuQty = parseFloat(state.fuQty);
     const perUnit = fuQty > 0 ? (t.total * 1000) / fuQty : null;
     const covered = t.byEv.ok + t.byEv.att;
+    const s2sub = state.region === 'us'
+      ? `market-based, in total · location-based ${fmtT(t.s2lb)} t`
+      : `FESEN, in total · market-based memo ${fmtT(t.s2mb)} t`;
     $('kpis').innerHTML = `
       <div class="kpi total">
         <div class="k">Total · ${state.boundary === 'gate' ? 'cradle-to-gate' : 'cradle-to-grave'}</div>
         <div class="v">${fmtT(t.total)}<small>t CO₂e</small></div>
-        <div class="sub">${esc(state.company || 'Company')}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} lines</div>
+        <div class="sub">${esc(state.company || 'Company')}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} lines · ${REGIONS[state.region].name} · ${state.method}</div>
       </div>
       ${[1, 2, 3].map(s => `<div class="kpi" style="--c: var(--s${s})">
-        <div class="k"><span class="sw"></span>Scope ${s} · ${SCOPE_NAMES[s]}</div>
+        <div class="k"><span class="sw"></span>Scope ${s} · ${SN(s)}</div>
         <div class="v">${fmtT(t.byScope[s])}<small>t CO₂e</small></div>
         <div class="meter"><i style="width:${pctN(t.byScope[s], t.total)}%"></i></div>
-        <div class="sub">${pct(t.byScope[s], t.total)} of total</div>
+        <div class="sub">${pct(t.byScope[s], t.total)} of total${s === 2 && t.byScope[2] + t.s2lb > 0 ? ' · ' + s2sub : ''}</div>
       </div>`).join('')}
       <div class="kpi">
         <div class="k">Per functional unit</div>
@@ -805,7 +1004,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const segs = [1, 2, 3].map(s => {
       const len = (t.byScope[s] / t.total) * C;
       const seg = len > 0 ? `<circle cx="100" cy="100" r="${r}" fill="none" style="stroke: var(--s${s})" stroke-width="30"
-        stroke-dasharray="${Math.max(len - gap, 0.5)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)" class="wedge"${tip(`Scope ${s} · ${SCOPE_NAMES[s]}`, `${fmtT(t.byScope[s])} t CO₂e · ${pct(t.byScope[s], t.total)} of total`)}></circle>` : '';
+        stroke-dasharray="${Math.max(len - gap, 0.5)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)" class="wedge"${tip(`Scope ${s} · ${SN(s)}`, `${fmtT(t.byScope[s])} t CO₂e · ${pct(t.byScope[s], t.total)} of total`)}></circle>` : '';
       off += len;
       return seg;
     }).join('');
@@ -819,17 +1018,17 @@ tr.ev-row > td { padding: 0 6px 12px; }
           <text x="100" y="98" text-anchor="middle" style="fill: var(--ink); font-family: var(--f-display); font-weight: 700" font-size="24">${fmtT(t.total)}</text>
           <text x="100" y="118" text-anchor="middle" style="fill: var(--muted)" font-size="11">t CO₂e</text>
         </svg>
-        <div class="donut-legend">${[1, 2, 3].map(s => `<div style="--c: var(--s${s})"><span class="sw"></span><span>Scope ${s} · ${SCOPE_NAMES[s]}</span><b>${pct(t.byScope[s], t.total)}</b><span class="d-v">${fmtT(t.byScope[s])} t CO₂e</span></div>`).join('')}</div>
+        <div class="donut-legend">${[1, 2, 3].map(s => `<div style="--c: var(--s${s})"><span class="sw"></span><span>Scope ${s} · ${SN(s)}</span><b>${pct(t.byScope[s], t.total)}</b><span class="d-v">${fmtT(t.byScope[s])} t CO₂e</span></div>`).join('')}</div>
       </div>
     </div>`;
   }
 
   // Chart view choices: a per-viewer convenience kept in this browser
   const UI_STORE = 'lca-ui-v1';
-  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all' };
+  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all' };
   try { Object.assign(ui, JSON.parse(localStorage.getItem(UI_STORE) || '{}')); } catch (e) {}
   if (!['radial', 'treemap'].includes(ui.catView)) ui.catView = 'radial';
-  ['catScope', 'ganttScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
+  ['catScope', 'ganttScope', 'invScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
   const saveUi = () => { try { localStorage.setItem(UI_STORE, JSON.stringify(ui)); } catch (e) {} };
   const scopesOf = v => (v === 'all' ? [1, 2, 3] : [+v]);
   const scopeName = v => (v === 'all' ? 'all scopes' : 'Scope ' + v);
@@ -1017,6 +1216,104 @@ tr.ev-row > td { padding: 0 6px 12px; }
     </div>`;
   }
 
+  // Reporting duties for the country selected
+  const RENE_T = 25000;
+  function complianceCard(t) {
+    const yr = parseInt(state.year, 10) || new Date().getFullYear() - 1;
+    if (state.region === 'mx') {
+      // RENE uses AR5 whatever method is on screen
+      const rene = s => t.lines.filter(r => (+r.scope || 3) === s).reduce((a, r) => a + emisWith(r, 'AR5'), 0);
+      const d = rene(1), i = rene(2), sum = d + i, over = sum >= RENE_T;
+      return `<div class="card full comp">
+        <div class="card-head"><h3>RENE México · reporting duty</h3><span class="pill ${over ? 'warn' : 'ok'}">${over ? 'Must report' : 'Below threshold'}</span></div>
+        <p class="cap">Under the Ley General de Cambio Climático and its RENE regulation (DOF 28 Oct 2014), an establishment in a listed sector reports when its direct plus indirect emissions reach 25,000 t CO₂e a year. Figures here use IPCC AR5, as RENE requires.</p>
+        <div class="g-sum">
+          <div><span>Direct · fixed and mobile sources</span><b>${fmtT(d)}</b><span>t CO₂e (Scope 1)</span></div>
+          <div><span>Indirect · electricity (FESEN)</span><b>${fmtT(i)}</b><span>t CO₂e (Scope 2)</span></div>
+          <div><span>Direct + indirect</span><b>${fmtT(sum)}</b><span>${pct(sum, RENE_T)} of the 25,000 t threshold</span></div>
+          <div><span>Value chain · voluntary</span><b>${fmtT(t.byScope[3])}</b><span>t CO₂e, not part of RENE</span></div>
+        </div>
+        <div class="meter thr" role="img" aria-label="${pct(sum, RENE_T)} of the RENE threshold"><i style="--c: var(${over ? '--warn' : '--ok'}); width:${Math.min(100, pctN(sum, RENE_T))}%"></i></div>
+        <ul class="gaps">${over ? `
+          <li>File the Cédula de Operación Anual (COA) with SEMARNAT between 1 March and 30 June ${yr + 1}, covering 1 January to 31 December ${yr}. Use “Copy RENE (COA) summary” for the per-gas figures.</li>
+          <li>Every 3 years, attach a verification report (dictamen) from an EMA-accredited body approved by SEMARNAT, filed 1 July to 30 November.</li>
+          <li>Keep the data and documents behind the report for 5 years (art. 9 VII). Files attached here stay in this browser only, so keep the originals.</li>`
+          : `<li>Below 25,000 t CO₂e, no RENE report is required (art. 6). State emission registries may still apply (art. 24).</li>`}
+          <li>${state.method === 'AR5' ? 'Method is IPCC AR5, as RENE requires.' : `The page is set to ${state.method}. RENE requires IPCC AR5 GWPs (Acuerdo DOF 14 Aug 2015); the threshold and COA export use AR5 anyway.`}</li>
+          <li>The threshold applies to each establishment (all its fixed and mobile sources). If this ledger covers several sites, check each one.</li>
+        </ul>
+      </div>`;
+    }
+    const g = state.goal, sb = g.ca === 'yes' && g.rev1b === 'yes' ? 'applies' : g.ca === 'no' || g.rev1b === 'no' ? 'not' : 'unanswered';
+    return `<div class="card full comp">
+      <div class="card-head"><h3>United States · GHG Protocol and US rules</h3><span class="pill">${state.method}</span></div>
+      <p class="cap">Inventory follows the GHG Protocol Corporate Standard with US EPA factors. Scope 2 is reported both ways; the total uses the market-based figure.</p>
+      <div class="g-sum">
+        <div><span>Scope 1 · direct</span><b>${fmtT(t.byScope[1])}</b><span>t CO₂e · ${pct(t.byScope[1], RENE_T)} of 25,000 t</span></div>
+        <div><span>Scope 2 · location-based</span><b>${fmtT(t.s2lb)}</b><span>t CO₂e, grid averages</span></div>
+        <div><span>Scope 2 · market-based</span><b>${fmtT(t.s2mb)}</b><span>t CO₂e, with certificates</span></div>
+        <div><span>Scope 3 · value chain</span><b>${fmtT(t.byScope[3])}</b><span>t CO₂e</span></div>
+      </div>
+      <ul class="gaps">
+        <li><b>EPA GHGRP (40 CFR 98):</b> facilities emitting 25,000 t CO₂e or more a year from covered sources report to EPA, using AR5 GWPs. Reports for 2025 are due 30 Oct 2026. In Sept 2025 EPA proposed ending most of the program; that was not final as of Oct 2026. The Scope 1 figure here is a company total, so check each facility.</li>
+        <li><b>California SB 253:</b> ${sb === 'applies' ? 'applies (revenue over $1 billion and doing business in California, per Goal & scope).' : sb === 'unanswered' ? 'applies to US entities with revenue over $1 billion that do business in California. Answer both questions in Goal & scope.' : 'does not apply, based on Goal & scope.'} First Scope 1 and 2 reports are due 10 Nov 2026 under CARB’s amended deadline (pending OAL approval); Scope 3 follows from 2027.</li>
+        ${t.memo > 0 ? `<li><b>Outside the scopes:</b> ${fmtT(t.memo)} t CO₂e of HCFC-22 (R-22), a Montreal Protocol gas, is reported separately and left out of the total.</li>` : ''}
+      </ul>
+    </div>`;
+  }
+
+  // Inventory per substance, like SimaPro's Inventory tab
+  function inventoryCard(t) {
+    const scopes = scopesOf(ui.invScope), G = GWP[state.method], mass = {};
+    scopes.forEach(s => Object.entries(t.byGas[s]).forEach(([g, v]) => (mass[g] = (mass[g] || 0) + v)));
+    const rows = Object.entries(mass).map(([g, m]) => [g, m, m * G[g]]).filter(r => r[1] > 0).sort((a, b) => b[2] - a[2]);
+    const sum = rows.reduce((a, r) => a + r[2], 0);
+    return `<div class="card full">
+      <div class="card-head"><h3>Inventory by substance</h3><div class="ctl">${scopeSeg('invScope')}</div></div>
+      <p class="cap">Mass of each greenhouse gas from the lines entered, characterised with ${esc(METHODS[state.method])}. Pre-characterised amounts come from life-cycle datasets, the Mexican grid factor and edited factors, so the method does not change them.</p>
+      ${rows.length ? `<div class="table-scroll"><table class="inv"><thead><tr><th>Substance</th><th class="r">Mass</th><th class="r">GWP</th><th class="r">t CO₂e</th><th class="r">Share</th></tr></thead><tbody>
+        ${rows.map(([g, m, e]) => `<tr><td>${esc(GAS_NAMES[g])}</td><td class="r num">${fmtMass(m)}</td><td class="r num">${g === 'CO2e' ? '–' : nf0.format(G[g])}</td><td class="r num">${fmtT(e)}</td><td class="r num">${pct(e, sum)}</td></tr>`).join('')}
+        <tr class="sum"><td>Total</td><td></td><td></td><td class="r num">${fmtT(sum)}</td><td class="r num">100%</td></tr>
+      </tbody></table></div>` : `<p class="note">${t.total > 0 ? `No ${scopeName(ui.invScope)} emissions entered yet.` : 'Enter quantities in the ledger to fill this table.'}</p>`}
+    </div>`;
+  }
+
+  // Model checks, like SimaPro's Checks tab
+  function checks(t) {
+    const out = [], all = state.rows.filter(r => included(r.stage));
+    const noQty = all.filter(r => !(qtyOf(r) > 0));
+    if (noQty.length) out.push(['info', `${noQty.length} line${noQty.length === 1 ? ' has' : 's have'} no quantity yet.`]);
+    all.filter(r => r.key === 'custom' && !(parseFloat(r.ef) > 0) && qtyOf(r) > 0).forEach(r => out.push(['warn', `Custom line “${lineName(r)}” has no factor, so it counts as zero.`, r.id]));
+    all.filter(r => r.key !== 'custom' && isEdited(r) && !['epd', 'supplier_data', 'estimate'].includes(r.evidence.doc)).forEach(r =>
+      out.push(['warn', `${lineName(r)}: the factor was edited, but the evidence type is not a supplier EPD, supplier data or an engineering estimate.`, r.id]));
+    all.filter(r => F[r.key].kind === 'transport' && +r.scope === 1).forEach(r =>
+      out.push(['warn', `${lineName(r)} is in Scope 1, but distance-based freight factors are for Scope 3. For your own vehicles, enter litres of fuel.`, r.id]));
+    all.filter(r => F[r.key].kind === 'elec' && +r.scope === 1).forEach(r => out.push(['warn', `${lineName(r)}: purchased electricity belongs in Scope 2, not Scope 1.`, r.id]));
+    const direct = t.lines.filter(r => (+r.scope || 3) < 3 && evStatus(r) === 'miss'), dT = direct.reduce((a, r) => a + emis(r), 0);
+    if (direct.length) out.push(['warn', `${direct.length} Scope 1 or 2 line${direct.length === 1 ? '' : 's'} (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'has' : 'have'} no documents. Verifiers will ask for them.`]);
+    if (state.region === 'mx') {
+      if (state.method !== 'AR5') out.push(['err', `RENE requires IPCC AR5 GWPs; the page is set to ${state.method}. Switch the impact method before reporting.`]);
+      if (all.some(r => r.key === 'elec_ren' && qtyOf(r) > 0)) out.push(['info', 'RENE does not recognise renewable certificates: those kWh count at FESEN 0.444. The market-based figure is shown only as a GHG Protocol memo.']);
+      if ((parseInt(state.year, 10) || 0) >= 2025) out.push(['info', `The ${state.year} FESEN factor is not published yet. SEMARNAT’s 29 May 2026 notice keeps 0.444 t CO₂e/MWh (2024) in use.`]);
+      if (t.byScope[3] > 0) out.push(['info', 'Scope 3 lines are outside RENE. They stay in the life-cycle result and any voluntary GHG Protocol report.']);
+      all.filter(r => (r.key === 'diesel' || r.key === 'gasoline') && /truck|vehic|fleet|cami[oó]n|flota|auto|van\b|pickup/i.test(r.note)).forEach(r =>
+        out.push(['info', `${lineName(r)} (“${r.note}”) looks like a vehicle. Use the “own or leased vehicles” factor so it reports as a mobile source.`, r.id]));
+    } else {
+      if (t.memo > 0) out.push(['info', `${fmtT(t.memo)} t CO₂e of HCFC-22 is outside the scopes under the GHG Protocol and is left out of the total.`]);
+      if (all.some(r => r.key === 'elec_mx' && +r.scope === 2)) out.push(['warn', 'A Scope 2 line uses the Mexican grid factor while operations are set to the United States.']);
+    }
+    return out;
+  }
+  function checksCard(t) {
+    const list = checks(t), n = k => list.filter(c => c[0] === k).length;
+    const label = { err: 'Error', warn: 'Warning', info: 'Note' };
+    return `<div class="card full">
+      <div class="card-head"><h3>Checks</h3><span class="note">${n('err')} errors · ${n('warn')} warnings · ${n('info')} notes</span></div>
+      ${list.length ? `<ul class="checks">${list.map(([k, txt, id]) => `<li class="ck-${k}"><span class="ck">${label[k]}</span><span>${esc(txt)}${id ? ` <button type="button" class="linkish" data-goto="${id}">Open line</button>` : ''}</span></li>`).join('')}</ul>`
+        : '<p class="note">No issues found.</p>'}
+    </div>`;
+  }
+
   function renderCharts(t) {
     const cats = Object.entries(t.byCat).sort((a, b) => b[1] - a[1]);
     const maxCat = cats.length ? cats[0][1] : 0;
@@ -1038,7 +1335,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
       ${t.total > 0 ? `<div class="bars">${[1, 2, 3].map(s => {
         const segs = catOrder.filter(k => t.byCatScope[s][k] > 0);
         const w = maxScope > 0 ? (t.byScope[s] / maxScope) * 100 : 0;
-        return `<div class="bar-row"><span class="nm">Scope ${s} · ${SCOPE_NAMES[s]}</span><span class="vl">${fmtT(t.byScope[s])} t</span>
+        return `<div class="bar-row"><span class="nm">Scope ${s} · ${SN(s)}</span><span class="vl">${fmtT(t.byScope[s])} t</span>
           <div class="track seg-track" style="background: var(--surface-2)"><div style="display:flex;gap:1px;width:${w}%">${segs.map(k => {
             const v = t.byCatScope[s][k];
             return `<div class="fill" style="--c: var(--c-${k}); flex: 0 0 calc(${pctN(v, t.byScope[s])}% - 1px)"${tip(`Scope ${s} · ${CATS[k]}`, `${fmtT(v)} t CO₂e · ${pct(v, t.byScope[s])} of Scope ${s}`)}></div>`;
@@ -1100,7 +1397,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = donutCard(t) + catCard + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + stageCard + hotCard;
+    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + stageCard + hotCard;
     drawTreemap();
   }
 
@@ -1117,14 +1414,13 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const f = e.target.dataset.field;
     if (!f || f === 'key' || f === 'scope' || f === 'm0' || f === 'm1') return;
     r[f] = e.target.value;
-    if (f === 'ef') {
-      const lib = F[r.key];
-      const edited = r.key !== 'custom' && Number(r.ef) !== lib.ef;
-      e.target.classList.toggle('edited', edited);
-      e.target.title = edited ? 'Library value: ' + lib.ef : '';
+    if (f === 'ef' && r.key !== 'custom') {
+      // an emptied factor, or one typed back to the library value, returns to the library
+      r.efEdit = e.target.value !== '' && Number(r.ef) !== showEf(libEf(r.key));
+      e.target.classList.toggle('edited', r.efEdit);
     }
     if (f === 'supplier') renderSupplierList();
-    tr.querySelector('[data-em]').textContent = fmtT(emis(r));
+    tr.querySelector('[data-em]').textContent = fmtT(emis(r)) + (outside(r) ? '*' : '');
     updateTotals(); touched();
   });
 
@@ -1134,7 +1430,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const f = e.target.dataset.field;
     if (f === 'key') {
       const lib = F[e.target.value];
-      r.key = lib.key; r.unit = lib.unit; r.ef = lib.ef; r.scope = defaultScope(r.stage, lib.key);
+      r.key = lib.key; r.unit = lib.unit; r.ef = lib.key === 'custom' ? 0 : ''; r.efEdit = lib.key === 'custom'; r.scope = defaultScope(r.stage, lib.key);
       if (!r.evidence.files.length && !r.evidence.ref) r.evidence.doc = defaultDoc(r.key, r.stage);
       rerenderRow(r, r.id + (lib.key === 'custom' ? '-unit' : '-qty'));
     } else if (f === 'scope') {
@@ -1195,7 +1491,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     const add = e.target.closest('[data-add]');
     if (add) {
       const s = STAGES.find(x => x.id === add.dataset.add);
-      const r = row(s.id, s.def, '');
+      const r = row(s.id, stageDefault(s, state.region), '');
       state.rows.push(r);
       renderStages(); touched();
       document.getElementById(r.id + '-key').focus();
@@ -1317,6 +1613,23 @@ tr.ev-row > td { padding: 0 6px 12px; }
     state.boundary = b.dataset.boundary; renderMeta(); renderStages(); touched();
   }));
 
+  // Switching country swaps the factor library, the default method and the reporting rules; edited factors stay as entered
+  document.querySelectorAll('[data-region]').forEach(b => b.addEventListener('click', () => {
+    if (state.region === b.dataset.region) return;
+    state.region = b.dataset.region; state.method = REGIONS[state.region].method;
+    renderMeta(); renderStages(); touched();
+    toast(`${REGIONS[state.region].name}: ${REGIONS[state.region].framework}, ${state.method}`);
+  }));
+  $('methodSel').addEventListener('change', e => { state.method = e.target.value; renderMeta(); renderStages(); touched(); });
+  const onGoal = e => {
+    const k = e.target.dataset.goal; if (!k) return;
+    state.goal[k] = e.target.value; touched();
+    if (k === 'allocation') renderSetup();
+    if (k === 'ca' || k === 'rev1b') updateTotals();
+  };
+  $('setup').addEventListener('input', onGoal);
+  $('setup').addEventListener('change', onGoal);
+
   let toastTimer;
   function toast(msg) { $('toast').textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(() => ($('toast').textContent = ''), 4000); }
 
@@ -1334,31 +1647,65 @@ tr.ev-row > td { padding: 0 6px 12px; }
       $('clearNo').focus();
     } else if (id === 'clearYes') {
       dropFiles(state.rows); expanded.clear();
-      state = blank(); save(); renderMeta(); renderStages(); resetClearButton(); $('csvFallback').hidden = true; toast('Ledger cleared');
+      state = blank(state.region); save(); renderMeta(); renderStages(); resetClearButton(); $('csvFallback').hidden = true; toast('Ledger cleared');
     } else if (id === 'clearNo') {
       resetClearButton();
     }
   });
 
+  const csvQ = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const toCsv = rows => rows.map(l => l.map(csvQ).join(',')).join('\n');
+  const tNum = (v, d) => (v ? v.toFixed(d) : '0');
+  const GASES = ['CO2', 'CH4', 'N2O', 'HFC-32', 'HFC-125', 'HFC-134a', 'HFC-143a', 'HCFC-22', 'CO2e'];
+
   function csv() {
-    const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
-    const head = ['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Scope', 'First month', 'Last month', 'Emissions (t CO2e)', 'Included in total',
+    const head = ['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Factor edited', 'Factor source', 'Scope', 'First month', 'Last month',
+      ...GASES.map(g => `t ${g === 'CO2e' ? 'CO2e pre-characterised' : g}`), `Emissions (t CO2e, ${state.method})`, 'Included in total',
       'Evidence status', 'Document type', 'Reference', 'Period', 'Files'];
     const label = { miss: 'Missing', att: 'Attached', ok: 'Verified' };
-    const body = state.rows.map(r => [
-      STAGES.find(s => s.id === r.stage).name, F[r.key].name, CATS[kindOf(r)], r.supplier, r.note, r.qty, r.unit, r.ef, 'Scope ' + r.scope, MONTHS[mSpan(r)[0]], MONTHS[mSpan(r)[1]], emis(r).toFixed(3), included(r.stage) ? 'yes' : 'no',
-      label[evStatus(r)], (DOCS[r.evidence.doc] || DOCS.other)[0], r.evidence.ref, r.evidence.period, r.evidence.files.map(f => f.name).join('; '),
-    ]);
-    return [head, ...body].map(l => l.map(q).join(',')).join('\n');
+    const body = state.rows.map(r => {
+      const gt = gasT(r);
+      return [
+        STAGES.find(s => s.id === r.stage).name, F[r.key].name, CATS[kindOf(r)], r.supplier, r.note, r.qty, r.unit, showEf(efOf(r) || 0), isEdited(r) ? 'yes' : 'no', isEdited(r) ? 'user' : libSrc(r.key),
+        'Scope ' + r.scope, MONTHS[mSpan(r)[0]], MONTHS[mSpan(r)[1]], ...GASES.map(g => tNum(gt[g], 6)), emis(r).toFixed(3),
+        !included(r.stage) ? 'no (stage excluded)' : outside(r) ? 'no (outside scopes)' : 'yes',
+        label[evStatus(r)], (DOCS[r.evidence.doc] || DOCS.other)[0], r.evidence.ref, r.evidence.period, r.evidence.files.map(f => f.name).join('; '),
+      ];
+    });
+    return toCsv([['CO2Trace export', state.company, state.year, REGIONS[state.region].name, METHODS[state.method]], head, ...body]);
   }
-  $('copyCsv').addEventListener('click', () => {
-    const text = csv();
+
+  // Summary for the Cédula de Operación Anual: direct and indirect sources, mass per gas and t CO2e with AR5
+  function coaCsv() {
+    const g = state.goal, yr = state.year || '';
+    const lines = state.rows.filter(r => included(r.stage) && +r.scope < 3 && qtyOf(r) > 0);
+    const tipo = r => (+r.scope === 2 ? 'Emisión indirecta (energía eléctrica)' : F[r.key].mobile ? 'Fuente móvil' : F[r.key].kind === 'refrig' ? 'Fuente fija (emisiones fugitivas)' : 'Fuente fija');
+    const sum = {}; let total = 0;
+    const body = lines.map(r => {
+      const gt = gasT(r), e = emisWith(r, 'AR5');
+      GASES.forEach(k => (sum[k] = (sum[k] || 0) + (gt[k] || 0))); total += e;
+      return [tipo(r), F[r.key].name, r.note, r.qty, r.unit, ...GASES.map(k => tNum(gt[k], 6)), e.toFixed(4)];
+    });
+    return toCsv([
+      ['Registro Nacional de Emisiones (RENE): resumen para la Cédula de Operación Anual'],
+      ['Empresa', state.company], ['RFC', g.rfc], ['SCIAN', g.scian], ['Ubicación del establecimiento', g.site], ['Periodo', yr ? `1 de enero al 31 de diciembre de ${yr}` : ''],
+      ['Potenciales de calentamiento', 'IPCC AR5 (Acuerdo DOF 14/08/2015)'], ['Factor eléctrico', 'FESEN 2024: 0.444 t CO2e/MWh'], [],
+      ['Tipo de fuente', 'Actividad', 'Descripción (no. y tipo de unidades en fuentes móviles)', 'Cantidad', 'Unidad', ...GASES.map(k => `t ${k === 'CO2e' ? 'CO2e precaracterizado' : k}`), 't CO2e (AR5)'],
+      ...body,
+      ['Total', '', '', '', '', ...GASES.map(k => tNum(sum[k], 6)), total.toFixed(4)],
+      [], ['Umbral RENE', '25,000 t CO2e', total >= RENE_T ? 'Supera el umbral: reporte obligatorio' : 'Debajo del umbral'],
+    ]);
+  }
+
+  function copyText(text, msg) {
     const fb = $('csvFallback');
     const fallback = () => { fb.value = text; fb.hidden = false; fb.focus(); fb.select(); toast('Copy the selected text below'); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => { fb.hidden = true; toast('Copied ' + state.rows.length + ' lines as CSV'); }, fallback);
+      navigator.clipboard.writeText(text).then(() => { fb.hidden = true; toast(msg); }, fallback);
     } else fallback();
-  });
+  }
+  $('copyCsv').addEventListener('click', () => copyText(csv(), 'Copied ' + state.rows.length + ' lines as CSV'));
+  $('copyCoa').addEventListener('click', () => copyText(coaCsv(), 'Copied the RENE (COA) summary as CSV'));
 
   renderMeta();
   renderStages();
