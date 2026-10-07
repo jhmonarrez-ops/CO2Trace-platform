@@ -430,7 +430,7 @@ table.inv { min-width: 0; font-size: 13px; }
 table.inv td.num { white-space: nowrap; }
 table.inv tr.sum td { font-weight: 600; border-top: 1px solid var(--line); }
 ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
-ul.checks li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 8px; background: var(--surface-2); }
+ul.checks li { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 8px; background: var(--surface-2); }
 ul.checks .ck { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; }
 .ck-err .ck { color: var(--miss); }
 .ck-warn .ck { color: var(--warn); }
@@ -454,6 +454,63 @@ td.em.memo { color: var(--muted); font-style: italic; }
   .stage-total { grid-column: 1 / -1; text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) { .fill, .meter i, .g-col i { transition: none; } }
+
+/* Touch screens: say "tap" instead of "hover" */
+.on-touch { display: none; }
+@media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
+.more-btn { display: none; }
+
+/* Phones */
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px !important; }   /* below 16px iOS zooms in on focus */
+  .hero-in { padding-top: 28px; gap: 32px; }
+  .hero-copy { gap: 20px; }
+  .hero-text { gap: 18px; }
+  .hero-text .eyebrow { font-size: 10.5px; letter-spacing: .14em; }
+  .lede { font-size: 15.5px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; }
+  .lede.open { display: block; -webkit-line-clamp: none; line-clamp: none; }
+  .more-btn { display: inline-block; margin-top: -8px; padding: 0; border: 0; background: none; color: var(--hero-accent); font-family: var(--f-label); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  .hero-actions .btn { padding-inline: 10px; text-align: center; }
+  .tree-panel { min-height: 300px; }
+  .tree-cap { font-size: 9.5px; }
+  /* project setup: short fields side by side */
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .meta > .field { grid-column: 1 / -1; }
+  .meta > .field:has(#year), .meta > .field:has(#fuQty) { grid-column: auto; }
+  .actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .actions .btn { padding-inline: 8px; font-size: 10.5px; letter-spacing: .12em; text-align: center; }
+  .actions .btn { width: 100%; }
+  .actions .toast { grid-column: 1 / -1; }
+  #clearWrap { display: flex; gap: 6px; } #clearWrap .btn { flex: 1; }
+  /* KPIs two by two, total across */
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi { padding: 16px; border-radius: 14px; }
+  .kpi.total, .kpi:last-child:nth-child(even) { grid-column: 1 / -1; }
+  .kpi .v { font-size: 26px; }
+  .kpi .k { font-size: 10px; letter-spacing: .12em; }
+  .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .donut-legend { width: 100%; }
+  .g-sum { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  ul.checks li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  /* ledger: each line becomes a card with labelled fields */
+  table.ledger { min-width: 0; display: block; }
+  table.ledger thead, table.ledger colgroup { display: none; }
+  table.ledger tbody { display: block; }
+  table.ledger tr.main { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 16px; border-bottom: 1px solid var(--line); position: relative; }
+  table.ledger tr.main.open { border-bottom-color: transparent; padding-bottom: 8px; }
+  table.ledger tr.main > td { display: block; padding: 0; border: 0; min-width: 0; }
+  table.ledger tr.main > td[data-l]::before { content: attr(data-l); display: block; margin-bottom: 4px; font-family: var(--f-label); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); }
+  table.ledger td.c-act, table.ledger td.c-per { grid-column: 1 / -1; }
+  table.ledger td.c-act { padding-right: 36px; }
+  table.ledger td.c-x { position: absolute; top: 10px; right: 8px; }
+  table.ledger td.c-x .icon-btn { min-width: 36px; height: 36px; }
+  table.ledger td.em { text-align: left; font-size: 20px; align-self: end; }
+  table.ledger td .unit { display: block; padding: 9px 0; }
+  table.ledger .mm select { padding-inline: 8px; flex: 1; }
+  table.ledger tr.ev-row { display: block; }
+  table.ledger tr.ev-row > td { display: block; padding: 0 16px 16px; }
+}
 </style>
 </head>
 <body>
@@ -534,7 +591,8 @@ td.em.memo { color: var(--muted); font-style: italic; }
       <div class="hero-text">
         <div class="eyebrow" data-es="Análisis de ciclo de vida · GHG Protocol · RENE México · ISO 14040/14067">Life cycle assessment · GHG Protocol · RENE México · ISO 14040/14067</div>
         <h1 data-es="Rastrea cada tonelada, &lt;em&gt;de la cuna a la tumba.&lt;/em&gt;">Trace every tonne, <em>from cradle to grave.</em></h1>
-        <p class="lede" data-es="Registra un año de datos de actividad para cada etapa del ciclo de vida, con el proveedor y el documento que comprueba cada cantidad. Elige dónde están tus operaciones: la biblioteca de factores, el método de impacto y las reglas de reporte siguen a Estados Unidos (GHG Protocol, EPA) o a México (RENE). Cada línea se convierte en kilogramos de cada gas de efecto invernadero, se caracteriza en toneladas de CO₂e y se agrupa por alcance, categoría, etapa y proveedor.">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Choose where your operations are: the factor library, impact method and reporting rules follow the US (GHG Protocol, EPA) or México (RENE). Each line is converted to kilograms of each greenhouse gas, characterised to tonnes of CO₂e, and rolled up by scope, category, stage and supplier.</p>
+        <p class="lede" id="lede" data-es="Registra un año de datos de actividad para cada etapa del ciclo de vida, con el proveedor y el documento que comprueba cada cantidad. Elige dónde están tus operaciones: la biblioteca de factores, el método de impacto y las reglas de reporte siguen a Estados Unidos (GHG Protocol, EPA) o a México (RENE). Cada línea se convierte en kilogramos de cada gas de efecto invernadero, se caracteriza en toneladas de CO₂e y se agrupa por alcance, categoría, etapa y proveedor.">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Choose where your operations are: the factor library, impact method and reporting rules follow the US (GHG Protocol, EPA) or México (RENE). Each line is converted to kilograms of each greenhouse gas, characterised to tonnes of CO₂e, and rolled up by scope, category, stage and supplier.</p>
+        <button type="button" class="more-btn" id="ledeMore" aria-expanded="false" aria-controls="lede"><span class="t-open" data-es="Leer más">Read more</span><span class="t-close" data-es="Leer menos">Read less</span></button>
         <div class="hero-actions">
           <button type="button" class="btn primary" data-acct="create" data-es="Crear cuenta">Create account</button>
           <button type="button" class="btn" data-acct="signin" data-es="Iniciar sesión">Sign in</button>
@@ -542,7 +600,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       </div>
       <figure class="tree-panel" id="treePanel" title="Click to grow a new tree" data-es-title="Haz clic para que crezca otro árbol">
         <canvas id="treeCanvas" aria-hidden="true"></canvas>
-        <figcaption class="tree-cap" data-es="Pasa el cursor por las hojas · clic para que crezca otro">Hover the leaves · click to grow another</figcaption>
+        <figcaption class="tree-cap"><span class="on-hover" data-es="Pasa el cursor por las hojas · clic para que crezca otro">Hover the leaves · click to grow another</span><span class="on-touch" data-es="Toca el árbol para que crezca otro">Tap the tree to grow another</span></figcaption>
       </figure>
     </div>
     <div class="setup" id="projectSetup">
@@ -611,7 +669,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     <div class="stages" id="stages"></div>
   </section>
   <aside class="side" aria-labelledby="dashTitle">
-    <div class="side-title"><div class="kicker"><div class="eyebrow" data-es="02 · Resultados">02 · Results</div><h2 id="dashTitle" data-es="Tablero">Dashboard</h2></div><span class="note" data-es="Pasa el cursor sobre cualquier marca para ver los valores">Hover any mark for values</span></div>
+    <div class="side-title"><div class="kicker"><div class="eyebrow" data-es="02 · Resultados">02 · Results</div><h2 id="dashTitle" data-es="Tablero">Dashboard</h2></div><span class="note"><span class="on-hover" data-es="Pasa el cursor sobre cualquier marca para ver los valores">Hover any mark for values</span><span class="on-touch" data-es="Toca cualquier marca para ver los valores">Tap any mark for values</span></span></div>
     <section aria-label="Charts" data-es-aria-label="Gráficas" class="charts" id="charts"></section>
   </aside>
   </div>
@@ -1108,17 +1166,17 @@ td.em.memo { color: var(--muted); font-style: italic; }
       ? `<input id="${r.id}-unit" data-field="unit" type="text" value="${esc(r.unit)}" aria-label="${L('Unit', 'Unidad')}">`
       : `<span class="unit">${esc(r.unit)}</span>`;
     return `<tr class="main${open ? ' open' : ''}" data-id="${r.id}">
-      <td><select id="${r.id}-key" data-field="key" aria-label="${L('Activity', 'Actividad')}">${optionsHtml(r.key)}</select></td>
-      <td><input id="${r.id}-supplier" data-field="supplier" type="text" list="supplierList" value="${esc(r.supplier)}" placeholder="${L('Supplier', 'Proveedor')}" aria-label="${L('Supplier', 'Proveedor')}"></td>
-      <td><input id="${r.id}-note" data-field="note" type="text" value="${esc(r.note)}" placeholder="${L('Site, product or detail', 'Sitio, producto o detalle')}" aria-label="${L('Description', 'Descripción')}"></td>
-      <td><input id="${r.id}-qty" data-field="qty" class="num" type="number" step="any" min="0" value="${esc(r.qty)}" placeholder="0" aria-label="${L('Quantity', 'Cantidad')}"></td>
-      <td>${unitCell}</td>
-      <td><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(ef)}" aria-label="${L('Emission factor, kg CO2e per unit', 'Factor de emisión, kg CO2e por unidad')}" title="${esc(efTitle)}"></td>
-      <td><select id="${r.id}-scope" data-field="scope" aria-label="${L('Scope', 'Alcance')}">${[1, 2, 3].map(s => `<option value="${s}"${+r.scope === s ? ' selected' : ''}>${SA(s)}</option>`).join('')}</select></td>
-      <td><div class="mm">${['m0', 'm1'].map((f, i) => `${i ? '<span aria-hidden="true">–</span>' : ''}<select id="${r.id}-${f}" data-field="${f}" aria-label="${i ? L('Last month of activity', 'Último mes de actividad') : L('First month of activity', 'Primer mes de actividad')}">${MONTHS.map((m, j) => `<option value="${j}"${mSpan(r)[i] === j ? ' selected' : ''}>${m}</option>`).join('')}</select>`).join('')}</div></td>
-      <td class="em r${out ? ' memo' : ''}" data-em${out ? ' title="Outside the scopes under the GHG Protocol: reported separately, not in the total"' : ''}>${fmtT(emis(r))}${out ? '*' : ''}</td>
-      <td data-chip>${chipHtml(r)}</td>
-      <td><button type="button" class="icon-btn" data-remove aria-label="${L('Remove line', 'Quitar línea')}">×</button></td>
+      <td class="c-act" data-l="${L('Activity', 'Actividad')}"><select id="${r.id}-key" data-field="key" aria-label="${L('Activity', 'Actividad')}">${optionsHtml(r.key)}</select></td>
+      <td data-l="${L('Supplier', 'Proveedor')}"><input id="${r.id}-supplier" data-field="supplier" type="text" list="supplierList" value="${esc(r.supplier)}" placeholder="${L('Supplier', 'Proveedor')}" aria-label="${L('Supplier', 'Proveedor')}"></td>
+      <td data-l="${L('Description', 'Descripción')}"><input id="${r.id}-note" data-field="note" type="text" value="${esc(r.note)}" placeholder="${L('Site, product or detail', 'Sitio, producto o detalle')}" aria-label="${L('Description', 'Descripción')}"></td>
+      <td data-l="${L('Quantity', 'Cantidad')}"><input id="${r.id}-qty" data-field="qty" class="num" type="number" step="any" min="0" value="${esc(r.qty)}" placeholder="0" aria-label="${L('Quantity', 'Cantidad')}"></td>
+      <td data-l="${L('Unit', 'Unidad')}">${unitCell}</td>
+      <td data-l="${L('kg CO₂e / unit', 'kg CO₂e / unidad')}"><input id="${r.id}-ef" data-field="ef" class="num${edited ? ' edited' : ''}" type="number" step="any" value="${esc(ef)}" aria-label="${L('Emission factor, kg CO2e per unit', 'Factor de emisión, kg CO2e por unidad')}" title="${esc(efTitle)}"></td>
+      <td data-l="${L('Scope', 'Alcance')}"><select id="${r.id}-scope" data-field="scope" aria-label="${L('Scope', 'Alcance')}">${[1, 2, 3].map(s => `<option value="${s}"${+r.scope === s ? ' selected' : ''}>${SA(s)}</option>`).join('')}</select></td>
+      <td class="c-per" data-l="${L('Months', 'Meses')}"><div class="mm">${['m0', 'm1'].map((f, i) => `${i ? '<span aria-hidden="true">–</span>' : ''}<select id="${r.id}-${f}" data-field="${f}" aria-label="${i ? L('Last month of activity', 'Último mes de actividad') : L('First month of activity', 'Primer mes de actividad')}">${MONTHS.map((m, j) => `<option value="${j}"${mSpan(r)[i] === j ? ' selected' : ''}>${m}</option>`).join('')}</select>`).join('')}</div></td>
+      <td class="em r${out ? ' memo' : ''}" data-l="t CO₂e" data-em${out ? ' title="Outside the scopes under the GHG Protocol: reported separately, not in the total"' : ''}>${fmtT(emis(r))}${out ? '*' : ''}</td>
+      <td data-l="${L('Evidence', 'Evidencia')}" data-chip>${chipHtml(r)}</td>
+      <td class="c-x"><button type="button" class="icon-btn" data-remove aria-label="${L('Remove line', 'Quitar línea')}">×</button></td>
     </tr>${open ? evHtml(r) : ''}`;
   }
 
@@ -1132,7 +1190,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
           <div><h3 style="font-size:20px;font-weight:700">${esc(s.name)}${off ? `<span class="tag">${L('Excluded', 'Excluida')}</span>` : ''}</h3><div class="stage-hint">${esc(s.hint)}</div></div>
           <div class="stage-total"><div class="num" data-stage-total></div><div class="unit-l">t CO₂e</div></div>
         </div>
-        ${rows.length ? `<div class="table-scroll"><table>
+        ${rows.length ? `<div class="table-scroll"><table class="ledger">
           <colgroup><col class="col-act"><col class="col-sup"><col class="col-note"><col class="col-qty"><col class="col-unit"><col class="col-ef"><col class="col-scope"><col class="col-per"><col class="col-em"><col class="col-ev"><col class="col-x"></colgroup>
           <thead><tr><th>${L('Activity', 'Actividad')}</th><th>${L('Supplier', 'Proveedor')}</th><th>${L('Description', 'Descripción')}</th><th class="r">${L('Quantity', 'Cantidad')}</th><th>${L('Unit', 'Unidad')}</th><th class="r">${L('kg CO₂e / unit', 'kg CO₂e / unidad')}</th><th>${L('Scope', 'Alcance')}</th><th>${L('Months', 'Meses')}</th><th class="r">t CO₂e</th><th>${L('Evidence', 'Evidencia')}</th><th><span class="vh">${L('Remove', 'Quitar')}</span></th></tr></thead>
           <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`
@@ -2245,6 +2303,12 @@ td.em.memo { color: var(--muted); font-style: italic; }
   panel.addEventListener('click', () => grow(true));
   // the glyph font may arrive after the first frame
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(kick);
+})();
+
+// Phones: the hero paragraph is clamped to four lines with a Read more toggle
+(function () {
+  const btn = document.getElementById('ledeMore'), lede = document.getElementById('lede'); if (!btn || !lede) return;
+  btn.addEventListener('click', () => { const on = !lede.classList.contains('open'); lede.classList.toggle('open', on); btn.setAttribute('aria-expanded', on); });
 })();
 
 // Account buttons: accounts are not live yet, so the dialog explains what is coming
