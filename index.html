@@ -122,6 +122,22 @@ button, input, select { font: inherit; color: inherit; }
 .sw { width: 11px; height: 11px; border-radius: 2px; background: var(--c); display: inline-block; }
 .stack { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--surface-2); gap: 2px; }
 .stack div { background: var(--c); min-width: 0; }
+.card.full { grid-column: 1 / -1; }
+.donut-wrap { display: grid; grid-template-columns: minmax(0, 180px) minmax(0, 1fr); gap: 18px; align-items: center; }
+.donut-wrap svg { width: 100%; max-width: 180px; height: auto; display: block; }
+.donut-legend { display: grid; gap: 10px; font-size: 13px; }
+.donut-legend div { display: grid; grid-template-columns: 11px minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; }
+.donut-legend .d-v { grid-column: 2 / -1; font-family: var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12.5px; }
+.donut-legend b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.radial-wrap { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 20px; align-items: center; }
+.radial-wrap svg { width: 100%; height: auto; display: block; }
+.radial-side { display: grid; gap: 12px; align-content: center; }
+.radial-side .legend { display: grid; gap: 6px; }
+svg .wedge { transition: opacity .2s; }
+svg .wedge:hover { opacity: .75; }
+svg text { font-family: var(--f-body); }
+@media (max-width: 760px) { .radial-wrap { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 420px) { .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; } .donut-legend { width: 100%; } }
 ol.hot, ul.gaps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
 ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
 .linkish { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; font-size: 13px; }
@@ -649,6 +665,87 @@ tr.ev-row > td { padding: 0 6px 12px; }
   }
   const emptyMsg = '<p class="note">Enter quantities in the ledger to fill this chart.</p>';
 
+  // Donut: scope shares. Circle stroke segments, starting at 12 o'clock.
+  function donutCard(t) {
+    if (!(t.total > 0)) return `<div class="card"><h3>Scope split</h3>${emptyMsg}</div>`;
+    const r = 70, C = 2 * Math.PI * r, gap = 2;
+    let off = 0;
+    const segs = [1, 2, 3].map(s => {
+      const len = (t.byScope[s] / t.total) * C;
+      const seg = len > 0 ? `<circle cx="100" cy="100" r="${r}" fill="none" style="stroke: var(--s${s})" stroke-width="30"
+        stroke-dasharray="${Math.max(len - gap, 0.5)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)"><title>Scope ${s}: ${fmtT(t.byScope[s])} t (${pct(t.byScope[s], t.total)})</title></circle>` : '';
+      off += len;
+      return seg;
+    }).join('');
+    return `<div class="card">
+      <h3>Scope split</h3>
+      <p class="cap">Share of the ${state.boundary === 'gate' ? 'cradle-to-gate' : 'cradle-to-grave'} total by GHG Protocol scope.</p>
+      <div class="donut-wrap">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Donut chart: ${[1, 2, 3].map(s => 'Scope ' + s + ' ' + pct(t.byScope[s], t.total)).join(', ')}">
+          <circle cx="100" cy="100" r="${r}" fill="none" style="stroke: var(--surface-2)" stroke-width="30"></circle>
+          ${segs}
+          <text x="100" y="98" text-anchor="middle" style="fill: var(--ink); font-family: var(--f-display); font-weight: 700" font-size="24">${fmtT(t.total)}</text>
+          <text x="100" y="118" text-anchor="middle" style="fill: var(--muted)" font-size="11">t CO₂e</text>
+        </svg>
+        <div class="donut-legend">${[1, 2, 3].map(s => `<div style="--c: var(--s${s})"><span class="sw"></span><span>Scope ${s} · ${SCOPE_NAMES[s]}</span><b>${pct(t.byScope[s], t.total)}</b><span class="d-v">${fmtT(t.byScope[s])} t CO₂e</span></div>`).join('')}</div>
+      </div>
+    </div>`;
+  }
+
+  // Radial histogram: three scope sectors, one bar per category in each. Bar length on a square-root scale.
+  function radialCard(t, catOrder) {
+    const title = '<h3>Categories in each scope · radial histogram</h3>';
+    if (!(t.total > 0) || !catOrder.length) return `<div class="card full">${title}${emptyMsg}</div>`;
+    const R0 = 46, R1 = 150, GAP = 0.32, TAU = Math.PI * 2;
+    const span = (TAU - 3 * GAP) / 3, n = catOrder.length;
+    let max = 0;
+    [1, 2, 3].forEach(s => catOrder.forEach(k => { max = Math.max(max, t.byCatScope[s][k] || 0); }));
+    const rad = v => R0 + (R1 - R0) * Math.sqrt(v / max);
+    const pt = (a, r) => `${(r * Math.sin(a)).toFixed(2)} ${(-r * Math.cos(a)).toFixed(2)}`;
+    const wedge = (a0, a1, r0, r1) => {
+      const large = a1 - a0 > Math.PI ? 1 : 0;
+      return `M ${pt(a0, r0)} L ${pt(a0, r1)} A ${r1} ${r1} 0 ${large} 1 ${pt(a1, r1)} L ${pt(a1, r0)} A ${r0} ${r0} 0 ${large} 0 ${pt(a0, r0)} Z`;
+    };
+    // grid rings at nice fractions of the largest bar
+    const rings = [0.01, 0.1, 0.25, 0.5, 1].map(f => f * max);
+    let svg = rings.map(v => `<circle cx="0" cy="0" r="${rad(v).toFixed(2)}" fill="none" style="stroke: var(--line)" stroke-width="0.8" ${v === max ? '' : 'stroke-dasharray="2 3"'}></circle>
+      <text x="3" y="${(-rad(v) + 3.5).toFixed(2)}" style="fill: var(--muted); stroke: var(--surface); stroke-width: 3px; paint-order: stroke" font-size="8.5">${fmtT(v)}</text>`).join('');
+    svg += `<circle cx="0" cy="0" r="${R0}" fill="none" style="stroke: var(--line)" stroke-width="0.8"></circle>`;
+    [1, 2, 3].forEach((s, i) => {
+      const start = GAP / 2 + i * (span + GAP), slot = span / n, pad = slot * 0.14;
+      // sector track
+      svg += `<path d="${wedge(start, start + span, R0, R1)}" style="fill: var(--surface-2)" opacity="0.45"></path>`;
+      catOrder.forEach((k, j) => {
+        const v = t.byCatScope[s][k] || 0;
+        if (v <= 0) return;
+        const a0 = start + j * slot + pad, a1 = start + (j + 1) * slot - pad;
+        svg += `<path class="wedge" d="${wedge(a0, a1, R0, rad(v))}" style="fill: var(--c-${k})"><title>Scope ${s} · ${esc(CATS[k])}: ${fmtT(v)} t CO₂e (${pct(v, t.byScope[s])} of Scope ${s})</title></path>`;
+      });
+      // inner scope-colored arc marks which sector is which scope
+      svg += `<path d="${wedge(start, start + span, R0 - 7, R0 - 2)}" style="fill: var(--s${s})"></path>`;
+      const mid = start + span / 2, lx = (R1 + 20) * Math.sin(mid), ly = -(R1 + 20) * Math.cos(mid);
+      const anchor = Math.abs(lx) < 20 ? 'middle' : lx > 0 ? 'start' : 'end';
+      svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" style="fill: var(--ink); font-weight: 600" font-size="12">Scope ${s}</text>
+        <text x="${lx.toFixed(1)}" y="${(ly + 13).toFixed(1)}" text-anchor="${anchor}" style="fill: var(--muted)" font-size="10">${fmtT(t.byScope[s])} t · ${pct(t.byScope[s], t.total)}</text>`;
+    });
+    const biggest = [1, 2, 3].map(s => {
+      const top = catOrder.filter(k => t.byCatScope[s][k] > 0).sort((a, b) => t.byCatScope[s][b] - t.byCatScope[s][a])[0];
+      return top ? `<li>Scope ${s}: <b>${esc(CATS[top])}</b> <span>${fmtT(t.byCatScope[s][top])} t · ${pct(t.byCatScope[s][top], t.byScope[s])} of the scope</span></li>` : `<li>Scope ${s}: no emissions entered</li>`;
+    }).join('');
+    return `<div class="card full">
+      ${title}
+      <p class="cap">Each sector is a scope and each bar a category, in the same order in every sector. Bar length uses a square-root scale so small sources stay visible; read exact values from the rings or hover a bar.</p>
+      <div class="radial-wrap">
+        <svg viewBox="-235 -195 470 400" role="img" aria-label="Radial histogram of emission categories within Scope 1, 2 and 3">${svg}</svg>
+        <div class="radial-side">
+          <div class="label">Largest category per scope</div>
+          <ul class="gaps">${biggest}</ul>
+          <div class="legend">${catOrder.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
   function renderCharts(t) {
     const cats = Object.entries(t.byCat).sort((a, b) => b[1] - a[1]);
     const maxCat = cats.length ? cats[0][1] : 0;
@@ -731,7 +828,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
       <p class="note">Totals cover only the lines entered. Scope 3 is complete only when every relevant category has activity data.</p>
     </div>`;
 
-    $('charts').innerHTML = catCard + csCard + supCard + evCard + stageCard + hotCard;
+    $('charts').innerHTML = donutCard(t) + catCard + radialCard(t, catOrder) + csCard + supCard + evCard + stageCard + hotCard;
   }
 
   // ---------- events ----------

@@ -13,7 +13,7 @@ Toggle cradle-to-gate (stages 1–3) or cradle-to-grave (1–5).
 
 ## Dashboard
 - Key metrics: total t CO₂e, Scope 1, 2 and 3 with share of total, kg CO₂e per functional unit, evidence coverage.
-- Charts: largest emission categories, categories within each scope (with a category × scope table), emissions by supplier, evidence status, life-cycle stage, hotspots.
+- Charts: scope donut, radial histogram of categories within each scope, largest emission categories, categories within each scope (with a category × scope table), emissions by supplier, evidence status, life-cycle stage, hotspots.
 
 ## Evidence
 Each ledger line has an evidence panel: document type (utility bills for electricity, gas and water, fuel invoices, purchase invoices, freight invoices, waste manifests, refrigerant service logs, supplier EPDs and more), reference number, period covered, attached files and a reviewer "verified" check. Lines are Missing, Attached or Verified, and coverage is weighted by emissions. Files are stored in the browser's IndexedDB on that device only.
