@@ -12,3 +12,4 @@
 
 - Hosting: GitHub Pages from `main` (repo public since 2026-10-07), custom domain co2trace.io via `CNAME`; DNS at GoDaddy. Pushing to main deploys the live site.
 - Mexican RENE rules (AR5 GWPs, FESEN grid factor, Mexican fuel factors, COA format): `docs/mexico-rene.md`. SimaPro modelling concepts and how CO2Trace maps onto them: `docs/simapro-model.md`.
+- Language follows the country: México = Spanish (es-MX), US = English. Static text carries `data-es` / `data-es-placeholder|title|aria-label`; `applyLang()` (called from `renderMeta`) swaps them and switches `CATS`, `METHODS`, `DOCS`, `MONTHS`, stage, factor and region names. Rendered text uses `L(en, es)`, `SC(s)` (Scope/Alcance) and `SA(s)` (S1/A1). México-only text (RENE card and checks, COA) is Spanish only; US-only text is English only. `example(region)` writes the example in that language with identical figures, and switching region rewrites an untouched example.
