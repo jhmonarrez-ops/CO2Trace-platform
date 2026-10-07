@@ -12,34 +12,37 @@
 <style>
 /* Layout: industrial editorial. A dark full-bleed hero (logo, nav, headline, project setup), then a scope KPI band, and the activity ledger on the left with the dashboard pinned on the right. Big light Manrope headings, Space Mono eyebrows and buttons, white rounded cards on a cool grey page. */
 :root {
-  --go: #008000; --go-ink: #FFFFFF;
-  --bg: #F1F5F5;
+  /* brand: navy #284B63 and green #38B000 */
+  --brand: #284B63; --brand-green: #38B000;
+  --go: #38B000; --go-ink: #10202B;
+  --title: #284B63; --kick: #2A7A00;
+  --bg: #EEF0EB;
   --surface: #FFFFFF;
-  --surface-2: #EBF0F1;
-  --ink: #232B30;
-  --muted: #5F6F7E;
-  --slate: #46586B;
-  --line: #DCE3E6;
-  --accent: #232B30;
+  --surface-2: #E5E9E1;
+  --ink: #1D2B35;
+  --muted: #5A6A74;
+  --slate: #284B63;
+  --line: #DADFD5;
+  --accent: #284B63;
   --accent-ink: #FFFFFF;
-  --hero: #1E201F;
+  --hero: #284B63;
   --hero-ink: #FFFFFF;
   --hero-muted: rgb(255 255 255 / .7);
   --hero-line: rgb(255 255 255 / .16);
   --shadow: 0 1px 2px rgb(35 43 48 / .04), 0 12px 40px -24px rgb(35 43 48 / .25);
   --warn: #9A5B12;
   --warn-bg: #FBF0DF;
-  --ok: #2E7D4F;
-  --ok-soft: #8CC2A2;
+  --ok: #2A7A00;
+  --ok-soft: #9DD07C;
   --miss: #B23A3A;
-  --s1: #2C4257;
-  --s2: #6A87A3;
-  --s3: #B4C6D6;
+  --s1: #284B63;
+  --s2: #7397B0;
+  --s3: #38B000;
   --c-mat: #8A6A3B;
   --c-fuel: #B8582F;
-  --c-elec: #3A6E9C;
+  --c-elec: #284B63;
   --c-refrig: #74558F;
-  --c-transport: #2E8577;
+  --c-transport: #38B000;
   --c-waste: #6F767D;
   --c-custom: #A08A2E;
   --on-c: #FFFFFF;
@@ -50,20 +53,20 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #161818; --surface: #1F2322; --surface-2: #282D2C; --ink: #E8EDEE; --muted: #9AA8B3; --slate: #A9BACB; --line: #333A3A;
-    --accent: #E8EDEE; --accent-ink: #161818; --hero: #0F1110; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
-    --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
-    --s1: #B9D0E4; --s2: #7092B2; --s3: #3E5770;
-    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
+    --bg: #12181C; --surface: #1A2329; --surface-2: #233038; --ink: #E7EDEF; --muted: #9AABB5; --slate: #A9C6DA; --line: #2E3B43;
+    --accent: #B7D3E6; --accent-ink: #10202B; --hero: #0F2230; --title: #B7D3E6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+    --warn: #E8B36A; --warn-bg: #2C2416; --ok: #5FCF24; --ok-soft: #2F6B1A; --miss: #E8807A;
+    --s1: #A9C6DA; --s2: #5E87A3; --s3: #38B000;
+    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F9CC0; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #161818; --surface: #1F2322; --surface-2: #282D2C; --ink: #E8EDEE; --muted: #9AA8B3; --slate: #A9BACB; --line: #333A3A;
-  --accent: #E8EDEE; --accent-ink: #161818; --hero: #0F1110; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
-  --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
-  --s1: #B9D0E4; --s2: #7092B2; --s3: #3E5770;
-  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6FA8DC; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
+  --bg: #12181C; --surface: #1A2329; --surface-2: #233038; --ink: #E7EDEF; --muted: #9AABB5; --slate: #A9C6DA; --line: #2E3B43;
+  --accent: #B7D3E6; --accent-ink: #10202B; --hero: #0F2230; --title: #B7D3E6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+  --warn: #E8B36A; --warn-bg: #2C2416; --ok: #5FCF24; --ok-soft: #2F6B1A; --miss: #E8807A;
+  --s1: #A9C6DA; --s2: #5E87A3; --s3: #38B000;
+  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F9CC0; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
   color-scheme: dark;
 }
 
@@ -78,6 +81,8 @@ button, input, select { font: inherit; color: inherit; }
 .section-title { display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
 .section-title h2, .side-title h2 { font-size: clamp(28px, 2.6vw, 40px); line-height: 1.05; }
 .kicker { display: grid; gap: 10px; }
+.kicker .eyebrow { color: var(--kick); }
+.section-title h2, .side-title h2, .card h3, .stage-head h2, .stage-head h3 { color: var(--title); }
 .eyebrow { font-family: var(--f-label); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--slate); }
 
 /* Hero: dark full-bleed band */
@@ -163,7 +168,8 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .brand .logo { height: clamp(34px, 4vw, 48px); width: auto; display: block; color: var(--hero-ink); }
 .hero-copy { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px clamp(24px, 6vw, 120px); align-items: end; }
 .hero-copy h1 { font-size: clamp(42px, 6vw, 88px); line-height: .92; letter-spacing: -.02em; font-weight: 400; }
-.hero-copy h1 em { font-style: normal; color: var(--hero-muted); }
+.hero-copy h1 em { font-style: normal; color: var(--brand-green); }
+.brand .logo #footprints { fill: var(--brand-green); }
 .hero-side { display: grid; gap: 24px; justify-items: start; }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
 .setup { border-top: 1px solid var(--hero-line); padding-top: 24px; display: grid; gap: 18px; }
@@ -306,7 +312,7 @@ ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted
 .stages { display: grid; gap: 18px; min-width: 0; }
 .stage { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); min-width: 0; overflow: hidden; }
 .stage-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 18px; align-items: center; padding: 22px 24px; border-bottom: 1px solid var(--line); }
-.stage-no { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-label); font-size: 13px; color: var(--slate); border: 1px solid var(--slate); }
+.stage-no { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-label); font-size: 13px; color: var(--kick); border: 1.5px solid var(--brand-green); }
 .stage-head h2 { font-size: clamp(22px, 1.8vw, 28px); font-weight: 400; }
 .stage-hint { font-size: 13px; color: var(--muted); }
 .stage-total { text-align: right; }
@@ -406,7 +412,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
 .method { background: var(--hero); color: #FFFFFF; border-radius: 18px; padding: clamp(28px, 5vw, 72px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 20px clamp(24px, 6vw, 96px); align-items: start; }
 .method .kicker { position: sticky; top: 24px; }
-.method .eyebrow { color: rgb(255 255 255 / .62); }
+.method .eyebrow { color: var(--brand-green); }
 .method h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; }
 .method .body { display: grid; gap: 14px; }
 .method p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .78); }
