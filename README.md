@@ -13,6 +13,7 @@ Toggle cradle-to-gate (stages 1–3) or cradle-to-grave (1–5).
 
 ## Dashboard
 - Key metrics: total t CO₂e, Scope 1, 2 and 3 with share of total, kg CO₂e per functional unit, evidence coverage.
+- Layout: activity ledger on the left, dashboard pinned on the right (stacked above the ledger on screens under 1100px).
 - Charts: scope donut, categories per scope as a radial histogram or a treemap (all scopes or one scope at a time), a monthly Gantt showing which months each line covers and the peak month and quarter, largest emission categories, categories within each scope (with a category × scope table), emissions by supplier, evidence status, life-cycle stage, hotspots.
 
 ## Evidence

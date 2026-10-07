@@ -60,7 +60,7 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
-.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 24px; }
+.wrap { max-width: 1760px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 24px; }
 h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
 .num, .mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 button, input, select { font: inherit; color: inherit; }
@@ -104,9 +104,19 @@ button, input, select { font: inherit; color: inherit; }
 .meter { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: flex; }
 .meter i { display: block; height: 100%; background: var(--c); transition: width .35s ease; }
 
+/* Workspace: inventory on the left, dashboard pinned on the right */
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) clamp(340px, 27vw, 460px); gap: 20px; align-items: start; }
+.side { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; overscroll-behavior: contain; container: side / inline-size; display: grid; gap: 10px; padding-right: 2px; scrollbar-width: thin; }
+.side-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.side-title h2 { font-size: 22px; font-weight: 600; }
+@media (max-width: 1100px) {
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; max-height: none; overflow: visible; order: -1; }
+}
+
 /* Charts */
-.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); grid-auto-flow: dense; gap: 16px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); grid-auto-flow: dense; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
 .card h3 { font-size: 16px; font-weight: 600; }
 .card .cap { font-size: 12.5px; color: var(--muted); margin: -8px 0 0; }
 .bars { display: grid; gap: 9px; }
@@ -125,8 +135,8 @@ button, input, select { font: inherit; color: inherit; }
 .stack { display: flex; height: 22px; border-radius: 3px; overflow: hidden; background: var(--surface-2); gap: 2px; }
 .stack div { background: var(--c); min-width: 0; }
 .card.full { grid-column: 1 / -1; }
-.donut-wrap { display: grid; grid-template-columns: minmax(0, 180px) minmax(0, 1fr); gap: 18px; align-items: center; }
-.donut-wrap svg { width: 100%; max-width: 180px; height: auto; display: block; }
+.donut-wrap { display: grid; grid-template-columns: minmax(0, 140px) minmax(0, 1fr); gap: 18px; align-items: center; }
+.donut-wrap svg { width: 100%; max-width: 140px; height: auto; display: block; }
 .donut-legend { display: grid; gap: 10px; font-size: 13px; }
 .donut-legend div { display: grid; grid-template-columns: 11px minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; }
 .donut-legend .d-v { grid-column: 2 / -1; font-family: var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); font-size: 12.5px; }
@@ -179,11 +189,11 @@ svg text { font-family: var(--f-body); }
 .g-bar { align-self: center; height: 16px; margin: 0 2px; border-radius: 3px; background: var(--c); transition: filter .2s; }
 .g-bar:hover, .g-bar.hot { filter: brightness(1.15) saturate(1.1); }
 .mm { display: flex; align-items: center; gap: 2px; }
-.mm select { padding-inline: 3px; }
+.mm select { padding-inline: 4px 0; min-width: 0; }
 .mm span { color: var(--muted); }
-@media (max-width: 760px) { .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); } .tm { height: 360px; } }
-@media (max-width: 640px) { .g-m .long { display: none; } .g-m .short { display: inline; } .gantt { grid-template-columns: minmax(96px, 130px) repeat(12, minmax(0, 1fr)); } .g-col { padding: 0 1px; } .g-bar { margin: 0 1px; } }
-@media (max-width: 420px) { .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; } .donut-legend { width: 100%; } }
+@container side (max-width: 760px) { .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); } .tm { height: 300px; } .radial-wrap svg { max-width: 420px; margin-inline: auto; } }
+@container side (max-width: 640px) { .g-m .long { display: none; } .g-m .short { display: inline; } .gantt { grid-template-columns: minmax(96px, 130px) repeat(12, minmax(0, 1fr)); } .g-col { padding: 0 1px; } .g-bar { margin: 0 1px; } }
+@container side (max-width: 340px) { .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; } .donut-legend { width: 100%; } }
 ol.hot, ul.gaps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
 ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
 .linkish { border: 0; background: none; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; font-size: 13px; }
@@ -204,7 +214,7 @@ ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted
 .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; background: var(--surface-2); color: var(--muted); margin-left: 6px; vertical-align: 2px; }
 
 .table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 1240px; }
+table { width: 100%; border-collapse: collapse; min-width: 980px; }
 th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 8px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th.r, td.r { text-align: right; }
 td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -216,7 +226,7 @@ td input.num { text-align: right; }
 td input.edited { border-color: var(--warn); }
 td .unit { font-family: var(--f-mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
 td.em { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; white-space: nowrap; }
-.col-act { width: 16%; } .col-sup { width: 12%; } .col-note { width: 13%; } .col-qty { width: 9%; } .col-unit { width: 5%; } .col-ef { width: 8%; } .col-scope { width: 6%; } .col-per { width: 12%; } .col-em { width: 8%; } .col-ev { width: 11%; } .col-x { width: 40px; }
+.col-act { width: 15%; } .col-sup { width: 11%; } .col-note { width: 11%; } .col-qty { width: 10%; } .col-unit { width: 5%; } .col-ef { width: 8%; } .col-scope { width: 7%; } .col-per { width: 14%; } .col-em { width: 8%; } .col-ev { width: 11%; } .col-x { width: 40px; }
 .icon-btn { min-width: 28px; height: 28px; border: 0; border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
 .icon-btn:hover { background: var(--surface-2); color: var(--miss); }
 .icon-btn.armed { font-size: 12px; font-weight: 600; color: var(--miss); padding: 0 6px; }
@@ -303,12 +313,16 @@ tr.ev-row > td { padding: 0 6px 12px; }
   </header>
 
   <section aria-label="Key metrics" class="kpis" id="kpis"></section>
-  <section aria-label="Charts" class="charts" id="charts"></section>
-
+  <div class="workspace">
   <section class="stages" aria-labelledby="ledgerTitle">
     <div class="section-title"><h2 id="ledgerTitle">Activity ledger</h2><span class="note">Open “Evidence” on any line to attach bills, invoices or manifests.</span></div>
     <div class="stages" id="stages"></div>
   </section>
+  <aside class="side" aria-labelledby="dashTitle">
+    <div class="side-title"><h2 id="dashTitle">Dashboard</h2><span class="note">Hover any mark for values</span></div>
+    <section aria-label="Charts" class="charts" id="charts"></section>
+  </aside>
+  </div>
   <datalist id="supplierList"></datalist>
 
   <section class="method">
@@ -1213,6 +1227,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
   chartsEl.addEventListener('pointerdown', onTipMove);
   chartsEl.addEventListener('pointerleave', hideTip);
   window.addEventListener('scroll', hideTip, { passive: true });
+  chartsEl.closest('.side').addEventListener('scroll', hideTip, { passive: true });
 
   // preview overlay
   let previewUrl = null;
