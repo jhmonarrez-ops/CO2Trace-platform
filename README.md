@@ -13,6 +13,13 @@ A single-page life cycle assessment (LCA) carbon calculator. Enter a year of act
 
 Toggle cradle-to-gate (stages 1–3) or cradle-to-grave (1–5).
 
+## Country and method
+Choose **Operations in: United States or México**. The factor library, impact method and reporting rules follow the choice:
+- **México:** RENE factors (Calculadora RENE v9.0) for fuels and own vehicles, FESEN 2024 grid factor (0.444 t CO₂e/MWh), IPCC AR5 GWPs, a 25,000 t CO₂e RENE threshold check and a COA summary export.
+- **United States:** US EPA GHG Emission Factors Hub 2025 per gas, eGRID2023 average and subregions, IPCC AR6 by default, Scope 2 location- and market-based, and EPA GHGRP and California SB 253 notes.
+
+As in SimaPro, each factor is an inventory of gases (kg CO₂, CH₄, N₂O, HFCs per unit) characterised by the selected impact method (IPCC AR6, AR5 or AR4 GWP100). The Project setup panel holds the ISO 14044 goal and scope and lists the libraries in use. The dashboard adds an inventory-by-substance table and a Checks list.
+
 ## Dashboard
 - Key metrics: total t CO₂e, Scope 1, 2 and 3 with share of total, kg CO₂e per functional unit, evidence coverage.
 - Layout: activity ledger on the left, dashboard pinned on the right (stacked above the ledger on screens under 1100px).
@@ -22,7 +29,7 @@ Toggle cradle-to-gate (stages 1–3) or cradle-to-grave (1–5).
 Each ledger line has an evidence panel: document type (utility bills for electricity, gas and water, fuel invoices, purchase invoices, freight invoices, waste manifests, refrigerant service logs, supplier EPDs and more), reference number, period covered, attached files and a reviewer "verified" check. Lines are Missing, Attached or Verified, and coverage is weighted by emissions. Files are stored in the browser's IndexedDB on that device only.
 
 ## Method
-Emissions (t CO₂e) = quantity × factor (kg CO₂e/unit) ÷ 1000.
+Emissions (t CO₂e) = Σ over gases of quantity × kg of gas per unit × GWP ÷ 1000. Edited and custom factors are kg CO₂e per unit.
 
 Library factors are typical screening values (US EPA GHG Emission Factors Hub, UK DESNZ/DEFRA, worldsteel/IAI averages, SEMARNAT/CRE Mexico grid factor, IPCC AR6 GWP100). Replace them with your own sources, supplier EPDs or a licensed LCI database for a verified inventory. Edited factors are outlined in the table.
 
