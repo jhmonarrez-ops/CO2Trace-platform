@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CO2Trace</title>
+<script>try { const t = localStorage.getItem('co2trace-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22735.8%20-0.6%20156.9%20156.9%22%3E%3Cstyle%3Epath%7Bfill%3A%2316201E%7D%40media%20%28prefers-color-scheme%3Adark%29%7Bpath%7Bfill%3A%23E3EBE8%7D%7D%3C/style%3E%3Cpath%20d%3D%22M789.76%20151.20C787.39%20150.32%20786.47%20149.76%20784.64%20148.10C781.76%20145.50%20779.31%20141.15%20777.53%20135.50C776.98%20133.74%20774.93%20127.75%20774.10%20125.50C773.56%20124.00%20771.68%20120.18%20770.01%20117.17C768.92%20115.21%20767.70%20113.27%20762.84%20105.83C758.24%2098.79%20756.56%2095.50%20755.62%2091.67C753.85%2084.45%20755.99%2077.80%20762.18%2071.29C767.96%2065.21%20773.91%2061.31%20781.33%2058.76C789.61%2055.91%20797.09%2057.52%20799.81%2062.73C801.99%2066.90%20802.49%2070.50%20801.47%2074.57C800.52%2078.34%20798.94%2080.84%20794.20%2086.00C790.99%2089.50%20788.25%2093.25%20786.96%2095.91C785.89%2098.11%20785.87%2098.28%20785.87%20102.50C785.88%20106.19%20785.99%20107.10%20786.61%20108.61C788.50%20113.18%20791.51%20116.58%20798.01%20121.50C802.91%20125.20%20805.10%20127.41%20806.77%20130.30C808.59%20133.46%20809.13%20135.47%20809.12%20139.00C809.12%20141.71%20808.99%20142.44%20808.23%20144.07C806.63%20147.54%20803.49%20150.25%20799.71%20151.44C797.02%20152.28%20792.39%20152.17%20789.76%20151.20ZM831.17%20125.99C826.98%20125.41%20822.13%20121.92%20819.97%20117.93C818.86%20115.88%20818.83%20115.74%20818.84%20112.00C818.86%20108.34%20818.91%20108.07%20819.95%20106.01C821.79%20102.37%20824.08%2099.93%20829.33%2096.00C839.74%2088.21%20842.84%2083.10%20842.16%2074.86C841.79%2070.30%20839.98%2067.22%20833.85%2060.67C830.20%2056.76%20827.63%2052.83%20826.46%2049.33C826.01%2048.00%20825.85%2046.59%20825.87%2044.17C825.89%2041.13%20825.99%2040.63%20826.96%2038.60C828.17%2036.08%20830.47%2033.77%20832.95%2032.60C834.30%2031.97%20835.07%2031.87%20838.83%2031.87C842.82%2031.86%20843.43%2031.94%20846.45%2032.93C855.03%2035.74%20862.56%2041.02%20867.58%2047.75C871.26%2052.68%20872.63%2056.26%20872.65%2061.00C872.68%2066.16%20870.36%2072.56%20866.36%2078.32C858.45%2089.73%20854.23%2097.56%20851.35%20106.17C848.84%20113.67%20848.73%20113.96%20847.25%20116.74C843.56%20123.69%20837.93%20126.92%20831.17%20125.99ZM748.76%2075.03C746.70%2073.54%20745.78%2070.37%20746.82%2068.36C747.52%2067.01%20748.74%2066.80%20750.41%2067.74C752.36%2068.83%20753.71%2070.64%20753.91%2072.45C754.28%2075.75%20751.61%2077.09%20748.76%2075.03ZM755.93%2067.06C754.54%2066.90%20752.22%2064.13%20751.75%2062.07C751.05%2059.04%20752.15%2057.00%20754.48%2057.00C756.54%2057.00%20758.18%2058.37%20759.42%2061.11C760.22%2062.89%20760.15%2064.29%20759.18%2065.71C758.36%2066.93%20757.57%2067.26%20755.93%2067.06ZM763.14%2059.37C761.57%2058.42%20760.13%2056.46%20759.49%2054.43C759.01%2052.88%20758.98%2052.38%20759.32%2051.24C760.27%2048.08%20763.35%2046.94%20765.54%2048.94C766.81%2050.09%20767.71%2051.44%20768.24%2052.99C769.81%2057.47%20766.60%2061.48%20763.14%2059.37ZM773.93%2054.22C771.25%2053.01%20769.00%2048.84%20769.00%2045.08C769.00%2041.53%20770.69%2039.83%20774.08%2039.96C776.57%2040.06%20780.00%2045.60%20780.00%2049.52C780.00%2052.61%20776.45%2055.36%20773.93%2054.22ZM789.23%2051.99C787.40%2051.44%20785.01%2049.29%20783.94%2047.21C782.23%2043.88%20781.67%2039.99%20782.49%2037.13C783.12%2034.96%20783.55%2034.35%20785.47%2032.95C788.38%2030.82%20792.99%2032.52%20795.10%2036.50C797.07%2040.22%20797.68%2046.04%20796.36%2048.60C794.83%2051.58%20792.13%2052.87%20789.23%2051.99ZM875.26%2049.42C873.85%2047.80%20873.69%2046.54%20874.65%2044.44C875.34%2042.91%20877.66%2040.99%20878.80%2041.01C879.61%2041.02%20880.74%2041.88%20881.28%2042.91C882.64%2045.45%20879.77%2050.00%20876.81%2050.00C876.24%2050.00%20875.54%2049.74%20875.26%2049.42ZM869.83%2041.02C868.46%2040.46%20867.86%2039.38%20867.86%2037.50C867.86%2035.98%20868.04%2035.44%20869.10%2033.91C871.18%2030.89%20872.98%2030.36%20875.17%2032.13C876.09%2032.88%20876.17%2033.10%20876.17%2035.08C876.17%2037.06%20876.07%2037.34%20874.93%2038.74C873.75%2040.17%20871.92%2041.36%20870.95%2041.31C870.70%2041.30%20870.20%2041.17%20869.83%2041.02ZM861.10%2034.01C859.63%2033.12%20859.00%2031.73%20859.00%2029.43C859.01%2027.12%20860.24%2024.67%20862.23%2023.04C863.95%2021.62%20865.29%2021.65%20866.92%2023.14L868.17%2024.28L868.17%2027.08C868.17%2029.64%20868.09%2029.99%20867.23%2031.12C865.89%2032.87%20865.00%2033.65%20863.71%2034.19C862.30%2034.79%20862.38%2034.79%20861.10%2034.01ZM849.99%2028.25C848.17%2027.33%20847.37%2025.86%20847.35%2023.40C847.32%2019.80%20849.41%2016.16%20852.39%2014.64C853.81%2013.91%20854.47%2013.99%20855.82%2015.05C859.57%2018.00%20858.08%2025.91%20853.30%2028.35C851.72%2029.16%20851.79%2029.16%20849.99%2028.25ZM834.17%2026.20C830.51%2024.60%20829.27%2020.13%20830.82%2014.17C833.05%205.61%20841.39%203.39%20844.47%2010.54C845.42%2012.73%20845.12%2018.23%20843.92%2020.68C841.59%2025.45%20837.61%2027.71%20834.17%2026.20Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,6 +86,15 @@ button, input, select { font: inherit; color: inherit; }
 .nav ul { display: flex; gap: clamp(16px, 3vw, 44px); list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
 .nav a { color: var(--hero-ink); text-decoration: none; font-weight: 600; font-size: 15px; }
 .nav a:hover { color: var(--hero-muted); }
+.nav ul { margin-left: auto; }
+.nav-tools { display: flex; gap: 10px; align-items: center; }
+.seg.pill { border-radius: 999px; border-color: var(--hero-line); background: transparent; }
+.seg.pill button { flex: none; padding: 7px 14px; font-family: var(--f-label); font-size: 11.5px; letter-spacing: .14em; color: var(--hero-muted); }
+.seg.pill button:hover { color: var(--hero-ink); }
+.seg.pill button[aria-pressed="true"] { background: var(--hero-ink); color: var(--hero); font-weight: 400; }
+.seg.pill.icons button { padding: 6px 10px; line-height: 0; }
+.seg.pill svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+@media (max-width: 720px) { .nav ul { margin-left: 0; order: 3; width: 100%; } .nav-tools { margin-left: auto; } }
 .brand { line-height: 0; }
 .brand .logo { height: clamp(34px, 4vw, 48px); width: auto; display: block; color: var(--hero-ink); }
 .hero-copy { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px clamp(24px, 6vw, 120px); align-items: end; }
@@ -126,7 +136,8 @@ button, input, select { font: inherit; color: inherit; }
 .kpi .sub { font-size: 13px; color: var(--muted); }
 .kpi.total { background: var(--hero); color: #FFFFFF; }
 .kpi.total .k, .kpi.total .sub, .kpi.total .v small { color: rgb(255 255 255 / .7); }
-.kpi.total .v { font-size: 44px; }
+.kpi.total .v { font-size: clamp(34px, 2.8vw, 44px); }
+.kpi .v small { white-space: nowrap; }
 .meter { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: flex; }
 .kpi.total .meter { background: rgb(255 255 255 / .12); }
 .meter i { display: block; height: 100%; background: var(--c); transition: width .35s ease; }
@@ -358,6 +369,17 @@ td.em.memo { color: var(--muted); font-style: italic; }
         <li><a href="#dashTitle">Dashboard</a></li>
         <li><a href="#method">Method</a></li>
       </ul>
+      <div class="nav-tools">
+        <div class="seg pill" role="group" aria-label="Operations in">
+          <button type="button" data-region="us" title="Operations in the United States: GHG Protocol, EPA factors">US</button>
+          <button type="button" data-region="mx" title="Operaciones en México: RENE, factores SEMARNAT">MX</button>
+        </div>
+        <div class="seg pill icons" role="group" aria-label="Color theme">
+          <button type="button" data-theme-choice="auto" title="Automatic: follows your device (light by day, dark by night if your system does)" aria-label="Automatic theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+          <button type="button" data-theme-choice="light" title="Light" aria-label="Light theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+          <button type="button" data-theme-choice="dark" title="Dark" aria-label="Dark theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></button>
+        </div>
+      </div>
     </nav>
     <div class="hero-copy">
       <h1>Trace every tonne, <em>from cradle to grave.</em></h1>
@@ -1614,6 +1636,22 @@ td.em.memo { color: var(--muted); font-style: italic; }
   }));
 
   // Switching country swaps the factor library, the default method and the reporting rules; edited factors stay as entered
+  // Color theme: "auto" follows the device's light/dark setting live; light or dark pins it (stored per browser).
+  const THEME_STORE = 'co2trace-theme';
+  function applyTheme(choice) {
+    if (choice === 'light' || choice === 'dark') document.documentElement.dataset.theme = choice;
+    else { delete document.documentElement.dataset.theme; choice = 'auto'; }
+    document.querySelectorAll('[data-theme-choice]').forEach(b => b.setAttribute('aria-pressed', b.dataset.themeChoice === choice));
+    return choice;
+  }
+  let savedTheme = 'auto';
+  try { savedTheme = localStorage.getItem(THEME_STORE) || 'auto'; } catch (e) {}
+  applyTheme(savedTheme);
+  document.querySelectorAll('[data-theme-choice]').forEach(b => b.addEventListener('click', () => {
+    const choice = applyTheme(b.dataset.themeChoice);
+    try { if (choice === 'auto') localStorage.removeItem(THEME_STORE); else localStorage.setItem(THEME_STORE, choice); } catch (e) {}
+  }));
+
   document.querySelectorAll('[data-region]').forEach(b => b.addEventListener('click', () => {
     if (state.region === b.dataset.region) return;
     state.region = b.dataset.region; state.method = REGIONS[state.region].method;
