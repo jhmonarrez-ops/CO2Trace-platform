@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LCA Carbon Ledger</title>
+<title>CO2Trace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -273,6 +273,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .method { padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; max-width: 90ch; }
 .method h2 { font-size: 18px; font-weight: 600; }
 .method p { margin: 0; font-size: 14px; color: var(--muted); }
+.method .brand-foot { margin-top: 8px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 
 @media (max-width: 520px) {
   .wrap { padding-inline: 16px; }
@@ -287,8 +288,8 @@ tr.ev-row > td { padding: 0 6px 12px; }
 
 <div class="wrap">
   <header class="masthead">
-    <div class="eyebrow">Life cycle assessment · GHG Protocol scopes · ISO 14040/14067 stages</div>
-    <h1>LCA Carbon Ledger</h1>
+    <div class="eyebrow">Carbon ledger · Life cycle assessment · GHG Protocol scopes · ISO 14040/14067 stages</div>
+    <h1>CO2Trace</h1>
     <p class="lede">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Each line is multiplied by an emission factor (kg CO₂e per unit) to give tonnes of CO₂e, rolled up by scope, emission category, stage and supplier.</p>
     <div class="meta">
       <div class="field"><label for="company">Company</label><input id="company" type="text" placeholder="Company name"></div>
@@ -330,6 +331,7 @@ tr.ev-row > td { padding: 0 6px 12px; }
     <p>Emissions (t CO₂e) = activity quantity × emission factor (kg CO₂e per unit) ÷ 1,000. Library factors are typical published values from the US EPA GHG Emission Factors Hub, UK DESNZ/DEFRA conversion factors, worldsteel and IAI averages, the Mexican national grid factor (SEMARNAT/CRE) and IPCC AR6 100-year GWPs for refrigerants. They are reasonable defaults for screening. For a verified inventory, replace them with factors from your own sources, supplier EPDs or a licensed LCI database such as ecoinvent; edited factors are outlined so reviewers can see them.</p>
     <p>Scope defaults follow the GHG Protocol: fuels and refrigerant leaks at your own sites are Scope 1, purchased electricity is Scope 2 (location-based), and everything upstream or downstream is Scope 3. Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
     <p>Evidence status: a line is <b>missing</b> until a file is attached, <b>attached</b> once a document is on file, and <b>verified</b> when a reviewer confirms the document supports the quantity entered. Coverage is weighted by emissions. Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
+    <p class="brand-foot">CO2Trace · carbon accounting and life cycle assessment</p>
   </section>
 </div>
 

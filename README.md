@@ -1,4 +1,4 @@
-# LCA Carbon Ledger
+# CO2Trace
 
 A single-page life cycle assessment (LCA) carbon calculator. Enter a year of activity data per life-cycle stage and the page multiplies each line by an emission factor to report tonnes of CO₂e by stage, by GHG Protocol scope, and per functional unit.
 

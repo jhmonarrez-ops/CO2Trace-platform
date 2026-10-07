@@ -1,4 +1,4 @@
-# LCA Carbon Ledger — notes for Claude
+# CO2Trace (repo: lca-carbon-ledger) — notes for Claude
 
 - Single static page: `index.html` (inline CSS + JS, no build). Fonts from Google Fonts only.
 - Data model: `state = { company, year, fuName, fuQty, boundary, isExample, rows[] }`; each row `{ id, stage, key, supplier, note, qty, unit, ef (kg CO2e/unit), scope, m0, m1 (activity months 0–11, inclusive; emissions spread evenly for the Gantt), evidence: { doc, ref, period, verified, files[{fid,name,size,type,added}] } }`. Evidence file blobs live in IndexedDB db `lca-evidence`, store `files`, keyed by fid. Chart view choices (catView radial|treemap, catScope, ganttScope) live in localStorage `lca-ui-v1`.
