@@ -178,10 +178,15 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .seg.pill svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 .brand { line-height: 0; }
 .brand .logo { height: clamp(34px, 4vw, 48px); width: auto; display: block; color: var(--hero-ink); }
-.hero-copy { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px clamp(24px, 6vw, 120px); align-items: end; }
-.hero-copy h1 { font-size: clamp(42px, 6vw, 88px); line-height: .92; letter-spacing: -.03em; font-weight: 700; }
+.hero-copy { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 32px clamp(24px, 5vw, 80px); align-items: stretch; }
+.hero-text { display: grid; gap: 24px; align-content: center; justify-items: start; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Tree panel: glyphs gather from a scattered cloud into a growing tree (after the animal on twks.ch) */
+.tree-panel { position: relative; margin: 0; min-height: clamp(380px, 42vw, 620px); background: #283618; border-radius: 18px; overflow: hidden; cursor: pointer; }
+.tree-panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.tree-cap { position: absolute; left: 18px; bottom: 14px; right: 18px; font-family: var(--f-label); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: rgb(254 250 224 / .55); pointer-events: none; }
+.hero-copy h1 { font-size: clamp(40px, 5vw, 80px); line-height: .92; letter-spacing: -.03em; font-weight: 700; }
 .hero-copy h1 em { font-style: normal; color: var(--hero-accent); }
-.hero-side { display: grid; gap: 24px; justify-items: start; }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
 .setup { border-top: 1px solid var(--hero-line); padding-top: 24px; display: grid; gap: 18px; }
 .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: 14px 20px; align-items: end; }
@@ -205,7 +210,7 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .banner { display: flex; gap: 10px; align-items: baseline; padding: 12px 16px; background: rgb(232 179 106 / .12); color: var(--hero-ink); border-left: 2px solid #E8B36A; border-radius: 0 6px 6px 0; font-size: 14px; }
 .banner strong { color: #E8B36A; font-weight: 600; }
 #csvFallback { width: 100%; min-height: 120px; font-family: var(--f-mono); font-size: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
-@media (max-width: 860px) { .hero-copy { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) { .hero-copy { grid-template-columns: minmax(0, 1fr); } .tree-panel { min-height: 340px; } }
 
 /* KPI band */
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; }
@@ -380,6 +385,16 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .check.disabled { color: var(--muted); cursor: not-allowed; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+/* Account dialog (accounts are not live yet: it explains what is coming) */
+.acct { border: 0; padding: 0; border-radius: 18px; width: min(520px, calc(100% - 32px)); background: var(--surface); color: var(--ink); box-shadow: 0 30px 80px -20px rgb(0 0 0 / .5); }
+.acct::backdrop { background: rgb(8 12 20 / .45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.acct form { display: grid; gap: 14px; padding: 28px; }
+.acct h2 { font-size: 28px; line-height: 1.1; color: var(--title); }
+.acct p { margin: 0; }
+.acct ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.acct .acts { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+.acct[data-mode="create"] .for-signin, .acct[data-mode="signin"] .for-create { display: none; }
+
 /* Preview overlay */
 .overlay { position: fixed; inset: 0; background: rgb(0 0 0 / .55); display: grid; place-items: center; padding: 16px; z-index: 10; }
 .viewer { background: var(--surface); border-radius: 18px; width: min(960px, 100%); max-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
@@ -515,11 +530,19 @@ td.em.memo { color: var(--muted); font-style: italic; }
 <section class="hero" id="top">
   <div class="hero-in">
     <div class="hero-copy">
-      <h1 data-es="Rastrea cada tonelada, &lt;em&gt;de la cuna a la tumba.&lt;/em&gt;">Trace every tonne, <em>from cradle to grave.</em></h1>
-      <div class="hero-side">
+      <div class="hero-text">
         <div class="eyebrow" data-es="Análisis de ciclo de vida · GHG Protocol · RENE México · ISO 14040/14067">Life cycle assessment · GHG Protocol · RENE México · ISO 14040/14067</div>
+        <h1 data-es="Rastrea cada tonelada, &lt;em&gt;de la cuna a la tumba.&lt;/em&gt;">Trace every tonne, <em>from cradle to grave.</em></h1>
         <p class="lede" data-es="Registra un año de datos de actividad para cada etapa del ciclo de vida, con el proveedor y el documento que comprueba cada cantidad. Elige dónde están tus operaciones: la biblioteca de factores, el método de impacto y las reglas de reporte siguen a Estados Unidos (GHG Protocol, EPA) o a México (RENE). Cada línea se convierte en kilogramos de cada gas de efecto invernadero, se caracteriza en toneladas de CO₂e y se agrupa por alcance, categoría, etapa y proveedor.">Enter a year of activity data for each life-cycle stage, with the supplier and the document that proves each quantity. Choose where your operations are: the factor library, impact method and reporting rules follow the US (GHG Protocol, EPA) or México (RENE). Each line is converted to kilograms of each greenhouse gas, characterised to tonnes of CO₂e, and rolled up by scope, category, stage and supplier.</p>
+        <div class="hero-actions">
+          <button type="button" class="btn primary" data-acct="create" data-es="Crear cuenta">Create account</button>
+          <button type="button" class="btn" data-acct="signin" data-es="Iniciar sesión">Sign in</button>
+        </div>
       </div>
+      <figure class="tree-panel" id="treePanel" title="Click to grow a new tree" data-es-title="Haz clic para que crezca otro árbol">
+        <canvas id="treeCanvas" aria-hidden="true"></canvas>
+        <figcaption class="tree-cap" data-es="Pasa el cursor por las hojas · clic para que crezca otro">Hover the leaves · click to grow another</figcaption>
+      </figure>
     </div>
     <div class="setup" id="projectSetup">
       <div class="eyebrow" data-es="Configuración del proyecto">Project setup</div>
@@ -605,6 +628,21 @@ td.em.memo { color: var(--muted); font-style: italic; }
 </div>
 
 <div class="tip" id="tip" role="tooltip" hidden></div>
+<dialog class="acct" id="acctDlg" data-mode="create" aria-labelledby="acctTitle">
+  <form method="dialog">
+    <div class="eyebrow" data-es="Cuentas de empresa">Company accounts</div>
+    <h2 id="acctTitle"><span class="for-create" data-es="Crea la cuenta de tu empresa">Create your company account</span><span class="for-signin" data-es="Iniciar sesión">Sign in</span></h2>
+    <p class="for-create" data-es="Las cuentas de empresa abren pronto. Con una cuenta tendrás:">Company accounts are opening soon. With an account you will get:</p>
+    <p class="for-signin" data-es="El inicio de sesión se abre cuando lancemos las cuentas de empresa. Entonces tendrás:">Sign-in opens when company accounts launch. You will then get:</p>
+    <ul>
+      <li data-es="Un perfil de empresa con varios miembros, con roles de propietario, administrador, editor y lector.">One company profile with several members, with owner, admin, editor and viewer roles.</li>
+      <li data-es="Tu registro y tus archivos de evidencia guardados de forma segura y cifrada en la nube, en todos tus dispositivos.">Your ledger and evidence files stored securely and encrypted in the cloud, on all your devices.</li>
+      <li data-es="Un historial de cada cambio, para que los revisores vean quién capturó qué.">A history of every change, so reviewers can see who entered what.</li>
+    </ul>
+    <p class="note" data-es="Mientras tanto, todo lo que captures se guarda en este navegador, en este dispositivo.">Until then, everything you enter is saved in this browser, on this device.</p>
+    <div class="acts"><button class="btn primary" value="close" data-es="Seguir en este navegador">Continue in this browser</button></div>
+  </form>
+</dialog>
 <div class="overlay" id="overlay" hidden>
   <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName">
     <header><span id="viewerName"></span><button type="button" class="btn" id="viewerClose" data-es="Cerrar">Close</button></header>
@@ -2046,6 +2084,150 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
   renderMeta();
   renderStages();
+})();
+</script>
+<script>
+// Hero tree: a few thousand glyphs drift in from a scattered cloud and settle, trunk first and
+// leaves last, into a branching tree (after the animal at the foot of twks.ch). The canopy sways,
+// glyphs flicker, the pointer pushes them aside, and a click grows a new tree from a new seed.
+(function () {
+  const cv = document.getElementById('treeCanvas'); if (!cv || !cv.getContext) return;
+  const panel = document.getElementById('treePanel'), ctx = cv.getContext('2d');
+  const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CELL = 8, GROW = 3.2, FLY = 1.1;                       // grid pitch (px), growth and flight time (s)
+  const WOOD = ['#BC6C25', '#DDA15E', '#C98A4B'], LEAF = ['#FEFAE0', '#E9EDC9', '#CCD5AE', '#A3B18A'], GROUND = '#606C38';
+  const LEAF_CH = 'CO2+*·o%&eC0', TRUNK_CH = '#WM8&';
+  let W = 0, H = 0, pts = [], groups = [], seed = 7, t0 = 0, raf = 0, onScreen = true, last = false, drawn = 0;
+  const mouse = { x: -1e4, y: -1e4 };
+
+  const rand = s => () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const ease = x => 1 - Math.pow(1 - x, 3);
+
+  function build() {
+    const r = rand(seed * 9973 + 1), cells = new Map();
+    // one glyph per grid cell; trunk and limbs win over leaves, leaves win over twigs
+    const put = (x, y, t, kind, ch, col, pri) => {
+      const cx = Math.round(x / CELL), cy = Math.round(y / CELL);
+      if (cx < 1 || cy < 1 || cx * CELL > W - CELL || cy * CELL > H - CELL) return;
+      const k = cx + ',' + cy, o = cells.get(k);
+      if (!o || pri > o.pri || (pri === o.pri && t < o.t)) cells.set(k, { tx: cx * CELL, ty: cy * CELL, t, kind, ch, col, pri });
+    };
+    const groundY = Math.min(H * 0.9, H - 60), tips = [];   // leave room for the caption under the ground
+    let maxD = 1;
+    (function branch(x, y, ang, len, wid, depth, d) {
+      const x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len, steps = Math.max(1, Math.ceil(len / (CELL * 0.5)));
+      const slope = Math.abs(Math.cos(ang)) < 0.38 ? '|' : Math.cos(ang) > 0 ? '/' : '\\';
+      for (let i = 0; i <= steps; i++) {
+        const f = i / steps, px = x + (x2 - x) * f, py = y + (y2 - y) * f, w = wid * (1 - f * 0.3);
+        for (let o = -w / 2; o <= w / 2 + 0.01; o += CELL * 0.6) {
+          const edge = Math.abs(o) > w / 2 - CELL * 0.6;
+          const ch = w > CELL * 2.2 && !edge ? TRUNK_CH[Math.floor(r() * TRUNK_CH.length)] : slope;
+          put(px - Math.sin(ang) * o, py + Math.cos(ang) * o, d + len * f, 'wood', ch, WOOD[Math.floor(r() * WOOD.length)], depth < 4 ? 3 : 1);
+        }
+      }
+      const end = d + len; maxD = Math.max(maxD, end);
+      if (depth >= 8 || len < CELL * 2) { tips.push([x2, y2, end, depth]); return; }
+      const n = depth < 1 ? 2 : r() < 0.4 ? 3 : 2;
+      for (let k = 0; k < n; k++) {
+        const side = n === 2 ? (k ? 1 : -1) : k - 1, spread = side * (0.3 + r() * 0.3) + (r() - 0.5) * 0.2;
+        branch(x2, y2, ang + spread, len * (0.68 + r() * 0.12), Math.max(CELL * 0.7, wid * 0.62), depth + 1, end);
+      }
+      if (depth >= 3) tips.push([x2, y2, end, depth]);
+    })(W / 2, groundY, -Math.PI / 2 + (r() - 0.5) * 0.08, Math.min(H * 0.21, W * 0.3), Math.min(W, H) * 0.075, 0, 0);
+    // canopy: clouds of carbon-ish glyphs around the twig tips, arriving after the wood
+    // shading: lit from the upper right, so leaves get darker towards the lower left of each clump
+    tips.forEach(([x, y, d, depth]) => {
+      const R = CELL * (3.2 + (8 - depth) * 0.5 + r() * 1.6), n = 34 + Math.floor(r() * 26);
+      for (let i = 0; i < n; i++) {
+        const a = r() * Math.PI * 2, q = Math.sqrt(r()) * R, dx = Math.cos(a) * q, dy = Math.sin(a) * q * 0.8;
+        const shade = Math.min(3, Math.max(0, Math.floor(1.5 + (dy - dx) / R * 1.6 + (r() - 0.5) * 1.2)));
+        put(x + dx, y + dy, maxD + d * 0.25 + r() * maxD * 0.35, 'leaf', LEAF_CH[Math.floor(r() * LEAF_CH.length)], LEAF[shade], 2);
+      }
+    });
+    // ground: a dotted line that is there from the start
+    for (let x = CELL * 2; x < W - CELL * 2; x += CELL) if (r() < 0.7) put(x, groundY + CELL, r() * maxD * 0.1, 'ground', r() < 0.5 ? '_' : '.', GROUND, 0);
+    const tMax = Math.max(...[...cells.values()].map(c => c.t)) || 1;
+    pts = [...cells.values()].map(c => ({
+      ...c, t: c.t / tMax, x: r() * W, y: r() * H * 0.95, sx: 0, sy: 0, ox: 0, oy: 0, ph: r() * 6.28,
+      sway: c.kind === 'leaf' ? Math.max(0.3, (groundY - c.ty) / H) * 1.4 : c.kind === 'wood' ? Math.max(0, (groundY - c.ty) / H) * 0.6 : 0,
+    }));
+    pts.forEach(p => { p.sx = p.x; p.sy = p.y; });
+    groups = [...new Set(pts.map(p => p.col))].map(col => pts.filter(p => p.col === col));
+  }
+
+  function size() {
+    const rc = panel.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (!rc.width || !rc.height) return false;
+    if (Math.round(rc.width) === W && Math.round(rc.height) === H) return false;
+    W = Math.round(rc.width); H = Math.round(rc.height);
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return true;
+  }
+
+  function frame(now) {
+    raf = 0;
+    const el = (now - t0) / 1000;
+    // once grown and nothing is being pushed around, the sway only needs ~30 fps
+    if (!last && el > GROW + FLY && now - drawn < 30 && onScreen) { raf = requestAnimationFrame(frame); return; }
+    drawn = now;
+    ctx.clearRect(0, 0, W, H);
+    ctx.font = `${CELL + 1}px "Space Mono", ui-monospace, monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const wind = Math.sin(el * 0.7) * 0.6 + Math.sin(el * 1.9) * 0.25;
+    let busy = false;
+    for (const g of groups) {
+      ctx.fillStyle = g[0].col;
+      for (const p of g) {
+        // flight from the cloud to the cell, starting when growth reaches this glyph
+        const k = still ? 1 : Math.min(1, Math.max(0, (el - p.t * GROW) / FLY));
+        if (k < 1) busy = true;
+        const e = ease(k);
+        let x = p.sx + (p.tx - p.sx) * e, y = p.sy + (p.ty - p.sy) * e;
+        if (k === 0) { x += Math.sin(el * 0.8 + p.ph) * 6; y += Math.cos(el * 0.6 + p.ph) * 6; }
+        if (!still && k === 1) x += (wind * 3 + Math.sin(el * 2.3 + p.ph) * 0.8) * p.sway;
+        // pointer pushes glyphs aside; they spring back
+        let fx = 0, fy = 0;
+        const dx = x - mouse.x, dy = y - mouse.y, d2 = dx * dx + dy * dy;
+        if (!still && d2 < 4900 && k > 0.5) { const d = Math.sqrt(d2) || 1, f = (70 - d) / 70; fx = dx / d * f * 22; fy = dy / d * f * 22; }
+        p.ox += (fx - p.ox) * 0.15; p.oy += (fy - p.oy) * 0.15;
+        if (Math.abs(p.ox) + Math.abs(p.oy) > 0.2) busy = true;
+        if (!still && k === 1 && p.kind === 'leaf' && Math.random() < 0.004) p.ch = LEAF_CH[Math.floor(Math.random() * LEAF_CH.length)];
+        ctx.globalAlpha = k === 0 ? 0.18 : 0.35 + 0.65 * e;
+        ctx.fillText(p.ch, x + p.ox, y + p.oy);
+      }
+    }
+    ctx.globalAlpha = 1;
+    // keep animating while growing, while glyphs move, and (gently) for the sway; stop when off screen
+    if (!still && onScreen && !document.hidden) raf = requestAnimationFrame(frame);
+    last = busy;
+  }
+  const kick = () => { if (!raf && W) raf = requestAnimationFrame(frame); };
+
+  function grow(fresh) {
+    if (fresh) seed = (seed * 31 + 17) % 100000;
+    build(); t0 = performance.now(); kick();
+  }
+  function finish() { build(); t0 = performance.now() - (GROW + FLY + 1) * 1000; kick(); }
+
+  if (window.ResizeObserver) new ResizeObserver(() => { if (size()) (pts.length ? finish : grow)(false); }).observe(panel);
+  else { size(); grow(false); addEventListener('resize', () => { if (size()) finish(); }); }
+  if (window.IntersectionObserver) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; if (onScreen) kick(); }).observe(panel);
+  document.addEventListener('visibilitychange', kick);
+  panel.addEventListener('pointermove', e => { const rc = panel.getBoundingClientRect(); mouse.x = e.clientX - rc.left; mouse.y = e.clientY - rc.top; kick(); });
+  panel.addEventListener('pointerleave', () => { mouse.x = mouse.y = -1e4; });
+  panel.addEventListener('click', () => grow(true));
+  // the glyph font may arrive after the first frame
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(kick);
+})();
+
+// Account buttons: accounts are not live yet, so the dialog explains what is coming
+(function () {
+  const dlg = document.getElementById('acctDlg'); if (!dlg) return;
+  document.querySelectorAll('[data-acct]').forEach(b => b.addEventListener('click', () => {
+    dlg.dataset.mode = b.dataset.acct;
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  }));
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 })();
 </script>
 </body>
