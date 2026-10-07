@@ -13,7 +13,7 @@
 /* Layout: industrial editorial. A dark full-bleed hero (logo, nav, headline, project setup), then a scope KPI band, and the activity ledger on the left with the dashboard pinned on the right. Big bold Manrope headings, Space Mono eyebrows and buttons, white rounded cards on a cool grey page. */
 :root {
   /* brand: blue #072AC8. --go = dashboard hover; the menu bar hovers white (--menu-hover) */
-  --brand: #072AC8; --hero-accent: #AFC0FF;
+  --brand: #072AC8; --hero-accent: #AFC0FF; --forest: #283618; --forest-accent: #CCD5AE;
   --go: #072AC8; --go-ink: #FFFFFF;
   --menu-hover: #FFFFFF; --menu-hover-ink: #072AC8;
   --title: #072AC8; --kick: #072AC8;
@@ -87,7 +87,8 @@ button, input, select { font: inherit; color: inherit; }
 .eyebrow { font-family: var(--f-label); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--slate); }
 
 /* Hero: dark full-bleed band */
-.hero { background: var(--hero); color: var(--hero-ink); --line: var(--hero-line); --muted: var(--hero-muted); --surface: rgb(255 255 255 / .06); --surface-2: rgb(255 255 255 / .1); --slate: rgb(255 255 255 / .62); --accent: #FFFFFF; --accent-ink: #1E201F; color-scheme: dark; }
+/* the first section is one dark forest tone; the tree grows straight on it */
+.hero { --hero: var(--forest); --hero-accent: var(--forest-accent); background: var(--hero); color: var(--hero-ink); --line: var(--hero-line); --muted: var(--hero-muted); --surface: rgb(255 255 255 / .06); --surface-2: rgb(255 255 255 / .1); --slate: rgb(255 255 255 / .62); --accent: #FFFFFF; --accent-ink: #1E201F; color-scheme: dark; }
 .hero-in { max-width: 1760px; margin: 0 auto; padding: clamp(40px, 6vw, 88px) clamp(16px, 3vw, 44px) 40px; display: grid; gap: clamp(36px, 7vw, 96px); }
 /* Top bar: sticky, compacts on scroll; each menu group is a tile that opens a dropdown over a blurred page */
 html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
@@ -182,9 +183,9 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .hero-text { display: grid; gap: 24px; align-content: center; justify-items: start; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 /* Tree panel: glyphs gather from a scattered cloud into a growing tree (after the animal on twks.ch) */
-.tree-panel { position: relative; margin: 0; min-height: clamp(380px, 42vw, 620px); background: #283618; border-radius: 18px; overflow: hidden; cursor: pointer; }
+.tree-panel { position: relative; margin: 0; min-height: clamp(400px, 44vw, 660px); cursor: pointer; }
 .tree-panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.tree-cap { position: absolute; left: 18px; bottom: 14px; right: 18px; font-family: var(--f-label); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: rgb(254 250 224 / .55); pointer-events: none; }
+.tree-cap { position: absolute; left: 0; top: 0; right: 0; text-align: right; font-family: var(--f-label); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: rgb(254 250 224 / .55); pointer-events: none; }
 .hero-copy h1 { font-size: clamp(40px, 5vw, 80px); line-height: .92; letter-spacing: -.03em; font-weight: 700; }
 .hero-copy h1 em { font-style: normal; color: var(--hero-accent); }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
@@ -2087,16 +2088,18 @@ td.em.memo { color: var(--muted); font-style: italic; }
 })();
 </script>
 <script>
-// Hero tree: a few thousand glyphs drift in from a scattered cloud and settle, trunk first and
-// leaves last, into a branching tree (after the animal at the foot of twks.ch). The canopy sways,
-// glyphs flicker, the pointer pushes them aside, and a click grows a new tree from a new seed.
+// Hero tree: glyphs on a grid grow a tree from the bottom up (after the animal at the foot of twks.ch).
+// Growth starts at the root tips, climbs the roots into the trunk, spreads through the branches and
+// ends with the canopy; each glyph scrambles briefly as the growing front reaches it. Then the canopy
+// sways, glyphs flicker, the pointer pushes them aside, and a click grows a new tree from a new seed.
 (function () {
   const cv = document.getElementById('treeCanvas'); if (!cv || !cv.getContext) return;
   const panel = document.getElementById('treePanel'), ctx = cv.getContext('2d');
   const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const CELL = 8, GROW = 3.2, FLY = 1.1;                       // grid pitch (px), growth and flight time (s)
-  const WOOD = ['#BC6C25', '#DDA15E', '#C98A4B'], LEAF = ['#FEFAE0', '#E9EDC9', '#CCD5AE', '#A3B18A'], GROUND = '#606C38';
-  const LEAF_CH = 'CO2+*·o%&eC0', TRUNK_CH = '#WM8&';
+  const CELL = 8, GROW = 4.2, POP = 0.45;                       // grid pitch (px), growth time, per-glyph pop (s)
+  const WOOD = ['#BC6C25', '#DDA15E', '#C98A4B'], ROOT = ['#8E5A2B', '#A86B33', '#BC6C25'];
+  const LEAF = ['#FEFAE0', '#E9EDC9', '#CCD5AE', '#A3B18A'], GROUND = '#606C38';
+  const LEAF_CH = 'CO2+*·o%&eC0', TRUNK_CH = '#WM8&', SCRAMBLE = '01CO2#%&*+/\\|';
   let W = 0, H = 0, pts = [], groups = [], seed = 7, t0 = 0, raf = 0, onScreen = true, last = false, drawn = 0;
   const mouse = { x: -1e4, y: -1e4 };
 
@@ -2105,26 +2108,49 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
   function build() {
     const r = rand(seed * 9973 + 1), cells = new Map();
-    // one glyph per grid cell; trunk and limbs win over leaves, leaves win over twigs
+    // one glyph per grid cell; trunk, limbs and roots win over leaves, leaves win over twigs
     const put = (x, y, t, kind, ch, col, pri) => {
       const cx = Math.round(x / CELL), cy = Math.round(y / CELL);
       if (cx < 1 || cy < 1 || cx * CELL > W - CELL || cy * CELL > H - CELL) return;
       const k = cx + ',' + cy, o = cells.get(k);
       if (!o || pri > o.pri || (pri === o.pri && t < o.t)) cells.set(k, { tx: cx * CELL, ty: cy * CELL, t, kind, ch, col, pri });
     };
-    const groundY = Math.min(H * 0.9, H - 60), tips = [];   // leave room for the caption under the ground
-    let maxD = 1;
-    (function branch(x, y, ang, len, wid, depth, d) {
+    const stroke = (x, y, ang, len, wid, onStep) => {
       const x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len, steps = Math.max(1, Math.ceil(len / (CELL * 0.5)));
-      const slope = Math.abs(Math.cos(ang)) < 0.38 ? '|' : Math.cos(ang) > 0 ? '/' : '\\';
+      const slope = Math.abs(Math.cos(ang)) < 0.38 ? '|' : (Math.cos(ang) > 0) === (Math.sin(ang) < 0) ? '/' : '\\';
       for (let i = 0; i <= steps; i++) {
         const f = i / steps, px = x + (x2 - x) * f, py = y + (y2 - y) * f, w = wid * (1 - f * 0.3);
         for (let o = -w / 2; o <= w / 2 + 0.01; o += CELL * 0.6) {
           const edge = Math.abs(o) > w / 2 - CELL * 0.6;
-          const ch = w > CELL * 2.2 && !edge ? TRUNK_CH[Math.floor(r() * TRUNK_CH.length)] : slope;
-          put(px - Math.sin(ang) * o, py + Math.cos(ang) * o, d + len * f, 'wood', ch, WOOD[Math.floor(r() * WOOD.length)], depth < 4 ? 3 : 1);
+          onStep(px - Math.sin(ang) * o, py + Math.cos(ang) * o, f, w > CELL * 2.2 && !edge ? TRUNK_CH[Math.floor(r() * TRUNK_CH.length)] : slope);
         }
       }
+      return [x2, y2];
+    };
+    const groundY = H * 0.8, baseX = W / 2, trunkW = Math.min(W, H) * 0.075;
+    // roots: spread down and out from the foot of the trunk; their tips are where growth starts
+    const roots = [];
+    let maxR = 1;
+    const rootStarts = 4 + Math.floor(r() * 2), rootLen = Math.min(H * 0.07, W * 0.14);
+    for (let i = 0; i < rootStarts; i++) {
+      const a = Math.PI / 2 + (i / (rootStarts - 1) - 0.5) * 2.4 + (r() - 0.5) * 0.25;   // fan from down-left to down-right
+      (function root(x, y, ang, len, wid, depth, d) {
+        const end = d + len; maxR = Math.max(maxR, end);
+        const [x2, y2] = stroke(x, y, ang, len, wid, (px, py, f, ch) => roots.push([px, py, d + len * f, ch]));
+        if (depth >= 3 || len < CELL * 1.5) return;
+        const n = r() < 0.5 ? 2 : 1;
+        for (let k = 0; k < n; k++) root(x2, y2, ang + (r() - 0.5) * 0.9, len * (0.6 + r() * 0.15), Math.max(CELL * 0.6, wid * 0.55), depth + 1, end);
+      })(baseX + (i / (rootStarts - 1) - 0.5) * trunkW * 0.8, groundY + CELL, a, rootLen * (0.8 + r() * 0.4), trunkW * 0.45, 0, 0);
+    }
+    // the roots take the first fifth of the growth, tips first
+    const T_ROOT = 0.2;
+    roots.forEach(([x, y, d, ch]) => put(x, y, (1 - d / maxR) * T_ROOT, 'root', ch, ROOT[Math.floor(r() * ROOT.length)], 3));
+    // trunk and branches: growth climbs by distance along the wood
+    const tips = [];
+    let maxD = 1;
+    const wood = [];
+    (function branch(x, y, ang, len, wid, depth, d) {
+      const [x2, y2] = stroke(x, y, ang, len, wid, (px, py, f, ch) => wood.push([px, py, d + len * f, ch, depth]));
       const end = d + len; maxD = Math.max(maxD, end);
       if (depth >= 8 || len < CELL * 2) { tips.push([x2, y2, end, depth]); return; }
       const n = depth < 1 ? 2 : r() < 0.4 ? 3 : 2;
@@ -2133,25 +2159,26 @@ td.em.memo { color: var(--muted); font-style: italic; }
         branch(x2, y2, ang + spread, len * (0.68 + r() * 0.12), Math.max(CELL * 0.7, wid * 0.62), depth + 1, end);
       }
       if (depth >= 3) tips.push([x2, y2, end, depth]);
-    })(W / 2, groundY, -Math.PI / 2 + (r() - 0.5) * 0.08, Math.min(H * 0.21, W * 0.3), Math.min(W, H) * 0.075, 0, 0);
-    // canopy: clouds of carbon-ish glyphs around the twig tips, arriving after the wood
-    // shading: lit from the upper right, so leaves get darker towards the lower left of each clump
+    })(baseX, groundY + CELL, -Math.PI / 2 + (r() - 0.5) * 0.08, Math.min(H * 0.18, W * 0.28), trunkW, 0, 0);
+    const T_WOOD = 0.6;
+    wood.forEach(([x, y, d, ch, depth]) => put(x, y, T_ROOT + d / maxD * (T_WOOD - T_ROOT), 'wood', ch, WOOD[Math.floor(r() * WOOD.length)], depth < 4 ? 3 : 1));
+    // canopy: clouds of carbon-ish glyphs around the twig tips, after the wood that carries them;
+    // lit from the upper right, so leaves get darker towards the lower left of each clump
     tips.forEach(([x, y, d, depth]) => {
       const R = CELL * (3.2 + (8 - depth) * 0.5 + r() * 1.6), n = 34 + Math.floor(r() * 26);
+      const tTip = T_ROOT + d / maxD * (T_WOOD - T_ROOT);
       for (let i = 0; i < n; i++) {
         const a = r() * Math.PI * 2, q = Math.sqrt(r()) * R, dx = Math.cos(a) * q, dy = Math.sin(a) * q * 0.8;
         const shade = Math.min(3, Math.max(0, Math.floor(1.5 + (dy - dx) / R * 1.6 + (r() - 0.5) * 1.2)));
-        put(x + dx, y + dy, maxD + d * 0.25 + r() * maxD * 0.35, 'leaf', LEAF_CH[Math.floor(r() * LEAF_CH.length)], LEAF[shade], 2);
+        put(x + dx, y + dy, Math.min(1, tTip + 0.08 + (q / R) * 0.15 + r() * 0.15), 'leaf', LEAF_CH[Math.floor(r() * LEAF_CH.length)], LEAF[shade], 2);
       }
     });
-    // ground: a dotted line that is there from the start
-    for (let x = CELL * 2; x < W - CELL * 2; x += CELL) if (r() < 0.7) put(x, groundY + CELL, r() * maxD * 0.1, 'ground', r() < 0.5 ? '_' : '.', GROUND, 0);
-    const tMax = Math.max(...[...cells.values()].map(c => c.t)) || 1;
+    // ground: a dotted line that spreads out from the foot of the tree with the roots
+    for (let x = CELL * 2; x < W - CELL * 2; x += CELL) if (r() < 0.7) put(x, groundY, Math.abs(x - baseX) / W * T_ROOT * 1.6, 'ground', r() < 0.5 ? '_' : '.', GROUND, 0);
     pts = [...cells.values()].map(c => ({
-      ...c, t: c.t / tMax, x: r() * W, y: r() * H * 0.95, sx: 0, sy: 0, ox: 0, oy: 0, ph: r() * 6.28,
+      ...c, ox: 0, oy: 0, ph: r() * 6.28, dx: (r() - 0.5) * 8, dy: c.kind === 'leaf' ? (r() - 0.5) * 8 : c.kind === 'root' ? -6 : 8,
       sway: c.kind === 'leaf' ? Math.max(0.3, (groundY - c.ty) / H) * 1.4 : c.kind === 'wood' ? Math.max(0, (groundY - c.ty) / H) * 0.6 : 0,
     }));
-    pts.forEach(p => { p.sx = p.x; p.sy = p.y; });
     groups = [...new Set(pts.map(p => p.col))].map(col => pts.filter(p => p.col === col));
   }
 
@@ -2168,7 +2195,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     raf = 0;
     const el = (now - t0) / 1000;
     // once grown and nothing is being pushed around, the sway only needs ~30 fps
-    if (!last && el > GROW + FLY && now - drawn < 30 && onScreen) { raf = requestAnimationFrame(frame); return; }
+    if (!last && el > GROW + POP && now - drawn < 30 && onScreen) { raf = requestAnimationFrame(frame); return; }
     drawn = now;
     ctx.clearRect(0, 0, W, H);
     ctx.font = `${CELL + 1}px "Space Mono", ui-monospace, monospace`;
@@ -2178,28 +2205,28 @@ td.em.memo { color: var(--muted); font-style: italic; }
     for (const g of groups) {
       ctx.fillStyle = g[0].col;
       for (const p of g) {
-        // flight from the cloud to the cell, starting when growth reaches this glyph
-        const k = still ? 1 : Math.min(1, Math.max(0, (el - p.t * GROW) / FLY));
+        // a glyph appears when the growing front reaches it, sliding the last few pixels into place
+        const k = still ? 1 : Math.min(1, Math.max(0, (el - p.t * GROW) / POP));
+        if (k === 0) { busy = true; continue; }
         if (k < 1) busy = true;
         const e = ease(k);
-        let x = p.sx + (p.tx - p.sx) * e, y = p.sy + (p.ty - p.sy) * e;
-        if (k === 0) { x += Math.sin(el * 0.8 + p.ph) * 6; y += Math.cos(el * 0.6 + p.ph) * 6; }
+        let x = p.tx + p.dx * (1 - e), y = p.ty + p.dy * (1 - e);
         if (!still && k === 1) x += (wind * 3 + Math.sin(el * 2.3 + p.ph) * 0.8) * p.sway;
         // pointer pushes glyphs aside; they spring back
         let fx = 0, fy = 0;
-        const dx = x - mouse.x, dy = y - mouse.y, d2 = dx * dx + dy * dy;
-        if (!still && d2 < 4900 && k > 0.5) { const d = Math.sqrt(d2) || 1, f = (70 - d) / 70; fx = dx / d * f * 22; fy = dy / d * f * 22; }
+        const ddx = x - mouse.x, ddy = y - mouse.y, d2 = ddx * ddx + ddy * ddy;
+        if (!still && d2 < 4900) { const d = Math.sqrt(d2) || 1, f = (70 - d) / 70; fx = ddx / d * f * 22; fy = ddy / d * f * 22; }
         p.ox += (fx - p.ox) * 0.15; p.oy += (fy - p.oy) * 0.15;
         if (Math.abs(p.ox) + Math.abs(p.oy) > 0.2) busy = true;
         if (!still && k === 1 && p.kind === 'leaf' && Math.random() < 0.004) p.ch = LEAF_CH[Math.floor(Math.random() * LEAF_CH.length)];
-        ctx.globalAlpha = k === 0 ? 0.18 : 0.35 + 0.65 * e;
-        ctx.fillText(p.ch, x + p.ox, y + p.oy);
+        ctx.globalAlpha = 0.25 + 0.75 * e;
+        ctx.fillText(k < 0.7 ? SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)] : p.ch, x + p.ox, y + p.oy);
       }
     }
     ctx.globalAlpha = 1;
-    // keep animating while growing, while glyphs move, and (gently) for the sway; stop when off screen
-    if (!still && onScreen && !document.hidden) raf = requestAnimationFrame(frame);
     last = busy;
+    // keep animating while visible (growth, then the sway); stop when off screen or in a background tab
+    if (!still && onScreen && !document.hidden) raf = requestAnimationFrame(frame);
   }
   const kick = () => { if (!raf && W) raf = requestAnimationFrame(frame); };
 
@@ -2207,7 +2234,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     if (fresh) seed = (seed * 31 + 17) % 100000;
     build(); t0 = performance.now(); kick();
   }
-  function finish() { build(); t0 = performance.now() - (GROW + FLY + 1) * 1000; kick(); }
+  function finish() { build(); t0 = performance.now() - (GROW + POP + 1) * 1000; kick(); }
 
   if (window.ResizeObserver) new ResizeObserver(() => { if (size()) (pts.length ? finish : grow)(false); }).observe(panel);
   else { size(); grow(false); addEventListener('resize', () => { if (size()) finish(); }); }
