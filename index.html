@@ -107,11 +107,10 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .ic { position: relative; flex: none; width: 12px; height: 12px; transition: transform .3s ease; }
 .ic::before, .ic::after { content: ""; position: absolute; left: 0; top: 5.25px; width: 12px; height: 1.5px; background: currentColor; }
 .ic::after { transform: rotate(90deg); }
-.t-close, [aria-expanded="true"] > .t-open, [aria-expanded="true"] .tl .t-open { display: none; }
-[aria-expanded="true"] > .t-close, [aria-expanded="true"] .tl .t-close { display: inline; }
+.t-close, [aria-expanded="true"] > .t-open { display: none; }
+[aria-expanded="true"] > .t-close { display: inline; }
 .tile[aria-expanded="true"] { background: var(--hero-ink); color: var(--hero); }
 .tile[aria-expanded="true"] .eyebrow { color: var(--hero); opacity: .55; }
-.tile[aria-expanded="true"] .ic { transform: rotate(45deg); }
 .drop { position: absolute; top: calc(100% + 13px); left: 10px; width: max(calc(100% - 10px), 340px); background: var(--surface); color: var(--ink); border-radius: 6px; overflow: hidden; box-shadow: 0 24px 60px -20px rgb(0 0 0 / .45); visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s ease, transform .3s ease, visibility 0s linear .3s; }
 .grp.open .drop { visibility: visible; opacity: 1; transform: none; transition: opacity .25s ease, transform .3s ease; }
 .drop ul { list-style: none; margin: 0; padding: 0; }
@@ -451,7 +450,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       <div class="grp">
         <button type="button" class="tile" aria-expanded="false" aria-controls="m-inv">
           <span class="eyebrow" data-es="01 · Inventario">01 · Inventory</span>
-          <span class="tl"><i class="ic" aria-hidden="true"></i><span class="t-open" data-es="Registro">Ledger</span><span class="t-close" data-es="Cerrar">Close</span></span>
+          <span class="tl"><i class="ic" aria-hidden="true"></i><span data-es="Registro">Ledger</span></span>
         </button>
         <div class="drop" id="m-inv">
           <ul>
@@ -465,7 +464,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       <div class="grp">
         <button type="button" class="tile" aria-expanded="false" aria-controls="m-res">
           <span class="eyebrow" data-es="02 · Resultados">02 · Results</span>
-          <span class="tl"><i class="ic" aria-hidden="true"></i><span class="t-open" data-es="Tablero">Dashboard</span><span class="t-close" data-es="Cerrar">Close</span></span>
+          <span class="tl"><i class="ic" aria-hidden="true"></i><span data-es="Tablero">Dashboard</span></span>
         </button>
         <div class="drop" id="m-res">
           <ul>
@@ -483,7 +482,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       <div class="grp">
         <button type="button" class="tile" aria-expanded="false" aria-controls="m-met">
           <span class="eyebrow" data-es="03 · Metodología">03 · Method</span>
-          <span class="tl"><i class="ic" aria-hidden="true"></i><span class="t-open" data-es="Método">Method</span><span class="t-close" data-es="Cerrar">Close</span></span>
+          <span class="tl"><i class="ic" aria-hidden="true"></i><span data-es="Método">Method</span></span>
         </button>
         <div class="drop" id="m-met">
           <ul>
