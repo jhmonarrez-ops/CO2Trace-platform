@@ -446,6 +446,22 @@ td.em.memo { color: var(--muted); font-style: italic; }
 .method p b { color: #FFFFFF; font-weight: 600; }
 .method .brand-foot { grid-column: 1 / -1; margin-top: 12px; padding-top: 20px; border-top: 1px solid rgb(255 255 255 / .16); font-family: var(--f-label); font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase; color: rgb(255 255 255 / .62); }
 @media (max-width: 860px) { .method { grid-template-columns: minmax(0, 1fr); } .method .kicker { position: static; } }
+/* About us: same dark tone as the hero */
+.about { --hero: var(--forest); --hero-accent: var(--forest-accent); background: var(--hero); color: #FFFFFF; border-radius: 18px; padding: clamp(28px, 5vw, 72px); display: grid; gap: clamp(28px, 4vw, 56px); }
+.about .eyebrow { color: var(--hero-accent); }
+.about h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; max-width: 16ch; }
+.about-lede { margin: 18px 0 0; max-width: 62ch; font-size: 16px; font-weight: 300; color: rgb(255 255 255 / .78); }
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px; }
+.pillar { display: grid; align-content: start; gap: 14px; padding: 26px; border-radius: 14px; background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .1); transition: background .3s ease, border-color .3s ease; }
+.pillar:hover { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .2); }
+.pillar h3 { margin: 0; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; font-weight: 700; color: #FFFFFF; }
+.pillar p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .74); }
+.socials { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / .16); }
+.socials ul { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.socials a { display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border: 1px solid rgb(255 255 255 / .4); border-radius: 999px; color: #FFFFFF; text-decoration: none; font-family: var(--f-label); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; transition: background .25s ease, color .25s ease, border-color .25s ease; }
+.socials a span { transition: transform .25s ease; }
+.socials a:hover, .socials a:focus-visible { background: #FFFFFF; border-color: #FFFFFF; color: var(--forest); }
+.socials a:hover span { transform: translate(2px, -2px); }
 
 @media (max-width: 520px) {
   .kpi.total .v { font-size: 36px; }
@@ -566,6 +582,21 @@ td.em.memo { color: var(--muted); font-style: italic; }
           <p class="drop-foot" data-es="GHG Protocol, RENE México e ISO 14040/14067, con cada factor citado.">GHG Protocol, RENE México and ISO 14040/14067, with every factor cited.</p>
         </div>
       </div>
+      <div class="grp">
+        <button type="button" class="tile" aria-expanded="false" aria-controls="m-abt">
+          <span class="eyebrow" data-es="04 · Nosotros">04 · About us</span>
+          <span class="tl"><i class="ic" aria-hidden="true"></i><span data-es="Nosotros">About</span></span>
+        </button>
+        <div class="drop" id="m-abt">
+          <ul>
+            <li><a href="#vision" data-es="Visión">Vision</a></li>
+            <li><a href="#mission" data-es="Misión">Mission</a></li>
+            <li><a href="#purpose" data-es="Propósito">Purpose</a></li>
+            <li><a href="#socials" data-es="Redes sociales">Socials</a></li>
+          </ul>
+          <p class="drop-foot" data-es="Por qué existe CO2Trace y dónde seguirnos.">Why CO2Trace exists and where to follow us.</p>
+        </div>
+      </div>
       <a class="cta" href="#ledgerTitle"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
     </nav>
     <div class="nav-tools">
@@ -683,6 +714,40 @@ td.em.memo { color: var(--muted); font-style: italic; }
     <p data-es="Estado de la evidencia: una línea está &lt;b&gt;faltante&lt;/b&gt; hasta que se adjunta un archivo, &lt;b&gt;adjunta&lt;/b&gt; cuando ya hay un documento y &lt;b&gt;verificada&lt;/b&gt; cuando un revisor confirma que el documento respalda la cantidad registrada. La cobertura se pondera por emisiones. Los archivos adjuntos se guardan solo en este navegador y en este dispositivo, no se suben a ningún lado; conserva los originales en tu sistema de documentos.">Evidence status: a line is <b>missing</b> until a file is attached, <b>attached</b> once a document is on file, and <b>verified</b> when a reviewer confirms the document supports the quantity entered. Coverage is weighted by emissions. Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
     </div>
     <p class="brand-foot" data-es="CO2Trace · contabilidad de carbono y análisis de ciclo de vida">CO2Trace · carbon accounting and life cycle assessment</p>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="aboutTitle">
+    <div class="kicker">
+      <div class="eyebrow" data-es="04 · Nosotros">04 · About us</div>
+      <h2 id="aboutTitle" data-es="Hecho para que cada tonelada se pueda comprobar.">Built so every tonne can be checked.</h2>
+      <p class="about-lede" data-es="CO2Trace nació en proyectos de inventarios de GEI y certificación en parques industriales de México, donde los números de carbono vivían en hojas de cálculo sin rastro de su origen. Lo construimos para que cada cifra lleve consigo su factor, su fuente y su documento.">CO2Trace grew out of GHG inventory and certification work in industrial parks in México, where carbon numbers lived in spreadsheets with no trail back to their source. We built it so every figure carries its factor, its source and its document.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar" id="vision">
+        <div class="eyebrow" data-es="Visión">Vision</div>
+        <h3 data-es="Que la huella de carbono de un producto sea tan fácil de revisar como su precio.">A product’s carbon footprint as easy to check as its price.</h3>
+        <p data-es="Imaginamos cadenas de suministro donde cada empresa reporta su huella con evidencia, y donde compradores, reguladores e inversionistas pueden confiar en ella sin rehacer el cálculo.">We picture supply chains where every company reports its footprint with evidence, and buyers, regulators and investors can rely on it without redoing the math.</p>
+      </article>
+      <article class="pillar" id="mission">
+        <div class="eyebrow" data-es="Misión">Mission</div>
+        <h3 data-es="Dar a cada empresa una forma clara y auditable de medir su huella.">Give every company a clear, auditable way to measure its footprint.</h3>
+        <p data-es="Del primer proveedor al fin de vida, con las reglas de Estados Unidos (GHG Protocol) y de México (RENE), factores citados y el documento que respalda cada cantidad.">From the first supplier to end of life, under US (GHG Protocol) and Mexican (RENE) rules, with cited factors and the document behind each quantity.</p>
+      </article>
+      <article class="pillar" id="purpose">
+        <div class="eyebrow" data-es="Propósito">Purpose</div>
+        <h3 data-es="Que las decisiones climáticas se basen en evidencia, no en estimaciones.">Climate decisions that rest on evidence, not estimates.</h3>
+        <p data-es="Lo que se mide bien se puede reducir. Queremos que los equipos dediquen su tiempo a bajar emisiones, no a buscar recibos ni a defender hojas de cálculo.">What is measured well can be reduced. We want teams to spend their time cutting emissions, not chasing receipts or defending spreadsheets.</p>
+      </article>
+    </div>
+    <div class="socials" id="socials">
+      <span class="eyebrow" data-es="Síguenos">Follow us</span>
+      <ul>
+        <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn<span aria-hidden="true">↗</span></a></li>
+        <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram<span aria-hidden="true">↗</span></a></li>
+        <li><a href="https://x.com/" target="_blank" rel="noopener">X<span aria-hidden="true">↗</span></a></li>
+        <li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger" target="_blank" rel="noopener">GitHub<span aria-hidden="true">↗</span></a></li>
+      </ul>
+    </div>
   </section>
 </div>
 
