@@ -26,3 +26,7 @@ Library factors are typical screening values (US EPA GHG Emission Factors Hub, U
 
 ## Run
 Open `index.html` in a browser. No build step, no dependencies. Data is saved in the browser's localStorage; "Copy results as CSV" exports the ledger.
+
+## Brand
+
+`brand/co2trace-logo.svg` is the CO2Trace logo traced to vector paths from the original artwork (background removed; `fill="currentColor"` so it takes the page's text color). `brand/co2trace-icon.svg` is the footprints mark used as the favicon. `brand/trace.py` regenerates both outlines from a source image (needs `potracer`, `pillow`, `numpy`).
