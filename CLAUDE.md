@@ -6,3 +6,6 @@
 - Persisted in localStorage key `lca-ledger-v1`.
 - Published copy (claude.ai artifact): https://claude.ai/artifact/84bMVNrhpBWEaeDiyyib1K
 - Theme tokens on `:root` with dark-mode overrides; keep colors as tokens.
+- GHG Protocol methodology, tool catalogue, GWPs, reporting requirements and the current gap list: `docs/ghg-protocol-tools.md`. Check calculation changes against it.
+
+- Hosting: GitHub Pages from `main` (repo public since 2026-10-07), custom domain co2trace.io via `CNAME`; DNS at GoDaddy. Pushing to main deploys the live site.
