@@ -12,35 +12,35 @@
 <style>
 /* Layout: industrial editorial. A dark full-bleed hero (logo, nav, headline, project setup), then a scope KPI band, and the activity ledger on the left with the dashboard pinned on the right. Big light Manrope headings, Space Mono eyebrows and buttons, white rounded cards on a cool grey page. */
 :root {
-  /* brand: navy #284B63 and green #38B000 */
-  --brand: #284B63; --brand-green: #38B000;
-  --go: #38B000; --go-ink: #10202B;
-  --title: #284B63; --kick: #2A7A00;
+  /* brand: blue-violet #3A0CA3 and green #38B000 */
+  --brand: #3A0CA3; --brand-green: #38B000;
+  --go: #38B000; --go-ink: #160A33;
+  --title: #3A0CA3; --kick: #2A7A00;
   --bg: #EEF0EB;
   --surface: #FFFFFF;
   --surface-2: #E5E9E1;
   --ink: #1D2B35;
   --muted: #5A6A74;
-  --slate: #284B63;
+  --slate: #3A0CA3;
   --line: #DADFD5;
-  --accent: #284B63;
+  --accent: #3A0CA3;
   --accent-ink: #FFFFFF;
-  --hero: #284B63;
+  --hero: #3A0CA3;
   --hero-ink: #FFFFFF;
   --hero-muted: rgb(255 255 255 / .7);
   --hero-line: rgb(255 255 255 / .16);
-  --shadow: 0 1px 2px rgb(35 43 48 / .04), 0 12px 40px -24px rgb(35 43 48 / .25);
+  --shadow: 0 1px 2px rgb(58 12 163 / .04), 0 12px 40px -24px rgb(58 12 163 / .25);
   --warn: #9A5B12;
   --warn-bg: #FBF0DF;
   --ok: #2A7A00;
   --ok-soft: #9DD07C;
   --miss: #B23A3A;
-  --s1: #284B63;
-  --s2: #7397B0;
+  --s1: #3A0CA3;
+  --s2: #8A6AD8;
   --s3: #38B000;
   --c-mat: #8A6A3B;
   --c-fuel: #B8582F;
-  --c-elec: #284B63;
+  --c-elec: #3A0CA3;
   --c-refrig: #74558F;
   --c-transport: #38B000;
   --c-waste: #6F767D;
@@ -53,20 +53,20 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12181C; --surface: #1A2329; --surface-2: #233038; --ink: #E7EDEF; --muted: #9AABB5; --slate: #A9C6DA; --line: #2E3B43;
-    --accent: #B7D3E6; --accent-ink: #10202B; --hero: #0F2230; --title: #B7D3E6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+    --bg: #14121B; --surface: #1D1A28; --surface-2: #272336; --ink: #ECEAF2; --muted: #A7A1B8; --slate: #C3B7F0; --line: #353047;
+    --accent: #CFC4F6; --accent-ink: #160A33; --hero: #170A3D; --title: #CFC4F6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
     --warn: #E8B36A; --warn-bg: #2C2416; --ok: #5FCF24; --ok-soft: #2F6B1A; --miss: #E8807A;
-    --s1: #A9C6DA; --s2: #5E87A3; --s3: #38B000;
-    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F9CC0; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
+    --s1: #B9A8F2; --s2: #7A5BD6; --s3: #38B000;
+    --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #8C70E2; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #12181C; --surface: #1A2329; --surface-2: #233038; --ink: #E7EDEF; --muted: #9AABB5; --slate: #A9C6DA; --line: #2E3B43;
-  --accent: #B7D3E6; --accent-ink: #10202B; --hero: #0F2230; --title: #B7D3E6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+  --bg: #14121B; --surface: #1D1A28; --surface-2: #272336; --ink: #ECEAF2; --muted: #A7A1B8; --slate: #C3B7F0; --line: #353047;
+  --accent: #CFC4F6; --accent-ink: #160A33; --hero: #170A3D; --title: #CFC4F6; --kick: #4FCB12; --go-ink: #0B1A0A; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
   --warn: #E8B36A; --warn-bg: #2C2416; --ok: #5FCF24; --ok-soft: #2F6B1A; --miss: #E8807A;
-  --s1: #A9C6DA; --s2: #5E87A3; --s3: #38B000;
-  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F9CC0; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
+  --s1: #B9A8F2; --s2: #7A5BD6; --s3: #38B000;
+  --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #8C70E2; --c-refrig: #B58ED6; --c-transport: #4FCB12; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
   color-scheme: dark;
 }
 
@@ -169,7 +169,6 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .hero-copy { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px clamp(24px, 6vw, 120px); align-items: end; }
 .hero-copy h1 { font-size: clamp(42px, 6vw, 88px); line-height: .92; letter-spacing: -.02em; font-weight: 400; }
 .hero-copy h1 em { font-style: normal; color: var(--brand-green); }
-.brand .logo #footprints { fill: var(--brand-green); }
 .hero-side { display: grid; gap: 24px; justify-items: start; }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
 .setup { border-top: 1px solid var(--hero-line); padding-top: 24px; display: grid; gap: 18px; }
