@@ -13,7 +13,7 @@
 /* Layout: industrial editorial. A dark full-bleed hero (logo, nav, headline, project setup), then a scope KPI band, and the activity ledger on the left with the dashboard pinned on the right. Big bold Manrope headings, Space Mono eyebrows and buttons, white rounded cards on a cool grey page. */
 :root {
   /* brand: blue #072AC8. --go = dashboard hover; the menu bar hovers white (--menu-hover) */
-  --brand: #072AC8; --hero-accent: #AFC0FF; --forest: #283618; --forest-accent: #CCD5AE;
+  --brand: #072AC8; --hero-accent: #AFC0FF; --forest: #30343F; --forest-accent: #CCD5AE;
   --go: #072AC8; --go-ink: #FFFFFF;
   --menu-hover: #FFFFFF; --menu-hover-ink: #072AC8;
   --title: #072AC8; --kick: #072AC8;
@@ -87,7 +87,7 @@ button, input, select { font: inherit; color: inherit; }
 .eyebrow { font-family: var(--f-label); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--slate); }
 
 /* Hero: dark full-bleed band */
-/* the first section is one dark forest tone; the tree grows straight on it */
+/* the first section is one dark tone; the tree grows straight on it */
 .hero { --hero: var(--forest); --hero-accent: var(--forest-accent); background: var(--hero); color: var(--hero-ink); --line: var(--hero-line); --muted: var(--hero-muted); --surface: rgb(255 255 255 / .06); --surface-2: rgb(255 255 255 / .1); --slate: rgb(255 255 255 / .62); --accent: #FFFFFF; --accent-ink: #1E201F; color-scheme: dark; }
 .hero-in { max-width: 1760px; margin: 0 auto; padding: clamp(40px, 6vw, 88px) clamp(16px, 3vw, 44px) 40px; display: grid; gap: clamp(36px, 7vw, 96px); }
 /* Top bar: sticky, compacts on scroll; each menu group is a tile that opens a dropdown over a blurred page */
