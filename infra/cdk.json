@@ -1,0 +1,24 @@
+{
+  "app": "npx tsx bin/app.ts",
+  "context": {
+    "defaults": {
+      "region": "us-east-2",
+      "minAcu": 0,
+      "maxAcu": 2,
+      "monthlyBudgetUsd": 50,
+      "mailFrom": "",
+      "sesDomain": "",
+      "alertEmail": ""
+    },
+    "stages": {
+      "prod": {
+        "siteUrls": ["https://co2trace.io", "https://www.co2trace.io"],
+        "authDomainPrefix": "co2trace"
+      },
+      "dev": {
+        "siteUrls": ["http://localhost:8080"],
+        "authDomainPrefix": "co2trace-dev"
+      }
+    }
+  }
+}

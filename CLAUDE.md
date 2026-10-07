@@ -12,3 +12,4 @@
 
 - Hosting: GitHub Pages from `main` (repo public since 2026-10-07), custom domain co2trace.io via `CNAME`; DNS at GoDaddy. Pushing to main deploys the live site.
 - Mexican RENE rules (AR5 GWPs, FESEN grid factor, Mexican fuel factors, COA format): `docs/mexico-rene.md`. SimaPro modelling concepts and how CO2Trace maps onto them: `docs/simapro-model.md`.
+- AWS backend (accounts, companies, roles, cloud ledger, evidence in S3, audit log): `api/` (Lambda, Postgres schema with row-level security, tests run on PGlite: `cd api && npm test`) and `infra/` (CDK stack, region us-east-2). Design, roles, routes and deploy steps: `docs/aws-backend.md`. The website does not use it yet.
