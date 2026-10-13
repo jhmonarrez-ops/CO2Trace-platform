@@ -396,6 +396,23 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .acct .acts { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
 .acct[data-mode="create"] .for-signin, .acct[data-mode="signin"] .for-create { display: none; }
 
+/* Database search dialog (+ From database) */
+.stage-foot .adds { display: flex; flex-wrap: wrap; gap: 8px; }
+.acct.db { width: min(760px, calc(100% - 32px)); }
+.db form { gap: 12px; }
+.db-bar { display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: 8px; }
+.db-bar.geo { grid-template-columns: minmax(150px, 220px) minmax(120px, 180px) 1fr; }
+.db-bar select, .db-bar input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; color: inherit; }
+.acct .db-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: min(52vh, 460px); overflow: auto; }
+.db-list button { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; align-items: baseline; text-align: left; background: var(--surface-2); border: 1px solid transparent; border-radius: 8px; padding: 10px 12px; cursor: pointer; font: inherit; color: inherit; }
+.db-list button:hover, .db-list button:focus-visible { border-color: var(--go); outline: none; }
+.db-list .ln { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.db-list .lv { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; color: var(--title); }
+.db-list .lm { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.db-src { font-size: 12.5px; color: var(--muted); margin: 0; }
+.db-src a { color: inherit; }
+@media (max-width: 640px) { .db-bar, .db-bar.geo { grid-template-columns: 1fr; } .db-bar input { font-size: 16px; } }
+
 /* Preview overlay */
 .overlay { position: fixed; inset: 0; background: rgb(0 0 0 / .55); display: grid; place-items: center; padding: 16px; z-index: 10; }
 .viewer { background: var(--surface); border-radius: 18px; width: min(960px, 100%); max-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
@@ -818,6 +835,20 @@ td.em.memo { color: var(--muted); font-style: italic; }
     <div class="acts"><button class="btn primary" value="close" data-es="Seguir en este navegador">Continue in this browser</button></div>
   </form>
 </dialog>
+<dialog class="acct db" id="dbDlg" aria-labelledby="dbTitle">
+  <form method="dialog" id="dbForm">
+    <div class="eyebrow" data-es="Bases de datos de factores de emisión">Emission factor databases</div>
+    <h2 id="dbTitle" data-es="Agregar una línea desde una base de datos">Add a line from a database</h2>
+    <div class="db-bar" id="dbBar">
+      <select id="dbSel" aria-label="Database" data-es-aria-label="Base de datos"></select>
+      <select id="dbGeo" aria-label="Region" data-es-aria-label="Región" hidden></select>
+      <input id="dbQ" type="search" autocomplete="off" placeholder="Search: steel, diesel truck, beef, 331110…" data-es-placeholder="Buscar: acero, camión diésel, res, 331110…" aria-label="Search" data-es-aria-label="Buscar">
+    </div>
+    <p class="db-src" id="dbInfo"></p>
+    <ul class="db-list" id="dbList" aria-live="polite"></ul>
+    <div class="acts"><button class="btn" value="close" data-es="Cerrar">Close</button></div>
+  </form>
+</dialog>
 <div class="overlay" id="overlay" hidden>
   <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName">
     <header><span id="viewerName"></span><button type="button" class="btn" id="viewerClose" data-es="Cerrar">Close</button></header>
@@ -852,6 +883,11 @@ td.em.memo { color: var(--muted); font-style: italic; }
     AR5: { CO2: 1, CH4: 28, N2O: 265, 'HFC-32': 677, 'HFC-125': 3170, 'HFC-134a': 1300, 'HFC-143a': 4800, 'HCFC-22': 1760, CO2e: 1 },
     AR4: { CO2: 1, CH4: 25, N2O: 298, 'HFC-32': 675, 'HFC-125': 3500, 'HFC-134a': 1430, 'HFC-143a': 4470, 'HCFC-22': 1810, CO2e: 1 },
   };
+  // Other Kyoto gases, which appear in database factors (EPA supply chain, USLCI, WEEE LCI): AR6, AR5, AR4
+  const MORE_GWP = { SF6: [24300, 23500, 22800], NF3: [17400, 16100, 17200], 'HFC-23': [14600, 12400, 14800], 'HFC-152a': [164, 138, 124],
+    'HFC-236fa': [8690, 8060, 9810], CF4: [7380, 6630, 7390], C2F6: [12400, 11100, 12200], C3F8: [9290, 8900, 8830],
+    'c-C4F8': [10200, 9540, 10300], C4F10: [10000, 9200, 8860], C6F14: [8620, 7910, 9300] };
+  Object.entries(MORE_GWP).forEach(([g, v]) => ['AR6', 'AR5', 'AR4'].forEach((m, i) => (GWP[m][g] = v[i])));
   const METHODS_EN = {
     AR6: 'IPCC AR6 GWP100 · GHG Protocol',
     AR5: 'IPCC AR5 GWP100 · RENE, US EPA',
@@ -863,7 +899,9 @@ td.em.memo { color: var(--muted); font-style: italic; }
     AR4: 'IPCC AR4 PCG100 · inventarios anteriores',
   };
   let METHODS = METHODS_EN;
-  const GAS_NAMES = { CO2: 'CO₂ (fossil)', CH4: 'CH₄', N2O: 'N₂O', 'HFC-32': 'HFC-32', 'HFC-125': 'HFC-125', 'HFC-134a': 'HFC-134a', 'HFC-143a': 'HFC-143a', 'HCFC-22': 'HCFC-22 (R-22)', CO2e: 'CO₂e, pre-characterised' };
+  const GAS_NAMES = { CO2: 'CO₂ (fossil)', CH4: 'CH₄', N2O: 'N₂O', 'HFC-32': 'HFC-32', 'HFC-125': 'HFC-125', 'HFC-134a': 'HFC-134a', 'HFC-143a': 'HFC-143a', 'HCFC-22': 'HCFC-22 (R-22)', CO2e: 'CO₂e, pre-characterised',
+    SF6: 'SF₆', NF3: 'NF₃', 'HFC-23': 'HFC-23', 'HFC-152a': 'HFC-152a', 'HFC-236fa': 'HFC-236fa', CF4: 'CF₄ (PFC-14)', C2F6: 'C₂F₆ (PFC-116)',
+    C3F8: 'C₃F₈ (PFC-218)', 'c-C4F8': 'c-C₄F₈ (PFC-318)', C4F10: 'C₄F₁₀ (PFC-31-10)', C6F14: 'C₆F₁₄ (PFC-51-14)' };
   const REGIONS = {
     us: { name: 'United States', es: ['Estados Unidos', 'GHG Protocol · factores de la EPA'], method: 'AR6', grid: 'elec_us', framework: 'GHG Protocol · US EPA factors' },
     mx: { name: 'México', es: ['México', 'RENE (LGCC) · GHG Protocol'], method: 'AR5', grid: 'elec_mx', framework: 'RENE (LGCC) · GHG Protocol' },
@@ -935,6 +973,33 @@ td.em.memo { color: var(--muted); font-style: italic; }
     FACTORS.splice(at, 0, { g: 'Electricity · eGRID2023 subregions', key: 'egrid_' + code, name: `${code} · ${name}`, unit: 'kWh', kind: 'elec', only: 'us', gas: lbMWh(co2, ch4, n2o), src: `EPA eGRID2023 ${code} (${EPA}, Table 6)` });
   });
   const F = Object.fromEntries(FACTORS.map(f => [f.key, f]));
+
+  // Database factors (data/libraries/*.json, built from the publishers' downloads by tools/libraries/build.py).
+  // A line that uses one keeps a copy in state.lib, so the ledger still works offline and keeps the value it was calculated with.
+  const LIB_DIR = 'data/libraries/';
+  const LIB_SHORT = { 'epa-sc': 'EPA supply chain', exiobase: 'EXIOBASE', uslci: 'USLCI', agribalyse: 'AGRIBALYSE', weee: 'WEEE LCI' };
+  const libKind = (lib, it) => {
+    if (lib === 'weee' || it.waste) return 'waste';
+    const n = (it.n + ' ' + (it.g || '')).toLowerCase();
+    if (lib === 'uslci' && it.k.startsWith('elci:')) return 'elec';
+    if (lib === 'epa-sc') return /^4[89]/.test(it.code) ? 'transport' : /^562/.test(it.code) ? 'waste' : 'mat';
+    if (/^transport|transportation|freight/.test(n)) return 'transport';
+    if (/waste|landfill|incinerat/.test(n)) return 'waste';
+    return 'mat';
+  };
+  function libFactor(lib, meta, it) {
+    const gas = Object.assign({}, it.gas); delete gas['HCFC-22']; // Montreal Protocol traces stay out of database factors
+    const g = 'Database · ' + (LIB_SHORT[lib] || lib), name = it.n + (it.region ? ' · ' + it.region : '');
+    return { g, key: it.k, name, en: [name, g],
+      unit: { USD2022: 'USD (2022)', EUR2019: 'EUR (2019)' }[it.u] || it.u, kind: libKind(lib, it), gas, lib, cite: `${meta.citation} ${L('Licence', 'Licencia')}: ${meta.licence}.`, src: `${meta.name} ${meta.version} (${meta.publisher}; ${meta.licence.split(/[.;(]/)[0].trim()}): ${it.n}` };
+  }
+  function registerFactor(f) {
+    if (F[f.key]) return F[f.key];
+    let at = -1; FACTORS.forEach((x, i) => { if (x.g === f.g || (x.en && x.en[1] === f.g)) at = i; });
+    if (at < 0) FACTORS.push(f); else FACTORS.splice(at + 1, 0, f);
+    F[f.key] = f;
+    return f;
+  }
   const FACTOR_ES = {
     steel: 'Acero primario (alto horno, BF-BOF)', steel_eaf: 'Acero reciclado (horno de arco eléctrico)', alu: 'Aluminio primario', alu_rec: 'Aluminio reciclado',
     copper: 'Cobre', abs: 'Plástico ABS', pe: 'Polietileno (PEAD/PEBD)', pet: 'PET', cement: 'Cemento Portland ordinario (CEM I)', concrete: 'Concreto premezclado (30 MPa)',
@@ -948,6 +1013,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     wastewater: 'Tratamiento de aguas residuales', custom: 'Factor personalizado…',
   };
   const GROUP_ES = { Materials: 'Materiales', Fuels: 'Combustibles', Electricity: 'Electricidad', 'Refrigerant leaks': 'Fugas de refrigerante', Transport: 'Transporte', 'Waste & water': 'Residuos y agua', Other: 'Otro' };
+  Object.values(LIB_SHORT).forEach(n => (GROUP_ES['Database · ' + n] = 'Base de datos · ' + n));
   // Factor sources stay as cited, with the descriptive parts in Spanish
   const SRC_ES = [
     ['Industry-average cradle-to-gate CO₂e (screening value)', 'CO₂e promedio de la industria, de la cuna a la puerta (valor de tamizaje)'],
@@ -1141,6 +1207,8 @@ td.em.memo { color: var(--muted); font-style: italic; }
   if (!REGIONS[state.region]) state.region = 'mx';
   if (!GWP[state.method]) state.method = REGIONS[state.region].method;
   state.goal = Object.assign(blankGoal(), state.goal || {});
+  state.lib = state.lib && typeof state.lib === 'object' ? state.lib : {};
+  Object.values(state.lib).forEach(f => f && f.key && f.gas && registerFactor(Object.assign({}, f, { en: [f.name, f.g] })));
   state.rows = state.rows.filter(r => F[r.key]);
   state.rows.forEach(r => {
     if (!state.v) r.efEdit = r.key === 'custom' || Number(r.ef) !== V1_EF[r.key];
@@ -1153,7 +1221,11 @@ td.em.memo { color: var(--muted); font-style: italic; }
   state.v = 2;
   const expanded = new Set();
 
-  function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+  function save() {
+    state.lib = state.lib || {};
+    Object.keys(state.lib).forEach(k => { if (!state.rows.some(r => r.key === k)) delete state.lib[k]; });
+    try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {}
+  }
 
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -1311,7 +1383,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
           <thead><tr><th>${L('Activity', 'Actividad')}</th><th>${L('Supplier', 'Proveedor')}</th><th>${L('Description', 'Descripción')}</th><th class="r">${L('Quantity', 'Cantidad')}</th><th>${L('Unit', 'Unidad')}</th><th class="r">${L('kg CO₂e / unit', 'kg CO₂e / unidad')}</th><th>${L('Scope', 'Alcance')}</th><th>${L('Months', 'Meses')}</th><th class="r">t CO₂e</th><th>${L('Evidence', 'Evidencia')}</th><th><span class="vh">${L('Remove', 'Quitar')}</span></th></tr></thead>
           <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`
           : `<div class="empty">${L('No lines in this stage yet.', 'Aún no hay líneas en esta etapa.')}</div>`}
-        <div class="stage-foot"><button type="button" class="add" data-add="${s.id}">${L('+ Add line', '+ Agregar línea')}</button><span class="note">${rows.length} ${rows.length === 1 ? L('line', 'línea') : L('lines', 'líneas')}</span></div>
+        <div class="stage-foot"><span class="adds"><button type="button" class="add" data-add="${s.id}">${L('+ Add line', '+ Agregar línea')}</button><button type="button" class="add" data-libadd="${s.id}">${L('+ From database', '+ Desde base de datos')}</button></span><span class="note">${rows.length} ${rows.length === 1 ? L('line', 'línea') : L('lines', 'líneas')}</span></div>
       </section>`;
     }).join('');
     renderSupplierList();
@@ -1372,6 +1444,8 @@ td.em.memo { color: var(--muted); font-style: italic; }
       L(`Impact method: ${METHODS[state.method]}. CH₄ from combustion uses the non-fossil GWP.`, `Método de impacto: ${METHODS[state.method]}. El CH₄ de combustión usa el PCG no fósil.`),
       `${L('Framework', 'Marco')}: ${REGIONS[state.region].framework}. ${L('Multi-output processes', 'Procesos multiproducto')}: ${ALLOC()[state.goal.allocation] || ALLOC().cutoff}.`,
       ...LIBS[state.region], ...(isEs() ? LIBS.both_es : LIBS.both),
+      // databases behind the lines added with + From database
+      ...[...new Set(state.rows.map(r => F[r.key] && F[r.key].cite).filter(Boolean))].map(c => L('Database', 'Base de datos') + ': ' + c),
     ].map(s => `<li>${esc(s)}</li>`).join('');
   }
   function renderMethodText() {
@@ -1959,7 +2033,106 @@ td.em.memo { color: var(--muted); font-style: italic; }
     if (r) addFiles(r, e.dataTransfer.files);
   });
 
+  // ---------- + From database: search the factor libraries and add a line with the chosen factor ----------
+  const libs = { index: null, items: {}, stage: null };
+  const libFetch = url => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  async function libIndex() {
+    if (!libs.index) libs.index = libFetch(LIB_DIR + 'index.json').then(d => d.libraries).catch(e => { libs.index = null; throw e; });
+    return libs.index;
+  }
+  async function libItems(id) {
+    if (!libs.items[id]) libs.items[id] = libIndex().then(ix => libFetch(LIB_DIR + ix.find(l => l.id === id).file)).then(d => d.items)
+      .catch(e => { delete libs.items[id]; throw e; });
+    return libs.items[id];
+  }
+  const libUnit = u => ({ USD2022: L('USD (2022)', 'USD (2022)'), EUR2019: L('EUR (2019)', 'EUR (2019)') }[u] || u);
+  async function openLib(stage) {
+    libs.stage = stage;
+    const dlg = $('dbDlg'), sel = $('dbSel');
+    $('dbList').innerHTML = ''; $('dbInfo').textContent = L('Loading databases…', 'Cargando bases de datos…');
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    $('dbQ').focus();
+    try {
+      const ix = await libIndex();
+      if (!sel.options.length) {
+        sel.innerHTML = `<option value="">${L('All databases', 'Todas las bases')}</option>` + ix.map(l => `<option value="${l.id}">${esc(LIB_SHORT[l.id] || l.name)} · ${nf0.format(l.count)}</option>`).join('');
+        // spend-based first for the country: EPA in the US; EXIOBASE has México
+        sel.value = '';
+      }
+      libSearch();
+    } catch (err) {
+      $('dbInfo').textContent = L('The databases could not be loaded. They are served with the site (co2trace.io); a saved copy of this page cannot reach them.',
+        'No se pudieron cargar las bases de datos. Se sirven con el sitio (co2trace.io); una copia guardada de esta página no puede acceder a ellas.');
+    }
+  }
+  let libTimer = 0;
+  async function libSearch() {
+    const id = $('dbSel').value, q = $('dbQ').value.trim().toLowerCase(), geoSel = $('dbGeo');
+    const ix = await libIndex();
+    const ids = id ? [id] : ix.map(l => l.id);
+    $('dbInfo').textContent = L('Loading…', 'Cargando…');
+    let all;
+    try { all = await Promise.all(ids.map(i => libItems(i).then(items => items.map(it => [i, it])))); } catch (e) { $('dbInfo').textContent = L('Could not load this database.', 'No se pudo cargar esta base de datos.'); return; }
+    // EXIOBASE is by region: offer the region list, starting with the country of the project
+    const exio = id === 'exiobase';
+    geoSel.hidden = !exio; $('dbBar').classList.toggle('geo', exio);
+    if (exio && !geoSel.options.length) {
+      const regs = [...new Map((await libItems('exiobase')).map(it => [it.geo, it.region])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
+      geoSel.innerHTML = regs.map(([g, n]) => `<option value="${g}">${esc(n)}</option>`).join('');
+      geoSel.value = state.region === 'mx' ? 'MX' : 'US';
+    }
+    const words = q.split(/\s+/).filter(Boolean);
+    const hits = [];
+    for (const list of all) for (const [lib, it] of list) {
+      if (exio && it.geo !== geoSel.value) continue;
+      if (!id && lib === 'exiobase' && it.geo !== (state.region === 'mx' ? 'MX' : 'US')) continue;
+      const hay = (it.n + ' ' + (it.n_fr || '') + ' ' + (it.code || '') + ' ' + (it.g || '') + ' ' + (it.cat || '')).toLowerCase();
+      if (words.every(w => hay.includes(w))) hits.push([lib, it, words.length && it.n.toLowerCase().startsWith(words[0]) ? 0 : 1]);
+    }
+    hits.sort((a, b) => a[2] - b[2] || a[1].n.length - b[1].n.length);
+    const shown = hits.slice(0, 80);
+    const meta = Object.fromEntries(ix.map(l => [l.id, l]));
+    $('dbList').innerHTML = shown.map(([lib, it]) => {
+      const v = co2eOf(it.gas);
+      return `<li><button type="button" data-pick="${esc(lib)}|${esc(it.k)}"><span class="ln">${esc(it.n)}${it.region ? ' · ' + esc(it.region) : ''}</span>`
+        + `<span class="lv">${showEf(v)} kg CO₂e/${esc(libUnit(it.u))}</span>`
+        + `<span class="lm">${esc(LIB_SHORT[lib] || lib)} · ${esc(it.g || '')}${it.code ? ' · NAICS ' + esc(it.code) : ''}${it.geo && !it.region ? ' · ' + esc(it.geo) : ''}</span></button></li>`;
+    }).join('') || `<li class="note">${L('No match. Try fewer or different words, or another database.', 'Sin resultados. Prueba con menos palabras, otras palabras u otra base.')}</li>`;
+    const m = id ? meta[id] : null;
+    $('dbInfo').innerHTML = (q ? `${nf0.format(hits.length)} ${L('matches', 'resultados')}${hits.length > shown.length ? ` · ${L('showing', 'mostrando')} ${shown.length}` : ''}. ` : '')
+      + (m ? `${esc(m.basis)}. <a href="${esc(m.source)}" target="_blank" rel="noopener">${esc(m.name)} ${esc(m.version)}</a> · ${esc(m.licence)}.` + (m.note ? ' ' + esc(m.note) : '')
+        : L(`Values in kg CO₂e per unit with ${state.method}. Pick a database to see its scope, licence and source.`, `Valores en kg CO₂e por unidad con ${state.method}. Elige una base para ver su alcance, licencia y fuente.`));
+  }
+  $('dbSel').addEventListener('change', () => { $('dbGeo').innerHTML = ''; libSearch(); });
+  $('dbGeo').addEventListener('change', libSearch);
+  $('dbQ').addEventListener('input', () => { clearTimeout(libTimer); libTimer = setTimeout(libSearch, 150); });
+  $('dbQ').addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault(); // Enter adds the first result instead of closing the dialog
+    const b = $('dbList').querySelector('[data-pick]'); if (b) b.click();
+  });
+  $('dbForm').addEventListener('submit', e => { if (!e.submitter || e.submitter.value !== 'close') e.preventDefault(); });
+  $('dbDlg').addEventListener('click', e => { if (e.target === $('dbDlg')) $('dbDlg').close(); });
+  $('dbList').addEventListener('click', async e => {
+    const b = e.target.closest('[data-pick]'); if (!b) return;
+    const [lib, key] = b.dataset.pick.split('|');
+    const meta = (await libIndex()).find(l => l.id === lib), it = (await libItems(lib)).find(x => x.k === key);
+    const f0 = libFactor(lib, meta, it);
+    if (isEs()) f0.g = GROUP_ES[f0.g] || f0.g; // the ledger is in Spanish: group label to match the others
+    const f = registerFactor(f0);
+    state.lib = state.lib || {};
+    state.lib[f.key] = { key: f.key, g: f.en[1], name: f.en[0], unit: f.unit, kind: f.kind, gas: f.gas, lib: f.lib, src: f.src, cite: f.cite };
+    const s = STAGES.find(x => x.id === libs.stage) || STAGES[0];
+    const r = row(s.id, f.key, '');
+    state.rows.push(r);
+    $('dbDlg').close();
+    renderStages(); renderSetup(); touched();
+    const q = document.getElementById(r.id + '-qty'); if (q) q.focus();
+  });
+
   stagesEl.addEventListener('click', e => {
+    const libAdd = e.target.closest('[data-libadd]');
+    if (libAdd) { openLib(libAdd.dataset.libadd); return; }
     const add = e.target.closest('[data-add]');
     if (add) {
       const s = STAGES.find(x => x.id === add.dataset.add);
@@ -2205,9 +2378,13 @@ td.em.memo { color: var(--muted); font-style: italic; }
   const csvQ = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
   const toCsv = rows => rows.map(l => l.map(csvQ).join(',')).join('\n');
   const tNum = (v, d) => (v ? v.toFixed(d) : '0');
-  const GASES = ['CO2', 'CH4', 'N2O', 'HFC-32', 'HFC-125', 'HFC-134a', 'HFC-143a', 'HCFC-22', 'CO2e'];
+  const BASE_GASES = ['CO2', 'CH4', 'N2O', 'HFC-32', 'HFC-125', 'HFC-134a', 'HFC-143a', 'HCFC-22'];
+  let GASES = BASE_GASES.concat('CO2e');
+  // columns: the usual gases, plus any other Kyoto gas a database line carries, then pre-characterised CO2e
+  const setGases = () => (GASES = BASE_GASES.concat(Object.keys(MORE_GWP).filter(g => state.rows.some(r => gasT(r)[g])), 'CO2e'));
 
   function csv() {
+    setGases();
     const head = L(['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Factor edited', 'Factor source', 'Scope', 'First month', 'Last month'],
       ['Etapa', 'Actividad', 'Categoría', 'Proveedor', 'Descripción', 'Cantidad', 'Unidad', 'Factor (kg CO2e/unidad)', 'Factor editado', 'Fuente del factor', 'Alcance', 'Primer mes', 'Último mes'])
       .concat(GASES.map(g => `t ${g === 'CO2e' ? L('CO2e pre-characterised', 'CO2e precaracterizado') : g}`), L(`Emissions (t CO2e, ${state.method})`, `Emisiones (t CO2e, ${state.method})`),
@@ -2227,6 +2404,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
   // Summary for the Cédula de Operación Anual: direct and indirect sources, mass per gas and t CO2e with AR5
   function coaCsv() {
+    setGases();
     const g = state.goal, yr = state.year || '';
     const lines = state.rows.filter(r => included(r.stage) && +r.scope < 3 && qtyOf(r) > 0);
     const tipo = r => (+r.scope === 2 ? 'Emisión indirecta (energía eléctrica)' : F[r.key].mobile ? 'Fuente móvil' : F[r.key].kind === 'refrig' ? 'Fuente fija (emisiones fugitivas)' : 'Fuente fija');
@@ -2315,6 +2493,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       { k: 'scope scopes 1 2 3 direct indirect value chain alcance alcances directa directas indirecta indirectas cadena valor', a: () => ({ html: L(`<ul><li><b>Scope 1</b>: direct emissions from sources you own or control (fuels burned, company vehicles, refrigerant leaks).</li><li><b>Scope 2</b>: purchased electricity, steam or heat. In the US the total uses market-based; location-based is shown alongside.</li><li><b>Scope 3</b>: everything else in the value chain, such as purchased materials, transport, waste and product end of life.</li></ul>`, `<ul><li><b>Alcance 1</b>: emisiones directas de fuentes propias o controladas (combustibles, vehículos de la empresa, fugas de refrigerante).</li><li><b>Alcance 2</b>: electricidad, vapor o calor comprados; en México se usa el factor FESEN.</li><li><b>Alcance 3</b>: el resto de la cadena de valor, como materiales comprados, transporte, residuos y fin de vida del producto. El RENE no lo pide.</li></ul>`), acts: [go('Scope split', 'Distribución por alcance', 'c-scope')] }) },
       { k: 'market location based scope 2 electricity grid egrid fesen electricidad red mercado ubicacion', a: () => ({ html: L(`<p>Electricity uses the grid factor of where it is consumed: <b>eGRID</b> subregions in the US and <b>FESEN</b> in México. Under GHG Protocol, US Scope 2 is reported two ways: <b>location-based</b> (the grid average) and <b>market-based</b> (your contracts and certificates). The total uses market-based; both appear on the Scope 2 card.</p>`, `<p>La electricidad usa el factor de la red donde se consume: <b>FESEN</b> en México y subregiones <b>eGRID</b> en EE. UU. En México los certificados de energía limpia no reducen el reporte RENE; el valor basado en mercado se muestra solo como memoria.</p>`), acts: [go('Key metrics', 'Indicadores', 'kpis')] }) },
       { k: 'factor factors emission ef library source custom edit change own epa defra ecoinvent factores biblioteca fuente editar cambiar propio', a: () => ({ html: L(`<p>Each activity uses a cited factor from the library (EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México). Factors are stored as kg of each gas per unit and characterised with the chosen GWPs. You can edit a line’s factor or pick <b>Custom</b> to enter your own; edited lines are marked.</p>`, `<p>Cada actividad usa un factor citado de la biblioteca (SEMARNAT y FESEN para México; EPA, eGRID, IPCC y bases ICV para EE. UU.). Los factores se guardan como kg de cada gas por unidad y se caracterizan con los PCG elegidos. Puedes editar el factor de una línea o elegir <b>Personalizado</b> para capturar el tuyo; las líneas editadas quedan marcadas.</p>`), acts: [go('Libraries and method', 'Bibliotecas y método', 'libList')] }) },
+      { k: 'database databases library libraries uslci epa supply chain useeio exiobase agribalyse weee spend naics search base bases datos buscar gasto', a: () => ({ html: L(`<p>Press <b>+ From database</b> in any stage to search the factor databases and add a line: <b>EPA supply chain</b> factors (US, per USD spent, by NAICS), <b>EXIOBASE 3.8.2</b> (per EUR spent, 49 regions including México), <b>USLCI</b> (US process data: materials, energy, transport, grid mixes), <b>AGRIBALYSE 3.2</b> (food, per kg) and <b>WEEE LCI</b> (end of life of electrical equipment). Each value is kg of each gas per unit, so it follows the GWP method you choose. The line keeps its source and licence.</p>`, `<p>Presiona <b>+ Desde base de datos</b> en cualquier etapa para buscar en las bases de factores y agregar una línea: factores de <b>cadena de suministro de la EPA</b> (EE. UU., por USD gastado, por NAICS), <b>EXIOBASE 3.8.2</b> (por EUR gastado, 49 regiones incluida México), <b>USLCI</b> (procesos de EE. UU.: materiales, energía, transporte, mezclas de red), <b>AGRIBALYSE 3.2</b> (alimentos, por kg) y <b>WEEE LCI</b> (fin de vida de aparatos eléctricos). Cada valor es kg de cada gas por unidad, así que sigue el método de PCG que elijas. La línea guarda su fuente y licencia.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },
       { k: 'gwp ar4 ar5 ar6 ipcc method impact characterisation characterization metodo impacto pcg potencial calentamiento', a: () => ({ html: L(`<p>The impact method sets the global warming potentials (GWP100) used to turn each gas into CO₂e: IPCC <b>AR6</b>, AR5 or AR4. The US default is AR6; México’s RENE requires <b>AR5</b>. Change it under Impact method in Project setup.</p>`, `<p>El método de impacto define los potenciales de calentamiento (PCG100) que convierten cada gas en CO₂e: IPCC AR6, <b>AR5</b> o AR4. El RENE exige <b>AR5</b>; el umbral y la exportación COA usan AR5 de todos modos. Cámbialo en Método de impacto, en la configuración.</p>`), acts: [go('Project setup', 'Configuración', 'projectSetup')] }) },
       { k: 'boundary cradle gate grave life cycle stage stages lca iso 14040 14044 14067 limite cuna puerta tumba ciclo vida etapa etapas acv', a: () => ({ html: L(`<p><b>Cradle-to-gate</b> counts raw materials, transport in and manufacturing, up to the factory gate. <b>Cradle-to-grave</b> adds distribution, use and end of life. Stages outside the boundary stay in the ledger but drop out of the totals. The method follows ISO 14040/14044 and ISO 14067.</p>`, `<p><b>De la cuna a la puerta</b> cuenta materias primas, transporte de entrada y manufactura, hasta la puerta de la fábrica. <b>De la cuna a la tumba</b> agrega distribución, uso y fin de vida. Las etapas fuera del límite se quedan en el registro pero salen de los totales. El método sigue ISO 14040/14044 e ISO 14067.</p>`), acts: [go('Goal and scope', 'Objetivo y alcance', 'setup')] }) },
       { k: 'functional unit per unit product units produced unidad funcional por unidad producto producidas', a: () => ({ html: L(`<p>The functional unit is what the footprint is expressed per, for example “one ceiling fan”. Enter its name and the units produced in the year in Project setup; the KPI band then shows kg CO₂e per unit.</p>`, `<p>La unidad funcional es aquello por lo que se expresa la huella, por ejemplo “un ventilador de techo”. Captura su nombre y las unidades producidas en el año en la configuración; los indicadores muestran entonces kg CO₂e por unidad.</p>`), acts: [go('Project setup', 'Configuración', 'projectSetup')] }) },
