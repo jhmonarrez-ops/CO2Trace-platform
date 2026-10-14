@@ -190,6 +190,85 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .hero-copy h1 { font-size: clamp(40px, 5vw, 80px); line-height: .98; letter-spacing: -.035em; font-weight: 500; }
 .hero-copy h1 em { font-style: normal; color: var(--hero-accent); }
 .lede { max-width: 52ch; color: var(--hero-muted); margin: 0; font-size: 17px; font-weight: 300; }
+/* Evidence guide (#evidence): rules strip, then an explorer with icon tabs, a checklist and a live thumbnail of the sample document */
+.evguide { display: grid; gap: 28px; padding: clamp(28px, 5vw, 72px); border-radius: 18px; color: #FFFFFF; background-color: var(--forest); background-image: radial-gradient(rgb(255 255 255 / .055) 1px, transparent 1.2px); background-size: 16px 16px; box-shadow: 0 30px 70px -40px rgb(0 0 0 / .6); }
+.evguide .eyebrow { color: var(--forest-accent); }
+.evguide h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; color: #FFFFFF; margin-top: 8px; }
+.evguide .ex-lede { color: rgb(255 255 255 / .72); }
+.evguide .evg-rules { border-top-color: rgb(255 255 255 / .14); }
+.evguide .evg-rules li + li { border-left-color: rgb(255 255 255 / .14); }
+.evguide .evg-rules b { color: #FFFFFF; }
+.evguide .evg-rules p { color: rgb(255 255 255 / .66); }
+.evguide .evg-ico { background: rgb(255 255 255 / .08); color: var(--forest-accent); }
+.evguide .evg-rules li:hover .evg-ico { background: rgb(255 255 255 / .16); }
+.evguide .evg-n { color: var(--forest-accent); }
+.evguide .evg-x { box-shadow: 0 30px 60px -30px rgb(0 0 0 / .7); }
+.evg-ico svg, .evg-tab svg, .evg-checks svg, .evg-where svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.evg-rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.evg-rules li { padding: 22px 22px 4px 0; display: grid; gap: 10px; align-content: start; }
+.evg-rules li + li { padding-left: 22px; border-left: 1px solid var(--line); }
+.evg-rhead { display: flex; align-items: center; justify-content: space-between; }
+.evg-ico { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--brand) 10%, transparent); color: var(--title); }
+.evg-ico svg { width: 20px; height: 20px; }
+.evg-n { font-family: var(--f-label); font-size: 11px; letter-spacing: .08em; color: var(--kick); }
+.evg-rules b { font-size: 17px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.evg-rules p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--slate); }
+.evg-x { background: var(--surface); border-radius: 24px; box-shadow: var(--shadow); overflow: hidden; }
+.evg-tabs { position: relative; display: flex; gap: 6px; padding: 12px; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.evg-ind { position: absolute; top: 0; left: 0; z-index: 0; border-radius: 99px; background: var(--brand); overflow: hidden; pointer-events: none; transition: transform .5s cubic-bezier(.6, 0, .2, 1), width .5s cubic-bezier(.6, 0, .2, 1); }
+.evg-ind i { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: rgb(255 255 255 / .75); }
+.evguide.evg-seen:not(.evg-stop) .evg-ind i { animation: evgProg 6.5s linear forwards; }
+.evguide.evg-hold .evg-ind i { animation-play-state: paused; }
+@keyframes evgProg { to { width: 100%; } }
+.evg-tabs::-webkit-scrollbar { display: none; }
+.evg-tab { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 12px; border-radius: 99px; border: 0; background: transparent; color: var(--slate); font: inherit; font-size: 14px; white-space: nowrap; cursor: pointer; transition: background .2s, color .2s; }
+.evg-tab svg { width: 18px; height: 18px; }
+.evg-tab:hover { background: var(--surface-2); color: var(--ink); }
+.evg-tab[aria-selected="true"] { background: transparent; color: #fff; transition: color .3s .15s; }
+.evg-tab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.evg-pane { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding: clamp(24px, 4vw, 52px); background: radial-gradient(110% 90% at 100% 0%, color-mix(in srgb, var(--brand) 8%, transparent), transparent 62%); }
+.evg-info { display: grid; gap: 16px; align-content: start; animation: evgIn .5s cubic-bezier(.2, .7, .2, 1) both; }
+.evg-k { font-family: var(--f-label); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--kick); }
+.evg-info h3 { margin: -8px 0 0; font-size: clamp(26px, 2.6vw, 38px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; color: var(--title); }
+.evg-why { margin: 0; max-width: 54ch; font-size: 15px; line-height: 1.55; color: var(--slate); }
+.evg-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.evg-checks li { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.4; color: var(--ink); }
+.evg-checks svg { flex: none; width: 22px; height: 22px; color: var(--ok); }
+.evg-where { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); font-size: 14px; line-height: 1.5; color: var(--ink); }
+.evg-where svg { flex: none; width: 20px; height: 20px; margin-top: 2px; color: var(--title); }
+.evg-where .evg-k { margin-bottom: 3px; }
+.evg-pane.leave .evg-info { animation: evgOutL .22s ease forwards; }
+.evg-pane.leave .evg-paper { animation: evgOutR .22s ease forwards; }
+@keyframes evgOutL { to { opacity: 0; transform: translateX(-18px); } }
+@keyframes evgOutR { to { opacity: 0; transform: translateX(46px) rotate(7deg); } }
+.evg-checks li { animation: evgIn .5s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(.18s + var(--i, 0) * .09s); }
+.evg-checks li svg { animation: evgTick .5s cubic-bezier(.3, 1.6, .5, 1) both; animation-delay: calc(.3s + var(--i, 0) * .09s); }
+@keyframes evgTick { from { transform: scale(0) rotate(-40deg); } }
+.evg-float { width: min(100%, 380px); animation: evgFloat 6s ease-in-out infinite; }
+@keyframes evgFloat { 50% { transform: translateY(-8px); } }
+.evg-stack { transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .35s ease-out; }
+html.rv-on .evg-rules li { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * .12s); }
+html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
+.evg-ico { transition: transform .4s cubic-bezier(.3, 1.5, .5, 1), background .3s; }
+.evg-rules li:hover .evg-ico { transform: translateY(-3px) rotate(-6deg); background: color-mix(in srgb, var(--brand) 18%, transparent); }
+.evg-paper { margin: 0; display: grid; gap: 18px; justify-items: center; animation: evgPaper .7s cubic-bezier(.2, .7, .2, 1) both; }
+.evg-stack { position: relative; width: 100%; aspect-ratio: 800 / 940; }
+.evg-stack .sheet { position: absolute; inset: 0; border-radius: 8px; background: #FFFFFF; box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 24px 50px -22px rgb(10 20 60 / .45); }
+.evg-stack .s3 { transform: rotate(-7deg) translate(-18px, 14px); opacity: .5; }
+.evg-stack .s2 { transform: rotate(4deg) translate(14px, 8px); opacity: .8; }
+.evg-stack .s1 { overflow: hidden; transform: rotate(-1.2deg); transition: transform .45s cubic-bezier(.2, .7, .2, 1), box-shadow .45s; }
+.evg-paper:hover .s1 { transform: rotate(0) translateY(-8px); box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 34px 60px -24px rgb(10 20 60 / .5); }
+.evg-stack iframe { position: absolute; top: 0; left: 0; width: 800px; height: 940px; border: 0; transform-origin: 0 0; transform: scale(var(--k, .45)); pointer-events: none; }
+.evg-stamp { position: absolute; right: -10px; top: 18px; z-index: 2; padding: 6px 10px; border-radius: 6px; background: #C62828; color: #FFFFFF; font-family: var(--f-label); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; transform: rotate(6deg); box-shadow: 0 8px 18px -8px rgb(198 40 40 / .7); }
+.evg-paper figcaption { margin-top: 14px; display: grid; gap: 10px; justify-items: center; text-align: center; font-size: 13px; color: var(--slate); }
+.evg-open { display: inline-flex; align-items: center; gap: 8px; }
+@keyframes evgIn { from { opacity: 0; transform: translateY(12px); } }
+@keyframes evgPaper { from { opacity: 0; transform: translateY(22px) rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .evg-info, .evg-paper, .evg-float, .evg-checks li, .evg-checks li svg { animation: none; } .evg-stack .s1, .evg-ind { transition: none; } .evguide .evg-ind i { animation: none !important; } }
+@media (max-width: 960px) { .evg-rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } .evg-rules li:nth-child(3) { padding-left: 0; border-left: 0; } }
+@media (min-width: 821px) { .evg-tabs { flex-wrap: wrap; justify-content: center; overflow: visible; } }
+@media (max-width: 820px) { .evg-pane { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) { .evg-rules { grid-template-columns: minmax(0, 1fr); } .evg-rules li + li { padding-left: 0; border-left: 0; border-top: 1px solid rgb(255 255 255 / .14); } }
 /* Example gallery (#examples) and view mode (html.viewing: an untouched example is loaded) */
 .examples { display: grid; gap: 22px; }
 .ex-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 14px 32px; align-items: end; }
@@ -482,7 +561,6 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .lca-mid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
 .lca-loop { margin: 0; }
 .lca-loop svg { display: block; width: 100%; max-width: 540px; margin: 0 auto; overflow: visible; }
-.lca-loop figcaption { max-width: 46ch; margin: 18px auto 0; text-align: center; font-size: 13px; color: var(--muted); }
 .lca-loop .ring { fill: none; stroke: var(--title); stroke-width: 2; }
 .lca-loop .ring-back { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 3 6; }
 .lca-loop .gate-arc { fill: none; stroke: var(--kick); stroke-width: 8; stroke-linecap: round; opacity: .16; }
@@ -498,6 +576,16 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .lca-loop .node .no { font-size: 10px; letter-spacing: .06em; }
 .lca-loop .node .halo { fill: none; stroke: var(--title); opacity: 0; transform-box: fill-box; transform-origin: center; }
 .lca-loop .dot { fill: var(--title); }
+html.rv-on .lca-loop .draw { stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1) .2s; }
+html.rv-on .lca-loop.in .draw { stroke-dashoffset: 0; }
+html.rv-on .lca-loop .node { opacity: 0; transition: opacity .6s ease calc(.5s + var(--i) * .22s); }
+html.rv-on .lca-loop.in .node { opacity: 1; }
+html.rv-on .lca-loop .dot { opacity: 0; transition: opacity .6s ease 1.8s; }
+html.rv-on .lca-loop.in .dot { opacity: 1; }
+html.rv-on .lca-loop.in .node .halo { animation: lca-halo 10s linear infinite; animation-delay: calc(1.8s + var(--i) * 2s); }
+@keyframes lca-halo { 0% { opacity: .7; transform: scale(1); } 9% { opacity: 0; transform: scale(1.6); } 100% { opacity: 0; transform: scale(1.6); } }
+html:not(.rv-on) .lca-loop .dot { display: none; }
+.lca-loop figcaption { max-width: 46ch; margin: 18px auto 0; text-align: center; font-size: 13px; color: var(--muted); }
 .phases { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; position: relative; }
 .phases::before, .phases::after { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--line); }
 .phases::after { background: var(--title); transform-origin: top; }
@@ -516,19 +604,10 @@ tr.ev-row > td { padding: 0 6px 12px; }
 /* Scroll reveal: only when the script has switched it on and the reader allows motion */
 html.rv-on .rv { opacity: 0; transform: translateY(26px); transition: opacity .9s ease var(--d, 0s), transform .9s cubic-bezier(.2, .7, .2, 1) var(--d, 0s); }
 html.rv-on .rv.in { opacity: 1; transform: none; }
-html.rv-on .lca-loop .draw { stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1) .2s; }
-html.rv-on .lca-loop.in .draw { stroke-dashoffset: 0; }
-html.rv-on .lca-loop .node { opacity: 0; transition: opacity .6s ease calc(.5s + var(--i) * .22s); }
-html.rv-on .lca-loop.in .node { opacity: 1; }
-html.rv-on .lca-loop .dot { opacity: 0; transition: opacity .6s ease 1.8s; }
-html.rv-on .lca-loop.in .dot { opacity: 1; }
-html.rv-on .lca-loop.in .node .halo { animation: lca-halo 10s linear infinite; animation-delay: calc(1.8s + var(--i) * 2s); }
-@keyframes lca-halo { 0% { opacity: .7; transform: scale(1); } 9% { opacity: 0; transform: scale(1.6); } 100% { opacity: 0; transform: scale(1.6); } }
 html.rv-on .phases::after { transform: scaleY(0); transition: transform 1.6s cubic-bezier(.4, 0, .2, 1) .3s; }
 html.rv-on .phases.in::after { transform: scaleY(1); }
 html.rv-on .phases li { opacity: 0; transform: translateX(-12px); transition: opacity .6s ease calc(.35s + var(--i) * .3s), transform .6s ease calc(.35s + var(--i) * .3s); }
 html.rv-on .phases.in li { opacity: 1; transform: none; }
-html:not(.rv-on) .lca-loop .dot { display: none; }
 /* Headings wipe up from a mask, as on abatable.com */
 .rv-h { padding-bottom: .08em; }
 html.rv-on .rv-h { clip-path: inset(0 0 100% 0); transform: translateY(.45em); transition: clip-path 1.1s cubic-bezier(.2, .7, .2, 1) var(--d, 0s), transform 1.1s cubic-bezier(.2, .7, .2, 1) var(--d, 0s); }
@@ -680,7 +759,43 @@ td.em.memo { color: var(--muted); font-style: italic; }
 .method .kicker { position: sticky; top: 24px; }
 .method .eyebrow { color: var(--hero-accent); }
 .method h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; }
-.method .body { display: grid; gap: 14px; }
+.method .body { display: grid; gap: 22px; }
+.method .m-lede { margin: 18px 0 0; max-width: 38ch; font-size: 16px; line-height: 1.55; }
+.m-eq { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, .8fr) auto minmax(0, 1.1fr); align-items: stretch; gap: 10px; }
+.m-t { text-align: left; display: grid; align-content: start; gap: 4px; padding: 16px; border-radius: 16px; background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .14); min-width: 0; }
+.m-t .m-l { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--hero-accent); }
+.m-t b { margin-top: 6px; font-size: clamp(19px, 1.7vw, 28px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; color: #FFFFFF; white-space: nowrap; }
+.m-t .m-u { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.m-t small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.m-t.res .m-u { color: var(--brand); }
+.m-t small { font-size: 12px; line-height: 1.35; color: rgb(255 255 255 / .66); }
+.m-t.res { background: #FFFFFF; border-color: #FFFFFF; }
+.m-t.res .m-l { color: var(--brand); } .m-t.res b { color: var(--brand); } .m-t.res small { color: rgb(7 42 200 / .7); }
+.m-op { align-self: center; font-size: 22px; font-weight: 300; color: var(--hero-accent); }
+html.rv-on .m-eq > * { opacity: 0; transform: translateY(14px) scale(.96); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(.15s + var(--i, 0) * .12s); }
+html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
+.m-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.m-f { display: grid; gap: 6px; align-content: start; padding: 18px; border-radius: 16px; background: rgb(255 255 255 / .06); transition: background .3s, transform .4s cubic-bezier(.2, .7, .2, 1); }
+.m-f:hover { background: rgb(255 255 255 / .11); transform: translateY(-3px); }
+.m-f .m-l { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--hero-accent); }
+.m-f b { font-size: 18px; font-weight: 600; letter-spacing: -.015em; color: #FFFFFF; }
+.method .m-f p { font-size: 13.5px; line-height: 1.45; }
+.m-pipe { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: #FFFFFF; }
+.m-pipe span { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; background: rgb(255 255 255 / .1); }
+.m-pipe span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.m-pipe em { font-style: normal; color: var(--hero-accent); }
+.m-note { font-size: 12.5px !important; color: rgb(255 255 255 / .6) !important; }
+.m-more { border-top: 1px solid rgb(255 255 255 / .16); padding-top: 4px; }
+.m-more summary { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; cursor: pointer; list-style: none; font-size: 15px; color: #FFFFFF; }
+.m-more summary::-webkit-details-marker { display: none; }
+.m-plus { position: relative; width: 14px; height: 14px; }
+.m-plus::before, .m-plus::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: currentColor; transition: transform .3s; }
+.m-plus::after { transform: rotate(90deg); }
+.m-more[open] .m-plus::after { transform: rotate(0); }
+.m-more-body { display: grid; gap: 12px; padding-bottom: 8px; }
+@media (max-width: 1100px) { .m-eq { grid-template-columns: repeat(2, minmax(0, 1fr)); } .m-eq .m-op { display: none; } }
+.m-cap { grid-column: 1 / -1; font-size: 12.5px; color: rgb(255 255 255 / .62); }
+@media (max-width: 640px) { .m-facts { grid-template-columns: minmax(0, 1fr); } }
 .method p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .78); }
 .method p b { color: #FFFFFF; font-weight: 600; }
 .method .brand-foot { grid-column: 1 / -1; margin-top: 12px; padding-top: 20px; border-top: 1px solid rgb(255 255 255 / .16); font-family: var(--f-label); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: rgb(255 255 255 / .62); }
@@ -821,6 +936,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
         </button>
         <div class="drop" id="m-inv">
           <ul>
+            <li><a href="#evidence" data-es="¿Qué evidencia necesito?">What evidence do I need?</a></li>
             <li><a href="#examples" data-es="Ejemplos y tus datos">Examples and your data</a></li>
             <li><a href="#setup" data-es="Objetivo y alcance">Goal and scope</a></li>
             <li><a href="#ledgerTitle" data-es="Registro de actividades">Activity ledger</a></li>
@@ -1053,10 +1169,22 @@ td.em.memo { color: var(--muted); font-style: italic; }
       <ol class="how-steps">
         <li data-step="1"><span class="how-no">01</span><h3 data-es="Configura el proyecto">Set up the project</h3><p data-es="Escribe la empresa y el año, elige la unidad funcional (por qué se expresa la huella) y dónde operas. El país define los factores, el método de PCG y las reglas de reporte. Después llena Objetivo y alcance: por qué haces el estudio y qué queda fuera.">Enter the company and year, choose the functional unit (what the footprint is expressed per) and where you operate. The country sets the factors, the GWP method and the reporting rules. Then fill in Goal and scope: why you’re doing the study and what is left out.</p><a href="#examples" data-es="Elige un ejemplo o usa tus datos →">Pick an example or use your own data →</a></li>
         <li data-step="2"><span class="how-no">02</span><h3 data-es="Registra un año de actividad">Record a year of activity</h3><p data-es="Agrega una línea por actividad en cada etapa del ciclo de vida: kilos de vidrio comprados, metros cúbicos de gas, kWh del recibo de CFE, toneladas-kilómetro de flete. Elige la actividad y escribe la cantidad; el factor y el alcance se llenan solos.">Add one line per activity in each life-cycle stage: kilograms of glass bought, cubic metres of gas, kWh from the electricity bill, tonne-kilometres of freight. Pick the activity and type the quantity; the factor and the scope fill in on their own.</p><a href="#ledgerTitle" data-es="Ir al registro →">Go to the ledger →</a></li>
-        <li data-step="3"><span class="how-no">03</span><h3 data-es="Adjunta la evidencia">Attach the evidence</h3><p data-es="Abre Evidencia en una línea y adjunta la factura, el recibo o el manifiesto que respalda la cifra. Luego un revisor la marca como verificada. La cobertura se pondera por emisiones, así que las líneas grandes pesan más.">Open Evidence on a line and attach the invoice, bill or manifest behind the number. A reviewer then marks it verified. Coverage is weighted by emissions, so the big lines count most.</p></li>
+        <li data-step="3"><span class="how-no">03</span><h3 data-es="Adjunta la evidencia">Attach the evidence</h3><p data-es="Abre Evidencia en una línea y adjunta la factura, el recibo o el manifiesto que respalda la cifra. Luego un revisor la marca como verificada. La cobertura se pondera por emisiones, así que las líneas grandes pesan más.">Open Evidence on a line and attach the invoice, bill or manifest behind the number. A reviewer then marks it verified. Coverage is weighted by emissions, so the big lines count most.</p><a href="#evidence" data-es="¿Qué evidencia necesito? →">What evidence do I need? →</a></li>
         <li data-step="4"><span class="how-no">04</span><h3 data-es="Lee el tablero">Read the dashboard</h3><p data-es="Los totales por alcance, etapa, proveedor y mes se actualizan mientras escribes. Aquí los tres alcances están parejos: 33% directas (lavadora de botellas, calderas, camiones de reparto), 33% electricidad y 35% cadena de valor (vidrio, cajas y fletes).">Totals by scope, stage, supplier and month update as you type. Here the three scopes are close: 33% direct (bottle washer, boilers, route trucks), 32% electricity and 35% value chain (glass, cases and freight).</p><a href="#kpis" data-es="Ir al tablero →">Go to the dashboard →</a></li>
         <li data-step="5"><span class="how-no">05</span><h3 data-es="Revisa y exporta">Check and export</h3><p data-es="Las Revisiones marcan lo que un verificador preguntaría. Copia los resultados en CSV para Excel o, en México, el resumen RENE para la COA. Al final de la página está el video completo.">The Checks list flags what a verifier would ask about. Copy the results as CSV for Excel, or in México the RENE summary for the COA. The full video is at the end of the page.</p><a href="#demo" data-es="Ver el video completo →">Watch the full video →</a></li>
       </ol>
+    </div>
+  </section>
+
+  <section class="evguide" id="evidence" aria-labelledby="evgTitle">
+    <div class="ex-head">
+      <div class="kicker rv"><div class="eyebrow" data-es="Evidencia">Evidence</div><h2 id="evgTitle" class="rv-h" data-es="¿Qué evidencia necesito?">What evidence do I need?</h2></div>
+      <p class="ex-lede" data-es="Cada cifra del registro debe poder rastrearse hasta un documento. Esto es lo que un verificador pedirá para cada tipo de actividad. Los ejemplos traen documentos de muestra ficticios para que veas cómo lucen.">Every number in the ledger should trace back to a document. This is what a verifier will ask for, by type of activity. The examples come with fictional sample documents so you can see what each looks like.</p>
+    </div>
+    <ol class="evg-rules rv" id="evgRules"></ol>
+    <div class="evg-x rv">
+      <div class="evg-tabs" id="evgTabs" role="tablist" aria-label="Activity type" data-es-aria-label="Tipo de actividad"></div>
+      <div class="evg-pane" id="evgPane" role="tabpanel"></div>
     </div>
   </section>
 
@@ -1151,11 +1279,19 @@ td.em.memo { color: var(--muted); font-style: italic; }
   <datalist id="supplierList"></datalist>
 
   <section class="method rv" id="method" aria-labelledby="methodTitle">
-    <div class="kicker"><div class="eyebrow" data-es="03 · Metodología">03 · Method</div><h2 id="methodTitle" class="rv-h" data-es="Metodología, evidencia y fuentes de factores">Method, evidence and factor sources</h2></div>
+    <div class="kicker"><div class="eyebrow" data-es="03 · Metodología">03 · Method</div><h2 id="methodTitle" class="rv-h" data-es="Cómo se calcula cada tonelada">How every tonne is calculated</h2>
+      <p class="m-lede" data-es="Cada línea pasa por la misma fórmula. Los factores guardan cada gas por separado, así que cambiar el método de PCG recalcula todo sin volver a capturar datos.">Every line goes through the same formula. Factors keep each gas separately, so switching the GWP method recalculates everything without re-entering data.</p></div>
     <div class="body">
-    <div id="methodText" class="body"></div>
-    <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual del diagrama de Gantt, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
-    <p data-es="Estado de la evidencia: una línea está &lt;b&gt;faltante&lt;/b&gt; hasta que se adjunta un archivo, &lt;b&gt;adjunta&lt;/b&gt; cuando ya hay un documento y &lt;b&gt;verificada&lt;/b&gt; cuando un revisor confirma que el documento respalda la cantidad registrada. La cobertura se pondera por emisiones. Los archivos adjuntos se guardan solo en este navegador y en este dispositivo, no se suben a ningún lado; conserva los originales en tu sistema de documentos.">Evidence status: a line is <b>missing</b> until a file is attached, <b>attached</b> once a document is on file, and <b>verified</b> when a reviewer confirms the document supports the quantity entered. Coverage is weighted by emissions. Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
+      <div class="m-eq rv" id="methodEq"></div>
+      <div class="m-facts" id="methodFacts"></div>
+      <details class="m-more">
+        <summary><span data-es="Notas completas de la metodología">Full methodology notes</span><span class="m-plus" aria-hidden="true"></span></summary>
+        <div class="m-more-body">
+          <div id="methodText"></div>
+          <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual del diagrama de Gantt, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
+          <p data-es="Los archivos adjuntos se guardan solo en este navegador y en este dispositivo, no se suben a ningún lado; conserva los originales en tu sistema de documentos.">Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
+        </div>
+      </details>
     </div>
     <p class="brand-foot" data-es="CO2Trace · contabilidad de carbono y análisis de ciclo de vida">CO2Trace · carbon accounting and life cycle assessment</p>
   </section>
@@ -1196,7 +1332,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
   <section class="demo rv" id="demo" aria-labelledby="demoTitle">
     <div class="demo-head">
-      <div class="kicker"><div class="eyebrow" data-es="Video completo · 1:41">Full video · 1:41</div><h2 id="demoTitle" class="rv-h" data-es="Mira el ejemplo completo">Watch the whole example</h2></div>
+      <div class="kicker"><div class="eyebrow" data-es="Video completo · 1:48">Full video · 1:48</div><h2 id="demoTitle" class="rv-h" data-es="Mira el ejemplo completo">Watch the whole example</h2></div>
       <p data-es="Agua Mineral Cerro Alto de principio a fin: la configuración, el objetivo y alcance, las primeras líneas del registro, un recibo de CFE adjunto y verificado, el tablero con sus gráficas, las revisiones y la exportación.">Blue Mesa Sparkling Water from start to finish: the setup, goal and scope, the first ledger lines, an electricity bill attached and verified, the dashboard and its charts, the checks and the export.</p>
     </div>
     <video id="demoVideo" controls preload="none" playsinline poster="media/co2trace-demo-en.jpg" data-src-en="media/co2trace-demo-en.mp4" data-src-es="media/co2trace-demo-es.mp4" data-poster-en="media/co2trace-demo-en.jpg" data-poster-es="media/co2trace-demo-es.jpg" aria-label="CO2Trace walkthrough video" data-es-aria-label="Video del recorrido de CO2Trace">
@@ -1449,7 +1585,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
 
   // Evidence document types and what each should show
   const DOCS_EN = {
-    elec_bill: ['Utility bill – electricity', 'Monthly electricity bills (CFE or local utility) showing kWh for every month of the period, or meter readings.'],
+    elec_bill: ['Utility bill – electricity', 'Monthly electricity bills from the utility showing kWh for every month of the period, or meter readings.'],
     gas_bill: ['Utility bill – natural gas', 'Gas bills or supplier statements showing m³ (or GJ) delivered for every month of the period.'],
     water_bill: ['Utility bill – water', 'Water or sewer bills showing m³ supplied or discharged for the period.'],
     fuel: ['Fuel invoice / receipt', 'Fuel purchase invoices or receipts showing litres delivered; fuel card statements also work.'],
@@ -1548,7 +1684,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
   const custom = (r, unit, ef) => Object.assign(r, { unit, ef });
   const EXAMPLES = {
     // A sparkling mineral-water bottler in Monterrey, tuned so Scopes 1, 2 and 3 each carry about a third
-    agua: { emp: 650, size: 'large', ind: ['Beverages', 'Bebidas'], build: (T, X, P) => ({
+    agua: { ev: { ok: [0, 4, 12, 13], miss: [3, 9, 10] }, emp: 650, size: 'large', ind: ['Beverages', 'Bebidas'], build: (T, X, P) => ({
       company: 'Agua Mineral Cerro Alto' + X, fuName: T('one case of 24 glass bottles of sparkling mineral water', 'una caja de 24 botellas de vidrio de agua mineral'), fuQty: 7500000,
       goal: {
         reason: T('A national retailer asked for the footprint of a case; it also sets the plant’s baseline for RENE and a reduction plan', 'Una cadena de autoservicio pidió la huella de una caja; también fija la línea base de la planta para el RENE y un plan de reducción'),
@@ -1610,7 +1746,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     }),
     },
     // A stamped-steel auto-parts plant in Santa Catarina
-    autopartes: { emp: 420, size: 'large', ind: ['Auto parts', 'Autopartes'], build: (T, X, P) => ({
+    autopartes: { ev: { ok: [0, 1, 4, 7], miss: [3, 10, 14] }, emp: 420, size: 'large', ind: ['Auto parts', 'Autopartes'], build: (T, X, P) => ({
       company: 'Autopartes Cumbres' + X, fuName: T('one steel seat bracket', 'un soporte de asiento de acero'), fuQty: 1500000,
       goal: {
         reason: T('An automaker customer asked for the bracket’s cradle-to-gate footprint; it also sets the plant’s baseline for RENE and a reduction plan', 'Una armadora cliente pidió la huella de la cuna a la puerta del soporte; también fija la línea base de la planta para el RENE y un plan de reducción'),
@@ -1672,7 +1808,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     }),
     },
     // A citrus grower and packing house in Montemorelos: diesel pumps, cold rooms and export freight
-    citricos: { emp: 120, size: 'medium', ind: ['Agriculture', 'Agricultura'], build: (T, X, P) => ({
+    citricos: { ev: { ok: [3, 7, 9], miss: [2, 11] }, emp: 120, size: 'medium', ind: ['Agriculture', 'Agricultura'], build: (T, X, P) => ({
       company: 'Cítricos Valle de Montemorelos' + X, fuName: T('one 18 kg box of oranges', 'una caja de 18 kg de naranja'), fuQty: 1200000,
       goal: {
         reason: T('A US importer asked for the footprint of the fruit it buys; it also shows where the packing house can save diesel and power', 'Un importador de EE. UU. pidió la huella de la fruta que compra; también muestra dónde puede ahorrar diésel y electricidad el empaque'),
@@ -1728,7 +1864,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
     }),
     },
     // A twelve-person print shop in Barrio Antiguo: small numbers, paper-led
-    imprenta: { emp: 12, size: 'small', ind: ['Printing', 'Imprenta'], build: (T, X, P) => ({
+    imprenta: { ev: { ok: [2], miss: [3, 5, 7] }, emp: 12, size: 'small', ind: ['Printing', 'Imprenta'], build: (T, X, P) => ({
       company: 'Imprenta Barrio Antiguo' + X, fuName: T('one thousand printed flyers', 'mil volantes impresos'), fuQty: 9000,
       goal: {
         reason: T('A corporate client asked its suppliers for a first carbon footprint', 'Un cliente corporativo pidió a sus proveedores una primera huella de carbono'),
@@ -1776,12 +1912,30 @@ td.em.memo { color: var(--muted); font-style: italic; }
     }),
     },
   };
+  // file names and reference prefixes of the sample documents, by evidence document type
+  const SAMPLE_NAMES = {
+    elec_bill: ['Electricity_bills', 'Recibos_luz'], gas_bill: ['Gas_bills', 'Recibos_gas'], water_bill: ['Water_bills', 'Recibos_agua'],
+    fuel: ['Fuel_invoices', 'Facturas_combustible'], fuel_card: ['Fuel_card_statement', 'Estado_tarjeta_combustible'], invoice: ['Purchase_invoices', 'Facturas_compra'],
+    freight: ['Bills_of_lading', 'Cartas_porte'], travel: ['Travel_report', 'Reporte_viajes'], waste: ['Waste_manifests', 'Manifiestos_residuos'],
+    recycling: ['Recycling_certificates', 'Constancias_reciclaje'], refrig: ['Refrigerant_service_log', 'Bitacora_refrigerantes'], other: ['Supporting_document', 'Documento_soporte'],
+  };
+  const SAMPLE_PFX = { elec_bill: 'SRV', gas_bill: 'GAS', water_bill: 'AGU', fuel: 'FC', fuel_card: 'TC', invoice: 'INV', freight: 'BL', travel: 'TRV', waste: 'MAN', recycling: 'REC', refrig: 'SVC' };
   const EX_IDS = Object.keys(EXAMPLES);
   function example(region = 'mx', id = EX_IDS[0]) {
     const ex = EXAMPLES[id] || EXAMPLES[EX_IDS[0]];
     const T = (en, sp) => (region === 'mx' ? sp : en), X = T(' (example)', ' (ejemplo)');
     const P = T('Jan–Dec 2025', 'Ene–Dic 2025');
     const b = region === 'us' && ex.us ? ex.us(X, P) : ex.build(T, X, P);
+    // sample evidence: every line not listed in ev.miss gets one fictional document (rendered by sampleDoc() when viewed)
+    const plan = ex.ev || { ok: [], miss: [] }, MON = T(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']);
+    b.rows.forEach((r, i) => {
+      if (plan.miss.includes(i)) return;
+      const e = r.evidence, nm = SAMPLE_NAMES[e.doc] || SAMPLE_NAMES.other;
+      if (!e.ref) e.ref = (SAMPLE_PFX[e.doc] || 'DOC') + '-2025-' + (1040 + i * 37);
+      if (!e.period) e.period = r.m0 === 0 && r.m1 === 11 ? P : `${MON[r.m0]}–${MON[r.m1]} 2025`;
+      e.files = [{ fid: `sample:${id}:${i}`, name: T(nm[0], nm[1]) + T('_2025_SAMPLE', '_2025_MUESTRA'), size: 18000 + (i * 7919) % 26000, type: 'text/html', added: '2026-01-20', sample: true }];
+      e.verified = plan.ok.includes(i);
+    });
     return {
       v: 2, company: b.company, year: 2025, fuName: b.fuName, fuQty: b.fuQty, boundary: 'gate', isExample: true, example: EXAMPLES[id] ? id : EX_IDS[0],
       region, method: REGIONS[region].method,
@@ -2058,6 +2212,152 @@ td.em.memo { color: var(--muted); font-style: italic; }
     renderMethodText();
   }
 
+  // ---------- evidence guide (#evidence) ----------
+  // One card per kind of activity: the document, what it must show, where to get it (country-specific) and a sample from the bottler example
+  const EVG = [
+    { doc: 'elec_bill', tab: ['Electricity', 'Electricidad'], t: ['Electricity', 'Electricidad'], show: [['kWh for every month of the year', 'Billing period and meter or service number', 'Site address that matches the ledger line'], ['kWh de cada mes del año', 'Periodo facturado y número de medidor o de servicio', 'Domicilio del establecimiento que coincide con la línea']],
+      src: { us: 'Your utility’s bills or online account; many utilities offer a Green Button download of 12 months of data.', mx: 'Recibos de CFE (portal de clientes de CFE) o los estados de cuenta de tu suministrador calificado.' } },
+    { doc: 'gas_bill', tab: ['Natural gas', 'Gas natural'], t: ['Natural gas', 'Gas natural'], show: [['m³ (or therms / GJ) delivered each month', 'Account number and billing period', 'Meter readings, start and end'], ['m³ (o GJ) entregados cada mes', 'Número de cuenta y periodo facturado', 'Lecturas del medidor, inicial y final']],
+      src: { us: 'Gas utility bills or the supplier’s monthly statements; convert therms to m³ before entering.', mx: 'Recibos o estados de cuenta del distribuidor de gas natural; convierte GJ a m³ antes de capturar si hace falta.' } },
+    { doc: 'fuel_card', tab: ['Fuels', 'Combustibles'], t: ['Fuels and company vehicles', 'Combustibles y vehículos propios'], show: [['Litres per delivery or per vehicle', 'Fuel type (diesel, gasoline, LPG)', 'Dates inside the reporting year'], ['Litros por entrega o por vehículo', 'Tipo de combustible (diésel, gasolina, gas LP)', 'Fechas dentro del año de reporte']],
+      src: { us: 'Fuel supplier invoices, fleet fuel card statements, or tank delivery tickets for generators and pumps.', mx: 'Facturas (CFDI) de combustible, estados de cuenta de tarjetas de combustible o notas de remisión de pipas.' } },
+    { doc: 'refrig', tab: ['Refrigerants', 'Refrigerantes'], t: ['Refrigerants', 'Refrigerantes'], show: [['kg of refrigerant added to each unit', 'Refrigerant type (R-410A, R-404A…)', 'Service date and technician'], ['kg de refrigerante cargados por equipo', 'Tipo de refrigerante (R-410A, R-404A…)', 'Fecha de servicio y técnico']],
+      src: { us: 'The HVAC contractor’s service records; top-ups equal the refrigerant that leaked.', mx: 'Bitácora u órdenes de servicio del técnico de refrigeración; las recargas equivalen a lo que se fugó.' } },
+    { doc: 'invoice', tab: ['Materials', 'Materiales'], t: ['Purchased materials', 'Materiales comprados'], show: [['Quantity bought in kg (or units with a mass per unit)', 'Material and supplier', 'An EPD if you used a supplier-specific factor'], ['Cantidad comprada en kg (o piezas con su masa por pieza)', 'Material y proveedor', 'Una DAP (EPD) si usaste un factor específico del proveedor']],
+      src: { us: 'Supplier invoices or an export from your purchasing or ERP system for the year.', mx: 'Facturas (CFDI) de proveedores o un reporte anual del sistema de compras o ERP.' } },
+    { doc: 'freight', tab: ['Freight', 'Fletes'], t: ['Freight', 'Fletes'], show: [['Shipment weight and route distance (tonne-km)', 'Origin and destination', 'Carrier and shipment dates'], ['Peso del embarque y distancia de la ruta (toneladas-km)', 'Origen y destino', 'Transportista y fechas de embarque']],
+      src: { us: 'Bills of lading, carrier invoices or the carrier’s annual emissions or shipment report.', mx: 'Cartas porte (complemento Carta Porte del CFDI), facturas del transportista o su reporte anual de embarques.' } },
+    { doc: 'travel', tab: ['Travel', 'Viajes'], t: ['Business travel', 'Viajes de negocios'], show: [['Origin and destination of every trip', 'Distance or passenger-km', 'Travel class if known'], ['Origen y destino de cada viaje', 'Distancia o pasajero-km', 'Clase de viaje si se conoce']],
+      src: { us: 'Your travel agency’s or booking tool’s annual report.', mx: 'Reporte anual de la agencia de viajes o de la herramienta de reservaciones.' } },
+    { doc: 'waste', tab: ['Waste', 'Residuos'], t: ['Waste and recycling', 'Residuos y reciclaje'], show: [['kg collected, by pickup', 'Treatment route (landfill, recycling, incineration)', 'Hauler and destination site'], ['kg recolectados en cada servicio', 'Tipo de tratamiento (relleno, reciclaje, incineración)', 'Transportista y sitio de destino']],
+      src: { us: 'Hauler invoices or certificates, weigh tickets and recycler certificates of receipt.', mx: 'Manifiestos de entrega, transporte y recepción, constancias del transportista y del reciclador.' } },
+    { doc: 'water_bill', tab: ['Water', 'Agua'], t: ['Water and wastewater', 'Agua y aguas residuales'], show: [['m³ supplied and discharged', 'Billing period', 'Account number'], ['m³ suministrados y descargados', 'Periodo facturado', 'Número de cuenta']],
+      src: { us: 'Water and sewer bills from the utility.', mx: 'Recibos del organismo operador de agua y drenaje.' } },
+  ];
+  // the first example line (bottler first) with this document type and a sample file
+  const guideCache = {};
+  function guideSample(doc) {
+    const k = doc + ':' + state.region;
+    if (!(k in guideCache)) {
+      guideCache[k] = null;
+      for (const id of EX_IDS) {
+        const st = example(state.region, id), r = st.rows.find(x => x.evidence.doc === doc && x.evidence.files.length);
+        if (r) { guideCache[k] = { r, f: r.evidence.files[0], st }; break; }
+      }
+    }
+    return guideCache[k];
+  }
+  const ICONS = {
+    elec_bill: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    gas_bill: '<path d="M12 3c.6 3 4.8 5 4.8 10a4.8 4.8 0 0 1-9.6 0c0-2.6 1.6-3.8 2-6.4 1 .9 1.8 2.1 2.2 3.6.9-2.2.9-4.6.6-7.2z"/>',
+    fuel_card: '<path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h12M6.5 8h5M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/>',
+    refrig: '<path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M9 3.5l3 2 3-2M9 20.5l3-2 3 2"/>',
+    invoice: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    freight: '<path d="M2 6h11v10H2zM13 9h4.5L21 12.5V16h-8"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+    travel: '<path d="M10.5 13.5 3 11l1.5-1.5 7 1 4-4.5c1-1 2.6-1.4 3.3-.7.7.7.3 2.3-.7 3.3l-4.5 4 1 7L13 21l-2.5-7.5z"/>',
+    waste: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
+    water_bill: '<path d="M12 3s6.5 7.2 6.5 11.3a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3 12 3z"/>',
+    year: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    match: '<path d="M5 9h14M5 15h14"/>',
+    ref: '<path d="M20 12 12 20l-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.3"/>',
+    review: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 12.5-4.3M16 19l2 2 4-4"/>',
+    check: '<circle cx="12" cy="12" r="9.5"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8"/>',
+    pin: '<path d="M12 21s7-6.2 7-11.5a7 7 0 0 0-14 0C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/>',
+  };
+  const svgI = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
+  let evgSel = EVG[0].doc, evgUrl = null;
+  const evgCalm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function renderGuide() {
+    $('evgRules').innerHTML = [
+      ['year', L('Covers the whole year', 'Cubre todo el año'), L('Every month of the reporting period, with no gaps between bills.', 'Todos los meses del periodo de reporte, sin huecos entre recibos.')],
+      ['match', L('Shows the number you entered', 'Muestra la cifra que capturaste'), L('The same quantity and unit, or enough to derive them (e.g. weight × distance).', 'La misma cantidad y unidad, o lo necesario para obtenerlas (p. ej., peso × distancia).')],
+      ['ref', L('Says who, where and which', 'Dice quién, dónde y cuál'), L('The supplier, your site and a reference number a verifier can look up.', 'El proveedor, tu establecimiento y un número de referencia que un verificador pueda consultar.')],
+      ['review', L('Reviewed by someone else', 'Revisada por otra persona'), L('A reviewer checks the document against the line, then marks it verified.', 'Un revisor compara el documento con la línea y la marca como verificada.')],
+    ].map(([ic, t, d], i) => `<li style="--i: ${i}"><div class="evg-rhead"><span class="evg-ico">${svgI(ic)}</span><span class="evg-n">0${i + 1}</span></div><b>${t}</b><p>${d}</p></li>`).join('');
+    const es = isEs() ? 1 : 0;
+    $('evgTabs').innerHTML = `<span class="evg-ind" aria-hidden="true"><i></i></span>` + EVG.map(g => `<button type="button" class="evg-tab" role="tab" id="evgt-${g.doc}" aria-controls="evgPane" aria-selected="${g.doc === evgSel}" tabindex="${g.doc === evgSel ? 0 : -1}" data-evg="${g.doc}" title="${esc(g.t[es])}">${svgI(g.doc)}${esc(g.tab[es])}</button>`).join('');
+    renderGuidePane();
+    requestAnimationFrame(moveInd); setTimeout(moveInd, 60);
+  }
+  function renderGuidePane() {
+    const g = EVG.find(x => x.doc === evgSel) || EVG[0], es = isEs() ? 1 : 0, d = DOCS[g.doc], smp = guideSample(g.doc);
+    if (evgUrl) URL.revokeObjectURL(evgUrl);
+    evgUrl = smp ? URL.createObjectURL(new Blob([sampleDoc(smp.r, smp.f, smp.st, true)], { type: 'text/html' })) : null;
+    const pane = $('evgPane');
+    pane.setAttribute('aria-labelledby', 'evgt-' + g.doc);
+    pane.classList.remove('leave');
+    pane.innerHTML = `<div class="evg-info">
+        <div class="evg-k">${L('Document', 'Documento')}</div>
+        <h3>${esc(d[0])}</h3>
+        <p class="evg-why">${esc(d[1])}</p>
+        <div class="evg-k">${L('It must show', 'Debe mostrar')}</div>
+        <ul class="evg-checks">${g.show[es].map((x, i) => `<li style="--i: ${i}">${svgI('check')}<span>${esc(x)}</span></li>`).join('')}</ul>
+        <div class="evg-where">${svgI('pin')}<div><div class="evg-k">${L('Where to get it', 'Dónde conseguirlo')} · ${esc(REGIONS[state.region].name)}</div>${esc(g.src[state.region] || g.src.us)}</div></div>
+      </div>
+      ${smp ? `<figure class="evg-paper">
+        <div class="evg-float"><div class="evg-stack"><div class="sheet s3"></div><div class="sheet s2"></div><div class="sheet s1"><iframe sandbox tabindex="-1" aria-hidden="true" src="${evgUrl}" title=""></iframe></div><span class="evg-stamp">${L('Sample', 'Muestra')}</span></div></div>
+        <figcaption>${L(`A fictional document for ${esc(bare(smp.st.company))}`, `Un documento ficticio de ${esc(bare(smp.st.company))}`)}<button type="button" class="btn evg-open" data-sample-doc="${g.doc}">${L('Open the full document', 'Abrir el documento completo')} <span aria-hidden="true">→</span></button></figcaption>
+      </figure>` : ''}`;
+    fitGuide();
+  }
+  // scale the 800 px document thumbnail to the width of its paper
+  function fitGuide() { const st = document.querySelector('#evgPane .evg-stack'); if (st) st.style.setProperty('--k', (st.clientWidth / 800).toFixed(4)); }
+  // the blue pill slides under the selected tab; its bar fills while autoplay runs and moves on when it ends
+  function moveInd() {
+    const ind = document.querySelector('#evgTabs .evg-ind'), t = document.querySelector('#evgTabs [aria-selected="true"]');
+    if (!ind || !t) return;
+    Object.assign(ind.style, { width: t.offsetWidth + 'px', height: t.offsetHeight + 'px', transform: `translate(${t.offsetLeft}px, ${t.offsetTop}px)` });
+    const bar = ind.querySelector('i'), nb = bar.cloneNode(); bar.replaceWith(nb);
+  }
+  function selectGuide(doc, user) {
+    if (user) $('evidence').classList.add('evg-stop');
+    if (doc === evgSel) return;
+    evgSel = doc;
+    $('evgTabs').querySelectorAll('[data-evg]').forEach(t => { const on = t.dataset.evg === evgSel; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+    moveInd();
+    if (evgCalm()) { renderGuidePane(); return; }
+    $('evgPane').classList.add('leave');
+    setTimeout(renderGuidePane, 230);
+  }
+  if (window.ResizeObserver) new ResizeObserver(() => { fitGuide(); moveInd(); }).observe($('evgPane'));
+  $('evgTabs').addEventListener('click', e => { const b = e.target.closest('[data-evg]'); if (b) selectGuide(b.dataset.evg, true); });
+  $('evgTabs').addEventListener('animationend', e => {
+    if (!e.target.matches('.evg-ind i')) return;
+    const i = EVG.findIndex(g => g.doc === evgSel);
+    selectGuide(EVG[(i + 1) % EVG.length].doc, false);
+  });
+  $('evgTabs').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const tabs = [...$('evgTabs').querySelectorAll('[data-evg]')], i = tabs.findIndex(t => t.dataset.evg === evgSel);
+    const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    n.focus(); selectGuide(n.dataset.evg, true); e.preventDefault();
+  });
+  $('evgPane').addEventListener('click', e => {
+    const b = e.target.closest('[data-sample-doc]'); if (!b) return;
+    $('evidence').classList.add('evg-stop');
+    const s = guideSample(b.dataset.sampleDoc); if (s) preview(s.f);
+  });
+  // autoplay runs only while the explorer is on screen and nobody is pointing at it or typing in it
+  (() => {
+    const box = document.querySelector('.evg-x'), sec = $('evidence');
+    if (!box) return;
+    const set = (k, on) => sec.classList.toggle(k, on);
+    if (window.IntersectionObserver) new IntersectionObserver(es => set('evg-seen', es[0].isIntersecting), { threshold: .35 }).observe(box);
+    else set('evg-seen', true);
+    box.addEventListener('pointerenter', () => set('evg-hold', true));
+    box.addEventListener('pointerleave', () => set('evg-hold', false));
+    box.addEventListener('focusin', () => set('evg-hold', true));
+    box.addEventListener('focusout', () => set('evg-hold', false));
+    // the paper tilts toward the pointer
+    box.addEventListener('pointermove', e => {
+      const st = box.querySelector('.evg-stack'); if (!st || evgCalm()) return;
+      const r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      st.style.setProperty('--ry', (Math.max(-.6, Math.min(.6, x)) * 14).toFixed(2) + 'deg');
+      st.style.setProperty('--rx', (Math.max(-.6, Math.min(.6, y)) * -10).toFixed(2) + 'deg');
+    });
+    box.addEventListener('pointerleave', () => { const st = box.querySelector('.evg-stack'); if (st) { st.style.removeProperty('--rx'); st.style.removeProperty('--ry'); } });
+  })();
+
   // ---------- example gallery (#examples) and view mode ----------
   // While an untouched example is loaded the page is in view mode (html.viewing): the project setup card is hidden and the
   // dashboard takes the full width; the ledger opens on request (html.ledger-open). Loading an example over the visitor's own
@@ -2107,6 +2407,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
         <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines)`, `Ver los datos de actividad (${state.rows.length} líneas)`)}</button>`;
     }
     renderExamples();
+    renderGuide();
   }
   function loadExample(id) {
     if (id === 'own') {
@@ -2173,7 +2474,33 @@ td.em.memo { color: var(--muted); font-style: italic; }
       ...[...new Set(state.rows.map(r => F[r.key] && F[r.key].cite).filter(Boolean))].map(c => L('Database', 'Base de datos') + ': ' + c),
     ].map(s => `<li>${esc(s)}</li>`).join('');
   }
+  // Method: the equation drawn with the largest line of the ledger, four short facts, and the full notes folded away
+  function renderMethodEq() {
+    const t = state.rows.filter(r => included(r.stage) && emis(r) > 0 && !outside(r)).sort((a, b) => emis(b) - emis(a))[0];
+    const g = GWP[state.method], mx = state.region === 'mx';
+    const tile = (i, l, b, u, sm, cls = '') => `<div class="m-t ${cls}" style="--i: ${i}"><span class="m-l">${l}</span><b>${b}</b><span class="m-u">${u}</span><small>${sm}</small></div>`;
+    const op = (i, o, c) => `<span class="m-op ${c}" style="--i: ${i}" aria-hidden="true">${o}</span>`;
+    const ef = t ? (isEdited(t) ? +t.ef : libEf(t.key)) : 0;
+    $('methodEq').innerHTML = `<div class="m-cap" style="--i: 0">${t ? L('Worked example: the largest line in this ledger', 'Ejemplo resuelto: la línea más grande de este registro') : L('Each line of the ledger', 'Cada línea del registro')}</div>` + [
+      tile(0, L('Activity', 'Actividad'), t ? nf0.format(+t.qty) : L('Quantity', 'Cantidad'), t ? esc(t.unit) : '', t ? esc(t.note || (F[t.key] && F[t.key].name) || '') : L('from bills and invoices', 'de recibos y facturas')),
+      op(1, '×', 'o1'),
+      tile(2, L('Factor', 'Factor'), t ? String(showEf(ef)) : 'kg', t ? `kg CO₂e / ${esc(t.unit)}` : '', t ? esc(libSrc(t.key).split(/[(,;]/)[0].trim()) : L('per gas, from the library', 'por gas, de la biblioteca')),
+      op(3, '×', 'o2'),
+      tile(4, L('GWP100', 'PCG100'), state.method, 'IPCC', `CH₄ ${g.CH4} · N₂O ${g.N2O}`),
+      op(5, '=', 'o3'),
+      tile(6, L('Result', 'Resultado'), t ? fmtT(emis(t)) : '–', 't CO₂e', t ? L(`${pct(emis(t), totals().total)} of this footprint`, `${pct(emis(t), totals().total)} de esta huella`) : L('per line, then summed', 'por línea, luego se suma'), 'res'),
+    ].join('');
+    const facts = [
+      [L('Factors', 'Factores'), mx ? 'RENE · FESEN 2024' : 'EPA Hub 2025 · eGRID2023', mx ? 'Combustibles con los factores oficiales del RENE; electricidad con 0.444 t CO₂e/MWh; fletes, residuos y agua con DESNZ.' : 'Fuels, freight and travel from the EPA Hub; electricity from eGRID2023, US average or a subregion.'],
+      [L('Impact method', 'Método de impacto'), mx ? 'IPCC AR5' : 'IPCC AR6', mx ? 'El RENE exige AR5; el umbral y la COA siempre lo usan.' : 'The GHG Protocol default; AR5 and AR4 are one click away.'],
+      [L('Scopes', 'Alcances'), mx ? 'A1 + A2 → RENE' : 'Scope 2, two ways', mx ? 'Directas e indirectas cuentan para el umbral de 25,000 t; el alcance 3 queda en el resultado de ciclo de vida.' : 'Location- and market-based are both shown; the total uses market-based.'],
+    ].map(([l, b, p]) => `<div class="m-f"><span class="m-l">${l}</span><b>${b}</b><p>${p}</p></div>`);
+    facts.push(`<div class="m-f"><span class="m-l">${L('Evidence', 'Evidencia')}</span><div class="m-pipe"><span style="--c: var(--miss)">${L('Missing', 'Faltante')}</span><em>→</em><span style="--c: #E8B36A">${L('Attached', 'Adjunta')}</span><em>→</em><span style="--c: var(--ok)">${L('Verified', 'Verificada')}</span></div><p>${L('Coverage is weighted by emissions, so the big lines count most.', 'La cobertura se pondera por emisiones: las líneas grandes pesan más.')}</p></div>`);
+    facts.push(`<p class="m-note" style="grid-column: 1 / -1">${L('Climate change only: results are relative indicators of potential impact (GWP100), not predictions of actual effects (ISO 14044, 5.2).', 'Solo cambio climático: los resultados son indicadores relativos de impacto potencial (PCG100), no predicciones de efectos reales (ISO 14044, 5.2).')}</p>`);
+    $('methodFacts').innerHTML = facts.join('');
+  }
   function renderMethodText() {
+    renderMethodEq();
     const common = isEs()
       ? 'Emisiones (t CO₂e) = Σ sobre los gases de cantidad × kg de gas por unidad × PCG ÷ 1,000. Cada factor de la biblioteca guarda la masa de cada gas por unidad, así que el método de impacto puede cambiar sin volver a capturar datos. Los factores editados y personalizados se toman como kg CO₂e por unidad y no cambian con el método; se resaltan para que los revisores los identifiquen.'
       : 'Emissions (t CO₂e) = Σ over gases of quantity × kg of gas per unit × GWP ÷ 1,000. Each library factor holds the mass of each gas per unit, so the impact method can change without re-entering data. Edited and custom factors are taken as kg CO₂e per unit and do not change with the method; they are outlined so reviewers can see them.';
@@ -2976,11 +3303,106 @@ td.em.memo { color: var(--muted); font-style: italic; }
   window.addEventListener('scroll', hideTip, { passive: true });
   chartsEl.closest('.side').addEventListener('scroll', hideTip, { passive: true });
 
+  // ---------- sample evidence documents (example companies only) ----------
+  // A fictional document drawn from the line itself, so its total always matches the ledger. Every page is watermarked
+  // SAMPLE · FICTIONAL. st is the ledger the line belongs to (the example loaded, or one built for the evidence guide).
+  function sampleDoc(r, f, st, thumb) {
+    const es = st.region === 'mx', T = (en, sp) => (es ? sp : en), e = r.evidence;
+    const MON = es ? ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let seed = 0; for (const c of f.fid) seed = (seed * 31 + c.charCodeAt(0)) >>> 0;
+    const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+    const a = Math.min(+r.m0 || 0, +r.m1 || 0), b = Math.max(+r.m0 || 0, r.m1 == null ? 11 : +r.m1), qty = +r.qty || 0;
+    const dec = qty >= 200 ? 0 : 1, w = [];
+    for (let m = a; m <= b; m++) w.push(0.82 + rand() * 0.36);
+    const sw = w.reduce((x, y) => x + y, 0);
+    let left = qty;
+    const parts = w.map((x, k) => { const v = k === w.length - 1 ? left : +(qty * x / sw).toFixed(dec); left = +(left - v).toFixed(dec); return v; });
+    const nf = new Intl.NumberFormat('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    const u = esc(r.unit), doc = e.doc, months = parts.map((v, k) => [MON[a + k], v]);
+    const day = k => String(3 + Math.floor(rand() * 24)).padStart(2, '0');
+    const ymd = (m, d) => `2025-${String(m + 1).padStart(2, '0')}-${d}`;
+    const kinds = {
+      elec_bill: [T('Electricity bill', 'Recibo de energía eléctrica'), T('Billing period', 'Periodo facturado'), T('Meter reading, start', 'Lectura anterior'), T('Meter reading, end', 'Lectura actual')],
+      gas_bill: [T('Natural gas bill', 'Recibo de gas natural'), T('Billing period', 'Periodo facturado'), T('Meter reading, start', 'Lectura anterior'), T('Meter reading, end', 'Lectura actual')],
+      water_bill: [T('Water and sewer bill', 'Recibo de agua y drenaje'), T('Billing period', 'Periodo facturado'), T('Meter reading, start', 'Lectura anterior'), T('Meter reading, end', 'Lectura actual')],
+    };
+    const title = (DOCS_EN[doc] && (es ? DOCS_ES : DOCS_EN)[doc][0]) || T('Supporting document', 'Documento de soporte');
+    let head, rows;
+    if (kinds[doc]) {
+      let reading = Math.round(100000 + rand() * 800000);
+      head = [kinds[doc][1], kinds[doc][2], kinds[doc][3], `${T('Consumption', 'Consumo')} (${u})`];
+      rows = months.map(([mo, v]) => { const st0 = reading; reading += Math.round(v); return [`${mo} 2025`, nf0.format(st0), nf0.format(reading), nf.format(v)]; });
+    } else if (doc === 'invoice' || doc === 'fuel') {
+      head = [T('Invoice', 'Factura'), T('Date', 'Fecha'), T('Description', 'Concepto'), `${T('Quantity', 'Cantidad')} (${u})`];
+      rows = months.map(([mo, v], k) => [`${es ? 'A' : 'INV'}-${4100 + k * 13}`, ymd(a + k, day()), esc(r.note), nf.format(v)]);
+    } else if (doc === 'fuel_card') {
+      head = [T('Statement month', 'Mes del estado de cuenta'), T('Vehicles', 'Vehículos'), T('Fill-ups', 'Cargas'), `${T('Litres', 'Litros')} (${u})`];
+      const veh = Math.max(1, Math.round(qty / 7500 / 12));
+      rows = months.map(([mo, v]) => [`${mo} 2025`, nf0.format(veh), nf0.format(Math.max(1, Math.round(v / 180))), nf.format(v)]);
+    } else if (doc === 'freight') {
+      head = [T('Month', 'Mes'), T('Shipments', 'Embarques'), T('Tonnes shipped', 'Toneladas'), `${T('Tonne-kilometres', 'Toneladas-kilómetro')} (${u})`];
+      const km = 250 + Math.round(rand() * 900);
+      rows = months.map(([mo, v]) => { const t = v / km; return [`${mo} 2025`, nf0.format(Math.max(1, Math.round(t / 22))), nf1.format(t), nf.format(v)]; });
+    } else if (doc === 'travel') {
+      head = [T('Month', 'Mes'), T('Trips', 'Viajes'), T('Main route', 'Ruta principal'), `${T('Passenger-km', 'Pasajero-km')} (${u})`];
+      const routes = es ? ['MTY–CDMX', 'MTY–GDL', 'MTY–QRO', 'MTY–SLP'] : ['SAT–DFW', 'SAT–PHX', 'SAT–DEN', 'SAT–ORD'];
+      rows = months.map(([mo, v], k) => [`${mo} 2025`, nf0.format(Math.max(1, Math.round(v / 1400))), routes[k % routes.length], nf.format(v)]);
+    } else if (doc === 'waste' || doc === 'recycling') {
+      head = [T('Manifest no.', 'No. de manifiesto'), T('Collection date', 'Fecha de recolección'), T('Treatment', 'Tratamiento'), `${T('Weight', 'Peso')} (${u})`];
+      const route = doc === 'recycling' ? T('Recycling', 'Reciclaje') : T('Landfill', 'Relleno sanitario');
+      rows = months.map(([mo, v], k) => [`${SAMPLE_PFX[doc]}-${2200 + k * 11}`, ymd(a + k, day()), route, nf.format(v)]);
+    } else if (doc === 'refrig') {
+      head = [T('Service date', 'Fecha de servicio'), T('Equipment', 'Equipo'), T('Refrigerant', 'Refrigerante'), `${T('Added', 'Cargado')} (${u})`];
+      const gas = /^r\d/.test(r.key) ? r.key.toUpperCase().replace(/^R/, 'R-') : r.key === 'custom' ? '' : (F[r.key] && F[r.key].name) || '';
+      rows = months.map(([mo, v], k) => [ymd(a + k, day()), `${T('Unit', 'Equipo')} ${k + 1}`, esc(gas), nf.format(v)]);
+    } else {
+      head = [T('Month', 'Mes'), T('Description', 'Concepto'), '', `${T('Quantity', 'Cantidad')} (${u})`];
+      rows = months.map(([mo, v]) => [`${mo} 2025`, esc(r.note), '', nf.format(v)]);
+    }
+    let hue = 0; for (const c of String(r.supplier)) hue = (hue * 31 + c.charCodeAt(0)) % 360;
+    const wm = T('SAMPLE · FICTIONAL', 'MUESTRA · FICTICIO');
+    const site = st.goal && st.goal.site ? esc(st.goal.site) : '';
+    const hint = (es ? DOCS_ES : DOCS_EN)[doc] || (es ? DOCS_ES : DOCS_EN).other;
+    return `<!doctype html><html lang="${es ? 'es' : 'en'}"><meta charset="utf-8"><title>${esc(f.name)}</title><style>
+      body{margin:0;background:#E9EAE6;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1d1f}
+      body.t{background:#fff;overflow:hidden} body.t .pg{max-width:none;margin:0;box-shadow:none;min-height:100vh;box-sizing:border-box}
+      .pg{position:relative;max-width:760px;margin:24px auto;background:#fff;padding:44px 48px;box-shadow:0 2px 14px rgba(0,0,0,.12);overflow:hidden}
+      .wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+      .wm span{transform:rotate(-28deg);font:700 64px/1 system-ui,sans-serif;letter-spacing:.06em;color:rgba(200,30,30,.10);white-space:nowrap}
+      .top{display:flex;justify-content:space-between;gap:20px;border-bottom:3px solid hsl(${hue} 55% 38%);padding-bottom:14px}
+      .logo{font-weight:700;font-size:20px;color:hsl(${hue} 55% 32%)}
+      .tag{display:inline-block;margin-top:6px;padding:3px 8px;border:1.5px solid #c62828;color:#c62828;font-size:11px;font-weight:700;letter-spacing:.08em}
+      h1{font-size:18px;margin:18px 0 4px} .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;margin:12px 0 18px;font-size:13px}
+      .meta b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6b6b6b;font-weight:600}
+      table{width:100%;border-collapse:collapse;font-size:13px} th,td{padding:7px 8px;border-bottom:1px solid #e3e3e3;text-align:left}
+      th{background:hsl(${hue} 40% 95%);font-size:11px;letter-spacing:.04em;text-transform:uppercase} td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+      tfoot td{font-weight:700;border-top:2px solid #1d1d1f;border-bottom:0}
+      .foot{margin-top:22px;padding:12px 14px;background:#FFF6E5;border-left:3px solid #E8B36A;font-size:12.5px}
+    </style><body class="${thumb ? 't' : ''}"><div class="pg"><div class="wm"><span>${wm}</span></div>
+      <div class="top"><div><div class="logo">${esc(r.supplier || T('Supplier', 'Proveedor'))}</div><div class="tag">${wm}</div></div>
+        <div style="text-align:right;font-size:13px"><b>${esc(title)}</b><br>${T('Reference', 'Referencia')}: ${esc(e.ref)}<br>${T('Issued', 'Emitido')}: 2026-01-${day()}</div></div>
+      <h1>${esc(r.note)}</h1>
+      <div class="meta"><div><b>${T('Customer', 'Cliente')}</b>${esc(st.company)}</div><div><b>${T('Site', 'Establecimiento')}</b>${site}</div>
+        <div><b>${T('Period', 'Periodo')}</b>${esc(e.period)}</div><div><b>${T('Total', 'Total')}</b>${nf.format(qty)} ${u}</div></div>
+      <table><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(c => `<tr>${c.map(x => `<td>${x}</td>`).join('')}</tr>`).join('')}</tbody>
+      <tfoot><tr><td>${T('Total', 'Total')}</td><td></td><td></td><td>${nf.format(qty)} ${u}</td></tr></tfoot></table>
+      <div class="foot">${T('Fictional document generated by CO2Trace for an example company. It shows what evidence for this kind of line looks like', 'Documento ficticio generado por CO2Trace para una empresa de ejemplo. Muestra cómo luce la evidencia de este tipo de línea')}: ${esc(hint[1])}</div>
+    </div></html>`;
+  }
+  // the ledger and line a sample file belongs to
+  function sampleHtml(f) {
+    const r = state.rows.find(x => x.evidence.files.some(y => y.fid === f.fid));
+    if (r) return sampleDoc(r, f, state);
+    const [, id, i] = f.fid.split(':'), st = example(state.region, id), rr = st.rows[+i];
+    return rr ? sampleDoc(rr, f, st) : '';
+  }
+
   // preview overlay
   let previewUrl = null;
   async function preview(f) {
     let blob;
-    try { blob = await fileStore.get(f.fid); } catch (e) { blob = null; }
+    if (f.sample) blob = new Blob([sampleHtml(f)], { type: 'text/html' });
+    else try { blob = await fileStore.get(f.fid); } catch (e) { blob = null; }
     const body = $('viewerBody');
     $('viewerName').textContent = f.name + ' · ' + fmtSize(f.size);
     if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -2992,6 +3414,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
       const type = blob.type || f.type || '';
       if (type.startsWith('image/')) body.innerHTML = `<img src="${previewUrl}" alt="${esc(f.name)}">`;
       else if (type === 'application/pdf') body.innerHTML = `<iframe src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
+      else if (f.sample) body.innerHTML = `<iframe sandbox src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
       else body.innerHTML = `<div class="nopreview">${L(`Preview is available for PDFs and images. This ${esc(type || 'file')} is stored and listed as evidence.`, `La vista previa está disponible para PDF e imágenes. Este archivo (${esc(type || 'sin tipo')}) está guardado y registrado como evidencia.`)} <br><a href="${previewUrl}" target="_blank" rel="noopener">${L('Open in a new tab', 'Abrir en una pestaña nueva')}</a></div>`;
     }
     $('overlay').hidden = false;
@@ -3237,7 +3660,7 @@ td.em.memo { color: var(--muted); font-style: italic; }
         return { html: `<p>${L('Each line has an <b>Evidence</b> button. Attach the bill, invoice or manifest behind the quantity; a reviewer then ticks <b>verified</b>. Status goes missing → attached → verified, and coverage is weighted by emissions.', 'Cada línea tiene un botón <b>Evidencia</b>. Adjunta el recibo, factura o manifiesto que respalda la cantidad; luego un revisor marca <b>verificada</b>. El estado pasa de faltante → adjunta → verificada, y la cobertura se pondera por emisiones.')}</p>
           ${t.total ? `<p>${L('Right now', 'Ahora mismo')} <b>${pct(t.byEv.ok + t.byEv.att, t.total)}</b> ${L('of your emissions are documented', 'de tus emisiones están documentadas')}${miss.length ? `; ${miss.length} ${L(miss.length === 1 ? 'line has' : 'lines have', miss.length === 1 ? 'línea no tiene' : 'líneas no tienen')} ${L('no file yet. Start with', 'archivo todavía. Empieza por')} <b>${esc(F[miss[0].key] ? F[miss[0].key].name : miss[0].note || '')}</b> (${fmtT(emis(miss[0]))} t).` : '.'}</p>` : ''}
           <p>${L('Files stay in this browser on this device; they are not uploaded.', 'Los archivos se quedan en este navegador y dispositivo; no se suben a ningún lado.')}</p>`,
-          acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] };
+          acts: [go('What evidence do I need?', '¿Qué evidencia necesito?', 'evidence'), go('Open the ledger', 'Ir al registro', 'ledgerTitle')] };
       },
       rene() {
         const t = totals(), s12 = t.byScope[1] + t.byScope[2];

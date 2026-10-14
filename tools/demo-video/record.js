@@ -10,7 +10,8 @@ const { writeSoundtrack } = require('./audio');
 const LANG = process.argv[2] || 'es';
 const BASE = process.argv[3] || 'http://127.0.0.1:8731/index.html';
 const OUT = process.argv[4] || __dirname;
-const W = 1440, H = 900;
+const W = 1440, H = 900, DPR = 2;               // CSS viewport and pixel density
+const OW = 2560, OH = 1600;                      // encoded size (downscaled from the 2880×1800 capture)
 const ES = LANG === 'es';
 const T = (en, es) => (ES ? es : en);
 
@@ -23,8 +24,9 @@ const TXT = {
   s2: T('2 · Record a year of activity: pick the activity and type the quantity', '2 · Registra un año de actividad: elige la actividad y escribe la cantidad'),
   s2b: T('The factor and the scope fill in on their own', 'El factor y el alcance se llenan solos'),
   s2c: T('The rest of the year’s data goes in the same way…', 'El resto de los datos del año se captura igual…'),
-  s3: T('3 · Attach the evidence: the bill behind each number', '3 · Adjunta la evidencia: el recibo que respalda cada cifra'),
-  s3b: T('A reviewer marks it verified', 'Un revisor la marca como verificada'),
+  s3: T('3 · Evidence: every number keeps the document behind it', '3 · Evidencia: cada cifra guarda el documento que la respalda'),
+  s3v: T('Here, the year of electricity bills (a fictional sample)', 'Aquí, los recibos de luz del año (una muestra ficticia)'),
+  s3b: T('A reviewer checks it against the line and marks it verified', 'Un revisor lo compara con la línea y la marca como verificada'),
   s4: T('4 · Read the dashboard: the three scopes are close to a third each', '4 · Lee el tablero: los tres alcances pesan casi un tercio cada uno'),
   s4b: T('Emissions by category, stage, supplier and month', 'Emisiones por categoría, etapa, proveedor y mes'),
   s5: T('5 · Check and export: what a verifier would ask, then copy the results', '5 · Revisa y exporta: lo que preguntaría un verificador, y copia los resultados'),
@@ -38,7 +40,7 @@ const cue = type => events.push({ type, wall: Date.now() / 1000 });
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
-  const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1, locale: ES ? 'es-MX' : 'en-US', colorScheme: 'light', reducedMotion: 'no-preference' });
+  const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: DPR, locale: ES ? 'es-MX' : 'en-US', colorScheme: 'light', reducedMotion: 'no-preference' });
   await ctx.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(BASE).origin });
   const page = await ctx.newPage();
   const cdp = await ctx.newCDPSession(page);
@@ -83,7 +85,7 @@ const cue = type => events.push({ type, wall: Date.now() / 1000 });
     frames.push({ file, t: f.metadata.timestamp });
     try { await cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }); } catch (e) {}
   });
-  const startCast = () => cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: W, maxHeight: H, everyNthFrame: 1 });
+  const startCast = () => cdp.send('Page.startScreencast', { format: 'jpeg', quality: 96, maxWidth: W * DPR, maxHeight: H * DPR, everyNthFrame: 1 });
 
   const cap = async (txt, hold = 0) => { if (txt) cue('pop'); await page.evaluate(t => { const c = document.getElementById('rec-cap'); if (!t) { c.classList.remove('on'); return; } c.textContent = t; c.classList.add('on'); }, txt); if (hold) await sleep(hold); };
   const card = async (on, a, b) => { if (on) cue('whoosh'); return page.evaluate(([on, a, b]) => { const c = document.getElementById('rec-card'); if (a) { c.querySelector('b').textContent = a; c.querySelector('span').textContent = b; } c.classList.toggle('on', on); }, [on, a, b]); };
@@ -194,12 +196,14 @@ const cue = type => events.push({ type, wall: Date.now() / 1000 });
   const elecId = await page.evaluate(k => [...document.querySelectorAll('tr.main')].find(tr => tr.querySelector('[data-field=key]').value === k).dataset.id, T('egrid_ERCT', 'elec_mx'));
   await click(`tr.main[data-id="${elecId}"] [data-toggle-ev]`);
   await sleep(700);
-  const pdf = path.join(OUT, T('Electric_bill_2025.pdf', 'Recibo_CFE_2025.pdf'));
-  fs.writeFileSync(pdf, '%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n');
-  await moveTo(`#${elecId}-ev`, 0.2, 0.4);
-  cue('click');
-  await page.setInputFiles(`#${elecId}-upload`, pdf);
-  await sleep(1200);
+  await cap(TXT.s3v);
+  await click(`#${elecId}-ev [data-preview]`);
+  await sleep(2600);
+  await moveTo('#viewerBody', 0.5, 0.6);
+  for (let k = 0; k < 8; k++) { await page.mouse.wheel(0, 60); await sleep(90); }
+  await sleep(1400);
+  await click('#viewerClose');
+  await sleep(600);
   await cap(TXT.s3b);
   await click(`#${elecId}-verified`);
   await sleep(1600);
@@ -246,17 +250,17 @@ const cue = type => events.push({ type, wall: Date.now() / 1000 });
   fs.writeFileSync(list, lines.join('\n'));
   const mp4 = path.join(OUT, `co2trace-demo-${LANG}.mp4`);
   execFileSync(FFMPEG, ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list,
-    '-vf', `fps=30,scale=${W}:${H}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-movflags', '+faststart', mp4]);
+    '-vf', `fps=30,scale=${OW}:${OH}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-profile:v', 'high', '-level', '5.1', '-movflags', '+faststart', mp4]);
   // soundtrack: music for the whole clip plus the logged cues, muxed into the MP4 as AAC
   const secs0 = frames[frames.length - 1].t - frames[0].t + 2;
   const wav = path.join(OUT, `soundtrack-${LANG}.wav`);
   writeSoundtrack(events.map(e => ({ type: e.type, t: e.wall - frames[0].t })).filter(e => e.t >= 0), secs0, wav);
   const silent = mp4.replace(/\.mp4$/, '-silent.mp4');
   fs.renameSync(mp4, silent);
-  execFileSync(FFMPEG, ['-y', '-hide_banner', '-loglevel', 'error', '-i', silent, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', '-shortest', '-movflags', '+faststart', mp4]);
+  execFileSync(FFMPEG, ['-y', '-hide_banner', '-loglevel', 'error', '-i', silent, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', mp4]);
   fs.rmSync(silent);
   const poster = path.join(OUT, `co2trace-demo-${LANG}.jpg`);
-  execFileSync(FFMPEG, ['-y', '-hide_banner', '-loglevel', 'error', '-ss', '1.5', '-i', mp4, '-frames:v', '1', '-q:v', '4', poster]);
+  execFileSync(FFMPEG, ['-y', '-hide_banner', '-loglevel', 'error', '-ss', '1.5', '-i', mp4, '-frames:v', '1', '-vf', 'scale=1920:-2', '-q:v', '3', poster]);
   const secs = frames.length ? frames[frames.length - 1].t - frames[0].t : 0;
   console.log(JSON.stringify({ lang: LANG, frames: frames.length, seconds: Math.round(secs), mp4, sizeMB: +(fs.statSync(mp4).size / 1e6).toFixed(2) }));
 })().catch(e => { console.error(e); process.exit(1); });
