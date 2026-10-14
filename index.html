@@ -269,6 +269,97 @@ html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
 @media (min-width: 821px) { .evg-tabs { flex-wrap: wrap; justify-content: center; overflow: visible; } }
 @media (max-width: 820px) { .evg-pane { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 560px) { .evg-rules { grid-template-columns: minmax(0, 1fr); } .evg-rules li + li { padding-left: 0; border-left: 0; border-top: 1px solid rgb(255 255 255 / .14); } }
+/* Reports (#reports): animated flow, report types and the generator button */
+.reports { display: grid; gap: 30px; padding: clamp(28px, 5vw, 72px); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+.reports h2, .plans h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; color: var(--title); margin-top: 8px; }
+.rep-flow { position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.rep-flow li { position: relative; z-index: 1; display: grid; gap: 8px; align-content: start; padding: 0 4px; opacity: .55; transition: opacity .5s; }
+.rep-flow li.on, .rep-flow li.done { opacity: 1; }
+.rep-n { font-family: var(--f-label); font-size: 11px; letter-spacing: .08em; color: var(--kick); margin-top: 6px; }
+.rep-flow h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+.rep-flow p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--slate); }
+.rep-soon { justify-self: start; padding: 3px 9px; border-radius: 99px; background: color-mix(in srgb, #E8B36A 22%, transparent); color: var(--ink); font-family: var(--f-label); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+.rep-ill { position: relative; height: 148px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; transition: border-color .4s, box-shadow .4s, transform .4s cubic-bezier(.2, .7, .2, 1); }
+.rep-flow li.on .rep-ill { border-color: var(--brand); box-shadow: 0 18px 40px -24px rgb(7 42 200 / .6); transform: translateY(-4px); }
+/* 01 upload: three files drop into the tray */
+.rep-ill .doc { position: absolute; left: 50%; width: 132px; margin-left: -66px; padding: 7px 10px; border-radius: 8px; background: var(--surface); box-shadow: 0 4px 12px -4px rgb(0 0 0 / .25); font-size: 11px; font-family: var(--f-label); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; top: 14px; }
+.rep-ill .doc::before { content: ""; display: inline-block; width: 8px; height: 10px; margin-right: 6px; border-radius: 1px; background: #C62828; vertical-align: -1px; }
+.rep-ill .d2 { top: 50px; } .rep-ill .d3 { top: 86px; }
+.rep-ill .drop { position: absolute; left: 14px; right: 14px; bottom: 10px; height: 10px; border: 1.5px dashed var(--brand); border-top: 0; border-radius: 0 0 8px 8px; opacity: .6; }
+.rep-flow li.on .up .doc { animation: repDrop 1.2s cubic-bezier(.3, 1.4, .5, 1) both; }
+.rep-flow li.on .up .d2 { animation-delay: .2s; } .rep-flow li.on .up .d3 { animation-delay: .4s; }
+@keyframes repDrop { from { opacity: 0; transform: translateY(-40px) rotate(-6deg); } }
+/* 02 read: a page with a scan bar, extracted values pop out */
+.rep-ill .page { position: absolute; left: 16px; top: 16px; width: 70px; height: 116px; border-radius: 6px; background: var(--surface); box-shadow: 0 4px 12px -4px rgb(0 0 0 / .25); padding: 12px 9px; display: grid; gap: 8px; align-content: start; overflow: hidden; }
+.rep-ill .page i { display: block; height: 4px; border-radius: 2px; background: var(--line); }
+.rep-ill .page i:nth-child(2) { width: 70%; } .rep-ill .page i:nth-child(4) { width: 50%; }
+.rep-ill .scan { position: absolute; left: 0; right: 0; top: 0; height: 18px; background: linear-gradient(transparent, color-mix(in srgb, var(--brand) 35%, transparent)); border-bottom: 2px solid var(--brand); opacity: 0; }
+.rep-flow li.on .rd .scan { animation: repScan 1.6s ease-in-out infinite; }
+@keyframes repScan { 0% { opacity: 1; transform: translateY(-18px); } 100% { opacity: 1; transform: translateY(116px); } }
+.rep-ill .rchip { position: absolute; left: 100px; right: 10px; padding: 5px 8px; border-radius: 99px; background: var(--brand); color: #FFFFFF; font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rep-ill .c1 { top: 22px; } .rep-ill .c2 { top: 60px; } .rep-ill .c3 { top: 98px; }
+.rep-flow li.on .rd .rchip { animation: repPop .5s cubic-bezier(.3, 1.5, .5, 1) both; }
+.rep-flow li.on .rd .c1 { animation-delay: .5s; } .rep-flow li.on .rd .c2 { animation-delay: .8s; } .rep-flow li.on .rd .c3 { animation-delay: 1.1s; }
+@keyframes repPop { from { opacity: 0; transform: translateX(-16px) scale(.8); } }
+/* 03 check: ticks */
+.rep-ill.ck { display: grid; align-content: center; gap: 10px; padding: 0 16px; }
+.rep-ill .tick { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink); }
+.rep-ill .tick::before { content: "✓"; display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--ok); color: #FFFFFF; font-size: 11px; font-weight: 700; }
+.rep-flow li.on .ck .tick { animation: repPop .45s cubic-bezier(.3, 1.5, .5, 1) both; }
+.rep-flow li.on .ck .tick:nth-child(2) { animation-delay: .25s; } .rep-flow li.on .ck .tick:nth-child(3) { animation-delay: .5s; }
+/* 04 report: a cover with bars growing */
+.rep-ill .cover { position: absolute; left: 50%; top: 14px; width: 92px; height: 120px; margin-left: -46px; border-radius: 6px; background: var(--surface); box-shadow: 0 8px 20px -8px rgb(0 0 0 / .3); padding: 10px; display: flex; flex-direction: column; gap: 6px; border-top: 4px solid var(--brand); }
+.rep-ill .cover b { font-size: 10px; color: var(--title); }
+.rep-ill .cover i { display: block; height: 7px; border-radius: 2px; background: var(--s2); transform-origin: left; }
+.rep-ill .cover .b1 { width: 85%; background: var(--s1); } .rep-ill .cover .b2 { width: 60%; } .rep-ill .cover .b3 { width: 72%; background: var(--s3); }
+.rep-ill .cover em { position: absolute; right: -12px; bottom: 10px; padding: 3px 7px; border-radius: 5px; background: #C62828; color: #FFFFFF; font-style: normal; font-size: 10px; font-weight: 700; transform: rotate(6deg); }
+.rep-flow li.on .rp .cover i { animation: repGrow .7s cubic-bezier(.2, .7, .2, 1) both; }
+.rep-flow li.on .rp .cover .b2 { animation-delay: .15s; } .rep-flow li.on .rp .cover .b3 { animation-delay: .3s; }
+.rep-flow li.on .rp .cover em { animation: repPop .5s cubic-bezier(.3, 1.5, .5, 1) .6s both; }
+@keyframes repGrow { from { transform: scaleX(0); } }
+.rep-types { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.rep-type { display: grid; gap: 12px; align-content: start; padding: 18px; border-radius: 16px; background: var(--surface-2); transition: transform .4s cubic-bezier(.2, .7, .2, 1); }
+.rep-type:hover { transform: translateY(-3px); }
+.rep-type .evg-ico { width: 38px; height: 38px; }
+.rep-type h3 { margin: 2px 0 4px; font-size: 16px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.rep-type p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--slate); }
+.rep-std { font-family: var(--f-label); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
+.rep-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 6px; border-top: 1px solid var(--line); }
+.rep-cta .note { margin: 0; max-width: 70ch; font-size: 13px; color: var(--slate); }
+@media (max-width: 1000px) { .rep-flow, .rep-types { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .rep-flow, .rep-types { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .rep-flow li * { animation: none !important; } }
+/* Plans (#plans) */
+.plans { display: grid; gap: 30px; }
+.plans-side { display: grid; gap: 16px; justify-items: start; }
+.plans-side .ex-lede b { color: var(--ink); }
+.plans-bill button { padding: 9px 14px; }
+.plans-bill button[aria-pressed="true"] { background: var(--brand); color: #FFFFFF; }
+.plans-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.plan { position: relative; display: grid; gap: 14px; align-content: start; padding: 28px; border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); border: 1.5px solid transparent; transition: transform .45s cubic-bezier(.2, .7, .2, 1), box-shadow .45s; }
+.plan:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -34px rgb(7 42 200 / .5); }
+.plan.top { background: var(--brand); color: #FFFFFF; border-color: var(--brand); }
+.plan h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -.02em; color: var(--title); }
+.plan.top h3 { color: #FFFFFF; }
+.plan-who { margin: -8px 0 0; font-size: 13.5px; color: var(--slate); }
+.plan.top .plan-who, .plan.top .plan-bill { color: rgb(255 255 255 / .75); }
+.plan-badge { position: absolute; top: 20px; right: 20px; padding: 4px 10px; border-radius: 99px; background: #FFFFFF; color: var(--brand); font-family: var(--f-label); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.plan-price { display: flex; align-items: flex-start; gap: 4px; margin-top: 6px; }
+.plan-price b { font-size: clamp(40px, 4vw, 56px); font-weight: 500; letter-spacing: -.04em; line-height: .9; }
+.plan-cur { font-size: 20px; margin-top: 4px; }
+.plan-from { align-self: flex-end; margin-right: 4px; font-size: 13px; opacity: .75; }
+.plan-per { align-self: flex-end; margin-left: 4px; font-size: 12px; line-height: 1.2; opacity: .75; }
+.plan-bill { margin: -6px 0 0; font-size: 12.5px; color: var(--slate); }
+.plan-go { justify-content: center; width: 100%; }
+.plan.top .plan-go { background: #FFFFFF; color: var(--brand); border-color: #FFFFFF; }
+.plan ul { list-style: none; margin: 4px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.plan.top ul { border-top-color: rgb(255 255 255 / .2); }
+.plan li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+.plan li svg { flex: none; width: 20px; height: 20px; color: var(--ok); fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.plan.top li svg { color: #FFFFFF; }
+.plan li.xp { font-weight: 600; }
+.plans-foot { margin: 0; font-size: 12.5px; color: var(--slate); text-align: center; }
+@media (max-width: 900px) { .plans-grid { grid-template-columns: minmax(0, 1fr); } }
 /* Example gallery (#examples) and view mode (html.viewing: an untouched example is loaded) */
 .examples { display: grid; gap: 22px; }
 .ex-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 14px 32px; align-items: end; }
@@ -756,7 +847,7 @@ ul.checks .ck { font-family: var(--f-label); font-size: 10.5px; letter-spacing: 
 td.em.memo { color: var(--muted); font-style: italic; }
 
 .method { background: var(--hero); color: #FFFFFF; border-radius: 18px; padding: clamp(28px, 5vw, 72px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 20px clamp(24px, 6vw, 96px); align-items: start; }
-.method .kicker { position: sticky; top: 24px; }
+.method .kicker { position: static; }
 .method .eyebrow { color: var(--hero-accent); }
 .method h2 { font-size: clamp(32px, 4vw, 60px); line-height: .98; }
 .method .body { display: grid; gap: 22px; }
@@ -958,6 +1049,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#c-gantt" data-es="Gantt mensual">Monthly Gantt</a></li>
             <li><a href="#c-sup" data-es="Proveedores">Suppliers</a></li>
             <li><a href="#c-hot" data-es="Puntos críticos">Hotspots</a></li>
+            <li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li>
           </ul>
           <p class="drop-foot" data-es="Toneladas de CO₂e por alcance, categoría, etapa y proveedor, al momento.">Tonnes of CO₂e by scope, category, stage and supplier, updated as you type.</p>
         </div>
@@ -989,6 +1081,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#vision" data-es="Visión">Vision</a></li>
             <li><a href="#mission" data-es="Misión">Mission</a></li>
             <li><a href="#purpose" data-es="Propósito">Purpose</a></li>
+            <li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li>
             <li><a href="#socials" data-es="Redes sociales">Socials</a></li>
           </ul>
           <p class="drop-foot" data-es="Por qué existe CO2Trace y dónde seguirnos.">Why CO2Trace exists and where to follow us.</p>
@@ -1278,6 +1371,28 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   </div>
   <datalist id="supplierList"></datalist>
 
+  <section class="reports" id="reports" aria-labelledby="repTitle">
+    <div class="ex-head">
+      <div class="kicker rv"><div class="eyebrow" data-es="Reportes">Reports</div><h2 id="repTitle" class="rv-h" data-es="Reportes que se arman solos">Reports that build themselves</h2></div>
+      <p class="ex-lede" data-es="Sube los recibos, facturas y manifiestos. CO2Trace lee cada documento, llena su línea del registro, lo revisa contra el año de reporte y arma el reporte. Tú solo revisas y firmas.">Upload the bills, invoices and manifests. CO2Trace reads each document, fills its ledger line, checks it against the reporting year and assembles the report. You only review and sign.</p>
+    </div>
+    <ol class="rep-flow rv" id="repFlow">
+      <li data-k="0"><div class="rep-ill up"><span class="doc d1">Recibo_CFE.pdf</span><span class="doc d2" data-es="Factura_gas.pdf">Gas_invoice.pdf</span><span class="doc d3" data-es="Manifiesto.pdf">Manifest.pdf</span><span class="drop"></span></div>
+        <span class="rep-n">01</span><h3 data-es="Sube los documentos">Upload the documents</h3><p data-es="Arrastra recibos, facturas (CFDI), cartas porte y manifiestos, en PDF o foto.">Drag in bills, invoices, bills of lading and manifests, as PDFs or photos.</p></li>
+      <li data-k="1"><div class="rep-ill rd"><span class="page"><i></i><i></i><i></i><i></i><b class="scan"></b></span><span class="rchip c1" data-es="18,000,000 kWh">24,000,000 kWh</span><span class="rchip c2" data-es="Ene–Dic 2025">Jan–Dec 2025</span><span class="rchip c3" data-es="CFE · medidor 0000">Utility · meter 0000</span></div>
+        <span class="rep-n">02</span><h3 data-es="CO2Trace los lee">CO2Trace reads them</h3><p data-es="Saca la cantidad, la unidad, el periodo, el proveedor y la referencia, y llena la línea correcta.">It pulls out the quantity, unit, period, supplier and reference, and fills the right line.</p></li>
+      <li data-k="2"><div class="rep-ill ck"><span class="tick" data-es="12 de 12 meses">12 of 12 months</span><span class="tick" data-es="Coincide con el registro">Matches the ledger</span><span class="tick" data-es="Referencia guardada">Reference on file</span></div>
+        <span class="rep-n">03</span><h3 data-es="Lo revisa">It checks everything</h3><p data-es="Meses faltantes, cifras que no cuadran y documentos vencidos se marcan antes de que los vea un verificador.">Missing months, figures that don’t match and out-of-period documents are flagged before a verifier sees them.</p></li>
+      <li data-k="3"><div class="rep-ill rp"><span class="cover"><b>CO2Trace</b><i class="b1"></i><i class="b2"></i><i class="b3"></i><em>PDF</em></span></div>
+        <span class="rep-n">04</span><h3 data-es="El reporte queda listo">The report is ready</h3><p data-es="Inventario, huella de producto y paquete de evidencia, listos para imprimir o enviar.">Inventory, product footprint and evidence pack, ready to print or send.</p></li>
+    </ol>
+    <div class="rep-types" id="repTypes"></div>
+    <div class="rep-cta rv">
+      <button type="button" class="btn primary" id="makeReport" data-es="Generar el reporte ahora&lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;▶&lt;/span&gt;">Generate the report now<span class="arr" aria-hidden="true">▶</span></button>
+      <p class="note" data-es="Se arma con el registro y la evidencia de esta página. La lectura automática de documentos llega con las cuentas de empresa; mientras tanto, captura la cantidad y adjunta el archivo.">Built from the ledger and the evidence on this page. Automatic document reading arrives with company accounts; until then, enter the quantity and attach the file.</p>
+    </div>
+  </section>
+
   <section class="method rv" id="method" aria-labelledby="methodTitle">
     <div class="kicker"><div class="eyebrow" data-es="03 · Metodología">03 · Method</div><h2 id="methodTitle" class="rv-h" data-es="Cómo se calcula cada tonelada">How every tonne is calculated</h2>
       <p class="m-lede" data-es="Cada línea pasa por la misma fórmula. Los factores guardan cada gas por separado, así que cambiar el método de PCG recalcula todo sin volver a capturar datos.">Every line goes through the same formula. Factors keep each gas separately, so switching the GWP method recalculates everything without re-entering data.</p></div>
@@ -1294,6 +1409,18 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       </details>
     </div>
     <p class="brand-foot" data-es="CO2Trace · contabilidad de carbono y análisis de ciclo de vida">CO2Trace · carbon accounting and life cycle assessment</p>
+  </section>
+
+  <section class="plans" id="plans" aria-labelledby="plansTitle">
+    <div class="ex-head">
+      <div class="kicker rv"><div class="eyebrow" data-es="Planes">Plans</div><h2 id="plansTitle" class="rv-h" data-es="Un precio según el tamaño de tu empresa">One price for the size of your company</h2></div>
+      <div class="plans-side rv">
+        <p class="ex-lede" data-es="Todos los planes incluyen &lt;b&gt;dos revisiones al mes con expertos&lt;/b&gt;: un especialista en ACV y GEI revisa tus datos y tu evidencia contigo por videollamada.">Every plan includes <b>two expert reviews a month</b>: an LCA and GHG specialist goes through your data and evidence with you on a video call.</p>
+        <div class="seg plans-bill" role="group" aria-label="Billing" data-es-aria-label="Facturación"><button type="button" data-bill="m" aria-pressed="true" data-es="Mensual">Monthly</button><button type="button" data-bill="y" aria-pressed="false" data-es="Anual · 2 meses gratis">Yearly · 2 months free</button></div>
+      </div>
+    </div>
+    <div class="plans-grid" id="plansGrid"></div>
+    <p class="plans-foot" data-es="Precios en pesos mexicanos más IVA. Las cuentas y la facturación abren pronto; crea tu cuenta para apartar tu lugar.">Prices in US dollars before tax. Accounts and billing open soon; create your account to save your place.</p>
   </section>
 
   <section class="about" id="about" aria-labelledby="aboutTitle">
@@ -2358,6 +2485,167 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     box.addEventListener('pointerleave', () => { const st = box.querySelector('.evg-stack'); if (st) { st.style.removeProperty('--rx'); st.style.removeProperty('--ry'); } });
   })();
 
+  // ---------- reports (#reports) ----------
+  // The flow (upload → read → check → report) lights one step at a time while on screen; the report types follow the
+  // country; Generate the report now builds a print-ready report from the ledger and its evidence in a new tab.
+  // Automatic reading of uploaded documents needs the backend (company accounts) and is labelled as coming.
+  Object.assign(ICONS, {
+    inv: '<path d="M4 20V11M10 20V5M16 20v-8M21 20H3"/>',
+    pcf: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    disc: '<path d="M5 21V4h11l-1.5 4H20l-2 6H5"/>',
+    pack: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/>',
+  });
+  function renderReports() {
+    const mx = state.region === 'mx';
+    const types = [
+      ['inv', L('GHG inventory', 'Inventario de GEI'), 'GHG Protocol · ISO 14064-1', L('Scopes 1, 2 and 3 by category, with Scope 2 location- and market-based.', 'Alcances 1, 2 y 3 por categoría, con el método y los factores de cada línea.')],
+      ['pcf', L('Product carbon footprint', 'Huella de carbono de producto'), 'ISO 14067', L('kg CO₂e per functional unit, by life-cycle stage.', 'kg CO₂e por unidad funcional, por etapa del ciclo de vida.')],
+      ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
+      ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
+    ];
+    $('repTypes').innerHTML = types.map(([ic, t, std, d], i) => `<article class="rep-type rv in" style="--i: ${i}"><span class="evg-ico">${svgI(ic)}</span><div><span class="rep-std">${esc(std)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div></article>`).join('');
+    // the two automatic steps are not live yet
+    $('repFlow').querySelectorAll('li[data-k="0"], li[data-k="1"]').forEach(li => {
+      let b = li.querySelector('.rep-soon');
+      if (!b) { b = document.createElement('span'); b.className = 'rep-soon'; li.appendChild(b); }
+      b.textContent = L('Coming with accounts', 'Llega con las cuentas');
+    });
+  }
+  (() => {
+    const flow = $('repFlow'); if (!flow) return;
+    const items = [...flow.children]; let i = 0, timer = 0;
+    const show = k => { items.forEach((li, j) => { li.classList.toggle('on', j === k); li.classList.toggle('done', j < k); }); flow.style.setProperty('--p', (k / (items.length - 1)).toFixed(3)); };
+    show(0);
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { items.forEach(li => li.classList.add('on')); return; }
+    const run = on => { clearInterval(timer); if (on) timer = setInterval(() => { i = (i + 1) % items.length; show(i); }, 2600); };
+    if (window.IntersectionObserver) new IntersectionObserver(es => run(es[0].isIntersecting), { threshold: .3 }).observe(flow); else run(true);
+    items.forEach((li, j) => li.addEventListener('pointerenter', () => { i = j; show(j); }));
+  })();
+
+  function reportHtml() {
+    const t = totals(), es = isEs(), T = (en, sp) => (es ? sp : en), g = state.goal, R = REGIONS[state.region];
+    const pc = v => pct(v, t.total), per = state.fuQty ? t.total * 1000 / +state.fuQty : 0;
+    const opt = id => { const el = $(id); return el && el.selectedOptions[0] ? el.selectedOptions[0].textContent : ''; };
+    const evDone = t.total ? pct(t.byEv.ok + t.byEv.att, t.total) : '–', evOk = t.total ? pct(t.byEv.ok, t.total) : '–';
+    const status = r => ({ miss: T('Missing', 'Faltante'), att: T('Attached', 'Adjunta'), ok: T('Verified', 'Verificada') })[evStatus(r)];
+    const cats = Object.keys(CATS).filter(k => [1, 2, 3].some(sc => t.byCatScope[sc][k]));
+    const goalRows = [
+      [T('Reason for the study', 'Motivo del estudio'), g.reason], [T('Intended application', 'Aplicación prevista'), g.app], [T('Intended audience', 'Público previsto'), g.audience],
+      [T('Commissioned by', 'Encargado por'), g.commissioner], [T('Carried out by', 'Realizado por'), g.practitioner],
+      [T('Functional unit', 'Unidad funcional'), `${state.fuName || ''}${state.fuQty ? ` · ${nf0.format(+state.fuQty)} ${T('units in', 'unidades en')} ${state.year}` : ''}`],
+      [T('Reference flow', 'Flujo de referencia'), g.refFlow], [T('System boundary', 'Límite del sistema'), state.boundary === 'gate' ? T('Cradle-to-gate', 'De la cuna a la puerta') : T('Cradle-to-grave', 'De la cuna a la tumba')],
+      [T('Multi-output and recycling', 'Procesos multiproducto y reciclaje'), opt('g-allocation')], [T('Cut-off criteria', 'Criterios de corte'), g.cutoff],
+      [T('Left out of the boundary', 'Fuera del límite'), g.exclusions], [T('Assumptions and limitations', 'Supuestos y limitaciones'), g.assumptions],
+      [T('Critical review', 'Revisión crítica'), opt('g-review') + (g.reviewer ? ` · ${g.reviewer}` : '')], [T('Third-party verification', 'Verificación de terceros'), opt('g-assurance')],
+    ].filter(([, v]) => v);
+    const lines = t.lines.slice().sort((a, b) => a.stage === b.stage ? emis(b) - emis(a) : STAGES.findIndex(s => s.id === a.stage) - STAGES.findIndex(s => s.id === b.stage));
+    const stageName = id => (STAGES.find(s => s.id === id) || {}).name || id;
+    const chk = checks(t);
+    const kpi = (l, v, u, sub) => `<div class="k"><span>${l}</span><b>${v}</b><i>${u}</i>${sub ? `<small>${sub}</small>` : ''}</div>`;
+    return `<!doctype html><html lang="${es ? 'es-MX' : 'en'}"><meta charset="utf-8"><title>${esc(bare(state.company || 'CO2Trace'))} · ${T('Carbon report', 'Reporte de carbono')} ${esc(state.year || '')}</title>
+<style>
+  @page{size:A4;margin:16mm 14mm}
+  body{margin:0;font:13px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1d1f;background:#E9EAE6}
+  .doc{max-width:860px;margin:24px auto;background:#fff;padding:48px 54px;box-shadow:0 2px 18px rgba(0,0,0,.12)}
+  .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;background:#072AC8;color:#fff;font-size:13px;z-index:2}
+  .bar button{font:inherit;padding:8px 14px;border-radius:8px;border:0;background:#fff;color:#072AC8;font-weight:600;cursor:pointer}
+  .cover{border-bottom:3px solid #072AC8;padding-bottom:22px;margin-bottom:26px}
+  .brand{font-weight:700;color:#072AC8;letter-spacing:-.02em;font-size:18px}
+  h1{font-size:30px;line-height:1.1;margin:18px 0 6px;letter-spacing:-.03em;color:#072AC8} h2{font-size:17px;margin:30px 0 10px;color:#072AC8;letter-spacing:-.01em;break-after:avoid}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 20px;margin-top:14px;font-size:12px} .meta b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b;font-weight:600}
+  .ex{margin-top:14px;padding:8px 12px;background:#FFF6E5;border-left:3px solid #E8B36A;font-size:12px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .k{border:1px solid #e3e3e3;border-radius:10px;padding:12px} .k span{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b}
+  .k b{font-size:24px;letter-spacing:-.02em} .k i{font-style:normal;color:#6b6b6b;margin-left:4px;font-size:12px} .k small{display:block;color:#6b6b6b;font-size:11px}
+  .k.main{background:#072AC8;color:#fff;border-color:#072AC8} .k.main span,.k.main i,.k.main small{color:rgba(255,255,255,.8)}
+  table{width:100%;border-collapse:collapse;font-size:11.5px} th,td{padding:6px 7px;border-bottom:1px solid #e6e6e6;text-align:left;vertical-align:top}
+  th{background:#F1F3FB;font-size:10px;letter-spacing:.04em;text-transform:uppercase} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tfoot td{font-weight:700;border-top:2px solid #1d1d1f}
+  .st{display:inline-block;padding:1px 7px;border-radius:99px;font-size:10.5px} .st.ok{background:#E3F2E8;color:#2E7D4F} .st.att{background:#FFF1DC;color:#8A5A12} .st.miss{background:#FDE7E5;color:#B3261E}
+  .gs td:first-child{width:32%;color:#555}
+  .chk li{margin:4px 0} .chk b{font-size:10px;letter-spacing:.06em;margin-right:6px}
+  .note{font-size:11.5px;color:#555}
+  @media print{body{background:#fff}.doc{box-shadow:none;margin:0;padding:0;max-width:none}.bar{display:none}h2{break-after:avoid}tr{break-inside:avoid}}
+</style>
+<div class="bar"><span>${T('Generated by CO2Trace from the ledger and its evidence', 'Generado por CO2Trace con el registro y su evidencia')}</span><button onclick="print()">${T('Print or save as PDF', 'Imprimir o guardar en PDF')}</button></div>
+<div class="doc">
+  <div class="cover"><div class="brand">CO2Trace</div>
+    <h1>${T('Greenhouse gas inventory and product carbon footprint', 'Inventario de gases de efecto invernadero y huella de carbono de producto')}</h1>
+    <div style="font-size:16px">${esc(state.company || T('Company', 'Empresa'))} · ${esc(state.year || '')}</div>
+    <div class="meta"><div><b>${T('Framework', 'Marco')}</b>${esc(es ? R.es[1] : R.framework)}</div><div><b>${T('Impact method', 'Método de impacto')}</b>IPCC ${esc(state.method)} GWP100</div><div><b>${T('Boundary', 'Límite')}</b>${state.boundary === 'gate' ? T('Cradle-to-gate', 'De la cuna a la puerta') : T('Cradle-to-grave', 'De la cuna a la tumba')}</div>
+      <div><b>${T('Site', 'Establecimiento')}</b>${esc(g.site || g.usStates || '')}</div><div><b>${T('Lines', 'Líneas')}</b>${t.lines.length}</div><div><b>${T('Generated', 'Generado')}</b>${new Date().toISOString().slice(0, 10)}</div></div>
+    ${state.isExample ? `<div class="ex">${T('Example data: a fictional company and fictional suppliers. The evidence documents are samples.', 'Datos de ejemplo: una empresa y proveedores ficticios. Los documentos de evidencia son muestras.')}</div>` : ''}
+  </div>
+  <h2>1. ${T('Summary', 'Resumen')}</h2>
+  <div class="kpis">
+    <div class="k main"><span>${T('Total', 'Total')}</span><b>${fmtT(t.total)}</b><i>t CO₂e</i><small>${state.boundary === 'gate' ? T('cradle-to-gate', 'de la cuna a la puerta') : T('cradle-to-grave', 'de la cuna a la tumba')}</small></div>
+    ${kpi(T('Per functional unit', 'Por unidad funcional'), per ? nf1.format(per) : '–', 'kg CO₂e', esc(state.fuName || ''))}
+    ${kpi(T('Evidence', 'Evidencia'), evDone, T('documented', 'documentado'), `${evOk} ${T('verified', 'verificado')}`)}
+    ${[1, 2, 3].map(sc => kpi(SC(sc), fmtT(t.byScope[sc]), 't CO₂e', pc(t.byScope[sc]))).join('')}
+  </div>
+  <h2>2. ${T('Goal and scope', 'Objetivo y alcance')} <span class="note">(ISO 14044, 4.2)</span></h2>
+  <table class="gs"><tbody>${goalRows.map(([k, v]) => `<tr><td>${k}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+  <h2>3. ${T('Emissions by scope and category', 'Emisiones por alcance y categoría')}</h2>
+  <table><thead><tr><th>${T('Category', 'Categoría')}</th>${[1, 2, 3].map(sc => `<th class="n">${SC(sc)}</th>`).join('')}<th class="n">${T('Total', 'Total')}</th><th class="n">%</th></tr></thead>
+    <tbody>${cats.map(k => { const v = [1, 2, 3].reduce((a, sc) => a + (t.byCatScope[sc][k] || 0), 0); return `<tr><td>${esc(CATS[k])}</td>${[1, 2, 3].map(sc => `<td class="n">${t.byCatScope[sc][k] ? fmtT(t.byCatScope[sc][k]) : '–'}</td>`).join('')}<td class="n">${fmtT(v)}</td><td class="n">${pc(v)}</td></tr>`; }).join('')}</tbody>
+    <tfoot><tr><td>${T('Total', 'Total')} (t CO₂e)</td>${[1, 2, 3].map(sc => `<td class="n">${fmtT(t.byScope[sc])}</td>`).join('')}<td class="n">${fmtT(t.total)}</td><td class="n">100%</td></tr></tfoot></table>
+  ${state.region === 'us' && t.byScope[2] ? `<p class="note">${T('Scope 2 location-based', '')}: ${fmtT(t.s2lb)} t · ${T('market-based', '')}: ${fmtT(t.s2mb)} t. ${T('The total uses the market-based figure.', '')}</p>` : ''}
+  <h2>4. ${T('Emissions by life-cycle stage', 'Emisiones por etapa del ciclo de vida')}</h2>
+  <table><thead><tr><th>${T('Stage', 'Etapa')}</th><th class="n">t CO₂e</th><th class="n">%</th><th class="n">${T('kg per unit', 'kg por unidad')}</th></tr></thead>
+    <tbody>${STAGES.filter(st => included(st.id)).map(st => `<tr><td>${esc(st.name)}</td><td class="n">${fmtT(t.byStage[st.id])}</td><td class="n">${pc(t.byStage[st.id])}</td><td class="n">${state.fuQty ? nf2.format(t.byStage[st.id] * 1000 / +state.fuQty) : '–'}</td></tr>`).join('')}</tbody></table>
+  <h2>5. ${T('Activity data and evidence', 'Datos de actividad y evidencia')}</h2>
+  <table><thead><tr><th>${T('Stage', 'Etapa')}</th><th>${T('Activity', 'Actividad')}</th><th>${T('Supplier', 'Proveedor')}</th><th class="n">${T('Quantity', 'Cantidad')}</th><th class="n">${T('Factor', 'Factor')}</th><th class="n">t CO₂e</th><th>${T('Scope', 'Alcance')}</th><th>${T('Document', 'Documento')}</th><th>${T('Status', 'Estado')}</th></tr></thead>
+    <tbody>${lines.map(r => `<tr><td>${esc(stageName(r.stage))}</td><td>${esc(r.note || F[r.key].name)}<br><span class="note">${esc(F[r.key].name)}</span></td><td>${esc(r.supplier)}</td><td class="n">${nf0.format(+r.qty || 0)} ${esc(r.unit)}</td><td class="n">${showEf(efOf(r) || 0)}</td><td class="n">${fmtT(emis(r))}</td><td>${SA(+r.scope || 3)}</td>
+      <td>${esc((DOCS[r.evidence.doc] || DOCS.other)[0])}${r.evidence.ref ? `<br><span class="note">${esc(r.evidence.ref)} · ${esc(r.evidence.period)}</span>` : ''}</td><td><span class="st ${evStatus(r)}">${status(r)}</span></td></tr>`).join('')}</tbody></table>
+  <h2>6. ${T('Evidence index', 'Índice de evidencia')}</h2>
+  <table><thead><tr><th>${T('File', 'Archivo')}</th><th>${T('Line', 'Línea')}</th><th>${T('Reference', 'Referencia')}</th><th>${T('Period', 'Periodo')}</th><th>${T('Status', 'Estado')}</th></tr></thead>
+    <tbody>${lines.flatMap(r => r.evidence.files.map(f => `<tr><td>${esc(f.name)}</td><td>${esc(r.note || F[r.key].name)}</td><td>${esc(r.evidence.ref)}</td><td>${esc(r.evidence.period)}</td><td><span class="st ${evStatus(r)}">${status(r)}</span></td></tr>`)).join('') || `<tr><td colspan="5">${T('No documents attached yet.', 'Aún no hay documentos adjuntos.')}</td></tr>`}</tbody></table>
+  <h2>7. ${T('Checks before reporting', 'Revisiones antes de reportar')}</h2>
+  <ul class="chk">${chk.length ? chk.map(([lvl, txt]) => `<li><b>${{ error: T('ERROR', 'ERROR'), warn: T('WARNING', 'ADVERTENCIA'), info: T('NOTE', 'NOTA') }[lvl] || lvl.toUpperCase()}</b>${txt}</li>`).join('') : `<li>${T('No open issues.', 'Sin pendientes.')}</li>`}</ul>
+  <h2>8. ${T('Method', 'Método')}</h2>
+  <div class="note">${$('methodText').innerHTML}</div>
+</div></html>`;
+  }
+  $('makeReport').addEventListener('click', () => {
+    const url = URL.createObjectURL(new Blob([reportHtml()], { type: 'text/html' }));
+    const w = window.open(url, '_blank');
+    if (!w) location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  });
+
+  // ---------- plans (#plans) ----------
+  const PLANS = [
+    { id: 'small', usd: 149, mxn: 2490, n: ['Small', 'Pequeña'], who: ['1–50 people · 1 site', '1 a 50 personas · 1 establecimiento'],
+      f: [['2 expert reviews a month, 30 min each', 'Up to 3 users', '150 documents read a month', 'Inventory and product footprint reports', 'Evidence pack for your verifier', 'Email support'],
+        ['2 revisiones al mes con expertos, de 30 min', 'Hasta 3 usuarios', '150 documentos leídos al mes', 'Reportes de inventario y de huella de producto', 'Paquete de evidencia para tu verificador', 'Soporte por correo']] },
+    { id: 'medium', usd: 449, mxn: 7490, top: true, n: ['Medium', 'Mediana'], who: ['51–250 people · up to 5 sites', '51 a 250 personas · hasta 5 establecimientos'],
+      f: [['2 expert reviews a month, 60 min each', 'Up to 10 users', '750 documents read a month', 'Everything in Small, plus the SB 253 and GHGRP summaries', 'Supplier data requests for Scope 3', 'Priority support'],
+        ['2 revisiones al mes con expertos, de 60 min', 'Hasta 10 usuarios', '750 documentos leídos al mes', 'Todo lo de Pequeña, más el resumen RENE para la COA', 'Solicitudes de datos a proveedores para el alcance 3', 'Soporte prioritario']] },
+    { id: 'large', usd: 1190, mxn: 19900, from: true, n: ['Large', 'Grande'], who: ['251+ people · unlimited sites', 'Más de 250 personas · establecimientos ilimitados'],
+      f: [['2 expert reviews a month with your dedicated specialist', 'Unlimited users', 'Unlimited documents', 'Everything in Medium, plus a verification-ready audit trail', 'ERP and API import', 'Help loading your first year of data'],
+        ['2 revisiones al mes con tu especialista asignado', 'Usuarios ilimitados', 'Documentos ilimitados', 'Todo lo de Mediana, más una bitácora lista para verificación', 'Importación desde ERP y API', 'Ayuda para cargar tu primer año de datos']] },
+  ];
+  let bill = 'm';
+  function renderPlans() {
+    const es = isEs() ? 1 : 0, mx = state.region === 'mx';
+    $('plansGrid').innerHTML = PLANS.map((p, i) => {
+      const base = mx ? p.mxn : p.usd, v = bill === 'm' ? base : mx ? Math.round(base * 10 / 12 / 10) * 10 : Math.round(base * 10 / 12);
+      return `<article class="plan${p.top ? ' top' : ''} rv in" style="--i: ${i}">
+        ${p.top ? `<span class="plan-badge">${L('Most chosen', 'El más elegido')}</span>` : ''}
+        <h3>${p.n[es]}</h3><p class="plan-who">${p.who[es]}</p>
+        <div class="plan-price">${p.from ? `<span class="plan-from">${L('from', 'desde')}</span>` : ''}<span class="plan-cur">$</span><b>${nf0.format(v)}</b><span class="plan-per">${mx ? 'MXN' : 'USD'}<br>${L('/ month', '/ mes')}</span></div>
+        <p class="plan-bill">${bill === 'm' ? L('Billed monthly', 'Pago mensual') : L(`Billed yearly: $${nf0.format(v * 12)} ${mx ? 'MXN' : 'USD'}`, `Pago anual: $${nf0.format(v * 12)} ${mx ? 'MXN' : 'USD'}`)}</p>
+        <button type="button" class="btn${p.top ? ' primary' : ''} plan-go" data-plan="${p.id}">${L('Choose', 'Elegir')} ${p.n[es]}</button>
+        <ul>${p.f[es].map((x, k) => `<li${k === 0 ? ' class="xp"' : ''}>${svgI('check')}<span>${esc(x)}</span></li>`).join('')}</ul>
+      </article>`;
+    }).join('');
+  }
+  document.querySelectorAll('[data-bill]').forEach(b => b.addEventListener('click', () => {
+    bill = b.dataset.bill;
+    document.querySelectorAll('[data-bill]').forEach(x => x.setAttribute('aria-pressed', x.dataset.bill === bill));
+    renderPlans();
+  }));
+  $('plansGrid').addEventListener('click', e => { if (e.target.closest('[data-plan]') && window.openAccount) window.openAccount('create'); });
+
   // ---------- example gallery (#examples) and view mode ----------
   // While an untouched example is loaded the page is in view mode (html.viewing): the project setup card is hidden and the
   // dashboard takes the full width; the ledger opens on request (html.ledger-open). Loading an example over the visitor's own
@@ -2408,6 +2696,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     }
     renderExamples();
     renderGuide();
+    renderReports();
+    renderPlans();
   }
   function loadExample(id) {
     if (id === 'own') {
@@ -3673,6 +3963,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     const TOPICS = [
       { k: 'total footprint much emission emissions result tonnes tons cuanto cuanta huella total toneladas emito emitimos', a: live.total },
       { k: 'biggest largest hotspot hotspots most reduce reduction where mayor mas grande punto critico criticos reducir reduccion donde', a: live.hot },
+      { k: 'report reports pdf print generate automatic inventory summary export verifier reporte reportes imprimir generar automatico inventario resumen', a: () => ({ html: L(`<p><b>Generate the report now</b> (Reports section) builds a print-ready report from the ledger and its evidence: summary, goal and scope, emissions by scope, category and stage, every line with its document and status, the evidence index, the checks and the method. Use <b>Print or save as PDF</b> in the report tab.</p><p>Reading uploaded documents automatically (quantity, period, supplier) arrives with company accounts; for now, enter the quantity and attach the file.</p>`, `<p><b>Generar el reporte ahora</b> (sección Reportes) arma un reporte listo para imprimir con el registro y su evidencia: resumen, objetivo y alcance, emisiones por alcance, categoría y etapa, cada línea con su documento y estado, el índice de evidencia, las revisiones y el método. Usa <b>Imprimir o guardar en PDF</b> en la pestaña del reporte.</p><p>La lectura automática de documentos (cantidad, periodo, proveedor) llega con las cuentas de empresa; mientras tanto, captura la cantidad y adjunta el archivo.</p>`), acts: [go('Reports', 'Reportes', 'reports')] }) },
+      { k: 'plan plans price prices pricing cost costs fee monthly subscription expert review reviews plan planes precio precios costo cuota mensual suscripcion experto revision revisiones', a: () => ({ html: L(`<p>Three monthly plans by company size: <b>Small</b> (1–50 people) from $149 USD, <b>Medium</b> (51–250) $449 and <b>Large</b> (251+) from $1,190, before tax. Paying yearly gives two months free.</p><p>Every plan includes <b>two expert reviews a month</b>: an LCA and GHG specialist goes through your data and evidence with you on a video call.</p>`, `<p>Tres planes mensuales según el tamaño de la empresa: <b>Pequeña</b> (1 a 50 personas) $2,490 MXN, <b>Mediana</b> (51 a 250) $7,490 y <b>Grande</b> (más de 250) desde $19,900, más IVA. El pago anual da dos meses gratis.</p><p>Todos los planes incluyen <b>dos revisiones al mes con expertos</b>: un especialista en ACV y GEI revisa tus datos y tu evidencia contigo por videollamada.</p>`), acts: [go('See the plans', 'Ver los planes', 'plans')] }) },
       { k: 'evidence document documents receipt invoice bill attach file files verify verified missing coverage evidencia documento factura recibo adjuntar archivo verificar verificada faltante cobertura', a: live.evidence },
       { k: 'rene coa threshold umbral mexico semarnat cedula 25000 25 000 obligatorio obligatory', a: live.rene },
       { k: 'start started begin getting use how first blank example tutorial video demo walkthrough watch empezar empiezo comenzar inicio iniciar usar como funciona ejemplo blanco video demostracion ver', a: () => ({ html: L(`<p><b>Explore an example</b> lists four fictional companies of different sizes and industries; pick one to see its dashboard. To use your own data, pick <b>Your own data</b>, then three steps:</p><ul><li><b>Project setup</b>: company, year, functional unit, country (US or MX) and boundary.</li><li><b>Activity ledger</b>: one line per activity in each life-cycle stage, with quantity, unit, supplier and months.</li><li><b>Dashboard</b> fills in as you type: totals by scope, category, stage, supplier and month.</li></ul><p>The <b>How to use CO2Trace</b> section plays the steps as you scroll, and the full video is at the end of the page.</p>`, `<p><b>Explora un ejemplo</b> muestra cuatro empresas ficticias de distinto tamaño e industria; elige una para ver su tablero. Para usar tus datos, elige <b>Tus propios datos</b> y sigue tres pasos:</p><ul><li><b>Configuración del proyecto</b>: empresa, año, unidad funcional, país (US o MX) y límite del sistema.</li><li><b>Registro de actividades</b>: una línea por actividad en cada etapa del ciclo de vida, con cantidad, unidad, proveedor y meses.</li><li>El <b>tablero</b> se llena mientras capturas: totales por alcance, categoría, etapa, proveedor y mes.</li></ul><p>La sección <b>Cómo usar CO2Trace</b> muestra los pasos al desplazarte, y el video completo está al final de la página.</p>`), acts: [go('How to use', 'Cómo usar', 'how'), go('Watch the video', 'Ver el video', 'demo'), go('Examples', 'Ejemplos', 'examples')] }) },
