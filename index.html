@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-mQo1PPyUHxRsj/twH4Hd5PvQTEc2yUu4LxmZiC5pTdI=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-SXNvxgnDTwxkKC+bLTEzRT6jt5FDiPlCK4/B2qA7k8A=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -38,6 +38,7 @@
   --ok: #2E7D4F;
   --ok-soft: #8CC2A2;
   --miss: #B23A3A;
+  --save: #0B7A5C;
   --s1: #072AC8;
   --s2: #6C86E6;
   --s3: #B5C4F6;
@@ -59,7 +60,7 @@
   :root:not([data-theme="light"]) {
     --bg: #11141C; --surface: #191E2A; --surface-2: #222939; --ink: #E9ECF3; --muted: #A0A8BA; --slate: #B6C3F2; --line: #2F3748;
     --accent: #C4D0FA; --accent-ink: #061233; --hero: #081A5C; --title: #C4D0FA; --kick: #9DB1FA; --go: #3D5CE8; --go-ink: #FFFFFF; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
-    --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
+    --save: #13775B; --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
     --s1: #A9B9F5; --s2: #4F6FE0; --s3: #2A3F8F;
     --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F8DF0; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
     color-scheme: dark;
@@ -68,7 +69,7 @@
 :root[data-theme="dark"] {
   --bg: #11141C; --surface: #191E2A; --surface-2: #222939; --ink: #E9ECF3; --muted: #A0A8BA; --slate: #B6C3F2; --line: #2F3748;
   --accent: #C4D0FA; --accent-ink: #061233; --hero: #081A5C; --title: #C4D0FA; --kick: #9DB1FA; --go: #3D5CE8; --go-ink: #FFFFFF; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
-  --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
+  --save: #13775B; --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
   --s1: #A9B9F5; --s2: #4F6FE0; --s3: #2A3F8F;
   --c-mat: #C9A36B; --c-fuel: #E58A62; --c-elec: #6F8DF0; --c-refrig: #B58ED6; --c-transport: #5CC0AE; --c-waste: #A3AAB1; --c-custom: #D4BE5E; --on-c: #0F1110;
   color-scheme: dark;
@@ -466,6 +467,15 @@ html.viewing:not(.ledger-open) .side { position: static; max-height: none; overf
 .kpi .v small { font-family: var(--f-body); font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
 .kpi .sub { font-size: 13px; color: var(--muted); }
 .kpi.total { background: var(--hero); color: #FFFFFF; }
+.kpi.dual { display: grid; cursor: pointer; transition: background-color .5s ease, color .5s ease; }
+.kpi.dual .face { grid-area: 1 / 1; display: grid; gap: 8px; align-content: start; min-width: 0; transition: opacity .45s ease, transform .45s ease; }
+.kpi.dual .fb { opacity: 0; transform: translateY(6px); pointer-events: none; }
+.kpi.dual.alt { background: var(--save); color: #FFFFFF; }
+.kpi.dual.alt .fa { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.kpi.dual.alt .fb { opacity: 1; transform: none; }
+.kpi.dual.alt .k, .kpi.dual.alt .sub, .kpi.dual.alt .v small { color: rgb(255 255 255 / .78); }
+.kpi.dual:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .kpi.dual, .kpi.dual .face { transition: none; } }
 .kpi.total .k, .kpi.total .sub, .kpi.total .v small { color: rgb(255 255 255 / .7); }
 .kpi.total .v { font-size: clamp(34px, 2.8vw, 44px); }
 .kpi .v small { white-space: nowrap; }
@@ -555,6 +565,9 @@ svg text { font-family: var(--f-body); }
 .mc-col.pk .mc-x::after { content: " ▲"; font-size: 9px; }
 .mc-x .short { display: none; }
 .mc-unit { grid-column: 2; margin-top: 26px; font-size: 11.5px; color: var(--muted); }
+.price-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px 12px; }
+.price-grid .field span { font-size: 12.5px; } .price-grid small { color: var(--muted); }
+.plan-tbl[open] summary { margin-bottom: 2px; }
 .recs { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
 .rc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
 .rc-list li { display: grid; gap: 6px; align-content: start; padding: 12px 14px; border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 12px; background: var(--surface-2); }
@@ -1493,6 +1506,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <div class="field wide"><label for="g-recalcPolicy" data-es="Política de recálculo">Recalculation policy</label><input id="g-recalcPolicy" data-goal="recalcPolicy" type="text" placeholder="e.g. recalculate the base year for acquisitions, divestments, method or factor changes above the threshold" data-es-placeholder="p. ej., recalcular el año base por adquisiciones, desinversiones o cambios de método o de factores por encima del umbral"></div>
         <div class="pg-head" data-es="Tamizaje del alcance 3&lt;small&gt;GHG Protocol Alcance 3 · ISO/TR 14069, 5.2.3&lt;/small&gt;">Scope 3 screening<small>GHG Protocol Scope 3 · ISO/TR 14069, 5.2.3</small></div>
         <div class="field wide" id="s3Screen"></div>
+        <div class="pg-head" data-es="Precios para el ahorro estimado&lt;small&gt;indicativos · déjalos vacíos para usar los predeterminados&lt;/small&gt;">Prices for the savings estimate<small>indicative · leave blank for the defaults</small></div>
+        <div class="field wide"><div class="price-grid" id="priceGrid"></div></div>
         <div class="pg-head" data-only="mx">Datos del establecimiento<small>RENE</small></div>
         <div class="pg-head" data-only="us">Reporting obligations<small>EPA GHGRP · California SB 253</small></div>
         <div class="field" data-only="mx"><label for="g-rfc">RFC</label><input id="g-rfc" data-goal="rfc" type="text" autocomplete="off"></div>
@@ -1979,7 +1994,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     reason: '', app: '', audience: '', comparative: 'no', commissioner: '', practitioner: '', reportDate: '',
     refFlow: '', allocation: 'cutoff', cutoff: '', exclusions: '', assumptions: '',
     review: 'none', reviewer: '', assurance: 'none', materiality: '5',
-    baseYear: '', baseTotal: '', priorTotal: '', recalc: '5', recalcPolicy: '', s3: {},
+    baseYear: '', baseTotal: '', priorTotal: '', recalc: '5', recalcPolicy: '', s3: {}, prices: {},
     rfc: '', scian: '', site: '', usStates: '', ca: '', rev1b: '',
   });
   // the default activity for a new line: manufacturing starts on the grid of the country selected
@@ -3074,6 +3089,8 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     ${sens.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${fmtT(v)}</td><td class="n">${t.total ? (v >= t.total ? '+' : '') + nf1.format((v - t.total) / t.total * 100) + ' %' : '–'}</td></tr>`).join('')}</tbody></table>
   <h3>6.4 ${T('Conclusions and recommendations', 'Conclusiones y recomendaciones')}</h3>
   <p>${T(`The carbon footprint is ${fmtT(t.total)} t CO₂e for ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e per ${esc(state.fuName)}` : ''}. Reductions should start with ${esc(hot[0] ? ln(hot[0]) : '–')}, the largest contributor.${missEv.length ? ' Supporting documents should be added for the lines listed in 4.5 before release.' : ''}`, `La huella de carbono es de ${fmtT(t.total)} t CO₂e en ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e por ${esc(state.fuName)}` : ''}. Las reducciones deben empezar por ${esc(hot[0] ? ln(hot[0]) : '–')}, el mayor contribuyente.${missEv.length ? ' Antes de publicar, deben agregarse documentos para las líneas listadas en 4.5.' : ''}`)}</p>
+  <h4>${T('Reduction options and savings', 'Opciones de reducción y ahorro')}</h4>
+  ${(() => { const sv = savings(t); return planTable(sv, T).replace(/<\/?details[^>]*>|<summary>[\s\S]*?<\/summary>/g, '').replace('<div class="table-scroll">', '').replace('</table></div>', '</table>'); })()}
   <h3>6.5 ${T('Assumptions and limitations', 'Supuestos y limitaciones')}</h3>
   <p>${g.assumptions ? esc(g.assumptions) : `<span class="miss">${T('Not stated: complete before release', 'Sin dato: complétalo antes de publicar')}</span>`}</p>
   <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic CO₂ is reported as a memo item; biogenic removals and land-use change are not assessed. Uncertainty is not quantified; section 6.3 and the pedigree scores in 4.4 stand in for it.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El CO₂ biogénico se reporta como partida de memoria; las remociones biogénicas y el cambio de uso de suelo no se evalúan. La incertidumbre no se cuantifica; la sección 6.3 y los puntajes de calidad de 4.4 la sustituyen.')}</p>
@@ -3318,7 +3335,12 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
         <td><input id="s3w-${i}" data-s3="${i}" data-s3k="why" type="text" value="${esc(s3Of(i).why || '')}" aria-label="${L('Reason for category', 'Motivo para la categoría')} ${i}"></td></tr>`).join('')}
       </tbody></table></div>`;
   }
+  function renderPrices() {
+    const pr = state.goal.prices || {}, cur = PRICE_DEF[state.region].cur;
+    $('priceGrid').innerHTML = PRICE_KEYS.map(([k, en, es, u]) => `<label class="field" for="pr-${k}"><span>${esc(L(en, es))} <small>${cur}/${u}</small></span><input id="pr-${k}" data-price="${k}" type="number" min="0" step="any" value="${esc(pr[k] ?? '')}" placeholder="${PRICE_DEF[state.region][k]}"></label>`).join('');
+  }
   function renderSetup() {
+    renderPrices();
     const s3 = $('s3Screen'); if (s3) s3.innerHTML = '';
     renderS3();
     document.querySelectorAll('[data-goal]').forEach(el => { el.value = state.goal[el.dataset.goal] ?? ''; });
@@ -3420,7 +3442,8 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   function renderKpis(t) {
     const fuQty = parseFloat(state.fuQty);
     const perUnit = fuQty > 0 ? (t.total * 1000) / fuQty : null;
-    const covered = t.byEv.ok + t.byEv.att;
+    const covered = t.byEv.ok + t.byEv.att, sv = savings(t);
+    const perAfter = fuQty > 0 ? ((t.total - sv.t) * 1000) / fuQty : null;
     const s2sub = state.region === 'us'
       ? `market-based, in total · location-based ${fmtT(t.s2lb)} t`
       : `FESEN, en el total · memoria basada en mercado ${fmtT(t.s2mb)} t`;
@@ -3436,18 +3459,27 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
         <div class="meter"><i style="width:${pctN(t.byScope[s], t.total)}%"></i></div>
         <div class="sub">${pct(t.byScope[s], t.total)} ${OT()}${s === 2 && t.byScope[2] + t.s2lb > 0 ? ' · ' + s2sub : ''}</div>
       </div>`).join('')}
-      <div class="kpi">
-        <div class="k">${L('Per functional unit', 'Por unidad funcional')}</div>
+      ${dualKpi('fu', `<div class="k">${L('Per functional unit', 'Por unidad funcional')}</div>
         <div class="v">${perUnit === null ? '–' : (perUnit >= 100 ? nf0.format(perUnit) : nf1.format(perUnit))}<small>kg CO₂e</small></div>
-        <div class="sub">${L('per', 'por')} ${esc(state.fuName || L('unit', 'unidad'))}${perUnit === null ? L(' · enter units produced', ' · captura las unidades producidas') : ''}</div>
-      </div>
-      <div class="kpi" style="--c: var(--ok)">
-        <div class="k">${L('Evidence coverage', 'Cobertura de evidencia')}</div>
+        <div class="sub">${L('per', 'por')} ${esc(state.fuName || L('unit', 'unidad'))}${perUnit === null ? L(' · enter units produced', ' · captura las unidades producidas') : ''}</div>`,
+        `<div class="k">${L('Possible per functional unit', 'Posible por unidad funcional')}</div>
+        <div class="v">${perAfter === null ? '–' : (perAfter >= 100 ? nf0.format(perAfter) : nf1.format(perAfter))}<small>kg CO₂e</small></div>
+        <div class="sub">${perAfter === null ? L('enter units produced', 'captura las unidades producidas') : `${chg(perAfter, perUnit)} ${L('with the savings plan', 'con el plan de ahorro')}`}</div>`)}
+      ${dualKpi('ev', `<div class="k">${L('Evidence coverage', 'Cobertura de evidencia')}</div>
         <div class="v">${pct(covered, t.total)}</div>
         <div class="meter"><i style="width:${pctN(t.byEv.ok, t.total)}%"></i><i style="--c: var(--ok-soft); width:${pctN(t.byEv.att, t.total)}%"></i></div>
-        <div class="sub">${L('of emissions documented', 'de las emisiones documentadas')} · ${pct(t.byEv.ok, t.total)} ${L('verified', 'verificadas')}</div>
-      </div>`;
+        <div class="sub">${L('of emissions documented', 'de las emisiones documentadas')} · ${pct(t.byEv.ok, t.total)} ${L('verified', 'verificadas')}</div>`,
+        `<div class="k">${L('Possible savings', 'Ahorro posible')}</div>
+        <div class="v">${money(sv.m)}<small>${L('a year', 'al año')}</small></div>
+        <div class="sub">${fmtT(sv.t)} t CO₂e ${L('less', 'menos')} (${pct(sv.t, t.total)}) ${L('with the savings plan', 'con el plan de ahorro')}</div>`, '--c: var(--ok)')}`;
   }
+  // A KPI box with two faces that alternate every few seconds (savings face in --save green); a click flips it
+  let kpiAlt = false, kpiTimer = null, kpiHold = false;
+  const dualKpi = (id, a, b, style = '') => `<div class="kpi dual${kpiAlt ? ' alt' : ''}" data-dual="${id}" role="button" tabindex="0" aria-pressed="${kpiAlt}" title="${L('Click to switch', 'Clic para cambiar')}" style="${style}"><div class="face fa">${a}</div><div class="face fb">${b}</div></div>`;
+  function flipKpis(v) { kpiAlt = v == null ? !kpiAlt : v; document.querySelectorAll('.kpi.dual').forEach(el => { el.classList.toggle('alt', kpiAlt); el.setAttribute('aria-pressed', kpiAlt); }); }
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) kpiTimer = setInterval(() => { if (!kpiHold && !document.hidden) flipKpis(); }, 6000);
+  $('kpis').addEventListener('click', e => { if (e.target.closest('.kpi.dual')) { kpiHold = true; flipKpis(); } });
+  $('kpis').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.kpi.dual')) { e.preventDefault(); kpiHold = true; flipKpis(); } });
 
   // Hover tooltip content: a bold heading line plus a value line
   const tip = (head, body) => ` data-tip-t="${esc(head)}" data-tip="${esc(body)}"`;
@@ -3644,6 +3676,52 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   // Emissions per month by emission type: stacked columns like SimaPro's characterisation chart.
   // A line's emissions are spread evenly over its activity months (ledger Months column).
   const niceMax = v => { if (!(v > 0)) return 1; const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; };
+  // ---------- savings plan: CO2e and money saved a year by the recommended measures ----------
+  // Indicative default prices per country (USD, MXN), editable under Goal and scope (state.goal.prices). Sources:
+  // US EIA 2024 industrial averages, EREF tipping fees, IRS mileage; Mexico CFE GDMTH, CRE fuel prices (2025–26). Screening values only.
+  const PRICE_DEF = {
+    us: { cur: 'USD', elec: 0.081, solar: 0.065, natgas: 0.16, diesel: 0.98, gasoline: 0.87, lpg: 0.70, refrig: 35, truck: 0.10, rail: 0.04, sea: 0.01, air: 1.0, car: 0.43, flight: 0.12, landfill: 0.06, water: 1.5 },
+    mx: { cur: 'MXN', elec: 2.6, solar: 1.3, natgas: 6.5, diesel: 25.5, gasoline: 24, lpg: 11, refrig: 450, truck: 2.0, rail: 0.8, sea: 0.3, air: 20, car: 5, flight: 2.2, landfill: 1.0, water: 30 },
+  };
+  const PRICE_KEYS = [['elec', 'Grid electricity', 'Electricidad de la red', 'kWh'], ['solar', 'Solar or renewable supply', 'Solar o suministro renovable', 'kWh'], ['natgas', 'Natural gas', 'Gas natural', 'm³'], ['diesel', 'Diesel', 'Diésel', 'L'], ['gasoline', 'Gasoline', 'Gasolina', 'L'], ['lpg', 'LPG', 'Gas LP', 'L'],
+    ['refrig', 'Refrigerant', 'Refrigerante', 'kg'], ['truck', 'Road freight', 'Flete carretero', 't·km'], ['rail', 'Rail freight', 'Flete ferroviario', 't·km'], ['sea', 'Sea freight', 'Flete marítimo', 't·km'], ['air', 'Air freight', 'Flete aéreo', 't·km'], ['car', 'Car travel', 'Viajes en auto', 'km'], ['flight', 'Air travel', 'Viajes en avión', 'p·km'], ['landfill', 'Landfill fee', 'Disposición en relleno', 'kg'], ['water', 'Water', 'Agua', 'm³']];
+  const price = k => { const v = parseFloat((state.goal.prices || {})[k]); return isFinite(v) && v >= 0 ? v : PRICE_DEF[state.region][k]; };
+  const money = (v, compact = true) => new Intl.NumberFormat(isEs() ? 'es-MX' : 'en-US', { style: 'currency', currency: PRICE_DEF[state.region].cur, notation: compact && Math.abs(v) >= 1e4 ? 'compact' : 'standard', maximumFractionDigits: compact && Math.abs(v) >= 1e4 ? 1 : 0 }).format(v) + (state.region === 'mx' ? ' MXN' : '');
+  // measures: [id, kind shown under, share cut, ISO, en, es]
+  const MEASURES = [
+    ['elecEff', 'elec', 0.10, 'ISO 50001', 'Energy management cuts grid electricity 10 %', 'La gestión de la energía reduce 10 % la electricidad de la red'],
+    ['solar', 'elec', 0.20, 'ISO 50001', 'On-site solar or renewable supply covers 20 % of the rest', 'Solar en sitio o suministro renovable cubre 20 % del resto'],
+    ['fuelEff', 'fuel', 0.10, 'ISO 50001 · ISO 50006', 'Heat recovery and tuning cut fuel 10 %', 'Recuperación de calor y ajustes reducen 10 % el combustible'],
+    ['leaks', 'refrig', 0.50, 'ISO 5149', 'Leak checks halve refrigerant top-ups', 'Las revisiones de fugas reducen a la mitad las recargas de refrigerante'],
+    ['freight', 'transport', 0.10, 'ISO 14083', 'Fuller loads and better routes cut freight 10 %', 'Cargas más llenas y mejores rutas reducen 10 % los fletes'],
+    ['travel', 'transport', 0.20, 'ISO 14083', 'Calls instead of trips cut travel 20 %', 'Llamadas en lugar de viajes reducen 20 % los viajes'],
+    ['waste', 'waste', 0.30, 'ISO 14001', '30 % of landfill waste goes to recycling', '30 % de los residuos de relleno se va a reciclaje'],
+    ['water', 'waste', 0.10, 'ISO 14046', 'Water reuse cuts supply and discharge 10 %', 'La reutilización de agua reduce 10 % el suministro y la descarga'],
+    ['mat', 'mat', 0.05, 'ISO 20400 · ISO 14067', 'Less material per product and recycled content cut materials 5 % (purchase savings not priced)', 'Menos material por producto y contenido reciclado reducen 5 % los materiales (ahorro de compra sin precio)'],
+  ];
+  const MS = Object.fromEntries(MEASURES.map(m => [m[0], m]));
+  const fuelPrice = key => (key === 'natgas' ? 'natgas' : /^diesel/.test(key) ? 'diesel' : /^gasoline/.test(key) ? 'gasoline' : key === 'lpg' ? 'lpg' : null);
+  function savings(t) {
+    const by = Object.fromEntries(MEASURES.map(m => [m[0], { t: 0, m: 0 }]));
+    const add = (id, tt, mm) => { by[id].t += Math.max(0, tt); by[id].m += mm || 0; };
+    t.lines.forEach(r => {
+      const k = kindOf(r), q = qtyOf(r), e = emis(r), u = r.unit;
+      if (k === 'elec' && u === 'kWh' && r.key !== 'elec_ren') {
+        const c1 = MS.elecEff[2], c2 = MS.solar[2];
+        add('elecEff', e * c1, q * c1 * price('elec'));
+        add('solar', e * (1 - c1) * c2, q * (1 - c1) * c2 * (price('elec') - price('solar')));
+      } else if (k === 'fuel') { const pk = fuelPrice(r.key); add('fuelEff', e * MS.fuelEff[2], pk ? q * MS.fuelEff[2] * price(pk) : 0); }
+      else if (k === 'refrig' && u === 'kg') add('leaks', e * MS.leaks[2], q * MS.leaks[2] * price('refrig'));
+      else if (k === 'transport') { const id = ['car', 'flight'].includes(r.key) ? 'travel' : 'freight', pk = PRICE_DEF.us[r.key] != null ? r.key : null; add(id, e * MS[id][2], pk ? q * MS[id][2] * price(pk) : 0); }
+      else if (k === 'waste' && /^landfill/.test(r.key)) { const c = MS.waste[2], rec = (q * libEf('recycling')) / 1000; add('waste', c * (e - rec), q * c * price('landfill')); }
+      else if (k === 'waste' && /^(water|wastewater)$/.test(r.key)) add('water', e * MS.water[2], r.key === 'water' ? q * MS.water[2] * price('water') : 0);
+      else if (k === 'mat') add('mat', e * MS.mat[2], 0);
+    });
+    const tt = Object.values(by).reduce((a, v) => a + v.t, 0), mm = Object.values(by).reduce((a, v) => a + v.m, 0);
+    const kind = {}; MEASURES.forEach(([id, kd]) => { kind[kd] = kind[kd] || { t: 0, m: 0 }; kind[kd].t += by[id].t; kind[kd].m += by[id].m; });
+    return { by, kind, t: tt, m: mm };
+  }
+
   // Recommended actions per emission type, under the monthly chart. ISO standards cited by number only; wording is ours.
   const RECS = {
     elec: { iso: 'ISO 50001 · ISO 50002', en: ['Cut and clean up electricity', 'Run an energy audit to find the biggest loads, then manage energy with targets, meters and yearly reviews. Shift to renewable supply (on-site solar or a supply contract) once demand is down.'], es: ['Reducir y limpiar la electricidad', 'Haz una auditoría energética para encontrar las cargas más grandes y gestiona la energía con metas, medidores y revisiones anuales. Cambia a suministro renovable (solar en sitio o un contrato de suministro) cuando la demanda ya haya bajado.'] },
@@ -3654,12 +3732,22 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     waste: { iso: 'ISO 14001 · ISO 14046', en: ['Send less to landfill', 'Use the environmental management system to set waste targets, separate recyclables at source and reuse water where you can.'], es: ['Enviar menos al relleno sanitario', 'Usa el sistema de gestión ambiental para fijar metas de residuos, separa reciclables en la fuente y reutiliza agua donde se pueda.'] },
     custom: { iso: 'ISO 14064-1', en: ['Review the custom lines', 'Replace custom factors with supplier or database data, and record each reduction action and its effect in the inventory report.'], es: ['Revisar las líneas personalizadas', 'Sustituye los factores personalizados con datos del proveedor o de una base de datos, y registra cada acción de reducción y su efecto en el reporte del inventario.'] },
   };
+  // the measures with a result, as a table: CO2e and money a year
+  function planTable(sv, T = L) {
+    const rows = MEASURES.filter(([id]) => sv.by[id].t > 0 || sv.by[id].m > 0);
+    if (!rows.length) return '';
+    return `<details class="mc-tbl plan-tbl" open><summary>${T('Savings plan: what each measure is worth a year', 'Plan de ahorro: cuánto vale cada medida al año')}</summary>
+      <div class="table-scroll"><table class="inv"><thead><tr><th>${T('Measure', 'Medida')}</th><th>ISO</th><th class="r">t CO₂e</th><th class="r">${T('Cost saved', 'Ahorro')}</th></tr></thead><tbody>
+      ${rows.map(([id, , , iso, en, es]) => `<tr><td>${esc(T(en, es))}</td><td class="note">${iso}</td><td class="r num">${fmtT(sv.by[id].t)}</td><td class="r num">${sv.by[id].m ? money(sv.by[id].m, false) : '–'}</td></tr>`).join('')}
+      <tr class="sum"><td>Total</td><td></td><td class="r num">${fmtT(sv.t)}</td><td class="r num">${money(sv.m, false)}</td></tr></tbody></table></div>
+      <p class="note">${T('Indicative: default prices for the country selected (edit them under Goal and scope) and typical reduction shares. Investment and payback are not included; quote each measure before deciding.', 'Indicativo: precios predeterminados del país seleccionado (edítalos en Objetivo y alcance) y porcentajes típicos de reducción. No incluye inversión ni retorno; cotiza cada medida antes de decidir.')}</p></details>`;
+  }
   function recsHtml(cats, catT, sum, month) {
-    const es = isEs() ? 1 : 0, avg = sum / 12, max = Math.max(...month), peak = month.indexOf(max);
+    const sv = savings(totals()), es = isEs() ? 1 : 0, avg = sum / 12, max = Math.max(...month), peak = month.indexOf(max);
     const items = cats.filter(k => RECS[k]).slice(0, 4).map((k, i) => {
       const r = RECS[k], [h, p] = es ? r.es : r.en;
       return `<li style="--c: var(--c-${k}); --i: ${i}"><div class="rc-top"><span class="rc-k"><i class="sw"></i>${esc(CATS[k])} · ${pct(catT[k], sum)}</span><span class="rc-iso">${r.iso}</span></div>
-        <b>${h}</b><p>${p}</p><span class="rc-save">${L(`Every 10 % cut here saves ${fmtT(catT[k] * 0.1)} t CO₂e a year.`, `Cada 10 % de reducción aquí ahorra ${fmtT(catT[k] * 0.1)} t CO₂e al año.`)}</span></li>`;
+        <b>${h}</b><p>${p}</p>${sv.kind[k] && sv.kind[k].t > 0 ? `<span class="rc-save">${L('Plan saves', 'El plan ahorra')} ${fmtT(sv.kind[k].t)} t CO₂e${sv.kind[k].m > 0 ? ` · ${money(sv.kind[k].m)}` : ''} ${L('a year', 'al año')}</span>` : `<span class="rc-save">${L(`Every 10 % cut here saves ${fmtT(catT[k] * 0.1)} t CO₂e a year.`, `Cada 10 % de reducción aquí ahorra ${fmtT(catT[k] * 0.1)} t CO₂e al año.`)}</span>`}</li>`;
     });
     const notes = [];
     if (max > avg * 1.15) notes.push(L(`${MONTHS[peak]} runs ${nf0.format((max / avg - 1) * 100)} % above the monthly average: check what drives the peak (production, cooling, heating) and plan for it.`, `${MONTHS[peak]} está ${nf0.format((max / avg - 1) * 100)} % por encima del promedio mensual: revisa qué impulsa el pico (producción, enfriamiento, calefacción) y planéalo.`));
@@ -3667,6 +3755,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     notes.push(L('Reduce first, then compensate: a carbon-neutrality claim needs a reduction plan before any offsets, and offsets are reported apart from the inventory (ISO 14068-1, ISO 14064-1).', 'Primero reducir, luego compensar: una declaración de carbono neutralidad requiere un plan de reducción antes de cualquier compensación, y las compensaciones se reportan aparte del inventario (ISO 14068-1, ISO 14064-1).'));
     return `<div class="recs"><div class="label">${L('Recommended actions, largest type first', 'Acciones recomendadas, empezando por el tipo más grande')}</div>
       <ol class="rc-list">${items.join('')}</ol>
+      ${planTable(sv)}
       <ul class="rc-notes">${notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>
       <p class="note">${L('General guidance from the standards named; size each action with a site audit before committing to targets.', 'Orientación general de las normas citadas; dimensiona cada acción con una auditoría en sitio antes de comprometer metas.')}</p></div>`;
   }
@@ -4526,6 +4615,8 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   // goal fields the dashboard reads (SB 253 card and the Checks list)
   const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy']);
   const onGoal = e => {
+    const pk = e.target.dataset.price;
+    if (pk) { state.goal.prices = Object.assign({}, state.goal.prices, { [pk]: e.target.value }); touched(); updateTotals(); return; }
     const i = e.target.dataset.s3;
     if (i) {
       state.goal.s3 = Object.assign({}, state.goal.s3);
