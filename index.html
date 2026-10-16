@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-82Ihd5ey+0bWfEfbHmxrr1r0uQbQKneexzh+bkWJPOw=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-8LLZ9aWGu9DSkBrEmzJgsOYDTbMUd/uQX8iqxMlxCi8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -620,6 +620,37 @@ tr.ev-row > td { padding: 0 6px 12px; }
 .ev-hint b { font-weight: 600; }
 .ev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 14px; align-items: end; }
 .ev-grid input, .ev-grid select { background: var(--surface); border: 1px solid var(--line); }
+/* data quality and biogenic CO2 inside a line's evidence panel */
+.dq { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); display: grid; gap: 8px; }
+.dq-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.dq-score { margin-left: auto; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; }
+.dq-score.ok { color: var(--ok); } .dq-score.att { color: var(--warn); } .dq-score.miss { color: var(--miss); }
+.dq .note { margin: 0; }
+/* sensitivity: a two-sided bar per assumption, centred on the base case */
+.sens { display: grid; gap: 6px; }
+.sens { gap: 9px; }
+.sens-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; font-size: 13px; }
+.sens-row .sens-bar { grid-column: 1 / -1; grid-row: 2; }
+.sens-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sens-row .vl { font-family: var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; }
+.sens-bar { position: relative; height: 12px; background: var(--surface-2); border-radius: 2px; }
+.sens-bar::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--muted); }
+.sens-bar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+.sens-bar i.up { background: var(--s1); } .sens-bar i.dn { background: var(--s3); }
+.sens-row[data-tip]:hover .sens-bar i { filter: brightness(1.12); }
+/* Scope 3 screening: 15 tiles on the dashboard, a table under Goal and scope */
+#c-s3 { container-type: inline-size; }
+.s3g { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+@container (min-width: 480px) { .s3g { grid-template-columns: repeat(5, 1fr); } }
+@container (min-width: 1100px) { .s3g { grid-template-columns: repeat(15, 1fr); } }
+.s3g li { --c: var(--miss); display: grid; gap: 2px; padding: 6px 7px; border-radius: 8px; border: 1px solid var(--line); border-top: 3px solid var(--c); font-size: 10.5px; line-height: 1.2; min-width: 0; }
+.s3g li b { font-size: 13px; }
+.s3g li span { overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color: var(--muted); }
+.s3g li.s3-in { --c: var(--ok); } .s3g li.s3-out, .s3g li.s3-na { --c: var(--muted); }
+table.s3t { min-width: 640px; font-size: 13px; }
+table.s3t td:first-child { width: 28px; color: var(--muted); }
+table.s3t select, table.s3t input { width: 100%; }
+table.inv tr.memo td { color: var(--muted); font-style: italic; }
 .ev-files { display: grid; gap: 6px; }
 .file { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; font-size: 13px; }
 .file .fn { flex: 1 1 200px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1443,6 +1474,14 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <div class="field"><label for="g-reviewer" data-es="Revisor y afiliación">Reviewer and affiliation</label><input id="g-reviewer" data-goal="reviewer" type="text"></div>
         <div class="field"><label for="g-assurance" data-es="Verificación de terceros">Third-party verification</label><select id="g-assurance" data-goal="assurance"><option value="none" data-es="No planeada">Not planned</option><option value="limited" data-es="Aseguramiento limitado">Limited assurance</option><option value="reasonable" data-es="Aseguramiento razonable">Reasonable assurance</option></select></div>
         <div class="field"><label for="g-materiality" data-es="Umbral de materialidad (% del total)">Materiality threshold (% of total)</label><input id="g-materiality" data-goal="materiality" type="number" min="0" max="100" step="any"></div>
+        <div class="pg-head" data-es="Año base y recálculo&lt;small&gt;ISO 14064-1 · ISO 14064-3 · GHG Protocol, cap. 5&lt;/small&gt;">Base year and recalculation<small>ISO 14064-1 · ISO 14064-3 · GHG Protocol, ch. 5</small></div>
+        <div class="field"><label for="g-baseYear" data-es="Año base">Base year</label><input id="g-baseYear" data-goal="baseYear" type="number" min="1990" max="2100" placeholder="e.g. 2023" data-es-placeholder="p. ej., 2023"></div>
+        <div class="field"><label for="g-baseTotal" data-es="Total del año base (t CO₂e)">Base-year total (t CO₂e)</label><input id="g-baseTotal" data-goal="baseTotal" type="number" min="0" step="any"></div>
+        <div class="field"><label for="g-priorTotal" data-es="Total del año anterior (t CO₂e)">Prior-year total (t CO₂e)</label><input id="g-priorTotal" data-goal="priorTotal" type="number" min="0" step="any"></div>
+        <div class="field"><label for="g-recalc" data-es="Umbral de recálculo (% del año base)">Recalculation threshold (% of base year)</label><input id="g-recalc" data-goal="recalc" type="number" min="0" max="100" step="any"></div>
+        <div class="field wide"><label for="g-recalcPolicy" data-es="Política de recálculo">Recalculation policy</label><input id="g-recalcPolicy" data-goal="recalcPolicy" type="text" placeholder="e.g. recalculate the base year for acquisitions, divestments, method or factor changes above the threshold" data-es-placeholder="p. ej., recalcular el año base por adquisiciones, desinversiones o cambios de método o de factores por encima del umbral"></div>
+        <div class="pg-head" data-es="Tamizaje del alcance 3&lt;small&gt;GHG Protocol Alcance 3 · ISO/TR 14069, 5.2.3&lt;/small&gt;">Scope 3 screening<small>GHG Protocol Scope 3 · ISO/TR 14069, 5.2.3</small></div>
+        <div class="field wide" id="s3Screen"></div>
         <div class="pg-head" data-only="mx">Datos del establecimiento<small>RENE</small></div>
         <div class="pg-head" data-only="us">Reporting obligations<small>EPA GHGRP · California SB 253</small></div>
         <div class="field" data-only="mx"><label for="g-rfc">RFC</label><input id="g-rfc" data-goal="rfc" type="text" autocomplete="off"></div>
@@ -1929,6 +1968,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     reason: '', app: '', audience: '', comparative: 'no', commissioner: '', practitioner: '', reportDate: '',
     refFlow: '', allocation: 'cutoff', cutoff: '', exclusions: '', assumptions: '',
     review: 'none', reviewer: '', assurance: 'none', materiality: '5',
+    baseYear: '', baseTotal: '', priorTotal: '', recalc: '5', recalcPolicy: '', s3: {},
     rfc: '', scian: '', site: '', usStates: '', ca: '', rev1b: '',
   });
   // the default activity for a new line: manufacturing starts on the grid of the country selected
@@ -2354,6 +2394,46 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   const mSpan = r => { const a = clampM(r.m0, 0); return [a, Math.max(a, clampM(r.m1, 11))]; };
   const periodLabel = (a, b) => (a === 0 && b === 11 ? L('Full year', 'Todo el año') : a === b ? MONTHS[a] : MONTHS[a] + '–' + MONTHS[b]);
 
+  // ---------- data quality per line (ISO 14044, 4.2.3.6): a pedigree score, 1 = best, 5 = worst ----------
+  // Each line can set data type, data year, geography and technology match; a blank field takes the automatic value
+  const DQ_SC = { type: { primary: 1, secondary: 3, estimate: 4 }, geo: { same: 1, region: 3, global: 4 }, tech: { same: 1, similar: 3, proxy: 5 } };
+  const DQ_LBL = () => ({
+    type: { primary: L('Primary: metered or billed', 'Primario: medido o facturado'), secondary: L('Secondary: supplier or database', 'Secundario: proveedor o base de datos'), estimate: L('Estimate', 'Estimación') },
+    geo: { same: L('Same country or site', 'Mismo país o sitio'), region: L('Regional average', 'Promedio regional'), global: L('Global or other country', 'Global u otro país') },
+    tech: { same: L('Same process or supplier', 'Mismo proceso o proveedor'), similar: L('Industry average', 'Promedio de la industria'), proxy: L('Proxy (related process)', 'Sustituto (proceso relacionado)') },
+  });
+  const dqAuto = r => {
+    const f = F[r.key] || {}, d = r.evidence.doc, own = isEdited(r);
+    return {
+      type: d === 'estimate' ? 'estimate' : ['epd', 'supplier_data', 'bom', 'other'].includes(d) ? 'secondary' : 'primary',
+      year: state.year || '',
+      geo: own || f.us || f.mx || f.only || /^(exio|epa|uslci):/.test(r.key) ? 'same' : 'global',
+      tech: own || ['fuel', 'elec', 'refrig'].includes(f.kind) ? 'same' : 'similar',
+    };
+  };
+  const dqVals = r => { const a = dqAuto(r), d = r.dq || {}; return { type: d.type || a.type, year: d.year || a.year, geo: d.geo || a.geo, tech: d.tech || a.tech }; };
+  const yrScore = (dy, ry) => { const n = Math.abs((parseInt(ry, 10) || 0) - (parseInt(dy, 10) || 0)); return !dy || !ry ? 3 : n === 0 ? 1 : n === 1 ? 2 : n <= 3 ? 3 : n <= 6 ? 4 : 5; };
+  const dqScore = r => { const v = dqVals(r); return (DQ_SC.type[v.type] + yrScore(v.year, state.year) + DQ_SC.geo[v.geo] + DQ_SC.tech[v.tech]) / 4; };
+  const dqClass = s => (s <= 1.75 ? 'ok' : s <= 3 ? 'att' : 'miss');
+  const dqWord = s => (s <= 1.75 ? L('Good', 'Buena') : s <= 3 ? L('Fair', 'Regular') : L('Poor', 'Baja'));
+  // biogenic CO2 (kg per unit) is a memo item: reported next to the footprint, never added to it (ISO 14067, ISO/TR 14069)
+  const bioT = r => { const b = parseFloat(r.bio); return isFinite(b) && b > 0 ? (qtyOf(r) * b) / 1000 : 0; };
+
+  // ---------- Scope 3 screening (GHG Protocol Scope 3 Standard; ISO/TR 14069, 5.2.3) ----------
+  const S3_EN = ['Purchased goods and services', 'Capital goods', 'Fuel- and energy-related activities', 'Upstream transportation and distribution', 'Waste generated in operations', 'Business travel', 'Employee commuting', 'Upstream leased assets', 'Downstream transportation and distribution', 'Processing of sold products', 'Use of sold products', 'End-of-life treatment of sold products', 'Downstream leased assets', 'Franchises', 'Investments'];
+  const S3_ES = ['Bienes y servicios comprados', 'Bienes de capital', 'Actividades relacionadas con combustibles y energía', 'Transporte y distribución aguas arriba', 'Residuos generados en las operaciones', 'Viajes de negocios', 'Traslado de empleados', 'Activos arrendados aguas arriba', 'Transporte y distribución aguas abajo', 'Procesamiento de productos vendidos', 'Uso de productos vendidos', 'Tratamiento al fin de vida de productos vendidos', 'Activos arrendados aguas abajo', 'Franquicias', 'Inversiones'];
+  const S3N = i => (isEs() ? S3_ES : S3_EN)[i - 1];
+  // the category a Scope 3 line falls in, from its stage and kind of activity
+  const s3Cat = r => {
+    const k = kindOf(r);
+    if (r.stage === 'use') return 11;
+    if (r.stage === 'eol') return 12;
+    if (k === 'transport') return ['flight', 'car'].includes(r.key) ? 6 : 4;
+    if (k === 'waste') return 5;
+    if (k === 'fuel' || k === 'elec') return 3;
+    return 1;
+  };
+
   // ---------- ledger rendering ----------
   const optionsHtml = sel => {
     let out = '', g = null;
@@ -2391,7 +2471,25 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <input class="vh" id="${r.id}-upload" type="file" multiple data-upload accept=".pdf,image/*,.csv,.xlsx,.xls,.doc,.docx,.txt,.eml,.msg">
         <label class="check${hasFiles ? '' : ' disabled'}"><input id="${r.id}-verified" type="checkbox" data-verify${ev.verified ? ' checked' : ''}${hasFiles ? '' : ' disabled'}> ${L('Reviewed: the documents support the quantity entered', 'Revisado: los documentos respaldan la cantidad registrada')}</label>
       </div>
+      ${dqHtml(r)}
     </div></td></tr>`;
+  }
+
+  // data quality and biogenic CO2 fields inside a line's evidence panel
+  function dqHtml(r) {
+    const a = dqAuto(r), d = r.dq || {}, lb = DQ_LBL(), s = dqScore(r);
+    const sel = k => `<select id="${r.id}-dq-${k}" data-dq="${k}"><option value="">${L('Automatic', 'Automático')}: ${esc(lb[k][a[k]])}</option>${Object.keys(DQ_SC[k]).map(v => `<option value="${v}"${d[k] === v ? ' selected' : ''}>${esc(lb[k][v])}</option>`).join('')}</select>`;
+    return `<div class="dq">
+      <div class="dq-head"><b>${L('Data quality', 'Calidad de los datos')}</b> <span class="note">ISO 14044, 4.2.3.6</span><span class="dq-score ${dqClass(s)}" data-dq-score>${dqWord(s)} · ${nf1.format(s)}</span></div>
+      <div class="ev-grid">
+        <div class="field"><label for="${r.id}-dq-type">${L('Data type', 'Tipo de dato')}</label>${sel('type')}</div>
+        <div class="field"><label for="${r.id}-dq-year">${L('Data year', 'Año del dato')}</label><input id="${r.id}-dq-year" data-dq="year" type="number" min="1990" max="2100" value="${esc(d.year || '')}" placeholder="${esc(a.year || L('Reporting year', 'Año de reporte'))}"></div>
+        <div class="field"><label for="${r.id}-dq-geo">${L('Geography of the factor', 'Geografía del factor')}</label>${sel('geo')}</div>
+        <div class="field"><label for="${r.id}-dq-tech">${L('Technology match', 'Coincidencia tecnológica')}</label>${sel('tech')}</div>
+        <div class="field"><label for="${r.id}-bio">${L('Biogenic CO₂, kg per unit (memo)', 'CO₂ biogénico, kg por unidad (memoria)')}</label><input id="${r.id}-bio" data-field="bio" type="number" min="0" step="any" value="${esc(r.bio ?? '')}" placeholder="0" title="${L('CO₂ from biomass (wood, biofuels, biogas). Reported separately, never added to the total.', 'CO₂ de biomasa (madera, biocombustibles, biogás). Se reporta por separado, nunca se suma al total.')}"></div>
+      </div>
+      <p class="note">${L('Score 1 (best) to 5: the average of data type, age against the reporting year, geography and technology. Biogenic CO₂ is shown as a memo item, outside the total.', 'Puntaje de 1 (mejor) a 5: el promedio de tipo de dato, antigüedad frente al año de reporte, geografía y tecnología. El CO₂ biogénico se muestra como partida de memoria, fuera del total.')}</p>
+    </div>`;
   }
 
   function rowHtml(r) {
@@ -2784,15 +2882,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     const edited = t.lines.filter(isEdited);
     const elecLines = t.lines.filter(r => F[r.key] && F[r.key].kind === 'elec');
     const comparative = g.comparative === 'yes', review = g.review || 'none';
-    // sensitivity: other GWP sets, ±10 % on the three largest lines, and leaving out lines under 1 %
-    const totWith = m => t.lines.reduce((a, r) => a + (isEdited(r) ? emis(r) : emisWith(r, m)), 0);
-    const small = t.lines.filter(r => emis(r) < t.total * 0.01).reduce((a, r) => a + emis(r), 0);
-    const sens = [
-      ...['AR6', 'AR5', 'AR4'].filter(m => m !== state.method).map(m => [T(`GWP100 from IPCC ${m} instead of ${state.method}`, `PCG100 de IPCC ${m} en lugar de ${state.method}`), totWith(m)]),
-      ...ranked.slice(0, 3).flatMap(r => [[`${ln(r)} +10 %`, t.total + emis(r) * 0.1], [`${ln(r)} −10 %`, t.total - emis(r) * 0.1]]),
-      [T('Leave out every line under 1 % of the total', 'Excluir cada línea menor al 1 % del total'), t.total - small],
-      ...(!mx && t.byScope[2] ? [[T('Scope 2 location-based instead of market-based', 'Alcance 2 basado en ubicación en lugar de mercado'), t.total - t.s2mb + t.s2lb]] : []),
-    ];
+    // sensitivity: other GWP sets, ±10 % on the three largest lines, leaving out lines under 1 %, poor-quality data
+    const { small, rows: sens } = sensitivity(t, 10, 3);
     // ISO 14044 clause 5.2 checklist: [element, clause, status 'ok' | 'todo' | 'na', where]
     const C = (txt, cl, ok, where, na) => [txt, cl, na ? 'na' : ok ? 'ok' : 'todo', where];
     const list = [
@@ -2896,6 +2987,9 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     [T('Cut-off criteria and effect', 'Criterios de corte y efecto'), g.cutoff ? `${esc(g.cutoff)}<br><span class="note">${T(`Lines under 1 % of the total add up to ${fmtT(small)} t CO₂e (${pc(small)}).`, `Las líneas menores al 1 % del total suman ${fmtT(small)} t CO₂e (${pc(small)}).`)}</span>` : ''],
     [T('Impact category', 'Categoría de impacto'), T(`Climate change, GWP100 (IPCC ${state.method}), kg CO₂e per functional unit. Other impact categories are outside this study.`, `Cambio climático, PCG100 (IPCC ${state.method}), kg CO₂e por unidad funcional. Las demás categorías de impacto quedan fuera de este estudio.`)],
     [T('Data quality requirements', 'Requisitos de calidad de datos'), T(`Activity data for the reporting year ${esc(state.year)}, for the site(s) named above, backed by documents; emission factors from the libraries cited in 4.1.`, `Datos de actividad del año de reporte ${esc(state.year)}, del o los establecimientos indicados, respaldados con documentos; factores de emisión de las bibliotecas citadas en 4.1.`)],
+    [T('Base year and recalculation', 'Año base y recálculo'), g.baseYear ? `${esc(g.baseYear)}${+g.baseTotal > 0 ? ` · ${fmtT(+g.baseTotal)} t CO₂e (${T('this study', 'este estudio')} ${chg(t.total, +g.baseTotal)})` : ''} · ${T('threshold', 'umbral')} ${esc(g.recalc || '5')} %${g.recalcPolicy ? `. ${esc(g.recalcPolicy)}` : ''}` : T('No base year set.', 'Sin año base.')],
+    [T('Scope 3 screening', 'Tamizaje del alcance 3'), (() => { const W = { in: T('included', 'incluida'), out: T('excluded', 'excluida'), na: T('not relevant', 'no aplica'), '': T('not screened', 'sin revisar') };
+      return `<table class="s3r"><tbody>${Array.from({ length: 15 }, (_, k) => k + 1).map(i => { const d = s3State(i, t); return `<tr><td>${i}. ${esc(S3N(i))}</td><td>${d ? W[d] : `<span class="miss">${W['']}</span>`}</td><td class="n">${t.byS3[i] ? fmtT(t.byS3[i]) : '–'}</td><td>${esc(s3Of(i).why || '')}</td></tr>`; }).join('')}</tbody></table>`; })()],
     [T('Critical review planned', 'Revisión crítica prevista'), esc(opt('g-review'))], [T('Type of report', 'Tipo de reporte'), T('Third-party report (ISO 14044, 5.2), generated by CO2Trace.', 'Reporte para terceros (ISO 14044, 5.2), generado por CO2Trace.')]])}
 
   <h2>4. ${T('Life cycle inventory', 'Inventario del ciclo de vida')} <small>ISO 14044, 4.3 · 5.2 d</small></h2>
@@ -2903,10 +2997,10 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <p>${T(`Each line records one activity for the reporting year (quantity, unit, supplier and the months it covers), backed by a document: a bill, invoice, manifest or log. ${evDone} of emissions are documented and ${evOk} verified by a reviewer (Annex B lists every file). Emission factors come from:`, `Cada línea registra una actividad del año de reporte (cantidad, unidad, proveedor y meses que cubre), respaldada por un documento: recibo, factura, manifiesto o bitácora. El ${evDone} de las emisiones está documentado y el ${evOk} verificado por un revisor (el anexo B lista cada archivo). Los factores de emisión provienen de:`)}</p>
   <ul class="note">${srcs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
   <h3>4.2 ${T('Unit processes: activity data and evidence', 'Procesos unitarios: datos de actividad y evidencia')}</h3>
-  <table><thead><tr><th>${T('Stage', 'Etapa')}</th><th>${T('Activity', 'Actividad')}</th><th>${T('Supplier', 'Proveedor')}</th><th class="n">${T('Quantity', 'Cantidad')}</th><th class="n">${T('Factor', 'Factor')}</th><th class="n">t CO₂e</th><th>${T('Scope', 'Alcance')}</th><th>${T('Document', 'Documento')}</th><th>${T('Status', 'Estado')}</th></tr></thead>
-    <tbody>${lines.map(r => `<tr><td>${esc(stageName(r.stage))}</td><td>${esc(r.note || F[r.key].name)}<br><span class="note">${esc(F[r.key].name)}</span></td><td>${esc(r.supplier)}</td><td class="n">${nf0.format(+r.qty || 0)} ${esc(r.unit)}</td><td class="n">${showEf(efOf(r) || 0)}</td><td class="n">${fmtT(emis(r))}</td><td>${SA(+r.scope || 3)}</td>
+  <table><thead><tr><th>${T('Stage', 'Etapa')}</th><th>${T('Activity', 'Actividad')}</th><th>${T('Supplier', 'Proveedor')}</th><th class="n">${T('Quantity', 'Cantidad')}</th><th class="n">${T('Factor', 'Factor')}</th><th class="n">t CO₂e</th><th>${T('Scope', 'Alcance')}</th><th class="n">${T('DQ', 'CD')}</th><th>${T('Document', 'Documento')}</th><th>${T('Status', 'Estado')}</th></tr></thead>
+    <tbody>${lines.map(r => `<tr><td>${esc(stageName(r.stage))}</td><td>${esc(r.note || F[r.key].name)}<br><span class="note">${esc(F[r.key].name)}</span></td><td>${esc(r.supplier)}</td><td class="n">${nf0.format(+r.qty || 0)} ${esc(r.unit)}</td><td class="n">${showEf(efOf(r) || 0)}</td><td class="n">${fmtT(emis(r))}</td><td>${SA(+r.scope || 3)}</td><td class="n">${nf1.format(dqScore(r))}</td>
       <td>${esc((DOCS[r.evidence.doc] || DOCS.other)[0])}${r.evidence.ref ? `<br><span class="note">${esc(r.evidence.ref)} · ${esc(r.evidence.period)}</span>` : ''}</td><td><span class="st ${evStatus(r)}">${status(r)}</span></td></tr>`).join('')}</tbody></table>
-  <p class="note">${T('Factor: kg CO₂e per unit with the method above. Activity months are spread evenly for the monthly profile.', 'Factor: kg CO₂e por unidad con el método indicado. Los meses de actividad se reparten por igual para el perfil mensual.')}</p>
+  <p class="note">${T('Factor: kg CO₂e per unit with the method above. DQ: data quality score, 1 (best) to 5. Activity months are spread evenly for the monthly profile.', 'Factor: kg CO₂e por unidad con el método indicado. CD: calidad de los datos, de 1 (mejor) a 5. Los meses de actividad se reparten por igual para el perfil mensual.')}</p>
   <h3>4.3 ${T('Calculation procedure', 'Procedimiento de cálculo')}</h3>
   <p>${T('Emissions (t CO₂e) = Σ over gases of quantity × kg of gas per unit × GWP100 ÷ 1,000. Library factors keep each gas separately; edited or custom factors are taken as kg CO₂e per unit and listed in 4.4.', 'Emisiones (t CO₂e) = Σ sobre los gases de cantidad × kg de gas por unidad × PCG100 ÷ 1,000. Los factores de la biblioteca guardan cada gas por separado; los factores editados o personalizados se toman como kg CO₂e por unidad y se listan en 4.4.')}</p>
   <h3>4.4 ${T('Data validation and data quality', 'Validación y calidad de los datos')} <small>ISO 14044, 4.2.3.6 · 4.3.3.2</small></h3>
@@ -2917,6 +3011,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     <tr><td>${T('Precision and validation', 'Precisión y validación')}</td><td>${T(`${evDone} of emissions backed by documents, ${evOk} checked against them by a reviewer. ${edited.length} line(s) use edited or custom factors.`, `${evDone} de las emisiones respaldado por documentos y ${evOk} revisado contra ellos. ${edited.length} línea(s) usan factores editados o personalizados.`)}</td></tr>
     <tr><td>${T('Completeness', 'Integridad')}</td><td>${T(`${t.lines.length} lines across ${STAGES.filter(s => included(s.id) && t.byStage[s.id] > 0).length} of ${STAGES.filter(s => included(s.id)).length} stages in the boundary.`, `${t.lines.length} líneas en ${STAGES.filter(s => included(s.id) && t.byStage[s.id] > 0).length} de ${STAGES.filter(s => included(s.id)).length} etapas del límite.`)}</td></tr>
     <tr><td>${T('Consistency and reproducibility', 'Consistencia y reproducibilidad')}</td><td>${T(`One GWP set (IPCC ${state.method}) for every line; every factor and its source is listed, so the result can be reproduced.`, `Un solo juego de PCG (IPCC ${state.method}) para todas las líneas; cada factor y su fuente están listados, así que el resultado puede reproducirse.`)}</td></tr>
+    <tr><td>${T('Pedigree score (1 best to 5)', 'Puntaje de calidad (1 mejor a 5)')}</td><td>${t.total ? `<b>${nf1.format(t.dq)}</b> (${dqWord(t.dq)}), ${T('weighted by emissions over data type, age against the reporting year, geography and technology of each line. Section 4.2 gives the score per line.', 'ponderado por emisiones sobre tipo de dato, antigüedad frente al año de reporte, geografía y tecnología de cada línea. La sección 4.2 da el puntaje por línea.')}` : '–'}</td></tr>
     <tr><td>${T('Uncertainty', 'Incertidumbre')}</td><td>${T('Not quantified. Section 6.3 shows how the result moves under changed assumptions.', 'No cuantificada. La sección 6.3 muestra cómo cambia el resultado con otros supuestos.')}</td></tr>
   </tbody></table>
   <h3>4.5 ${T('Missing data', 'Datos faltantes')} <small>ISO 14044, 4.2.3.6.3</small></h3>
@@ -2947,7 +3042,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <h3>5.3 ${T('Carbon footprint breakdown', 'Desglose de la huella de carbono')} <small>ISO 14067</small></h3>
   <table><thead><tr><th>${T('Item reported separately', 'Partida que se reporta por separado')}</th><th class="n">t CO₂e</th><th>${T('Note', 'Nota')}</th></tr></thead><tbody>
     <tr><td>${T('Fossil GHG emissions', 'Emisiones de GEI fósiles')}</td><td class="n">${fmtT(t.total)}</td><td>${T('All lines in the inventory.', 'Todas las líneas del inventario.')}</td></tr>
-    <tr><td>${T('Biogenic GHG emissions and removals', 'Emisiones y remociones de GEI biogénicas')}</td><td class="n">–</td><td>${T('Not assessed separately in this study (limitation).', 'No se evaluaron por separado en este estudio (limitación).')}</td></tr>
+    <tr><td>${T('Biogenic CO₂ emissions', 'Emisiones de CO₂ biogénico')}</td><td class="n">${t.bio ? fmtT(t.bio) : '–'}</td><td>${t.bio ? T('Memo item from the lines that record biogenic CO₂; not in the total.', 'Partida de memoria de las líneas que registran CO₂ biogénico; no está en el total.') : T('No line records biogenic CO₂. Removals are not assessed (limitation).', 'Ninguna línea registra CO₂ biogénico. Las remociones no se evalúan (limitación).')}</td></tr>
     <tr><td>${T('Direct land-use change', 'Cambio directo de uso de suelo')}</td><td class="n">–</td><td>${T('Not assessed (limitation).', 'No evaluado (limitación).')}</td></tr>
     <tr><td>${T('Aircraft transport', 'Transporte aéreo')}</td><td class="n">${fmtT(air)}</td><td>${T('Included in the total; shown separately.', 'Incluido en el total; se muestra por separado.')}</td></tr>
     ${!mx && t.byScope[2] ? `<tr><td>${T('Scope 2, location-based', '')}</td><td class="n">${fmtT(t.s2lb)}</td><td>${T(`Market-based ${fmtT(t.s2mb)} t is used in the total.`, '')}</td></tr>` : ''}
@@ -2970,7 +3065,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <p>${T(`The carbon footprint is ${fmtT(t.total)} t CO₂e for ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e per ${esc(state.fuName)}` : ''}. Reductions should start with ${esc(hot[0] ? ln(hot[0]) : '–')}, the largest contributor.${missEv.length ? ' Supporting documents should be added for the lines listed in 4.5 before release.' : ''}`, `La huella de carbono es de ${fmtT(t.total)} t CO₂e en ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e por ${esc(state.fuName)}` : ''}. Las reducciones deben empezar por ${esc(hot[0] ? ln(hot[0]) : '–')}, el mayor contribuyente.${missEv.length ? ' Antes de publicar, deben agregarse documentos para las líneas listadas en 4.5.' : ''}`)}</p>
   <h3>6.5 ${T('Assumptions and limitations', 'Supuestos y limitaciones')}</h3>
   <p>${g.assumptions ? esc(g.assumptions) : `<span class="miss">${T('Not stated: complete before release', 'Sin dato: complétalo antes de publicar')}</span>`}</p>
-  <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic carbon and land-use change are not assessed separately. Uncertainty is not quantified.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El carbono biogénico y el cambio de uso de suelo no se evalúan por separado. La incertidumbre no se cuantifica.')}</p>
+  <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic CO₂ is reported as a memo item; biogenic removals and land-use change are not assessed. Uncertainty is not quantified; section 6.3 and the pedigree scores in 4.4 stand in for it.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El CO₂ biogénico se reporta como partida de memoria; las remociones biogénicas y el cambio de uso de suelo no se evalúan. La incertidumbre no se cuantifica; la sección 6.3 y los puntajes de calidad de 4.4 la sustituyen.')}</p>
 
   <h2>7. ${T('Critical review', 'Revisión crítica')} <small>ISO 14044, 6 · 5.2 g</small></h2>
   ${review === 'none' ? `<p>${T('No critical review has been carried out.', 'No se ha realizado revisión crítica.')} ${comparative ? `<span class="miss">${T('A comparative assertion disclosed to the public requires a panel review (ISO 14044, 5.3 and 6.3).', 'Una afirmación comparativa divulgada al público requiere revisión por panel (ISO 14044, 5.3 y 6.3).')}</span>` : T('The results must not be used for comparative assertions disclosed to the public.', 'Los resultados no deben usarse para afirmaciones comparativas divulgadas al público.')}</p>`
@@ -3195,7 +3290,26 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   const ALLOC_ES = { cutoff: 'corte (contenido reciclado sin cargas)', mass: 'asignación por masa', economic: 'asignación por valor económico', physical: 'asignación por otra relación física', substitution: 'expansión del sistema (sustitución)' };
   const ALLOC_EN = { cutoff: 'cut-off (recycled content burden-free)', mass: 'allocation by mass', economic: 'allocation by economic value', physical: 'allocation by another physical relation', substitution: 'system expansion (substitution)' };
   const ALLOC = () => (isEs() ? ALLOC_ES : ALLOC_EN);
+  // Scope 3 screening table: one row per GHG Protocol category with the emissions found in the ledger, a decision and a reason
+  const s3Of = i => (state.goal.s3 && state.goal.s3[i]) || {};
+  // a category counts as included when it was marked so, or when it has lines and no decision yet
+  const s3State = (i, t) => s3Of(i).d || ((t.byS3[i] || 0) > 0 ? 'in' : '');
+  function renderS3(t) {
+    const el = $('s3Screen'); if (!el) return;
+    t = t || totals();
+    const found = i => (t.byS3[i] ? `${fmtT(t.byS3[i])} t` : '–');
+    if (el.querySelector('table')) { el.querySelectorAll('[data-s3-found]').forEach(c => (c.textContent = found(+c.dataset.s3Found))); return; }
+    const opts = [['', L('Not screened', 'Sin revisar')], ['in', L('Included', 'Incluida')], ['out', L('Excluded', 'Excluida')], ['na', L('Not relevant', 'No aplica')]];
+    el.innerHTML = `<p class="note" style="margin:0 0 8px">${L('Record a decision for each of the 15 categories. Categories with lines in the ledger count as included until you decide. Give a reason for every exclusion.', 'Registra una decisión para cada una de las 15 categorías. Las categorías con líneas en el registro cuentan como incluidas hasta que decidas. Da un motivo para cada exclusión.')}</p>
+      <div class="table-scroll"><table class="s3t"><thead><tr><th>#</th><th>${L('Category', 'Categoría')}</th><th class="r">${L('In ledger', 'En el registro')}</th><th>${L('Decision', 'Decisión')}</th><th>${L('Reason', 'Motivo')}</th></tr></thead><tbody>
+      ${Array.from({ length: 15 }, (_, k) => k + 1).map(i => `<tr><td class="num">${i}</td><td>${esc(S3N(i))}</td><td class="r num" data-s3-found="${i}">${found(i)}</td>
+        <td><select id="s3d-${i}" data-s3="${i}" data-s3k="d" aria-label="${L('Decision for category', 'Decisión para la categoría')} ${i}">${opts.map(([v, x]) => `<option value="${v}"${(s3Of(i).d || '') === v ? ' selected' : ''}>${x}</option>`).join('')}</select></td>
+        <td><input id="s3w-${i}" data-s3="${i}" data-s3k="why" type="text" value="${esc(s3Of(i).why || '')}" aria-label="${L('Reason for category', 'Motivo para la categoría')} ${i}"></td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
   function renderSetup() {
+    const s3 = $('s3Screen'); if (s3) s3.innerHTML = '';
+    renderS3();
     document.querySelectorAll('[data-goal]').forEach(el => { el.value = state.goal[el.dataset.goal] ?? ''; });
     document.querySelectorAll('[data-only]').forEach(el => { el.hidden = el.dataset.only !== state.region; });
     $('libList').innerHTML = [
@@ -3250,11 +3364,12 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     const byMonth = { 1: Array(12).fill(0), 2: Array(12).fill(0), 3: Array(12).fill(0) };
     const byGas = { 1: {}, 2: {}, 3: {} };
     STAGES.forEach(s => (byStage[s.id] = 0));
-    let total = 0, s2lb = 0, s2mb = 0, memo = 0;
-    const lines = [], memoLines = [];
+    let total = 0, s2lb = 0, s2mb = 0, memo = 0, bio = 0, dqSum = 0;
+    const lines = [], memoLines = [], byS3 = {};
     state.rows.forEach(r => {
       const e = emis(r), out = outside(r);
       if (!out) byStage[r.stage] += e;
+      if (included(r.stage)) bio += bioT(r);
       if (!included(r.stage) || e <= 0) return;
       if (out) { memo += e; memoLines.push(r); return; }
       const k = kindOf(r), sc = +r.scope || 3, sup = r.supplier.trim() || '';
@@ -3268,9 +3383,13 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       for (let m = a; m <= b; m++) byMonth[sc][m] += e / (b - a + 1);
       Object.entries(gasT(r)).forEach(([g, v]) => (byGas[sc][g] = (byGas[sc][g] || 0) + v));
       if (sc === 2) { s2lb += s2Location(r); s2mb += s2Market(r); }
+      if (sc === 3) { const c = s3Cat(r); byS3[c] = (byS3[c] || 0) + e; }
+      dqSum += dqScore(r) * e;
       lines.push(r);
     });
-    return { byStage, byScope, byCat, byCatScope, bySup, byEv, byMonth, byGas, total, lines, s2lb, s2mb, memo, memoLines };
+    // emission-weighted data quality score, 1 (best) to 5
+    const dq = total > 0 ? dqSum / total : 0;
+    return { byStage, byScope, byCat, byCatScope, bySup, byEv, byMonth, byGas, total, lines, s2lb, s2mb, memo, memoLines, bio, dq, byS3 };
   }
 
   function updateTotals() {
@@ -3280,6 +3399,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     });
     renderKpis(t);
     renderCharts(t);
+    renderS3(t);
   }
 
   const SN = s => (state.region === 'mx'
@@ -3358,10 +3478,11 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
 
   // Chart view choices: a per-viewer convenience kept in this browser
   const UI_STORE = 'lca-ui-v1';
-  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all' };
+  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all', sensPct: '10' };
   try { Object.assign(ui, JSON.parse(localStorage.getItem(UI_STORE) || '{}')); } catch (e) {}
   if (!['radial', 'treemap'].includes(ui.catView)) ui.catView = 'radial';
   ['catScope', 'ganttScope', 'invScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
+  if (!['5', '10', '25'].includes(String(ui.sensPct))) ui.sensPct = '10';
   const saveUi = () => { try { localStorage.setItem(UI_STORE, JSON.stringify(ui)); } catch (e) {} };
   const scopesOf = v => (v === 'all' ? [1, 2, 3] : [+v]);
   const scopeName = v => (v === 'all' ? L('all scopes', 'todos los alcances') : SC(v));
@@ -3607,6 +3728,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       ${rows.length ? `<div class="table-scroll"><table class="inv"><thead><tr><th>${L('Substance', 'Sustancia')}</th><th class="r">${L('Mass', 'Masa')}</th><th class="r">${L('GWP', 'PCG')}</th><th class="r">t CO₂e</th><th class="r">${L('Share', 'Participación')}</th></tr></thead><tbody>
         ${rows.map(([g, m, e]) => `<tr><td>${esc(GAS_NAMES[g])}</td><td class="r num">${fmtMass(m)}</td><td class="r num">${g === 'CO2e' ? '–' : nf0.format(G[g])}</td><td class="r num">${fmtT(e)}</td><td class="r num">${pct(e, sum)}</td></tr>`).join('')}
         <tr class="sum"><td>Total</td><td></td><td></td><td class="r num">${fmtT(sum)}</td><td class="r num">100%</td></tr>
+        ${t.bio > 0 ? `<tr class="memo"><td>${L('Biogenic CO₂ (memo, not in the total)', 'CO₂ biogénico (memoria, fuera del total)')}</td><td class="r num">${fmtMass(t.bio)}</td><td class="r num">–</td><td class="r num">(${fmtT(t.bio)})</td><td class="r num">–</td></tr>` : ''}
       </tbody></table></div>` : `<p class="note">${t.total > 0 ? L(`No ${scopeName(ui.invScope)} emissions entered yet.`, `Aún no hay emisiones registradas en ${scopeName(ui.invScope)}.`) : L('Enter quantities in the ledger to fill this table.', 'Captura cantidades en el registro para llenar esta tabla.')}</p>`}
     </div>`;
   }
@@ -3647,6 +3769,22 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       big.slice(0, 8).forEach(r => out.push(['warn', L(`${lineName(r)} is ${pct(emis(r), t.total)} of the total, above the ${mat}% materiality threshold, and is not verified yet. Expect the verifier to test it (ISO 14064-3, 5.1.7).`, `${lineName(r)} es ${pct(emis(r), t.total)} del total, por encima del umbral de materialidad de ${mat}%, y aún no está verificada. El verificador la revisará (ISO 14064-3, 5.1.7).`), r.id]));
       if (big.length > 8) out.push(['warn', L(`${big.length - 8} more unverified lines are above the materiality threshold.`, `${big.length - 8} líneas más sin verificar superan el umbral de materialidad.`)]);
     }
+    // data quality: mixed data years, and large lines with poor data (ISO 14044, 4.2.3.6 and 4.5.3.4 consistency)
+    const yrs = [...new Set(t.lines.map(r => String(dqVals(r).year || '')).filter(Boolean))];
+    if (yrs.length > 1) out.push(['info', L(`Lines use data from different years (${yrs.sort().join(', ')}). Say why in Assumptions and limitations, or update the older data (ISO 14044, 4.5.3.4 consistency).`, `Las líneas usan datos de distintos años (${yrs.sort().join(', ')}). Explica por qué en Supuestos y limitaciones o actualiza los datos más antiguos (ISO 14044, 4.5.3.4, consistencia).`)]);
+    t.lines.filter(r => dqScore(r) > 3 && emis(r) >= t.total * 0.05).forEach(r => out.push(['warn', L(`${lineName(r)} is ${pct(emis(r), t.total)} of the total with poor data quality (${nf1.format(dqScore(r))}). Replace it with primary or supplier data (ISO 14044, 4.2.3.6).`, `${lineName(r)} es ${pct(emis(r), t.total)} del total con baja calidad de datos (${nf1.format(dqScore(r))}). Sustitúyela con datos primarios o del proveedor (ISO 14044, 4.2.3.6).`), r.id]));
+    // Scope 3 screening (ISO/TR 14069, 5.2.3)
+    const s3 = Array.from({ length: 15 }, (_, k) => k + 1);
+    const unscr = s3.filter(i => !s3State(i, t)), noWhy = s3.filter(i => s3Of(i).d === 'out' && !String(s3Of(i).why || '').trim()), outWith = s3.filter(i => ['out', 'na'].includes(s3Of(i).d) && t.byS3[i] > 0);
+    if (t.total > 0 && unscr.length) out.push(['info', L(`${unscr.length} of 15 Scope 3 categories are not screened yet (${unscr.join(', ')}). Record included, excluded or not relevant under Scope 3 screening (ISO/TR 14069, 5.2.3).`, `${unscr.length} de 15 categorías del alcance 3 aún no se revisan (${unscr.join(', ')}). Registra incluida, excluida o no aplica en Tamizaje del alcance 3 (ISO/TR 14069, 5.2.3).`)]);
+    if (noWhy.length) out.push(['warn', L(`Scope 3 categories excluded without a reason: ${noWhy.join(', ')}. Every exclusion needs one.`, `Categorías del alcance 3 excluidas sin motivo: ${noWhy.join(', ')}. Cada exclusión necesita uno.`)]);
+    outWith.forEach(i => out.push(['warn', L(`Scope 3 category ${i} (${S3N(i)}) is marked excluded but has ${fmtT(t.byS3[i])} t CO₂e of lines in the ledger.`, `La categoría ${i} del alcance 3 (${S3N(i)}) está marcada como excluida, pero tiene ${fmtT(t.byS3[i])} t CO₂e en el registro.`)]));
+    // base year (ISO 14064-1; GHG Protocol, chapter 5)
+    const by = parseInt(g.baseYear, 10), bt = parseFloat(g.baseTotal), thr = parseFloat(g.recalc) || 5;
+    if (by && yr && by > yr) out.push(['err', L(`The base year ${by} is after the reporting year ${yr}.`, `El año base ${by} es posterior al año de reporte ${yr}.`)]);
+    if (by && !(bt > 0)) out.push(['info', L(`Enter the base-year (${by}) total so the dashboard can track change against it.`, `Captura el total del año base (${by}) para que el tablero siga el cambio frente a él.`)]);
+    if (by && bt > 0 && t.total > 0 && Math.abs(t.total - bt) / bt * 100 > thr) out.push(['info', L(`The total is ${chg(t.total, bt)} against the base year, more than the ${thr} % recalculation threshold. If part of the change comes from acquisitions, divestments, outsourcing or a method or factor change, recalculate the base year (ISO 14064-1; GHG Protocol, chapter 5).`, `El total cambió ${chg(t.total, bt)} frente al año base, más que el umbral de recálculo de ${thr} %. Si parte del cambio viene de adquisiciones, desinversiones, subcontratación o un cambio de método o de factores, recalcula el año base (ISO 14064-1; GHG Protocol, capítulo 5).`)]);
+    if (by && !String(g.recalcPolicy || '').trim()) out.push(['info', L('A base year is set but there is no recalculation policy. State what triggers a recalculation.', 'Hay un año base, pero no una política de recálculo. Indica qué detona un recálculo.')]);
     const direct = t.lines.filter(r => (+r.scope || 3) < 3 && evStatus(r) === 'miss'), dT = direct.reduce((a, r) => a + emis(r), 0);
     if (direct.length) out.push(['warn', L(`${direct.length} Scope 1 or 2 line${direct.length === 1 ? '' : 's'} (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'has' : 'have'} no documents. Verifiers will ask for them.`, `${direct.length} ${direct.length === 1 ? 'línea' : 'líneas'} de alcance 1 o 2 (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'no tiene' : 'no tienen'} documentos. Los verificadores los pedirán.`)]);
     if (state.region === 'mx') {
@@ -3669,6 +3807,80 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       <div class="card-head"><h3>${L('Checks', 'Revisiones')}</h3><span class="note">${n('err')} ${L('errors', 'errores')} · ${n('warn')} ${L('warnings', 'advertencias')} · ${n('info')} ${L('notes', 'notas')}</span></div>
       ${list.length ? `<ul class="checks">${list.map(([k, txt, id]) => `<li class="ck-${k}"><span class="ck">${label[k]}</span><span>${esc(txt)}${id ? ` <button type="button" class="linkish" data-goto="${id}">${L('Open line', 'Abrir línea')}</button>` : ''}</span></li>`).join('')}</ul>`
         : `<p class="note">${L('No issues found.', 'No se encontraron problemas.')}</p>`}
+    </div>`;
+  }
+
+  // Sensitivity (ISO 14044, 4.3.3.4 and 4.5.3.3): the total when one assumption changes. p = ± % on the n largest lines
+  function sensitivity(t, p = 10, n = 3) {
+    const ln = r => r.note || lineName(r);
+    const totWith = m => t.lines.reduce((a, r) => a + (isEdited(r) ? emis(r) : emisWith(r, m)), 0);
+    const small = t.lines.filter(r => emis(r) < t.total * 0.01).reduce((a, r) => a + emis(r), 0);
+    const poor = t.lines.filter(r => dqScore(r) > 3).reduce((a, r) => a + emis(r), 0);
+    const ranked = t.lines.slice().sort((a, b) => emis(b) - emis(a));
+    const rows = [
+      ...['AR6', 'AR5', 'AR4'].filter(m => m !== state.method).map(m => [L(`GWP100 from IPCC ${m} instead of ${state.method}`, `PCG100 de IPCC ${m} en lugar de ${state.method}`), totWith(m)]),
+      ...ranked.slice(0, n).flatMap(r => [[`${ln(r)} +${p} %`, t.total + emis(r) * p / 100], [`${ln(r)} −${p} %`, t.total - emis(r) * p / 100]]),
+      [L('Leave out every line under 1 % of the total', 'Excluir cada línea menor al 1 % del total'), t.total - small],
+      ...(poor > 0 ? [[L('Lines with poor data quality (score above 3) +25 %', 'Líneas con baja calidad de datos (puntaje mayor a 3) +25 %'), t.total + poor * 0.25]] : []),
+      ...(state.region === 'us' && t.byScope[2] ? [[L('Scope 2 location-based instead of market-based', 'Alcance 2 basado en ubicación en lugar de mercado'), t.total - t.s2mb + t.s2lb]] : []),
+    ];
+    return { small, rows };
+  }
+  const chg = (v, base) => (base ? (v >= base ? '+' : '−') + nf1.format(Math.abs(v - base) / base * 100) + ' %' : '–');
+
+  function sensCard(t) {
+    const p = +ui.sensPct || 10, { rows } = sensitivity(t, p, 5);
+    const max = Math.max(...rows.map(([, v]) => Math.abs(v - t.total)), 0);
+    return `<div class="card full" id="c-sens">
+      <div class="card-head"><h3>${L('Sensitivity analysis', 'Análisis de sensibilidad')}</h3><div class="ctl">${segHtml('sensPct', L('Change applied', 'Cambio aplicado'), [['5', '±5 %'], ['10', '±10 %'], ['25', '±25 %']])}</div></div>
+      <p class="cap">${L(`How the total moves when one assumption changes: other GWP sets, ±${p} % on the five largest lines, leaving out small lines and poor-quality data (ISO 14044, 4.3.3.4 and 4.5.3.3). Large swings show where better data matters most.`, `Cómo cambia el total cuando cambia un supuesto: otros juegos de PCG, ±${p} % en las cinco líneas más grandes, excluir líneas pequeñas y datos de baja calidad (ISO 14044, 4.3.3.4 y 4.5.3.3). Los cambios grandes muestran dónde importa más tener mejores datos.`)}</p>
+      ${t.total > 0 ? `<div class="sens">${rows.map(([k, v]) => { const d = v - t.total, w = max > 0 ? Math.abs(d) / max * 50 : 0;
+        return `<div class="sens-row"${tip(k, `${fmtT(v)} t CO₂e · ${chg(v, t.total)}`)}><span class="nm">${esc(k)}</span><span class="vl">${fmtT(v)} t · ${chg(v, t.total)}</span><span class="sens-bar"><i class="${d >= 0 ? 'up' : 'dn'}" style="${d >= 0 ? 'left:50%' : `left:${50 - w}%`};width:${w}%"></i></span></div>`; }).join('')}</div>
+      <p class="note">${L(`Base case ${fmtT(t.total)} t CO₂e. The report repeats this table in section 6.3.`, `Caso base ${fmtT(t.total)} t CO₂e. El reporte repite esta tabla en la sección 6.3.`)}</p>` : emptyMsg()}
+    </div>`;
+  }
+
+  function dqCard(t) {
+    const bands = { ok: 0, att: 0, miss: 0 };
+    t.lines.forEach(r => (bands[dqClass(dqScore(r))] += emis(r)));
+    const worst = t.lines.filter(r => dqScore(r) > 1.75).sort((a, b) => emis(b) * dqScore(b) - emis(a) * dqScore(a)).slice(0, 5);
+    const years = [...new Set(t.lines.map(r => String(dqVals(r).year || '')).filter(Boolean))].sort();
+    return `<div class="card" id="c-dq">
+      <div class="card-head"><h3>${L('Data quality', 'Calidad de los datos')}</h3>${t.total > 0 ? `<span class="pill ${t.dq <= 1.75 ? 'ok' : t.dq <= 3 ? '' : 'warn'}">${dqWord(t.dq)} · ${nf1.format(t.dq)}</span>` : ''}</div>
+      <p class="cap">${L('Pedigree score from 1 (best) to 5, weighted by emissions: data type, age, geography and technology of each line (ISO 14044, 4.2.3.6). Set them in each line’s evidence panel.', 'Puntaje de 1 (mejor) a 5, ponderado por emisiones: tipo de dato, antigüedad, geografía y tecnología de cada línea (ISO 14044, 4.2.3.6). Se ajustan en el panel de evidencia de cada línea.')}</p>
+      ${t.total > 0 ? `<div class="stack" role="img" aria-label="${L('Good', 'Buena')} ${pct(bands.ok, t.total)}, ${L('fair', 'regular')} ${pct(bands.att, t.total)}, ${L('poor', 'baja')} ${pct(bands.miss, t.total)}">
+        <div style="--c: var(--ok); flex: 0 0 ${pctN(bands.ok, t.total)}%"${tip(L('Good (1–1.75)', 'Buena (1–1.75)'), `${fmtT(bands.ok)} t CO₂e · ${pct(bands.ok, t.total)} ${OT()}`)}></div><div style="--c: #E8B36A; flex: 0 0 ${pctN(bands.att, t.total)}%"${tip(L('Fair (1.75–3)', 'Regular (1.75–3)'), `${fmtT(bands.att)} t CO₂e · ${pct(bands.att, t.total)} ${OT()}`)}></div><div style="--c: var(--miss); flex: 1 1 0"${tip(L('Poor (above 3)', 'Baja (mayor a 3)'), `${fmtT(bands.miss)} t CO₂e · ${pct(bands.miss, t.total)} ${OT()}`)}></div>
+      </div>
+      <div class="legend"><span style="--c: var(--ok)"><i class="sw"></i>${L('Good', 'Buena')} ${pct(bands.ok, t.total)}</span><span style="--c: #E8B36A"><i class="sw"></i>${L('Fair', 'Regular')} ${pct(bands.att, t.total)}</span><span style="--c: var(--miss)"><i class="sw"></i>${L('Poor', 'Baja')} ${pct(bands.miss, t.total)}</span>${years.length ? `<span>${L('Data years', 'Años de los datos')}: ${esc(years.join(', '))}</span>` : ''}</div>
+      ${worst.length ? `<div><div class="label" style="margin-bottom:6px">${L('Improve these first', 'Mejora primero estas')}</div><ul class="gaps">${worst.map(r => `<li>${esc(lineName(r))}${r.note && r.key !== 'custom' ? ' · ' + esc(r.note) : ''} <span>${nf1.format(dqScore(r))} · ${pct(emis(r), t.total)}</span> <button type="button" class="linkish" data-goto="${r.id}">${L('Open line', 'Abrir línea')}</button></li>`).join('')}</ul></div>` : `<p class="note">${L('Every line scores Good.', 'Todas las líneas tienen calidad buena.')}</p>`}` : emptyMsg()}
+    </div>`;
+  }
+
+  function s3Card(t) {
+    const st = Array.from({ length: 15 }, (_, k) => s3State(k + 1, t));
+    const screened = st.filter(Boolean).length, inc = st.filter(x => x === 'in').length;
+    const W = { in: L('Included', 'Incluida'), out: L('Excluded', 'Excluida'), na: L('Not relevant', 'No aplica'), '': L('Not screened', 'Sin revisar') };
+    return `<div class="card full" id="c-s3">
+      <div class="card-head"><h3>${L('Scope 3 screening', 'Tamizaje del alcance 3')}</h3><span class="pill ${screened === 15 ? 'ok' : 'warn'}">${screened}/15</span></div>
+      <p class="cap">${L(`${screened} of 15 categories screened, ${inc} included. Record each decision under Goal and scope (ISO/TR 14069, 5.2.3).`, `${screened} de 15 categorías revisadas, ${inc} incluidas. Registra cada decisión en Objetivo y alcance (ISO/TR 14069, 5.2.3).`)}</p>
+      <div class="meter"><i style="--c: var(--ok); width:${screened / 15 * 100}%"></i></div>
+      <ol class="s3g">${st.map((x, k) => `<li class="s3-${x || 'none'}"${tip(`${k + 1}. ${S3N(k + 1)}`, `${W[x]}${t.byS3[k + 1] ? ` · ${fmtT(t.byS3[k + 1])} t CO₂e` : ''}${s3Of(k + 1).why ? ' · ' + s3Of(k + 1).why : ''}`)}><b>${k + 1}</b><span>${esc(S3N(k + 1))}</span></li>`).join('')}</ol>
+      <div class="legend"><span style="--c: var(--ok)"><i class="sw"></i>${W.in}</span><span style="--c: var(--muted)"><i class="sw"></i>${W.out} / ${W.na}</span><span style="--c: var(--miss)"><i class="sw"></i>${W['']}</span></div>
+    </div>`;
+  }
+
+  function baseCard(t) {
+    const g = state.goal, by = parseInt(g.baseYear, 10), bt = parseFloat(g.baseTotal), pt = parseFloat(g.priorTotal), thr = parseFloat(g.recalc) || 5;
+    if (!(by && bt > 0)) return `<div class="card" id="c-base"><h3>${L('Base year', 'Año base')}</h3>
+      <p class="cap">${L('Set a base year and its total under Goal and scope to track change over time and know when to recalculate (ISO 14064-1; GHG Protocol, chapter 5).', 'Captura un año base y su total en Objetivo y alcance para seguir el cambio en el tiempo y saber cuándo recalcular (ISO 14064-1; GHG Protocol, capítulo 5).')}</p>
+      <p><button type="button" class="linkish" data-open-setup>${L('Open Goal and scope', 'Abrir Objetivo y alcance')}</button></p></div>`;
+    const yr = state.year || L('this year', 'este año'), bars = [[g.baseYear + ' · ' + L('base', 'base'), bt], ...(pt > 0 ? [[String((parseInt(state.year, 10) || by + 1) - 1) + ' · ' + L('prior', 'anterior'), pt]] : []), [yr, t.total]];
+    const mx = Math.max(...bars.map(b => b[1]));
+    return `<div class="card" id="c-base">
+      <div class="card-head"><h3>${L('Change against the base year', 'Cambio frente al año base')}</h3><span class="pill ${t.total <= bt ? 'ok' : 'warn'}">${chg(t.total, bt)}</span></div>
+      <p class="cap">${L(`${esc(yr)} against base year ${by}${pt > 0 ? ` (prior year ${chg(t.total, pt)})` : ''}. Recalculate the base year when a structural or method change moves it by more than ${thr} %.`, `${esc(yr)} frente al año base ${by}${pt > 0 ? ` (año anterior ${chg(t.total, pt)})` : ''}. Recalcula el año base cuando un cambio estructural o de método lo mueva más de ${thr} %.`)}</p>
+      <div class="bars">${bars.map(([k, v], i) => barRow(k, v, bt, mx, i === bars.length - 1 ? 'var(--accent)' : 'var(--muted)')).join('')}</div>
+      ${g.recalcPolicy ? `<p class="note">${L('Policy', 'Política')}: ${esc(g.recalcPolicy)}</p>` : ''}
     </div>`;
   }
 
@@ -3755,7 +3967,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + stageCard + hotCard;
+    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + s3Card(t) + sensCard(t);
     drawTreemap();
   }
 
@@ -3769,6 +3981,14 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     const r = findRow(tr.dataset.id); if (!r) return;
     const ef = e.target.dataset.evField;
     if (ef === 'ref' || ef === 'period') { r.evidence[ef] = e.target.value; touched(); return; }
+    // data quality and biogenic CO2 sit in the evidence panel: refresh the score badge, not the line
+    const dk = e.target.dataset.dq;
+    if (dk || e.target.dataset.field === 'bio') {
+      if (dk) r.dq = Object.assign({}, r.dq, { [dk]: e.target.value }); else r.bio = e.target.value;
+      const b = tr.querySelector('[data-dq-score]'), s = dqScore(r);
+      if (b) { b.className = 'dq-score ' + dqClass(s); b.textContent = `${dqWord(s)} · ${nf1.format(s)}`; }
+      updateTotals(); touched(); return;
+    }
     const f = e.target.dataset.field;
     if (!f || f === 'key' || f === 'scope' || f === 'm0' || f === 'm1') return;
     r[f] = e.target.value;
@@ -3999,6 +4219,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       if (again) again.focus();
       return;
     }
+    if (e.target.closest('[data-open-setup]')) { $('setup').open = true; goTo($('g-baseYear')); setTimeout(() => $('g-baseYear').focus({ preventScroll: true }), 400); return; }
     const go = e.target.closest('[data-goto]'); if (!go) return;
     const r = findRow(go.dataset.goto); if (!r) return;
     expanded.add(r.id);
@@ -4252,8 +4473,14 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   }));
   $('methodSel').addEventListener('change', e => { state.method = e.target.value; renderMeta(); renderStages(); touched(); });
   // goal fields the dashboard reads (SB 253 card and the Checks list)
-  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality']);
+  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy']);
   const onGoal = e => {
+    const i = e.target.dataset.s3;
+    if (i) {
+      state.goal.s3 = Object.assign({}, state.goal.s3);
+      state.goal.s3[i] = Object.assign({}, state.goal.s3[i], { [e.target.dataset.s3k]: e.target.value });
+      touched(); updateTotals(); return;
+    }
     const k = e.target.dataset.goal; if (!k) return;
     state.goal[k] = e.target.value; touched();
     if (k === 'allocation') renderSetup();
@@ -4294,7 +4521,8 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     const head = L(['Stage', 'Activity', 'Category', 'Supplier', 'Description', 'Quantity', 'Unit', 'Factor (kg CO2e/unit)', 'Factor edited', 'Factor source', 'Scope', 'First month', 'Last month'],
       ['Etapa', 'Actividad', 'Categoría', 'Proveedor', 'Descripción', 'Cantidad', 'Unidad', 'Factor (kg CO2e/unidad)', 'Factor editado', 'Fuente del factor', 'Alcance', 'Primer mes', 'Último mes'])
       .concat(GASES.map(g => `t ${g === 'CO2e' ? L('CO2e pre-characterised', 'CO2e precaracterizado') : g}`), L(`Emissions (t CO2e, ${state.method})`, `Emisiones (t CO2e, ${state.method})`),
-        L(['Included in total', 'Evidence status', 'Document type', 'Reference', 'Period', 'Files'], ['Incluida en el total', 'Estado de la evidencia', 'Tipo de documento', 'Referencia', 'Periodo', 'Archivos']));
+        L(['Included in total', 'Evidence status', 'Document type', 'Reference', 'Period', 'Files', 'Data type', 'Data year', 'Factor geography', 'Technology match', 'DQ score (1-5)', 'Biogenic CO2 (t, memo)'], ['Incluida en el total', 'Estado de la evidencia', 'Tipo de documento', 'Referencia', 'Periodo', 'Archivos', 'Tipo de dato', 'Año del dato', 'Geografía del factor', 'Coincidencia tecnológica', 'Calidad de datos (1-5)', 'CO2 biogénico (t, memoria)']));
+    const lb = DQ_LBL();
     const label = L({ miss: 'Missing', att: 'Attached', ok: 'Verified' }, { miss: 'Faltante', att: 'Adjunta', ok: 'Verificada' });
     const body = state.rows.map(r => {
       const gt = gasT(r);
@@ -4303,6 +4531,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
         SC(r.scope), MONTHS[mSpan(r)[0]], MONTHS[mSpan(r)[1]], ...GASES.map(g => tNum(gt[g], 6)), emis(r).toFixed(3),
         !included(r.stage) ? L('no (stage excluded)', 'no (etapa excluida)') : outside(r) ? 'no (outside scopes)' : L('yes', 'sí'),
         label[evStatus(r)], (DOCS[r.evidence.doc] || DOCS.other)[0], r.evidence.ref, r.evidence.period, r.evidence.files.map(f => f.name).join('; '),
+        ...(v => [lb.type[v.type], v.year, lb.geo[v.geo], lb.tech[v.tech]])(dqVals(r)), dqScore(r).toFixed(2), bioT(r).toFixed(3),
       ];
     });
     // goal and scope block, laid out after the third-party report items of ISO 14044, 5.2
@@ -4314,6 +4543,10 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       [L('Functional unit', 'Unidad funcional'), state.fuName], [L('Reference flow', 'Flujo de referencia'), g.refFlow], [L('System boundary', 'Límite del sistema'), bnd()],
       [L('Left out of the boundary', 'Fuera del límite'), g.exclusions], [L('Multi-output and recycling', 'Procesos multiproducto y reciclaje'), ALLOC()[g.allocation] || ''], [L('Cut-off criteria', 'Criterios de corte'), g.cutoff],
       [L('Assumptions and limitations', 'Supuestos y limitaciones'), g.assumptions],
+      [L('Base year', 'Año base'), [g.baseYear, g.baseTotal ? g.baseTotal + ' t CO2e' : '', g.baseYear ? L(`recalculation threshold ${g.recalc || 5}%`, `umbral de recálculo ${g.recalc || 5}%`) : '', g.recalcPolicy].filter(Boolean).join(' · ')],
+      [L('Scope 3 screening', 'Tamizaje del alcance 3'), (t => Array.from({ length: 15 }, (_, k) => k + 1).map(i => `${i}:${s3State(i, t) || '-'}${s3Of(i).why ? ' (' + s3Of(i).why + ')' : ''}`).join('; '))(totals())],
+      [L('Data quality score (1-5, emission-weighted)', 'Calidad de datos (1-5, ponderada por emisiones)'), (t => (t.total ? t.dq.toFixed(2) : ''))(totals())],
+      [L('Biogenic CO2 (t, memo, not in total)', 'CO2 biogénico (t, memoria, fuera del total)'), (t => (t.bio ? t.bio.toFixed(3) : '0'))(totals())],
       [L('Critical review', 'Revisión crítica'), [opt('g-review'), g.reviewer].filter(Boolean).join(' · ')],
       [L('Third-party verification', 'Verificación de terceros'), [opt('g-assurance'), g.assurance !== 'none' && g.materiality ? L(`materiality ${g.materiality}%`, `materialidad ${g.materiality}%`) : ''].filter(Boolean).join(' · ')],
       [L('Impact category', 'Categoría de impacto'), L(`Climate change only, ${METHODS[state.method]} (single-issue study, ISO 14040)`, `Solo cambio climático, ${METHODS[state.method]} (estudio de un solo tema, ISO 14040)`)],
@@ -4404,6 +4637,11 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     };
 
     const TOPICS = [
+      { k: 'quality pedigree primary secondary estimate data year geography technology calidad dato datos primario secundario estimacion geografia tecnologia', a: () => ({ html: L(`<p>Each line has a <b>data quality</b> score from 1 (best) to 5: the average of data type (metered, supplier or estimate), the data year against the reporting year, the geography and the technology of the factor. Set them in the line's evidence panel; the <b>Data quality</b> card shows the emission-weighted score and which lines to improve first.</p>`, `<p>Cada línea tiene un puntaje de <b>calidad de datos</b> de 1 (mejor) a 5: el promedio del tipo de dato (medido, del proveedor o estimado), el año del dato frente al año de reporte, la geografía y la tecnología del factor. Se ajustan en el panel de evidencia de la línea; la tarjeta <b>Calidad de los datos</b> muestra el puntaje ponderado por emisiones y qué líneas mejorar primero.</p>`), acts: [go('Data quality', 'Calidad de los datos', 'c-dq')] }) },
+      { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
+      { k: 'scope3 screening categories category coverage fifteen tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>El <b>tamizaje del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Tamizaje del alcance 3', 'c-s3')] }) },
+      { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'base baseline year recalculation recalculate prior previous trend progress base año recalculo recalcular anterior tendencia avance', a: () => ({ html: L(`<p>Set a <b>base year</b>, its total, the prior-year total and a recalculation threshold under Goal and scope. The dashboard then shows the change against the base year, and Checks reminds you to recalculate when the change is above the threshold.</p>`, `<p>Captura un <b>año base</b>, su total, el total del año anterior y un umbral de recálculo en Objetivo y alcance. El tablero muestra el cambio frente al año base y Revisiones te recuerda recalcular cuando el cambio supera el umbral.</p>`), acts: [go('Base year', 'Año base', 'c-base')] }) },
       { k: 'total footprint much emission emissions result tonnes tons cuanto cuanta huella total toneladas emito emitimos', a: live.total },
       { k: 'biggest largest hotspot hotspots most reduce reduction where mayor mas grande punto critico criticos reducir reduccion donde', a: live.hot },
       { k: 'report reports pdf print generate automatic inventory summary export verifier reporte reportes imprimir generar automatico inventario resumen', a: () => ({ html: L(`<p><b>Generate the report now</b> (Reports section) builds a print-ready report laid out as an ISO 14044, 5.2 third-party report (general, goal, scope, inventory, impact assessment, interpretation, critical review) with ISO 14067 separate items and a checklist annex that marks anything still missing. It draws on the ledger and its evidence: summary, charts (scope split, SimaPro-style process contribution and stage-to-category flow, gases, months, per functional unit, evidence coverage), goal and scope, emissions by scope, category and stage, every line with its document and status, the evidence index, the checks and the method. Use <b>Print or save as PDF</b> in the report tab.</p><p>Reading uploaded documents automatically (quantity, period, supplier) arrives with company accounts; for now, enter the quantity and attach the file.</p>`, `<p><b>Generar el reporte ahora</b> (sección Reportes) arma un reporte listo para imprimir con la estructura de reporte para terceros de la ISO 14044, 5.2 (aspectos generales, objetivo, alcance, inventario, evaluación de impacto, interpretación, revisión crítica), con las partidas por separado de la ISO 14067 y un anexo que marca lo que falta. Usa el registro y su evidencia: resumen, gráficas (reparto por alcance, contribución por proceso y flujo de etapa a categoría al estilo de SimaPro, gases, meses, por unidad funcional, cobertura de evidencia), objetivo y alcance, emisiones por alcance, categoría y etapa, cada línea con su documento y estado, el índice de evidencia, las revisiones y el método. Usa <b>Imprimir o guardar en PDF</b> en la pestaña del reporte.</p><p>La lectura automática de documentos (cantidad, periodo, proveedor) llega con las cuentas de empresa; mientras tanto, captura la cantidad y adjunta el archivo.</p>`), acts: [go('Reports', 'Reportes', 'reports')] }) },
