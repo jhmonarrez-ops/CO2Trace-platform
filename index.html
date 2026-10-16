@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-05M5/DwoH5rl23NAxFiLT7dzSouDKeCyEIShUzbG/Kc=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-721EV0xluTl1//Z+tsrJjTdNAD5n4fW/PFLP5wRHOgc=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -1022,6 +1022,13 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 .pillar:hover { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .2); }
 .pillar h3 { margin: 0; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; font-weight: 500; color: #FFFFFF; }
 .pillar p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .74); }
+.support { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-bottom: 28px; padding: 26px 28px; border-radius: 18px; border: 1px solid rgb(255 255 255 / .16); background: rgb(255 255 255 / .05); }
+.support > div { flex: 1 1 380px; display: grid; gap: 8px; }
+.support h3 { margin: 0; font-family: var(--f-display); font-size: 26px; font-weight: 500; letter-spacing: -.02em; color: #FFFFFF; }
+.support p { margin: 0; color: rgb(255 255 255 / .75); line-height: 1.5; }
+.support-mail { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #FFFFFF; color: var(--forest); font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
+.support-mail:hover, .support-mail:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 26px rgb(0 0 0 / .3); }
+@media (prefers-reduced-motion: reduce) { .support-mail { transition: none; } }
 .socials { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / .16); }
 .socials ul { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .socials a { display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border: 1px solid rgb(255 255 255 / .4); border-radius: 999px; color: #FFFFFF; text-decoration: none; font-family: var(--f-label); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; transition: background .25s ease, color .25s ease, border-color .25s ease; }
@@ -1634,6 +1641,14 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <p data-es="Lo que se mide bien se puede reducir. Queremos que los equipos dediquen su tiempo a bajar emisiones, no a buscar recibos ni a defender hojas de cálculo.">What is measured well can be reduced. We want teams to spend their time cutting emissions, not chasing receipts or defending spreadsheets.</p>
       </article>
     </div>
+    <div class="support rv" id="support">
+      <div>
+        <div class="eyebrow" data-es="Soporte">Support</div>
+        <h3 data-es="¿Necesitas ayuda detallada?">Need detailed help?</h3>
+        <p data-es="Escríbenos para dudas sobre tu inventario, tus documentos de evidencia, los requisitos ISO, el RENE o el GHG Protocol. Respondemos en español o en inglés.">Write to us about your inventory, your evidence documents, ISO requirements, the GHG Protocol or the RENE. We answer in English or Spanish.</p>
+      </div>
+      <a class="support-mail" href="mailto:support@co2trace.io?subject=CO2Trace%20support"><span class="vh" data-es="Escribir a soporte:">Email support:</span>support@co2trace.io<span aria-hidden="true">↗</span></a>
+    </div>
     <div class="socials" id="socials">
       <span class="eyebrow" data-es="Síguenos">Follow us</span>
       <ul>
@@ -1671,7 +1686,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div><h3 data-es="Aprende">Learn</h3><ul>
       <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
     <div><h3 data-es="Empresa">Company</h3><ul>
-      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li></ul></div>
+      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
     <div><h3 data-es="Conecta">Connect</h3><ul>
       <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li><li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" data-es="Seguridad">Security</a></li></ul></div>
   </nav>
@@ -4891,6 +4906,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     };
 
     const TOPICS = [
+      { k: 'contact support email mail help human person write question contacto soporte correo ayuda persona escribir pregunta asesoria', a: () => ({ html: L(`<p>For detailed help, write to <b><a href="mailto:support@co2trace.io">support@co2trace.io</a></b>. We answer in English or Spanish.</p>`, `<p>Para ayuda detallada, escribe a <b><a href="mailto:support@co2trace.io">support@co2trace.io</a></b>. Respondemos en español o en inglés.</p>`), acts: [go('About us', 'Nosotros', 'support')] }) },
       { k: 'quality pedigree primary secondary estimate data year geography technology calidad dato datos primario secundario estimacion geografia tecnologia', a: () => ({ html: L(`<p>Each line has a <b>data quality</b> score from 1 (best) to 5: the average of data type (metered, supplier or estimate), the data year against the reporting year, the geography and the technology of the factor. Set them in the line's evidence panel; the <b>Data quality</b> card shows the emission-weighted score and which lines to improve first.</p>`, `<p>Cada línea tiene un puntaje de <b>calidad de datos</b> de 1 (mejor) a 5: el promedio del tipo de dato (medido, del proveedor o estimado), el año del dato frente al año de reporte, la geografía y la tecnología del factor. Se ajustan en el panel de evidencia de la línea; la tarjeta <b>Calidad de los datos</b> muestra el puntaje ponderado por emisiones y qué líneas mejorar primero.</p>`), acts: [go('Data quality', 'Calidad de los datos', 'c-dq')] }) },
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
