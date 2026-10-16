@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-aB5Av9dukI7UkLnRRtbqGwwaqLqnFiRexKay/ytUckI=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-GwU93O0aJPxV29kUL1tVYpXi2vWtaW81A8RK16pPn18=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -924,6 +924,23 @@ html.lenis { scroll-behavior: auto !important; }
 .panel[open] summary::after { content: "▴"; }
 .panel summary .ttl { font-family: var(--f-display); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
 .panel-body { padding: 18px 22px 22px; display: grid; gap: 18px; border-top: 1px solid var(--line); }
+html.viewing #setup .panel-grid { display: none; }
+.setup-ro { display: grid; gap: 22px; }
+.ro-note { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; padding: 12px 16px; border-radius: 12px; background: var(--surface-2); font-size: 13.5px; color: var(--muted); }
+.ro-sec h4 { margin: 0 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-family: var(--f-label); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--title); }
+.ro-sec h4 small { margin-left: 8px; font-weight: 400; text-transform: none; color: var(--muted); }
+.ro-sec dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 16px 28px; }
+.ro-sec dl > div { min-width: 0; }
+.ro-sec dl > div.w { grid-column: 1 / -1; }
+.ro-sec dt { font-family: var(--f-label); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.ro-sec dd { margin: 0; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.ro-none { color: var(--muted); font-style: italic; }
+.ro-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; color: var(--miss); }
+.ro-pill.s3-in { color: var(--ok); } .ro-pill.s3-out, .ro-pill.s3-na { color: var(--muted); }
+table.s3t.ro { min-width: 560px; }
+.ro-prices { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 6px 24px; font-size: 13.5px; }
+.ro-prices li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+.ro-prices b { font-family: var(--f-mono); font-weight: 500; white-space: nowrap; }
 .panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px 20px; align-items: end; }
 .panel-grid .wide { grid-column: span 2; }
 @media (max-width: 520px) { .panel-grid .wide { grid-column: auto; } }
@@ -1482,6 +1499,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   <details class="panel" id="setup">
     <summary><span class="eyebrow" data-es="Objetivo y alcance">Goal and scope</span><span class="ttl" data-es="Objetivo y alcance ISO 14044, bibliotecas y método de impacto">ISO 14044 goal and scope, libraries and impact method</span><span class="note" data-es="Organizado como en SimaPro">Organised as in SimaPro</span></summary>
     <div class="panel-body">
+      <div class="setup-ro" id="setupRO" hidden></div>
       <div class="panel-grid">
         <div class="pg-head" data-es="Objetivo del estudio&lt;small&gt;ISO 14044, 4.2.2 y 5.2&lt;/small&gt;">Goal of the study<small>ISO 14044, 4.2.2 and 5.2</small></div>
         <div class="field wide"><label for="g-reason" data-es="Motivo del estudio">Reason for the study</label><input id="g-reason" data-goal="reason" type="text" placeholder="e.g. a customer asked for the product footprint; set a reduction baseline" data-es-placeholder="p. ej., un cliente pidió la huella del producto; fijar una línea base de reducción"></div>
@@ -2270,8 +2288,33 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     return {
       v: 2, company: b.company, year: 2025, fuName: b.fuName, fuQty: b.fuQty, boundary: 'gate', isExample: true, example: EXAMPLES[id] ? id : EX_IDS[0],
       region, method: REGIONS[region].method,
-      goal: Object.assign(blankGoal(), { allocation: 'cutoff', cutoff: T('Inputs under 1% of product mass and of total emissions may be left out', 'Se pueden excluir insumos menores al 1% de la masa del producto y de las emisiones totales') }, b.goal),
+      goal: Object.assign(blankGoal(), { allocation: 'cutoff', cutoff: T('Inputs under 1% of product mass and of total emissions may be left out', 'Se pueden excluir insumos menores al 1% de la masa del producto y de las emisiones totales') }, exGoal(T, id, b.rows), b.goal),
       rows: b.rows,
+    };
+  }
+  // Base year and Scope 3 screening for the examples, so their goal and scope reads complete. Base and prior totals
+  // are filled from the ledger once it is loaded (exampleBase()); categories with lines count as included on their own.
+  function exGoal(T, id, rows) {
+    const has = re => rows.some(r => re.test(r.key));
+    const why = {
+      2: ['out', T('Screening estimate under 2% of the total; no major equipment bought in 2025', 'Estimación de tamizaje menor al 2% del total; sin compras grandes de equipo en 2025')],
+      3: ['out', T('Upstream fuel production and grid losses not yet quantified; planned for the 2026 inventory', 'Producción de combustibles y pérdidas de la red aún sin cuantificar; previstas para el inventario 2026')],
+      7: ['out', T('Screening estimate under 1% of the total (staff survey)', 'Estimación de tamizaje menor al 1% del total (encuesta al personal)')],
+      8: ['na', T('No leased assets', 'Sin activos arrendados')],
+      9: ['na', T('Outbound freight paid by the company is reported in category 4', 'Los fletes de salida que paga la empresa se reportan en la categoría 4')],
+      10: id === 'autopartes' ? ['out', T('Customers assemble the parts; outside the cradle-to-gate boundary', 'Los clientes ensamblan las piezas; fuera del límite de la cuna a la puerta')] : ['na', T('Sold as finished products', 'Se venden como productos terminados')],
+      11: ['out', T('Outside the cradle-to-gate boundary', 'Fuera del límite de la cuna a la puerta')],
+      12: ['out', T('Outside the cradle-to-gate boundary', 'Fuera del límite de la cuna a la puerta')],
+      13: ['na', T('No assets leased to others', 'Sin activos arrendados a terceros')],
+      14: ['na', T('No franchises', 'Sin franquicias')],
+      15: ['na', T('No investments in other companies', 'Sin inversiones en otras empresas')],
+    };
+    if (!has(/^(flight|car)$/)) why[6] = ['out', T('Screening estimate under 1% of the total', 'Estimación de tamizaje menor al 1% del total')];
+    if (!has(/^(landfill|recycling|incineration|water|wastewater)/)) why[5] = ['out', T('Screening estimate under 1% of the total', 'Estimación de tamizaje menor al 1% del total')];
+    return {
+      baseYear: '2023', recalc: '5',
+      recalcPolicy: T('Recalculate the 2023 base year for acquisitions, divestments, outsourcing, or method and factor changes that move it by more than 5%', 'Recalcular el año base 2023 por adquisiciones, desinversiones, subcontratación o cambios de método o factores que lo muevan más de 5%'),
+      s3: Object.fromEntries(Object.entries(why).map(([k, [d, w]]) => [k, { d, why: w }])),
     };
   }
 
@@ -2585,7 +2628,15 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     $('supplierList').innerHTML = names.map(n => `<option value="${esc(n)}"></option>`).join('');
   }
 
+  // fictional base-year and prior-year totals for an example, 4.5% and 2% above this year
+  function exampleBase() {
+    const g = state.goal;
+    if (!state.isExample || !g.baseYear || g.baseTotal) return;
+    const tt = totals().total;
+    if (tt > 0) { g.baseTotal = String(Math.round(tt * 1.045)); g.priorTotal = String(Math.round(tt * 1.02)); }
+  }
   function renderMeta() {
+    exampleBase();
     applyLang();
     $('company').value = state.company || '';
     $('year').value = state.year || '';
@@ -3267,6 +3318,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
         <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines)`, `Ver los datos de actividad (${state.rows.length} líneas)`)}</button>`;
     }
     renderExamples();
+    if ($('setupRO').hidden === view) renderSetupView();
     renderGuide();
     renderReports();
     renderPlans();
@@ -3345,6 +3397,40 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     const pr = state.goal.prices || {}, cur = PRICE_DEF[state.region].cur;
     $('priceGrid').innerHTML = PRICE_KEYS.map(([k, en, es, u]) => `<label class="field" for="pr-${k}"><span>${esc(L(en, es))} <small>${cur}/${u}</small></span><input id="pr-${k}" data-price="${k}" type="number" min="0" step="any" value="${esc(pr[k] ?? '')}" placeholder="${PRICE_DEF[state.region][k]}"></label>`).join('');
   }
+  // Read-only goal and scope for examples (view mode): the same sections and answers as the form, as text that wraps in full
+  function renderSetupView() {
+    const ro = $('setupRO'), view = !!state.isExample;
+    ro.hidden = !view;
+    if (!view) { ro.innerHTML = ''; return; }
+    const none = `<span class="ro-none">${L('Not stated', 'Sin dato')}</span>`;
+    const secs = [];
+    let cur = null;
+    document.querySelectorAll('#setup .panel-grid > *').forEach(el => {
+      if (el.hidden) return;
+      if (el.classList.contains('pg-head')) { cur = { head: el.nextElementSibling && el.nextElementSibling.querySelector('#priceGrid') ? L('Prices used for the savings estimate<small>indicative defaults</small>', 'Precios usados para el ahorro estimado<small>predeterminados indicativos</small>') : el.innerHTML, items: [] }; secs.push(cur); return; }
+      if (!cur) return;
+      if (el.id === 's3Screen') {
+        const t = totals(), W = { in: L('Included', 'Incluida'), out: L('Excluded', 'Excluida'), na: L('Not relevant', 'No aplica'), '': L('Not screened', 'Sin revisar') };
+        cur.items.push({ wide: true, html: `<div class="table-scroll"><table class="s3t ro"><thead><tr><th>#</th><th>${L('Category', 'Categoría')}</th><th class="r">${L('In ledger', 'En el registro')}</th><th>${L('Decision', 'Decisión')}</th><th>${L('Reason', 'Motivo')}</th></tr></thead><tbody>
+          ${Array.from({ length: 15 }, (_, k) => k + 1).map(i => { const d = s3State(i, t); return `<tr><td class="num">${i}</td><td>${esc(S3N(i))}</td><td class="r num">${t.byS3[i] ? fmtT(t.byS3[i]) + ' t' : '–'}</td><td><span class="ro-pill s3-${d || 'none'}">${W[d]}</span></td><td>${esc(s3Of(i).why || (t.byS3[i] ? L('Measured: lines in the ledger', 'Medida: líneas en el registro') : ''))}</td></tr>`; }).join('')}</tbody></table></div>` });
+        return;
+      }
+      if (el.querySelector('#priceGrid')) {
+        cur.items.push({ wide: true, html: `<ul class="ro-prices">${PRICE_KEYS.map(([k, en, es, u]) => `<li><span>${esc(L(en, es))}</span><b>${price(k)} ${PRICE_DEF[state.region].cur}/${u}</b></li>`).join('')}</ul>` });
+        return;
+      }
+      const c = el.querySelector('input, select, textarea'), lb = el.querySelector('label');
+      if (!c || !lb) return;
+      let v = c.tagName === 'SELECT' ? (c.selectedOptions[0] && c.value !== '' ? c.selectedOptions[0].textContent : '') : String(c.value || '').trim();
+      if (v && (c.id === 'g-materiality' || c.id === 'g-recalc')) v += ' %';
+      if (v && /^g-(baseTotal|priorTotal)$/.test(c.id)) v = nf0.format(+v) + ' t CO₂e';
+      if (!v && c.id === 'g-reportDate') v = L('Set when the report is generated', 'Se fija al generar el reporte');
+      if (!v && c.id === 'g-reviewer' && state.goal.review === 'none') v = L('Not applicable: no critical review', 'No aplica: sin revisión crítica');
+      cur.items.push({ wide: el.classList.contains('wide') || c.tagName === 'TEXTAREA' || v.length > 70, label: lb.textContent, html: v ? esc(v) : none });
+    });
+    ro.innerHTML = `<div class="ro-note"><span>${L('Example: read-only. This is how a finished goal and scope reads; start your own data to fill in yours.', 'Ejemplo: solo lectura. Así se ve un objetivo y alcance completo; empieza con tus datos para llenar el tuyo.')}</span><button type="button" class="btn" data-ro-own>${L('Use your own data', 'Usar mis datos')}</button></div>`
+      + secs.filter(x => x.items.length).map(x => `<section class="ro-sec"><h4>${x.head}</h4><dl>${x.items.map(i => `<div class="${i.wide ? 'w' : ''}">${i.label ? `<dt>${esc(i.label)}</dt>` : ''}<dd>${i.html}</dd></div>`).join('')}</dl></section>`).join('');
+  }
   function renderSetup() {
     renderPrices();
     const s3 = $('s3Screen'); if (s3) s3.innerHTML = '';
@@ -3359,6 +3445,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       // databases behind the lines added with + From database
       ...[...new Set(state.rows.map(r => F[r.key] && F[r.key].cite).filter(Boolean))].map(c => L('Database', 'Base de datos') + ': ' + c),
     ].map(s => `<li>${esc(s)}</li>`).join('');
+    renderSetupView();
   }
   // Method: the equation drawn with the largest line of the ledger, four short facts, and the full notes folded away
   function renderMethodEq() {
@@ -4652,6 +4739,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     if (k === 'allocation') renderSetup();
     if (GOAL_CHECKED.has(k)) updateTotals();
   };
+  $('setup').addEventListener('click', e => { if (e.target.closest('[data-ro-own]')) loadExample('own'); });
   $('setup').addEventListener('input', onGoal);
   $('setup').addEventListener('change', onGoal);
 
