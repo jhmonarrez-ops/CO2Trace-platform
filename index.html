@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-8LLZ9aWGu9DSkBrEmzJgsOYDTbMUd/uQX8iqxMlxCi8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-OJp0N4lrv9NEzsKnqy8rLza2b4SPBw6KiudKMZva8ds=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -541,28 +541,28 @@ svg text { font-family: var(--f-body); }
 .g-sum div { display: grid; gap: 2px; }
 .g-sum b { font-family: var(--f-display); font-size: 24px; font-weight: 500; letter-spacing: -.02em; line-height: 1.1; }
 .g-sum span { font-size: 12.5px; color: var(--muted); }
-.gantt { display: grid; grid-template-columns: minmax(110px, 250px) repeat(12, minmax(0, 1fr)); row-gap: 3px; font-size: 13px; }
-.g-grid { border-left: 1px solid var(--line); }
-.g-band { background: var(--warn-bg); }
-.g-m { text-align: center; font-size: 11.5px; font-weight: 600; color: var(--muted); padding-bottom: 2px; }
-.g-m.pk { color: var(--warn); }
-.g-m .short { display: none; }
-.g-axis { font-size: 11.5px; color: var(--muted); align-self: end; padding-right: 8px; line-height: 1.35; }
-.g-axis b { font-family: var(--f-mono); font-weight: 500; }
-.g-col { height: 96px; display: flex; align-items: flex-end; padding: 0 3px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
-.g-col i { display: block; width: 100%; background: var(--accent); border-radius: 2px 2px 0 0; transition: height .35s ease, filter .2s; }
-.g-col.pk i { background: var(--warn); }
-.g-col:hover i, .g-col.hot i { filter: brightness(1.15) saturate(1.1); }
-.g-lbl { display: grid; min-width: 0; padding: 3px 8px 3px 0; line-height: 1.3; }
-.g-lbl .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.g-lbl .vl { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.g-bar { align-self: center; height: 16px; margin: 0 2px; border-radius: 3px; background: var(--c); transition: filter .2s; }
-.g-bar:hover, .g-bar.hot { filter: brightness(1.15) saturate(1.1); }
+.mc { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; gap: 0 8px; margin-top: 4px; }
+.mc-y { grid-row: 1; display: flex; flex-direction: column; justify-content: space-between; height: 240px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); text-align: right; transform: translateY(-.5em); padding-bottom: 0; }
+.mc-y span { line-height: 1; }
+.mc-plot { grid-row: 1; position: relative; height: 240px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 6px; border-bottom: 1px solid var(--muted); }
+.mc-plot > b { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); pointer-events: none; }
+.mc-col { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-width: 0; }
+.mc-stack { display: flex; flex-direction: column-reverse; height: 100%; justify-content: flex-start; }
+.mc-stack i { display: block; flex: none; background: var(--c); border-top: 1px solid var(--surface); transition: height .35s ease, filter .2s; }
+.mc-stack i:hover { filter: brightness(1.15) saturate(1.1); }
+.mc-x { position: absolute; top: 100%; left: 0; right: 0; padding-top: 5px; text-align: center; font-size: 11.5px; font-weight: 600; color: var(--muted); }
+.mc-col.pk .mc-x { color: var(--warn); }
+.mc-col.pk .mc-x::after { content: " ▲"; font-size: 9px; }
+.mc-x .short { display: none; }
+.mc-unit { grid-column: 2; margin-top: 26px; font-size: 11.5px; color: var(--muted); }
+.mc-tbl summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.mc-tbl table { font-size: 12px; margin-top: 8px; }
+.mc-tbl .sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; background: var(--c); margin-right: 6px; }
 .mm { display: flex; align-items: center; gap: 2px; }
 .mm select { padding-inline: 4px 0; min-width: 0; }
 .mm span { color: var(--muted); }
 @container side (max-width: 760px) { .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); } .tm { height: 300px; } .radial-wrap svg { max-width: 420px; margin-inline: auto; } }
-@container side (max-width: 640px) { .g-m .long { display: none; } .g-m .short { display: inline; } .gantt { grid-template-columns: minmax(96px, 130px) repeat(12, minmax(0, 1fr)); } .g-col { padding: 0 1px; } .g-bar { margin: 0 1px; } }
+@container side (max-width: 640px) { .mc-x .long { display: none; } .mc-x .short { display: inline; } .mc-plot { gap: 0 2px; } .mc-plot, .mc-y { height: 200px; } .mc-col.pk .mc-x::after { content: none; } }
 @container side (max-width: 340px) { .donut-wrap { grid-template-columns: minmax(0, 1fr); justify-items: center; } .donut-legend { width: 100%; } }
 ol.hot, ul.gaps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; }
 ol.hot li span, ul.gaps li span { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -1083,7 +1083,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   .stage-head { grid-template-columns: auto minmax(0, 1fr); }
   .stage-total { grid-column: 1 / -1; text-align: left; }
 }
-@media (prefers-reduced-motion: reduce) { .fill, .meter i, .g-col i { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .fill, .meter i, .mc-stack i { transition: none; } }
 
 /* Touch screens: say "tap" instead of "hover" */
 .on-touch { display: none; }
@@ -1176,7 +1176,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#c-comp" data-es="Reglas de reporte">Reporting rules</a></li>
             <li><a href="#c-checks" data-es="Revisiones">Checks</a></li>
             <li><a href="#c-scope" data-es="Distribución por alcance">Scope split</a></li>
-            <li><a href="#c-gantt" data-es="Gantt mensual">Monthly Gantt</a></li>
+            <li><a href="#c-gantt" data-es="Emisiones por mes">Emissions by month</a></li>
             <li><a href="#c-sup" data-es="Proveedores">Suppliers</a></li>
             <li><a href="#c-hot" data-es="Puntos críticos">Hotspots</a></li>
             <li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li>
@@ -3478,11 +3478,12 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
 
   // Chart view choices: a per-viewer convenience kept in this browser
   const UI_STORE = 'lca-ui-v1';
-  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all', sensPct: '10' };
+  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all', sensPct: '10', monthMode: 'abs' };
   try { Object.assign(ui, JSON.parse(localStorage.getItem(UI_STORE) || '{}')); } catch (e) {}
   if (!['radial', 'treemap'].includes(ui.catView)) ui.catView = 'radial';
   ['catScope', 'ganttScope', 'invScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
   if (!['5', '10', '25'].includes(String(ui.sensPct))) ui.sensPct = '10';
+  if (!['abs', 'pct'].includes(ui.monthMode)) ui.monthMode = 'abs';
   const saveUi = () => { try { localStorage.setItem(UI_STORE, JSON.stringify(ui)); } catch (e) {} };
   const scopesOf = v => (v === 'all' ? [1, 2, 3] : [+v]);
   const scopeName = v => (v === 'all' ? L('all scopes', 'todos los alcances') : SC(v));
@@ -3629,44 +3630,55 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   }
 
   // Gantt: when each line's activity happened, with monthly totals on top to show the peak period
-  function ganttCard(t) {
-    const scopes = scopesOf(ui.ganttScope);
-    const head = `<div class="card-head"><h3>${L('When emissions happen · monthly Gantt', 'Cuándo ocurren las emisiones · Gantt mensual')}${state.year ? ' · ' + esc(state.year) : ''}</h3><div class="ctl">${scopeSeg('ganttScope')}</div></div>`;
-    const month = MONTHS.map((_, m) => scopes.reduce((a, s) => a + t.byMonth[s][m], 0));
+  // Emissions per month by emission type: stacked columns like SimaPro's characterisation chart.
+  // A line's emissions are spread evenly over its activity months (ledger Months column).
+  const niceMax = v => { if (!(v > 0)) return 1; const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; };
+  function monthCard(t) {
+    const scopes = scopesOf(ui.ganttScope), rel = ui.monthMode === 'pct';
+    const head = `<div class="card-head"><h3>${L('Emissions by month and type', 'Emisiones por mes y tipo')}${state.year ? ' · ' + esc(state.year) : ''}</h3><div class="ctl">${segHtml('monthMode', L('Values shown', 'Valores mostrados'), [['abs', 't CO₂e'], ['pct', '%']])}${scopeSeg('ganttScope')}</div></div>`;
+    const byMC = MONTHS.map(() => ({}));
+    t.lines.filter(r => scopes.includes(+r.scope || 3)).forEach(r => {
+      const [a, b] = mSpan(r), e = emis(r) / (b - a + 1), k = kindOf(r);
+      for (let m = a; m <= b; m++) byMC[m][k] = (byMC[m][k] || 0) + e;
+    });
+    const month = byMC.map(o => Object.values(o).reduce((x, v) => x + v, 0));
     const sum = month.reduce((a, v) => a + v, 0);
     if (!(sum > 0)) return `<div class="card full" id="c-gantt">${head}${t.total > 0 ? `<p class="note">${L(`No ${scopeName(ui.ganttScope)} emissions entered yet.`, `Aún no hay emisiones registradas en ${scopeName(ui.ganttScope)}.`)}</p>` : emptyMsg()}</div>`;
+    const catT = {}; byMC.forEach(o => Object.entries(o).forEach(([k, v]) => (catT[k] = (catT[k] || 0) + v)));
+    const cats = Object.keys(catT).sort((a, b) => catT[b] - catT[a]);   // largest type at the bottom of each column
     const max = Math.max(...month), peak = month.indexOf(max), low = month.indexOf(Math.min(...month));
     const qs = [0, 1, 2, 3].map(q => month[q * 3] + month[q * 3 + 1] + month[q * 3 + 2]), pq = qs.indexOf(Math.max(...qs));
-    const lines = t.lines.filter(r => scopes.includes(+r.scope || 3));
-    const LIMIT = 14;
-    const shown = [...lines].sort((a, b) => emis(b) - emis(a)).slice(0, LIMIT)
-      .sort((a, b) => mSpan(a)[0] - mSpan(b)[0] || mSpan(a)[1] - mSpan(b)[1] || emis(b) - emis(a));
-    const hidden = lines.length - shown.length, hiddenT = lines.slice().sort((a, b) => emis(b) - emis(a)).slice(LIMIT).reduce((a, r) => a + emis(r), 0);
-    const N = shown.length + 2; // header row, monthly totals row, one row per line
-    let g = `<div class="g-band" style="grid-column:${peak + 2};grid-row:1 / span ${N}"></div>`;
-    g += MONTHS.map((_, m) => `<div class="g-grid" style="grid-column:${m + 2};grid-row:1 / span ${N}"></div>`).join('');
-    g += `<div style="grid-column:1;grid-row:1"></div>` + MONTHS.map((m, i) => `<div class="g-m${i === peak ? ' pk' : ''}" style="grid-column:${i + 2};grid-row:1"><span class="long">${m}</span><span class="short">${m[0]}</span></div>`).join('');
-    g += `<div class="g-axis" style="grid-column:1;grid-row:2">${L('t CO₂e per month', 't CO₂e por mes')}<br>${L('peak', 'pico')} <b>${fmtT(max)}</b></div>`;
-    g += month.map((v, i) => `<div class="g-col${i === peak ? ' pk' : ''}" style="grid-column:${i + 2};grid-row:2"${tip(`${MONTHS[i]}${state.year ? ' ' + state.year : ''}`, `${fmtT(v)} t CO₂e · ${pct(v, sum)} ${L('of the year', 'del año')}`)}><i style="height:${max > 0 ? (v / max) * 100 : 0}%"></i></div>`).join('');
-    shown.forEach((r, i) => {
-      const [a, b] = mSpan(r), e = emis(r), n = b - a + 1, k = kindOf(r);
-      g += `<div class="g-lbl" style="grid-column:1;grid-row:${i + 3}"><span class="nm" title="${esc(lineName(r))}${r.note && r.key !== 'custom' ? ' — ' + esc(r.note) : ''}">${esc(lineName(r))}</span><span class="vl">${fmtT(e)} t · ${SA(+r.scope || 3)}</span></div>`;
-      g += `<div class="g-bar" style="--c: var(--c-${k});grid-column:${a + 2} / ${b + 3};grid-row:${i + 3}"${tip(`${lineName(r)}${r.supplier ? ' · ' + r.supplier : ''}`, `${periodLabel(a, b)} · ${fmtT(e)} t CO₂e · ${fmtT(e / n)} ${L('t per month', 't por mes')} · ${SC(+r.scope || 3)}`)}></div>`;
-    });
+    const top = rel ? 100 : niceMax(max), ticks = [0, .25, .5, .75, 1].map(f => f * top);
+    const yl = v => (rel ? v + ' %' : top >= 10 ? nf0.format(v) : nf2.format(v));
+    const cols = byMC.map((o, m) => {
+      const segs = cats.filter(k => o[k] > 0).map(k => {
+        const h = rel ? pctN(o[k], month[m]) : (o[k] / top) * 100;
+        return `<i style="--c: var(--c-${k}); height:${h}%"${tip(`${MONTHS[m]} · ${CATS[k]}`, `${fmtT(o[k])} t CO₂e · ${pct(o[k], month[m])} ${L('of the month', 'del mes')}`)}></i>`;
+      }).join('');
+      return `<div class="mc-col${m === peak ? ' pk' : ''}"><div class="mc-stack">${segs}</div><span class="mc-x"><span class="long">${MONTHS[m]}</span><span class="short">${MONTHS[m][0]}</span></span></div>`;
+    }).join('');
     const QN = L(['Q1 (Jan–Mar)', 'Q2 (Apr–Jun)', 'Q3 (Jul–Sep)', 'Q4 (Oct–Dec)'], ['T1 (Ene–Mar)', 'T2 (Abr–Jun)', 'T3 (Jul–Sep)', 'T4 (Oct–Dic)']);
-    const cats = [...new Set(shown.map(kindOf))];
     return `<div class="card full" id="c-gantt">
       ${head}
-      <p class="cap">${L("Bars show the months each activity line covers (set in the ledger's Months column). Its emissions are spread evenly across those months and summed into the columns on top; the shaded month is the peak.", 'Las barras muestran los meses que cubre cada línea de actividad (definidos en la columna Meses del registro). Sus emisiones se reparten por igual entre esos meses y se suman en las columnas de arriba; el mes sombreado es el pico.')}</p>
+      <p class="cap">${L("Each column is one month, split by emission type, as in SimaPro's characterisation chart. A line's emissions are spread evenly over the months set in the ledger's Months column; the marked month is the peak.", 'Cada columna es un mes, dividido por tipo de emisión, como la gráfica de caracterización de SimaPro. Las emisiones de cada línea se reparten por igual entre los meses de la columna Meses del registro; el mes marcado es el pico.')}</p>
       <div class="g-sum">
         <div><span>${L('Peak month', 'Mes pico')}</span><b>${MONTHS[peak]}</b><span>${fmtT(max)} t · ${pct(max, sum)} ${L('of the year', 'del año')}</span></div>
-        <div><span>${L('Busiest quarter', 'Trimestre con más emisiones')}</span><b>${QN[pq].slice(0, 2)}</b><span>${QN[pq].slice(3, -1)} · ${fmtT(qs[pq])} t · ${pct(qs[pq], sum)}</span></div>
+        <div><span>${L('Busiest quarter', 'Trimestre con más emisiones')}</span><b>${QN[pq].slice(0, 2)}</b><span>${QN[pq].slice(4, -1)} · ${fmtT(qs[pq])} t · ${pct(qs[pq], sum)}</span></div>
         <div><span>${L('Lowest month', 'Mes más bajo')}</span><b>${MONTHS[low]}</b><span>${fmtT(month[low])} t · ${pct(month[low], sum)} ${L('of the year', 'del año')}</span></div>
         <div><span>${L('Monthly average', 'Promedio mensual')}</span><b>${fmtT(sum / 12)}</b><span>t CO₂e · ${scopeName(ui.ganttScope)}</span></div>
       </div>
-      <div class="table-scroll"><div class="gantt" role="img" aria-label="${L('Gantt chart of activity months; peak month', 'Diagrama de Gantt de los meses de actividad; mes pico')} ${MONTHS[peak]}">${g}</div></div>
-      <div class="legend">${cats.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])}</span>`).join('')}</div>
-      ${hidden > 0 ? `<p class="note">${L(`The ${LIMIT} largest lines are drawn. ${hidden} smaller line${hidden === 1 ? '' : 's'} (${fmtT(hiddenT)} t) ${hidden === 1 ? 'is' : 'are'} included in the monthly totals.`, `Se dibujan las ${LIMIT} líneas más grandes. ${hidden === 1 ? 'Una línea menor' : hidden + ' líneas menores'} (${fmtT(hiddenT)} t) ${hidden === 1 ? 'se incluye' : 'se incluyen'} en los totales mensuales.`)}</p>` : ''}
+      <div class="mc" role="img" aria-label="${L('Stacked columns of emissions per month by type; peak month', 'Columnas apiladas de emisiones por mes y tipo; mes pico')} ${MONTHS[peak]}">
+        <div class="mc-y">${ticks.slice().reverse().map(v => `<span>${yl(v)}</span>`).join('')}</div>
+        <div class="mc-plot">${ticks.map(v => `<b style="bottom:${(v / top) * 100}%"></b>`).join('')}${cols}</div>
+        <div class="mc-unit">${rel ? L('% of each month', '% de cada mes') : L('t CO₂e per month', 't CO₂e por mes')}</div>
+      </div>
+      <div class="legend">${cats.map(k => `<span style="--c: var(--c-${k})"><i class="sw"></i>${esc(CATS[k])} · ${pct(catT[k], sum)}</span>`).join('')}</div>
+      <details class="mc-tbl"><summary>${L('Show the table', 'Ver la tabla')}</summary>
+        <div class="table-scroll"><table class="inv"><thead><tr><th>${L('Type', 'Tipo')}</th>${MONTHS.map(m => `<th class="r">${m}</th>`).join('')}<th class="r">${L('Year', 'Año')}</th></tr></thead><tbody>
+          ${cats.map(k => `<tr><td><span class="sw" style="--c: var(--c-${k})"></span>${esc(CATS[k])}</td>${byMC.map(o => `<td class="r num">${o[k] ? fmtT(o[k]) : '–'}</td>`).join('')}<td class="r num">${fmtT(catT[k])}</td></tr>`).join('')}
+          <tr class="sum"><td>Total</td>${month.map(v => `<td class="r num">${fmtT(v)}</td>`).join('')}<td class="r num">${fmtT(sum)}</td></tr>
+        </tbody></table></div>
+      </details>
     </div>`;
   }
 
@@ -3967,7 +3979,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + ganttCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + s3Card(t) + sensCard(t);
+    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + s3Card(t) + sensCard(t);
     drawTreemap();
   }
 
@@ -4663,7 +4675,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       { k: 'country region us usa united states mexico spanish english language pais region idioma ingles espanol estados unidos', a: () => ({ html: L(`<p>Use the <b>US / MX</b> switch in the top bar. It sets the factor library, impact method, reporting rules and language: US is GHG Protocol and EPA in English; MX is RENE and SEMARNAT in Spanish.</p>`, `<p>Usa el selector <b>US / MX</b> de la barra superior. Define la biblioteca de factores, el método de impacto, las reglas de reporte y el idioma: MX es RENE y SEMARNAT en español; US es GHG Protocol y EPA en inglés.</p>`) }) },
       { k: 'save saved data privacy store stored where lost browser device cloud guardar guardado datos privacidad donde perder navegador dispositivo nube', a: () => ({ html: L(`<p>Everything is saved automatically in <b>this browser on this device</b>; nothing is sent to a server. Clearing site data or switching device starts fresh, so export a CSV as a backup. Company accounts with cloud storage are coming.</p>`, `<p>Todo se guarda automáticamente en <b>este navegador y dispositivo</b>; nada se envía a un servidor. Si borras los datos del sitio o cambias de dispositivo empiezas de cero, así que exporta un CSV como respaldo. Las cuentas de empresa con nube vienen pronto.</p>`) }) },
       { k: 'account sign login log register password team members cuenta iniciar sesion registrar contrasena equipo miembros', a: () => ({ html: L(`<p>Company accounts are opening soon: one company profile with several members and roles, the ledger and evidence stored encrypted in the cloud, and a history of every change. For now the app works fully without an account.</p>`, `<p>Las cuentas de empresa abren pronto: un perfil de empresa con varios miembros y roles, el registro y la evidencia cifrados en la nube, y un historial de cada cambio. Por ahora la app funciona completa sin cuenta.</p>`) }) },
-      { k: 'gantt month months monthly seasonal mes meses mensual estacional', a: () => ({ html: L(`<p>Each line records the months its activity took place, and its emissions are spread evenly across them. The Gantt shows the monthly profile by scope. For seasonal bills, enter separate lines per period.</p>`, `<p>Cada línea registra los meses en que ocurrió su actividad y sus emisiones se reparten por igual entre ellos. El Gantt muestra el perfil mensual por alcance. Para recibos estacionales, captura líneas separadas por periodo.</p>`), acts: [go('Monthly Gantt', 'Gantt mensual', 'c-gantt')] }) },
+      { k: 'gantt month months monthly seasonal mes meses mensual estacional', a: () => ({ html: L(`<p>Each line records the months its activity took place, and its emissions are spread evenly across them. The <b>Emissions by month</b> chart stacks each month by emission type, as SimaPro does; switch between tonnes and % and filter by scope. For seasonal bills, enter separate lines per period.</p>`, `<p>Cada línea registra los meses en que ocurrió su actividad y sus emisiones se reparten por igual entre ellos. La gráfica <b>Emisiones por mes</b> apila cada mes por tipo de emisión, como SimaPro; cambia entre toneladas y % y filtra por alcance. Para recibos estacionales, captura líneas separadas por periodo.</p>`), acts: [go('Emissions by month', 'Emisiones por mes', 'c-gantt')] }) },
       { k: 'ghg protocol corporate standard check checks warning warnings advertencia revision revisiones protocolo', a: () => ({ html: L(`<p>The <b>Checks</b> card reviews your ledger against the reporting rules: missing data, edited factors, lines without evidence, boundary gaps. Fix the warnings before you report.</p>`, `<p>La tarjeta <b>Revisiones</b> compara tu registro con las reglas de reporte: datos faltantes, factores editados, líneas sin evidencia y huecos en el límite. Corrige las advertencias antes de reportar.</p>`), acts: [go('Checks', 'Revisiones', 'c-checks')] }) },
       { k: 'about contact who company team social linkedin instagram nosotros contacto quien empresa redes', a: () => ({ html: L(`<p>CO2Trace is built to make every tonne traceable. Read our vision, mission and purpose, and find our socials, in About us.</p>`, `<p>CO2Trace está hecho para que cada tonelada sea rastreable. Lee nuestra visión, misión y propósito, y encuentra nuestras redes, en Nosotros.</p>`), acts: [go('About us', 'Nosotros', 'about')] }) },
       { k: 'hello hi hey hola buenas thanks thank gracias', a: () => ({ html: L('<p>Hi! Ask me anything about CO2Trace or your footprint.</p>', '<p>¡Hola! Pregúntame lo que sea sobre CO2Trace o tu huella.</p>'), chips: true }) },
