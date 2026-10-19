@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-5OlvNUWdNQQv1ptUlSYfgw6v4UBPO9J5joG4bOaJbNA=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-ncpU8yphnDH+LYk3eey8ZPugP0cYmQ79iCz7A/ReD6U=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -343,8 +343,20 @@ html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
 .rep-std { font-family: var(--f-label); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
 .rep-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 6px; border-top: 1px solid var(--line); }
 .rep-cta .note { margin: 0; max-width: 70ch; font-size: 13px; color: var(--slate); }
-@media (max-width: 1000px) { .rep-flow, .rep-types { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .rep-flow, .rep-types { grid-template-columns: minmax(0, 1fr); } }
+.fw-wrap { display: grid; gap: 14px; }
+.fw-head h3 { margin: 0 0 4px; font-size: 20px; font-weight: 500; letter-spacing: -.02em; color: var(--title); }
+.fw-head p { margin: 0; max-width: 72ch; font-size: 14px; color: var(--slate); }
+.fw-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.fw-card { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.fw-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.fw-top b { font-family: var(--f-label); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
+.fw-card h4 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.fw-card p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--slate); }
+.fw-card .note { font-size: 12px; color: var(--muted); }
+.fw-act { display: flex; gap: 8px; margin-top: 4px; }
+.fw-act .btn { padding: 8px 14px; font-size: 13.5px; }
+@media (max-width: 1000px) { .rep-flow, .rep-types, .fw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .rep-flow, .rep-types, .fw-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .rep-flow li * { animation: none !important; } }
 /* In-page report view (#repView): full screen over the site, slides up; Back returns to the page */
 .repv { position: fixed; inset: 0; z-index: 80; display: grid; grid-template-rows: auto minmax(0, 1fr); background: #E9EAE6; opacity: 0; transform: translateY(28px); transition: opacity .3s ease, transform .4s cubic-bezier(.2, .7, .2, 1); }
@@ -1565,6 +1577,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <div class="field"><label for="g-priorTotal" data-es="Total del año anterior (t CO₂e)">Prior-year total (t CO₂e)</label><input id="g-priorTotal" data-goal="priorTotal" type="number" min="0" step="any"></div>
         <div class="field"><label for="g-recalc" data-es="Umbral de recálculo (% del año base)">Recalculation threshold (% of base year)</label><input id="g-recalc" data-goal="recalc" type="number" min="0" max="100" step="any"></div>
         <div class="field wide"><label for="g-recalcPolicy" data-es="Política de recálculo">Recalculation policy</label><input id="g-recalcPolicy" data-goal="recalcPolicy" type="text" placeholder="e.g. recalculate the base year for acquisitions, divestments, method or factor changes above the threshold" data-es-placeholder="p. ej., recalcular el año base por adquisiciones, desinversiones o cambios de método o de factores por encima del umbral"></div>
+        <div class="pg-head" data-es="Datos para divulgación&lt;small&gt;CDP · NIIF S2 · ESRS E1&lt;/small&gt;">Disclosure data<small>CDP · IFRS S2 · ESRS E1 · SB 253</small></div>
+        <div class="field"><label for="g-consol" data-es="Enfoque de consolidación">Consolidation approach</label><select id="g-consol" data-goal="consol"><option value="operational" data-es="Control operacional">Operational control</option><option value="financial" data-es="Control financiero">Financial control</option><option value="equity" data-es="Participación accionaria">Equity share</option></select></div>
+        <div class="field"><label for="g-revenue" data-es="Ingresos netos del año (MXN)">Net revenue for the year (USD)</label><input id="g-revenue" data-goal="revenue" type="number" min="0" step="any" placeholder="for intensity per revenue" data-es-placeholder="para la intensidad por ingresos"></div>
         <div class="pg-head" data-es="Meta de reducción y pronóstico&lt;small&gt;criterios SBTi · GHG Protocol, cap. 11&lt;/small&gt;">Reduction target and forecast<small>SBTi criteria · GHG Protocol, ch. 11</small></div>
         <div class="field"><label for="g-tgtType" data-es="Tipo de meta">Target type</label><select id="g-tgtType" data-goal="tgtType"><option value="" data-es="Sin meta todavía">No target yet</option><option value="sbti15" data-es="Trayectoria de 1.5 °C: −4.2 % del año base por año">1.5 °C path: −4.2 % of the base year a year</option><option value="wb2c" data-es="Muy por debajo de 2 °C: −2.5 % por año">Well below 2 °C: −2.5 % a year</option><option value="custom" data-es="Meta propia (% al año meta)">Own target (% by the target year)</option></select></div>
         <div class="field"><label for="g-tgtScope" data-es="Alcances que cubre">Scopes covered</label><select id="g-tgtScope" data-goal="tgtScope"><option value="s12" data-es="Alcances 1 y 2">Scopes 1 and 2</option><option value="all" data-es="Alcances 1, 2 y 3">Scopes 1, 2 and 3</option></select></div>
@@ -1620,6 +1635,10 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <span class="rep-n">04</span><h3 data-es="El reporte queda listo">The report is ready</h3><p data-es="Inventario, huella de producto y paquete de evidencia, listos para imprimir o enviar.">Inventory, product footprint and evidence pack, ready to print or send.</p></li>
     </ol>
     <div class="rep-types" id="repTypes"></div>
+    <div class="fw-wrap rv" id="fw">
+      <div class="fw-head"><h3 data-es="Exportaciones por marco de reporte">Framework exports</h3><p data-es="Las mismas cifras, ordenadas como las pide cada marco: valor, estado y lo que falta. Ábrelas para imprimir o descarga el CSV para copiar a cada portal.">The same figures, laid out the way each framework asks for them: value, status and what is missing. Open one to print it, or download the CSV to copy into each portal.</p></div>
+      <div class="fw-grid" id="fwGrid"></div>
+    </div>
     <div class="rep-cta rv">
       <button type="button" class="btn primary" id="makeReport" data-es="Generar el reporte ahora&lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;▶&lt;/span&gt;">Generate the report now<span class="arr" aria-hidden="true">▶</span></button>
       <p class="note" data-es="Se arma con el registro y la evidencia de esta página. La lectura automática de documentos llega con las cuentas de empresa; mientras tanto, captura la cantidad y adjunta el archivo.">Built from the ledger and the evidence on this page. Automatic document reading arrives with company accounts; until then, enter the quantity and attach the file.</p>
@@ -2072,7 +2091,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     refFlow: '', allocation: 'cutoff', cutoff: '', exclusions: '', assumptions: '',
     review: 'none', reviewer: '', assurance: 'none', materiality: '5',
     baseYear: '', baseTotal: '', priorTotal: '', recalc: '5', recalcPolicy: '', s3: {}, prices: {},
-    tgtType: '', tgtScope: 's12', tgtYear: '', tgtPct: '', baseS12: '', growth: '0', nzYear: '',
+    consol: 'operational', revenue: '', tgtType: '', tgtScope: 's12', tgtYear: '', tgtPct: '', baseS12: '', growth: '0', nzYear: '',
     rfc: '', scian: '', site: '', usStates: '', ca: '', rev1b: '',
   });
   // the default activity for a new line: manufacturing starts on the grid of the country selected
@@ -2366,6 +2385,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     if (!has(/^(flight|car)$/)) why[6] = ['out', T('Screening estimate under 1% of the total', 'Estimación preliminar menor al 1% del total')];
     if (!has(/^(landfill|recycling|incineration|water|wastewater)/)) why[5] = ['out', T('Screening estimate under 1% of the total', 'Estimación preliminar menor al 1% del total')];
     return {
+      revenue: T(...({ agua: ['68000000', '1200000000'], autopartes: ['135000000', '2400000000'], citricos: ['17000000', '310000000'], imprenta: ['1000000', '18000000'] })[id] || ['', '']), consol: 'operational',
       baseYear: '2023', recalc: '5', tgtType: 'sbti15', tgtScope: 's12', tgtYear: '2030', growth: '2', nzYear: '2050',
       recalcPolicy: T('Recalculate the 2023 base year for acquisitions, divestments, outsourcing, or method and factor changes that move it by more than 5%', 'Recalcular el año base 2023 por adquisiciones, desinversiones, subcontratación o cambios de método o factores que lo muevan más de 5%'),
       s3: Object.fromEntries(Object.entries(why).map(([k, [d, w]]) => [k, { d, why: w }])),
@@ -2870,6 +2890,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
       ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
     ];
+    renderFw();
     $('repTypes').innerHTML = types.map(([ic, t, std, d], i) => `<article class="rep-type rv in" style="--i: ${i}"><span class="evg-ico">${svgI(ic)}</span><div><span class="rep-std">${esc(std)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div></article>`).join('');
     // the two automatic steps are not live yet
     $('repFlow').querySelectorAll('li[data-k="0"], li[data-k="1"]').forEach(li => {
@@ -2994,6 +3015,34 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   // The report follows ISO 14044:2006 (+A1:2017) clause 5.2 (third-party report), section by section, with the ISO 14067
   // separate-reporting items for a carbon footprint and an annex that checks every required element. Cite clauses only;
   // the wording is our own. A report with elements still missing calls itself a draft.
+  const REP_CSS = `  @page{size:A4;margin:16mm 14mm}
+  body{margin:0;font:13px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1d1f;background:#E9EAE6}
+  .doc{max-width:860px;margin:24px auto;background:#fff;padding:48px 54px;box-shadow:0 2px 18px rgba(0,0,0,.12)}
+  .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;background:#072AC8;color:#fff;font-size:13px;z-index:2}
+  .bar button{font:inherit;padding:8px 14px;border-radius:8px;border:0;background:#fff;color:#072AC8;font-weight:600;cursor:pointer}
+  .cover{border-bottom:3px solid #072AC8;padding-bottom:22px;margin-bottom:26px}
+  .brand{font-weight:700;color:#072AC8;letter-spacing:-.02em;font-size:18px}
+  h1{font-size:28px;line-height:1.12;margin:18px 0 6px;letter-spacing:-.03em;color:#072AC8} h2{font-size:17px;margin:32px 0 10px;color:#072AC8;letter-spacing:-.01em;break-after:avoid} h3{font-size:13.5px;margin:18px 0 6px;break-after:avoid}
+  h2 small,h3 small{font-weight:400;color:#6b6b6b;font-size:11px;margin-left:6px}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 20px;margin-top:14px;font-size:12px} .meta b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b;font-weight:600}
+  .ex{margin-top:12px;padding:8px 12px;background:#FFF6E5;border-left:3px solid #E8B36A;font-size:12px}
+  .stbox{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:12px} .stbox.draft{background:#FDE7E5;border-left:3px solid #B3261E} .stbox.ready{background:#E3F2E8;border-left:3px solid #2E7D4F}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .k{border:1px solid #e3e3e3;border-radius:10px;padding:12px} .k span{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b}
+  .k b{font-size:24px;letter-spacing:-.02em} .k i{font-style:normal;color:#6b6b6b;margin-left:4px;font-size:12px} .k small{display:block;color:#6b6b6b;font-size:11px}
+  .k.main{background:#072AC8;color:#fff;border-color:#072AC8} .k.main span,.k.main i,.k.main small{color:rgba(255,255,255,.8)}
+  table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0} th,td{padding:6px 7px;border-bottom:1px solid #e6e6e6;text-align:left;vertical-align:top}
+  th{background:#F1F3FB;font-size:10px;letter-spacing:.04em;text-transform:uppercase} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tfoot td{font-weight:700;border-top:2px solid #1d1d1f}
+  .st{display:inline-block;padding:1px 7px;border-radius:99px;font-size:10.5px;white-space:nowrap} .st.ok{background:#E3F2E8;color:#2E7D4F} .st.att{background:#FFF1DC;color:#8A5A12} .st.miss{background:#FDE7E5;color:#B3261E} .st.na{background:#EEF0F3;color:#5b6270}
+  .miss{color:#B3261E}
+  .gs td:first-child{width:32%;color:#555}
+  .chk li{margin:4px 0} .chk b{font-size:10px;letter-spacing:.06em;margin-right:6px}
+  .note{font-size:11.5px;color:#555} p{margin:6px 0}
+  .ch{width:100%;height:auto;display:block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif} .fig{border:1px solid #e3e3e3;border-radius:10px;padding:14px 16px;margin:10px 0;break-inside:avoid} .fig h3{margin:0 0 2px;font-size:13px} .fig p{margin:0 0 10px;font-size:11px;color:#6b6b6b} .two{display:grid;grid-template-columns:1fr 1fr;gap:10px} .two .fig{margin:0}
+  .quote{padding:10px 14px;border-left:3px solid #072AC8;background:#F1F3FB;font-size:12px}
+  @media print{body{background:#fff}.doc{box-shadow:none;margin:0;padding:0;max-width:none}.bar{display:none}h2{break-after:avoid}tr{break-inside:avoid}}
+  @media (max-width:640px){.doc{margin:0;padding:24px 16px;box-shadow:none}.meta{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}h1{font-size:23px}table{font-size:10.5px}th,td{padding:5px 4px}.gs td:first-child{width:40%}}
+`;
   function reportHtml(embed) {
     const t = totals(), es = isEs(), T = (en, sp) => (es ? sp : en), g = state.goal, R = REGIONS[state.region], mx = state.region === 'mx';
     const pc = v => pct(v, t.total), per = state.fuQty ? t.total * 1000 / +state.fuQty : 0;
@@ -3060,34 +3109,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     const hot = ranked.slice(0, 3);
     return `<!doctype html><html lang="${es ? 'es-MX' : 'en'}"><meta charset="utf-8"><title>${esc(bare(state.company || 'CO2Trace'))} · ${T('Carbon footprint report', 'Reporte de huella de carbono')} ${esc(state.year || '')}</title>
 <style>
-  @page{size:A4;margin:16mm 14mm}
-  body{margin:0;font:13px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d1d1f;background:#E9EAE6}
-  .doc{max-width:860px;margin:24px auto;background:#fff;padding:48px 54px;box-shadow:0 2px 18px rgba(0,0,0,.12)}
-  .bar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;background:#072AC8;color:#fff;font-size:13px;z-index:2}
-  .bar button{font:inherit;padding:8px 14px;border-radius:8px;border:0;background:#fff;color:#072AC8;font-weight:600;cursor:pointer}
-  .cover{border-bottom:3px solid #072AC8;padding-bottom:22px;margin-bottom:26px}
-  .brand{font-weight:700;color:#072AC8;letter-spacing:-.02em;font-size:18px}
-  h1{font-size:28px;line-height:1.12;margin:18px 0 6px;letter-spacing:-.03em;color:#072AC8} h2{font-size:17px;margin:32px 0 10px;color:#072AC8;letter-spacing:-.01em;break-after:avoid} h3{font-size:13.5px;margin:18px 0 6px;break-after:avoid}
-  h2 small,h3 small{font-weight:400;color:#6b6b6b;font-size:11px;margin-left:6px}
-  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 20px;margin-top:14px;font-size:12px} .meta b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b;font-weight:600}
-  .ex{margin-top:12px;padding:8px 12px;background:#FFF6E5;border-left:3px solid #E8B36A;font-size:12px}
-  .stbox{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:12px} .stbox.draft{background:#FDE7E5;border-left:3px solid #B3261E} .stbox.ready{background:#E3F2E8;border-left:3px solid #2E7D4F}
-  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .k{border:1px solid #e3e3e3;border-radius:10px;padding:12px} .k span{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#6b6b6b}
-  .k b{font-size:24px;letter-spacing:-.02em} .k i{font-style:normal;color:#6b6b6b;margin-left:4px;font-size:12px} .k small{display:block;color:#6b6b6b;font-size:11px}
-  .k.main{background:#072AC8;color:#fff;border-color:#072AC8} .k.main span,.k.main i,.k.main small{color:rgba(255,255,255,.8)}
-  table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0} th,td{padding:6px 7px;border-bottom:1px solid #e6e6e6;text-align:left;vertical-align:top}
-  th{background:#F1F3FB;font-size:10px;letter-spacing:.04em;text-transform:uppercase} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-  tfoot td{font-weight:700;border-top:2px solid #1d1d1f}
-  .st{display:inline-block;padding:1px 7px;border-radius:99px;font-size:10.5px;white-space:nowrap} .st.ok{background:#E3F2E8;color:#2E7D4F} .st.att{background:#FFF1DC;color:#8A5A12} .st.miss{background:#FDE7E5;color:#B3261E} .st.na{background:#EEF0F3;color:#5b6270}
-  .miss{color:#B3261E}
-  .gs td:first-child{width:32%;color:#555}
-  .chk li{margin:4px 0} .chk b{font-size:10px;letter-spacing:.06em;margin-right:6px}
-  .note{font-size:11.5px;color:#555} p{margin:6px 0}
-  .ch{width:100%;height:auto;display:block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif} .fig{border:1px solid #e3e3e3;border-radius:10px;padding:14px 16px;margin:10px 0;break-inside:avoid} .fig h3{margin:0 0 2px;font-size:13px} .fig p{margin:0 0 10px;font-size:11px;color:#6b6b6b} .two{display:grid;grid-template-columns:1fr 1fr;gap:10px} .two .fig{margin:0}
-  .quote{padding:10px 14px;border-left:3px solid #072AC8;background:#F1F3FB;font-size:12px}
-  @media print{body{background:#fff}.doc{box-shadow:none;margin:0;padding:0;max-width:none}.bar{display:none}h2{break-after:avoid}tr{break-inside:avoid}}
-  @media (max-width:640px){.doc{margin:0;padding:24px 16px;box-shadow:none}.meta{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}h1{font-size:23px}table{font-size:10.5px}th,td{padding:5px 4px}.gs td:first-child{width:40%}}
-</style>
+${REP_CSS}</style>
 ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledger and its evidence', 'Generado por CO2Trace con el registro y su evidencia')}</span><button type="button" id="printReport">${T('Print or save as PDF', 'Imprimir o guardar en PDF')}</button></div>`}
 <div class="doc">
   <div class="cover"><div class="brand">CO2Trace</div>
@@ -3239,13 +3261,179 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   // Back step inside the frame instead of closing the report.
   let repUrl = null, repOpen = false, repY = 0;
   const repFrame = () => $('repBody').querySelector('iframe');
-  function openReport() {
+  // ---------- framework exports: CDP, California SB 253, CSRD ESRS E1, IFRS S2 ----------
+  // Each framework is a list of datapoints [ref, datapoint, value, status, note] filled from totals() and the goal fields.
+  // Status: ok = filled, todo = needs an answer, nt = outside CO2Trace (left out of the readiness count), na = not applicable.
+  // Refs are disclosure codes or paragraph numbers only; the wording is ours. Questionnaires and rules change: each export says so.
+  // Net calorific values (MWh per unit): IPCC 2006 defaults with typical densities. Screening values.
+  const NCV_MWH = { natgas: 0.00955, diesel: 0.01003, gasoline: 0.00917, lpg: 0.0067 };
+  function energy() {
+    let elec = 0, ren = 0, fuel = 0; const other = [];
+    state.rows.forEach(r => {
+      if (!included(r.stage) || outside(r) || !(qtyOf(r) > 0)) return;
+      const k = kindOf(r), q = qtyOf(r);
+      if (k === 'elec' && +r.scope === 2) { if (r.unit === 'kWh') { elec += q / 1000; if (r.key === 'elec_ren') ren += q / 1000; } else other.push(r); }
+      else if (k === 'fuel' && +r.scope === 1) { const n = NCV_MWH[fuelPrice(r.key)]; if (n && r.unit === F[r.key].unit) fuel += q * n; else other.push(r); }
+    });
+    return { elec, ren, fuel, total: elec + fuel, other };
+  }
+  const FW = () => [
+    ['cdp', 'CDP', L('CDP climate questionnaire', 'Cuestionario de clima de CDP'), L('Emissions, Scope 3 status, energy, targets and verification', 'Emisiones, estado del alcance 3, energía, metas y verificación')],
+    ['sb253', 'SB 253', 'California SB 253', 'Scopes 1, 2 and 3 under the GHG Protocol, with assurance', 'us'],
+    ['esrs', 'ESRS E1', L('CSRD · ESRS E1 Climate change', 'CSRD · ESRS E1 Cambio climático'), L('Targets, energy mix, gross emissions and intensity', 'Metas, mezcla energética, emisiones brutas e intensidad')],
+    ['issb', 'IFRS S2', L('IFRS S2 Climate-related disclosures', 'NIIF S2 Información relacionada con el clima'), L('Greenhouse gas metrics and targets', 'Métricas de gases de efecto invernadero y metas')],
+  ];
+  const fwList = () => FW().filter(f => !f[4] || f[4] === state.region);
+  function fwData(id) {
+    const t = totals(), g = state.goal, us = state.region === 'us', tr = target(t, []), en = energy(), rev = parseFloat(g.revenue) > 0 ? parseFloat(g.revenue) : 0;
+    const cur = PRICE_DEF[state.region].cur, tt = v => `${fmtT(v)} t CO₂e`, mwh = v => `${nf0.format(v)} MWh`, has = v => (v ? 'ok' : 'todo');
+    const opt = k => { const o = document.querySelector(`#g-${k} option[value="${g[k]}"]`); return o ? o.textContent : ''; };
+    const s12lb = t.byScope[1] + t.s2lb, s12mb = t.byScope[1] + t.s2mb, gases = Object.entries(t.byGas[1] || {}).filter(([, m]) => m > 0);
+    const perRev = v => (rev ? `${nf2.format(v / (rev / 1e6))} t CO₂e ${L(`per million ${cur}`, `por millón de ${cur}`)}` : L('Enter net revenue under Goal and scope', 'Captura los ingresos netos en Objetivo y alcance'));
+    const ass = { none: L('No third-party verification', 'Sin verificación de terceros'), limited: L('Limited assurance', 'Aseguramiento limitado'), reasonable: L('Reasonable assurance', 'Aseguramiento razonable') }[g.assurance || 'none'];
+    const baseRow = ref => [ref, L('Base year and base-year emissions', 'Año base y sus emisiones'), g.baseYear && +g.baseTotal > 0 ? `${g.baseYear} · ${tt(+g.baseTotal)}` : '', has(g.baseYear && +g.baseTotal > 0), ''];
+    const tgtRows = ref => tr ? [
+      [ref, L('Target type and scopes covered', 'Tipo de meta y alcances cubiertos'), tgtName(tr), 'ok', L('Absolute target', 'Meta absoluta')],
+      [ref, L('Base year and covered base-year emissions', 'Año base y emisiones cubiertas del año base'), `${tr.by} · ${tt(tr.base)}`, 'ok', tr.est ? L('Scopes 1 and 2 estimated from this year’s split', 'Alcances 1 y 2 estimados con la proporción de este año') : ''],
+      [ref, L('Target year and reduction', 'Año meta y reducción'), `${tr.ty} · −${nf1.format(tr.cut)} % (${tt(tr.goal)})`, 'ok', tr.nz ? L(`Net zero by ${tr.nz}`, `Cero neto para ${tr.nz}`) : ''],
+      [ref, L('Progress in the reporting year', 'Avance en el año de reporte'), `${tt(tr.cur)} · ${nf0.format(Math.max(0, (tr.base - tr.cur) / Math.max(1e-9, tr.base - tr.goal) * 100))} % ${L('of the planned cut achieved', 'de la reducción planeada lograda')}`, 'ok', tr.onTrack ? L('On the target path', 'En la trayectoria de la meta') : L('Above the target path', 'Por encima de la trayectoria de la meta')],
+    ] : [[ref, L('Emission reduction target', 'Meta de reducción de emisiones'), L('No target set', 'Sin meta'), 'todo', L('Set one under Goal and scope', 'Fíjala en Objetivo y alcance')]];
+    const s3rows = (ref, status) => Array.from({ length: 15 }, (_, k) => k + 1).map(i => {
+      const d = s3State(i, t), v = t.byS3[i] || 0, why = s3Of(i).why || '';
+      return [`${ref} ${i}`, S3N(i), v > 0 ? tt(v) : d === 'in' ? L('Included, not yet calculated', 'Incluida, aún sin calcular') : '–', d ? 'ok' : 'todo', status ? status(d, v, why) : why];
+    });
+    const enRows = ref => [
+      [ref, L('Total energy consumption', 'Consumo total de energía'), mwh(en.total), has(en.total > 0), en.other.length ? L(`${en.other.length} energy line(s) in other units are not converted`, `${en.other.length} línea(s) de energía en otras unidades no se convierten`) : L('Fuels at IPCC default net calorific values', 'Combustibles con poderes caloríficos netos predeterminados del IPCC')],
+      [ref, L('Fuel consumed (Scope 1)', 'Combustible consumido (alcance 1)'), mwh(en.fuel), 'ok', ''],
+      [ref, L('Purchased electricity', 'Electricidad comprada'), mwh(en.elec), 'ok', ''],
+      [ref, L('Renewable electricity with certificates', 'Electricidad renovable con certificados'), `${mwh(en.ren)} · ${pct(en.ren, en.elec)}`, 'ok', us ? '' : L('The RENE does not recognise certificates', 'El RENE no reconoce los certificados')],
+    ];
+    const D = {
+      cdp: { secs: [
+        { h: L('Reporting boundary and method', 'Límite y método de reporte'), rows: [
+          ['', L('Reporting year', 'Año de reporte'), String(state.year || ''), has(state.year), ''],
+          ['', L('Consolidation approach', 'Enfoque de consolidación'), opt('consol'), 'ok', ''],
+          baseRow(''),
+          ['', L('Standard and GWP values', 'Norma y valores de PCG'), `GHG Protocol · IPCC ${state.method} GWP100`, 'ok', ''] ] },
+        { h: L('Scope 1 and 2 emissions', 'Emisiones de alcance 1 y 2'), rows: [
+          ['', L('Gross Scope 1', 'Alcance 1 bruto'), tt(t.byScope[1]), 'ok', ''],
+          ...gases.map(([gs, m]) => ['', L(`Scope 1 by gas: ${GAS_NAMES[gs]}`, `Alcance 1 por gas: ${GAS_NAMES[gs]}`), gs === 'CO2e' ? tt(m) : `${fmtMass(m)} · ${tt(m * GWP[state.method][gs])}`, 'ok', '']),
+          ['', L('Scope 2, location-based', 'Alcance 2, basado en ubicación'), tt(t.s2lb), 'ok', ''],
+          ['', L('Scope 2, market-based', 'Alcance 2, basado en mercado'), tt(t.s2mb), 'ok', us ? '' : L('Memo item in México (RENE uses FESEN)', 'Partida de memoria en México (el RENE usa el FESEN)')],
+          ['', L('Biogenic CO₂ (outside the scopes)', 'CO₂ biogénico (fuera de los alcances)'), `${fmtT(t.bio)} t CO₂`, 'ok', ''] ] },
+        { h: L('Scope 3 by category and evaluation status', 'Alcance 3 por categoría y estado de evaluación'), rows: s3rows(L('Cat.', 'Cat.'), (d, v, why) => `${{ in: v > 0 ? L('Relevant, calculated', 'Relevante, calculada') : L('Relevant, not yet calculated', 'Relevante, aún sin calcular'), out: L('Not relevant, explanation provided', 'No relevante, con explicación'), na: L('Not relevant, explanation provided', 'No relevante, con explicación'), '': L('Not evaluated', 'No evaluada') }[d]}${why ? ' · ' + why : ''}`) },
+        { h: L('Intensity, energy and verification', 'Intensidad, energía y verificación'), rows: [
+          ['', L('Scope 1 + 2 (market-based) per revenue', 'Alcance 1 + 2 (mercado) por ingresos'), perRev(s12mb), has(rev), ''],
+          ...enRows(''),
+          ['', L('Verification of Scope 1, 2 and 3', 'Verificación de los alcances 1, 2 y 3'), ass, 'ok', g.reviewer || ''] ] },
+        { h: L('Targets', 'Metas'), rows: tgtRows('') },
+      ], foot: L('CDP renumbers its questions every cycle: copy each value into the matching question of the current questionnaire.', 'CDP renumera sus preguntas cada ciclo: copia cada valor en la pregunta correspondiente del cuestionario vigente.') },
+      sb253: { secs: [
+        { h: 'Who must report', rows: [
+          ['', 'Does business in California', { yes: 'Yes', no: 'No' }[g.ca] || '', has(g.ca), ''],
+          ['', 'Total annual revenue above $1 billion', { yes: 'Yes', no: 'No' }[g.rev1b] || '', has(g.rev1b), g.ca === 'yes' && g.rev1b === 'yes' ? 'SB 253 applies' : g.ca === 'no' || g.rev1b === 'no' ? 'SB 253 does not apply' : ''] ] },
+        { h: 'Emissions (GHG Protocol)', rows: [
+          ['', 'Reporting year and consolidation approach', `${state.year || ''} · ${opt('consol')}`, has(state.year), ''],
+          ['', 'Scope 1', tt(t.byScope[1]), 'ok', ''],
+          ['', 'Scope 2, location-based', tt(t.s2lb), 'ok', ''],
+          ['', 'Scope 2, market-based', tt(t.s2mb), 'ok', ''],
+          ['', 'Scope 3 (reported from the second reporting year)', tt(t.byScope[3]), 'ok', `${Array.from({ length: 15 }, (_, k) => k + 1).filter(i => s3State(i, t)).length} of 15 categories screened`],
+          ['', 'GWP values', `IPCC ${state.method} GWP100`, 'ok', ''] ] },
+        { h: 'Assurance', rows: [
+          ['', 'Independent assurance of Scopes 1 and 2', ass, g.assurance && g.assurance !== 'none' ? 'ok' : 'todo', 'Limited assurance first, reasonable assurance later; Scope 3 assurance as set by CARB'],
+          ['', 'Assurance provider', g.assurance && g.assurance !== 'none' ? g.reviewer || '' : '', g.assurance && g.assurance !== 'none' ? has(g.reviewer) : 'na', 'Name it under Review and verification'] ] },
+      ], foot: 'CARB sets the deadlines, fees and assurance schedule by regulation; check the current CARB rules before filing.' },
+      esrs: { secs: [
+        { h: L('E1-1 Transition plan', 'E1-1 Plan de transición'), rows: [
+          ['E1-1', L('Decarbonisation levers and actions', 'Palancas y acciones de descarbonización'), (() => { const sv = savings(t); return `${tt(sv.t)} ${L('a year', 'al año')} · ${money(sv.m)}`; })(), 'nt', L('The savings plan feeds the plan; the plan itself is written in the sustainability statement', 'El plan de ahorro alimenta el plan; el plan se redacta en el estado de sostenibilidad')] ] },
+        { h: L('E1-4 Targets', 'E1-4 Metas'), rows: tgtRows('E1-4') },
+        { h: L('E1-5 Energy consumption and mix', 'E1-5 Consumo y mezcla energética'), rows: [
+          ...enRows('E1-5'),
+          ['E1-5', L('Energy from nuclear sources', 'Energía de fuentes nucleares'), '', 'nt', L('Take from the grid supplier’s mix', 'Tomar de la mezcla del suministrador')],
+          ['E1-5', L('Energy intensity per net revenue', 'Intensidad energética por ingresos netos'), rev ? `${nf2.format(en.total / (rev / 1e6))} MWh ${L(`per million ${cur}`, `por millón de ${cur}`)}` : L('Enter net revenue under Goal and scope', 'Captura los ingresos netos en Objetivo y alcance'), has(rev), ''] ] },
+        { h: L('E1-6 Gross Scopes 1, 2, 3 and total emissions', 'E1-6 Emisiones brutas de alcances 1, 2, 3 y totales'), rows: [
+          baseRow('E1-6'),
+          ['E1-6', L('Gross Scope 1', 'Alcance 1 bruto'), tt(t.byScope[1]), 'ok', ''],
+          ['E1-6', L('Share of Scope 1 from regulated emission trading schemes', 'Parte del alcance 1 en sistemas regulados de comercio de emisiones'), '', 'nt', ''],
+          ['E1-6', L('Gross Scope 2, location-based', 'Alcance 2 bruto, basado en ubicación'), tt(t.s2lb), 'ok', ''],
+          ['E1-6', L('Gross Scope 2, market-based', 'Alcance 2 bruto, basado en mercado'), tt(t.s2mb), 'ok', ''],
+          ['E1-6', L('Gross Scope 3', 'Alcance 3 bruto'), tt(t.byScope[3]), 'ok', ''],
+          ...s3rows('E1-6 · S3'),
+          ['E1-6', L('Total, location-based', 'Total, basado en ubicación'), tt(s12lb + t.byScope[3]), 'ok', ''],
+          ['E1-6', L('Total, market-based', 'Total, basado en mercado'), tt(s12mb + t.byScope[3]), 'ok', ''],
+          ['E1-6', L('Intensity per net revenue (location / market)', 'Intensidad por ingresos netos (ubicación / mercado)'), rev ? `${perRev(s12lb + t.byScope[3])} / ${perRev(s12mb + t.byScope[3])}` : perRev(0), has(rev), ''],
+          ['E1-6', L('Biogenic CO₂, reported separately', 'CO₂ biogénico, por separado'), `${fmtT(t.bio)} t CO₂`, 'ok', ''] ] },
+        { h: L('E1-7 Removals and carbon credits', 'E1-7 Remociones y créditos de carbono'), rows: [
+          ['E1-7', L('GHG removals and carbon credits', 'Remociones de GEI y créditos de carbono'), '', 'nt', L('Not tracked; never netted from the inventory', 'No se registran; nunca se restan del inventario')] ] },
+      ], foot: L('ESRS E1 as adopted in 2023. The EU’s 2025 simplification is cutting datapoints and moving dates: check the version that applies to the company.', 'ESRS E1 adoptada en 2023. La simplificación de la UE de 2025 reduce datos y mueve fechas: revisa la versión que aplica a la empresa.') },
+      issb: { secs: [
+        { h: L('Greenhouse gases (paragraph 29(a))', 'Gases de efecto invernadero (párrafo 29(a))'), rows: [
+          ['29(a)(i)', L('Gross Scope 1', 'Alcance 1 bruto'), tt(t.byScope[1]), 'ok', ''],
+          ['29(a)(i)', L('Gross Scope 2', 'Alcance 2 bruto'), tt(t.s2lb), 'ok', L('Location-based', 'Basado en ubicación')],
+          ['29(a)(i)', L('Gross Scope 3', 'Alcance 3 bruto'), tt(t.byScope[3]), 'ok', ''],
+          ['29(a)(ii)', L('Measured with the GHG Protocol Corporate Standard', 'Medido con el Estándar Corporativo del GHG Protocol'), us ? 'GHG Protocol' : 'GHG Protocol · RENE', 'ok', us ? '' : L('Say which jurisdictional method applies, if any', 'Indica qué método de la jurisdicción aplica, si alguno')],
+          ['29(a)(ii)', L('GWP values', 'Valores de PCG'), `IPCC ${state.method} GWP100`, state.method === 'AR6' ? 'ok' : 'todo', state.method === 'AR6' ? '' : L('IFRS S2 uses the latest IPCC values at the reporting date (AR6)', 'La NIIF S2 usa los valores más recientes del IPCC a la fecha de reporte (AR6)')],
+          ['29(a)(iii)', L('Measurement approach, inputs and assumptions', 'Enfoque de medición, insumos y supuestos'), L(`Activity data × emission factors; ${t.lines.length} lines; data quality ${nf1.format(t.dq || 0)} of 5`, `Datos de actividad × factores de emisión; ${t.lines.length} líneas; calidad de datos ${nf1.format(t.dq || 0)} de 5`), 'ok', ''],
+          ['29(a)(iv)', L('Consolidated group and other investees', 'Grupo consolidado y otras participadas'), opt('consol'), 'ok', g.consol === 'equity' ? '' : L('Investees outside the consolidated group not included', 'No incluye participadas fuera del grupo consolidado')],
+          ['29(a)(v)', L('Scope 2 location-based, with contractual instruments', 'Alcance 2 basado en ubicación, con instrumentos contractuales'), `${tt(t.s2lb)} · ${L('market-based', 'mercado')} ${tt(t.s2mb)} · ${mwh(en.ren)} ${L('with certificates', 'con certificados')}`, 'ok', ''],
+          ['29(a)(vi)', L('Scope 3 categories included', 'Categorías del alcance 3 incluidas'), Array.from({ length: 15 }, (_, k) => k + 1).filter(i => s3State(i, t) === 'in').join(', '), Array.from({ length: 15 }, (_, k) => k + 1).every(i => s3State(i, t)) ? 'ok' : 'todo', ''] ] },
+        { h: L('Scope 3 by category', 'Alcance 3 por categoría'), rows: s3rows('29(a)(vi)') },
+        { h: L('Climate-related targets (paragraphs 33–36)', 'Metas relacionadas con el clima (párrafos 33–36)'), rows: [
+          ...tgtRows('33–36'),
+          ['36', L('Gross or net target; planned use of carbon credits', 'Meta bruta o neta; uso previsto de créditos de carbono'), tr ? L('Gross target; no credits planned', 'Meta bruta; sin créditos previstos') : '', tr ? 'ok' : 'todo', ''] ] },
+      ], foot: us ? L('IFRS S2 applies where a jurisdiction adopts it.', '') : 'En México, las emisoras listadas reportan con las Normas de Información de Sostenibilidad (NIS) del CINIF, que siguen la NIIF S1 y la NIIF S2; revisa las reglas vigentes de la CNBV.' },
+    }[id];
+    const f = FW().find(x => x[0] === id), all = D.secs.flatMap(x => x.rows), ok = all.filter(r => r[3] === 'ok').length, todo = all.filter(r => r[3] === 'todo').length;
+    return Object.assign(D, { id, short: f[1], name: f[2], about: f[3], ok, todo, ready: ok + todo ? ok / (ok + todo) : 0 });
+  }
+  function fwHtml(id) {
+    const fw = fwData(id), es = isEs(), ST = { ok: L('Filled', 'Lleno'), todo: L('To complete', 'Por completar'), nt: L('Outside CO2Trace', 'Fuera de CO2Trace'), na: L('Not applicable', 'No aplica') }, SC_ = { ok: 'ok', todo: 'miss', nt: 'na', na: 'na' };
+    return `<!doctype html><html lang="${es ? 'es-MX' : 'en'}"><meta charset="utf-8"><title>${esc(bare(state.company || 'CO2Trace'))} · ${esc(fw.name)} ${esc(state.year || '')}</title>
+<style>
+${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp td:nth-child(3){font-variant-numeric:tabular-nums} .dp td:nth-child(5){color:#555;width:26%}
+</style>
+<div class="doc">
+  <div class="cover"><div class="brand">CO2Trace</div>
+    <h1>${esc(fw.name)}</h1>
+    <div style="font-size:15px">${esc(state.company || L('Company', 'Empresa'))} · ${esc(state.year || '')}</div>
+    <div class="meta"><div><b>${L('Accounting framework', 'Marco contable')}</b>GHG Protocol</div><div><b>${L('Impact method', 'Método de impacto')}</b>IPCC ${esc(state.method)} GWP100</div><div><b>${L('Generated', 'Generado')}</b>${esc(new Date().toISOString().slice(0, 10))}</div></div>
+    <div class="stbox ${fw.todo ? 'draft' : 'ready'}"><b>${L(`${fw.ok} of ${fw.ok + fw.todo} datapoints filled.`, `${fw.ok} de ${fw.ok + fw.todo} datos llenos.`)}</b> ${fw.todo ? L('Complete the ones marked To complete under Goal and scope or in the ledger.', 'Completa los marcados Por completar en Objetivo y alcance o en el registro.') : L('Every datapoint CO2Trace covers is filled.', 'Cada dato que cubre CO2Trace está lleno.')}</div></div>
+  <p>${L(`Values come from the same ledger as the ISO report. ${fw.about}.`, `Los valores salen del mismo registro que el reporte ISO. ${fw.about}.`)}</p>
+  ${fw.secs.map(sec => `<h2>${esc(sec.h)}</h2><table class="dp"><thead><tr><th>${L('Ref.', 'Ref.')}</th><th>${L('Datapoint', 'Dato')}</th><th>${L('Value', 'Valor')}</th><th>${L('Status', 'Estado')}</th><th>${L('Note', 'Nota')}</th></tr></thead><tbody>
+    ${sec.rows.map(([ref, k, v, st, n]) => `<tr><td>${esc(ref)}</td><td>${esc(k)}</td><td>${v ? esc(v) : '–'}</td><td><span class="st ${SC_[st]}">${ST[st]}</span></td><td>${esc(n || '')}</td></tr>`).join('')}</tbody></table>`).join('')}
+  <p class="note">${esc(fw.foot)} ${L('General information, not legal advice.', 'Información general, no asesoría legal.')}</p>
+</div>`;
+  }
+  function fwCsv(id) {
+    const fw = fwData(id), q = v => `"${String(v ?? '').replace(/"/g, '""')}"`, ST = { ok: 'filled', todo: 'to complete', nt: 'outside CO2Trace', na: 'not applicable' };
+    return '﻿' + [[L('Section', 'Sección'), L('Ref.', 'Ref.'), L('Datapoint', 'Dato'), L('Value', 'Valor'), L('Status', 'Estado'), L('Note', 'Nota')], ...fw.secs.flatMap(sec => sec.rows.map(([ref, k, v, st, n]) => [sec.h, ref, k, v, ST[st], n]))].map(r => r.map(q).join(',')).join('\r\n');
+  }
+  function renderFw() {
+    const el = $('fwGrid'); if (!el) return;
+    el.innerHTML = fwList().map(([id]) => { const fw = fwData(id), p = Math.round(fw.ready * 100);
+      return `<article class="fw-card"><div class="fw-top"><b>${esc(fw.short)}</b><span class="pill ${p === 100 ? 'ok' : 'warn'}">${p} %</span></div>
+        <h4>${esc(fw.name)}</h4><p>${esc(fw.about)}</p>
+        <div class="meter"><i style="--c: var(--ok); width:${p}%"></i></div>
+        <span class="note">${L(`${fw.ok} of ${fw.ok + fw.todo} datapoints filled`, `${fw.ok} de ${fw.ok + fw.todo} datos llenos`)}</span>
+        <div class="fw-act"><button type="button" class="btn" data-fw-open="${id}">${L('Open', 'Abrir')}</button><button type="button" class="btn ghost" data-fw-csv="${id}">CSV</button></div></article>`; }).join('');
+  }
+  $('fwGrid').addEventListener('click', e => {
+    const o = e.target.closest('[data-fw-open]'), c = e.target.closest('[data-fw-csv]');
+    if (o) { const id = o.dataset.fwOpen; openReport({ html: () => fwHtml(id), title: () => `${bare(state.company || 'CO2Trace')} · ${fwData(id).name} ${state.year || ''}` }); }
+    if (c) { const id = c.dataset.fwCsv, a = document.createElement('a'), u = URL.createObjectURL(new Blob([fwCsv(id)], { type: 'text/csv' }));
+      a.href = u; a.download = `${bare(state.company || 'co2trace').replace(/[^\w-]+/g, '_')}_${id}_${state.year || ''}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
+  });
+
+  // doc = { html: () => document, title } (default: the ISO report); kept so the browser's forward button reopens the same one
+  let repDoc = null;
+  function openReport(doc) {
+    repDoc = doc && doc.html ? doc : { html: () => reportHtml(true), title: () => `${bare(state.company || 'CO2Trace')} · ${L('Carbon footprint report', 'Reporte de huella de carbono')} ${state.year || ''}` };
     if (repUrl) URL.revokeObjectURL(repUrl);
-    repUrl = URL.createObjectURL(new Blob([reportHtml(true)], { type: 'text/html' }));
+    repUrl = URL.createObjectURL(new Blob([repDoc.html()], { type: 'text/html' }));
     const f = document.createElement('iframe');
     f.title = L('Report', 'Reporte'); f.src = repUrl;
     $('repBody').replaceChildren(f);
-    $('repvTitle').textContent = `${bare(state.company || 'CO2Trace')} · ${L('Carbon footprint report', 'Reporte de huella de carbono')} ${state.year || ''}`;
+    $('repvTitle').textContent = repDoc.title();
     if (!repOpen) repY = window.scrollY;
     const v = $('repView'); v.hidden = false; repOpen = true;
     requestAnimationFrame(() => requestAnimationFrame(() => v.classList.add('open')));
@@ -3265,12 +3453,12 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     if (!fromHistory && history.state && history.state.report) history.back();
     $('makeReport').focus({ preventScroll: true });
   }
-  $('makeReport').addEventListener('click', openReport);
+  $('makeReport').addEventListener('click', () => openReport());
   // the wheel over the toolbar must not scroll the page hidden behind (the frame scrolls on its own)
   $('repView').addEventListener('wheel', e => e.preventDefault(), { passive: false });
   $('repBack').addEventListener('click', () => closeReport(false));
   $('repPrint').addEventListener('click', () => { const f = repFrame(), w = f && f.contentWindow; if (w) { w.focus(); w.print(); } });
-  addEventListener('popstate', e => { if (e.state && e.state.report) { if (!repOpen) openReport(); } else closeReport(true); });
+  addEventListener('popstate', e => { if (e.state && e.state.report) { if (!repOpen) openReport(repDoc); } else closeReport(true); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && repOpen) closeReport(false); });
   // a reload on #report starts on the page itself
   if (location.hash === '#report') history.replaceState(null, '', location.pathname + location.search);
@@ -3587,6 +3775,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     renderKpis(t);
     renderCharts(t);
     renderS3(t);
+    renderFw();
   }
 
   const SN = s => (state.region === 'mx'
@@ -4881,7 +5070,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   }));
   $('methodSel').addEventListener('change', e => { state.method = e.target.value; renderMeta(); renderStages(); touched(); });
   // goal fields the dashboard reads (SB 253 card and the Checks list)
-  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy', 'tgtType', 'tgtScope', 'tgtYear', 'tgtPct', 'baseS12', 'growth', 'nzYear']);
+  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy', 'tgtType', 'tgtScope', 'tgtYear', 'tgtPct', 'baseS12', 'growth', 'nzYear', 'revenue', 'consol']);
   const onGoal = e => {
     const pk = e.target.dataset.price;
     if (pk) { state.goal.prices = Object.assign({}, state.goal.prices, { [pk]: e.target.value }); touched(); updateTotals(); return; }
@@ -5246,6 +5435,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
       { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'export exports questionnaire portal datapoints exportar exportacion exportaciones cuestionario portal', p: ['framework exports', 'export cdp', 'export to csrd', 'export esrs', 'export ifrs', 'exportar niif', 'exportaciones por marco', 'export to cdp', 'exportar a cdp', 'fill cdp', 'llenar cdp', 'csrd export', 'esrs e1', 'ifrs s2', 'niif s2', 'sb 253 report', 'cdp questionnaire', 'cuestionario de cdp'], a: () => ({ html: L(`<p><b>Framework exports</b> (under Reports) lay the ledger out the way ${fwList().map(f => f[1]).join(', ')} ask for it: each datapoint with its value, a status (filled, to complete, outside CO2Trace) and a note. Open one to print it or download the CSV to copy into each portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} of ${fw.ok + fw.todo} filled`; }).join(' · ')}.</p>`, `<p>Las <b>exportaciones por marco</b> (en Reportes) ordenan el registro como lo piden ${fwList().map(f => f[1]).join(', ')}: cada dato con su valor, un estado (lleno, por completar, fuera de CO2Trace) y una nota. Ábrelas para imprimir o descarga el CSV para copiarlo a cada portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} de ${fw.ok + fw.todo} llenos`; }).join(' · ')}.</p>`), acts: [go('Framework exports', 'Exportaciones por marco', 'fw')] }) },
       { k: 'target trajectory forecast pathway scenario whatif projection track meta trayectoria pronostico proyeccion escenario rumbo', p: ['my target', 'mi meta', 'on track', 'en curso', 'what if', 'que pasa si', 'target and trajectory', 'meta y trayectoria', 'set a target', 'fijar una meta'], a: () => { const tr = target(totals()); return { html: tr ? L(`<p>Your target (${esc(tgtName(tr))}) is <b>${fmtT(tr.goal)} t CO₂e</b> by ${tr.ty}. This year is ${fmtT(tr.cur)} t against ${fmtT(tr.path(tr.cy))} t on the path. With the savings plan, ${Math.max(tr.ty, tr.cy)} lands ${tr.gap > 0 ? `${fmtT(tr.gap)} t above` : `${fmtT(-tr.gap)} t below`} the path. Switch measures on and off in the card to test scenarios.</p>`, `<p>Tu meta (${esc(tgtName(tr))}) es <b>${fmtT(tr.goal)} t CO₂e</b> para ${tr.ty}. Este año van ${fmtT(tr.cur)} t frente a ${fmtT(tr.path(tr.cy))} t de la trayectoria. Con el plan de ahorro, ${Math.max(tr.ty, tr.cy)} queda ${tr.gap > 0 ? `${fmtT(tr.gap)} t por encima` : `${fmtT(-tr.gap)} t por debajo`} de la trayectoria. Activa o desactiva medidas en la tarjeta para probar escenarios.</p>`) : L('<p>Set a base year, its total and a <b>reduction target</b> under Goal and scope (1.5 °C path, well below 2 °C or your own). The <b>Target and trajectory</b> card then draws the path, a business-as-usual forecast and the forecast with the savings plan, and lets you switch measures on and off.</p>', '<p>Captura un año base, su total y una <b>meta de reducción</b> en Objetivo y alcance (trayectoria de 1.5 °C, muy por debajo de 2 °C o propia). La tarjeta <b>Meta y trayectoria</b> dibuja la trayectoria, un pronóstico sin cambios y el pronóstico con el plan de ahorro, y te deja activar o desactivar medidas.</p>'), acts: [go('Target and trajectory', 'Meta y trayectoria', 'c-tgt')] }; } },
       { k: 'base baseline year recalculation recalculate prior previous trend progress base año recalculo recalcular anterior tendencia avance', a: () => ({ html: L(`<p>Set a <b>base year</b>, its total, the prior-year total and a recalculation threshold under Goal and scope. The dashboard then shows the change against the base year, and Checks reminds you to recalculate when the change is above the threshold.</p>`, `<p>Captura un <b>año base</b>, su total, el total del año anterior y un umbral de recálculo en Objetivo y alcance. El tablero muestra el cambio frente al año base y Revisiones te recuerda recalcular cuando el cambio supera el umbral.</p>`), acts: [go('Base year', 'Año base', 'c-base')] }) },
       { k: 'total much result tonnes tons cuanto cuanta total toneladas emito emitimos', p: ['my total', 'mi huella total', 'my footprint', 'mi huella', 'how much do i emit', 'cuanto emito', 'cuanto emitimos', 'total footprint'], a: live.total },
