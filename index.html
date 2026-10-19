@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-XTZUP5aLBAixpRUHpAYkXQzbWyTijtTOO9J0HOiLp1A=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-5OlvNUWdNQQv1ptUlSYfgw6v4UBPO9J5joG4bOaJbNA=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -659,6 +659,31 @@ tr.ev-row > td { padding: 0 6px 12px; }
 /* sensitivity: a two-sided bar per assumption, centred on the base case */
 .sens { display: grid; gap: 6px; }
 .sens { gap: 9px; }
+.tj-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 4px 0 10px; }
+.tj-kpis > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); }
+.tj-kpis span { font-size: 12px; color: var(--muted); }
+.tj-kpis b { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+svg.traj { width: 100%; height: auto; display: block; }
+.tj-plot { overflow-x: auto; }
+@media (max-width: 640px) { .tj-plot svg.traj { min-width: 640px; } }
+svg.traj .tj-grid { stroke: var(--line); }
+svg.traj .tj-t { fill: var(--muted); }
+svg.traj .tj-ink { fill: var(--ink); }
+svg.traj .tj-act { stroke: var(--accent); }
+svg.traj .tj-dot { fill: var(--accent); }
+svg.traj .tj-plan { stroke: var(--s2); }
+svg.traj .tj-tgt, svg.traj .tj-goal { stroke: var(--ok); }
+svg.traj .tj-goal { fill: var(--surface); }
+svg.traj .tj-bau { stroke: var(--muted); }
+.tj-leg span::before { content: ""; width: 22px; border-top: 2.5px solid var(--c); }
+.tj-leg .la { --c: var(--accent); } .tj-leg .lp { --c: var(--s2); }
+.tj-leg .lt::before { border-top: 2.5px dashed var(--ok); } .tj-leg .lb::before { border-top: 2.5px dotted var(--muted); }
+.tj-what { display: grid; gap: 8px; margin-top: 10px; }
+.tj-ms { display: flex; flex-wrap: wrap; gap: 6px; }
+.tj-ms button { font: inherit; font-size: 12.5px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; text-decoration: line-through; }
+.tj-ms button[aria-pressed="true"] { border-color: var(--s2); background: color-mix(in srgb, var(--s2) 14%, var(--surface)); color: var(--ink); text-decoration: none; }
+.tj-ms button:hover { border-color: var(--go); }
+.tj-ms button b { font-weight: 600; margin-left: 4px; }
 .sens-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 10px; align-items: center; font-size: 13px; }
 .sens-row .sens-bar { grid-column: 1 / -1; grid-row: 2; }
 .sens-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1237,6 +1262,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#c-gantt" data-es="Emisiones por mes">Emissions by month</a></li>
             <li><a href="#c-sup" data-es="Proveedores">Suppliers</a></li>
             <li><a href="#c-hot" data-es="Puntos críticos">Hotspots</a></li>
+            <li><a href="#c-tgt" data-es="Meta y trayectoria">Target and trajectory</a></li>
             <li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li>
           </ul>
           <p class="drop-foot" data-es="Toneladas de CO₂e por alcance, categoría, etapa y proveedor, al momento.">Tonnes of CO₂e by scope, category, stage and supplier, updated as you type.</p>
@@ -1539,6 +1565,14 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <div class="field"><label for="g-priorTotal" data-es="Total del año anterior (t CO₂e)">Prior-year total (t CO₂e)</label><input id="g-priorTotal" data-goal="priorTotal" type="number" min="0" step="any"></div>
         <div class="field"><label for="g-recalc" data-es="Umbral de recálculo (% del año base)">Recalculation threshold (% of base year)</label><input id="g-recalc" data-goal="recalc" type="number" min="0" max="100" step="any"></div>
         <div class="field wide"><label for="g-recalcPolicy" data-es="Política de recálculo">Recalculation policy</label><input id="g-recalcPolicy" data-goal="recalcPolicy" type="text" placeholder="e.g. recalculate the base year for acquisitions, divestments, method or factor changes above the threshold" data-es-placeholder="p. ej., recalcular el año base por adquisiciones, desinversiones o cambios de método o de factores por encima del umbral"></div>
+        <div class="pg-head" data-es="Meta de reducción y pronóstico&lt;small&gt;criterios SBTi · GHG Protocol, cap. 11&lt;/small&gt;">Reduction target and forecast<small>SBTi criteria · GHG Protocol, ch. 11</small></div>
+        <div class="field"><label for="g-tgtType" data-es="Tipo de meta">Target type</label><select id="g-tgtType" data-goal="tgtType"><option value="" data-es="Sin meta todavía">No target yet</option><option value="sbti15" data-es="Trayectoria de 1.5 °C: −4.2 % del año base por año">1.5 °C path: −4.2 % of the base year a year</option><option value="wb2c" data-es="Muy por debajo de 2 °C: −2.5 % por año">Well below 2 °C: −2.5 % a year</option><option value="custom" data-es="Meta propia (% al año meta)">Own target (% by the target year)</option></select></div>
+        <div class="field"><label for="g-tgtScope" data-es="Alcances que cubre">Scopes covered</label><select id="g-tgtScope" data-goal="tgtScope"><option value="s12" data-es="Alcances 1 y 2">Scopes 1 and 2</option><option value="all" data-es="Alcances 1, 2 y 3">Scopes 1, 2 and 3</option></select></div>
+        <div class="field"><label for="g-tgtYear" data-es="Año meta">Target year</label><input id="g-tgtYear" data-goal="tgtYear" type="number" min="2000" max="2100" placeholder="e.g. 2030" data-es-placeholder="p. ej., 2030"></div>
+        <div class="field"><label for="g-tgtPct" data-es="Reducción de la meta propia (% del año base)">Own target cut (% of the base year)</label><input id="g-tgtPct" data-goal="tgtPct" type="number" min="0" max="100" step="any" placeholder="only for an own target" data-es-placeholder="solo para una meta propia"></div>
+        <div class="field"><label for="g-baseS12" data-es="Alcances 1 y 2 del año base (t CO₂e)">Base-year Scopes 1 and 2 (t CO₂e)</label><input id="g-baseS12" data-goal="baseS12" type="number" min="0" step="any" placeholder="blank = estimated from this year’s split" data-es-placeholder="vacío = estimado con la proporción de este año"></div>
+        <div class="field"><label for="g-growth" data-es="Crecimiento esperado del negocio (% anual)">Expected business growth (% a year)</label><input id="g-growth" data-goal="growth" type="number" min="-50" max="100" step="any"></div>
+        <div class="field"><label for="g-nzYear" data-es="Año de cero neto (opcional)">Net-zero year (optional)</label><input id="g-nzYear" data-goal="nzYear" type="number" min="2025" max="2100" placeholder="e.g. 2050" data-es-placeholder="p. ej., 2050"></div>
         <div class="pg-head" data-es="Evaluación de relevancia del alcance 3&lt;small&gt;GHG Protocol Alcance 3 · ISO/TR 14069, 5.2.3&lt;/small&gt;">Scope 3 screening<small>GHG Protocol Scope 3 · ISO/TR 14069, 5.2.3</small></div>
         <div class="field wide" id="s3Screen"></div>
         <div class="pg-head" data-es="Precios para el ahorro estimado&lt;small&gt;indicativos · déjalos vacíos para usar los predeterminados&lt;/small&gt;">Prices for the savings estimate<small>indicative · leave blank for the defaults</small></div>
@@ -2038,6 +2072,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     refFlow: '', allocation: 'cutoff', cutoff: '', exclusions: '', assumptions: '',
     review: 'none', reviewer: '', assurance: 'none', materiality: '5',
     baseYear: '', baseTotal: '', priorTotal: '', recalc: '5', recalcPolicy: '', s3: {}, prices: {},
+    tgtType: '', tgtScope: 's12', tgtYear: '', tgtPct: '', baseS12: '', growth: '0', nzYear: '',
     rfc: '', scian: '', site: '', usStates: '', ca: '', rev1b: '',
   });
   // the default activity for a new line: manufacturing starts on the grid of the country selected
@@ -2331,7 +2366,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     if (!has(/^(flight|car)$/)) why[6] = ['out', T('Screening estimate under 1% of the total', 'Estimación preliminar menor al 1% del total')];
     if (!has(/^(landfill|recycling|incineration|water|wastewater)/)) why[5] = ['out', T('Screening estimate under 1% of the total', 'Estimación preliminar menor al 1% del total')];
     return {
-      baseYear: '2023', recalc: '5',
+      baseYear: '2023', recalc: '5', tgtType: 'sbti15', tgtScope: 's12', tgtYear: '2030', growth: '2', nzYear: '2050',
       recalcPolicy: T('Recalculate the 2023 base year for acquisitions, divestments, outsourcing, or method and factor changes that move it by more than 5%', 'Recalcular el año base 2023 por adquisiciones, desinversiones, subcontratación o cambios de método o factores que lo muevan más de 5%'),
       s3: Object.fromEntries(Object.entries(why).map(([k, [d, w]]) => [k, { d, why: w }])),
     };
@@ -2651,8 +2686,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   function exampleBase() {
     const g = state.goal;
     if (!state.isExample || !g.baseYear || g.baseTotal) return;
-    const tt = totals().total;
-    if (tt > 0) { g.baseTotal = String(Math.round(tt * 1.045)); g.priorTotal = String(Math.round(tt * 1.02)); }
+    const t = totals(), tt = t.total;
+    if (tt > 0) { g.baseTotal = String(Math.round(tt * 1.045)); g.priorTotal = String(Math.round(tt * 1.02)); g.baseS12 = String(Math.round((t.byScope[1] + t.byScope[2]) * 1.045)); }
   }
   function renderMeta() {
     exampleBase();
@@ -3167,6 +3202,13 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <p>${T(`The carbon footprint is ${fmtT(t.total)} t CO₂e for ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e per ${esc(state.fuName)}` : ''}. Reductions should start with ${esc(hot[0] ? ln(hot[0]) : '–')}, the largest contributor.${missEv.length ? ' Supporting documents should be added for the lines listed in 4.5 before release.' : ''}`, `La huella de carbono es de ${fmtT(t.total)} t CO₂e en ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e por ${esc(state.fuName)}` : ''}. Las reducciones deben empezar por ${esc(hot[0] ? ln(hot[0]) : '–')}, el mayor contribuyente.${missEv.length ? ' Antes de publicar, deben agregarse documentos para las líneas listadas en 4.5.' : ''}`)}</p>
   <h4>${T('Reduction options and savings', 'Opciones de reducción y ahorro')}</h4>
   ${(() => { const sv = savings(t); return planTable(sv, T).replace(/<\/?details[^>]*>|<summary>[\s\S]*?<\/summary>/g, '').replace('<div class="table-scroll">', '').replace('</table></div>', '</table>'); })()}
+  ${(() => { const tr = target(t, []); if (!tr) return '';
+    const row = (k, v) => `<tr><td>${k}</td><td class="n">${v}</td></tr>`;
+    return `<h4>${T('Reduction target and trajectory', 'Meta de reducción y trayectoria')} <small>${T('SBTi near-term criteria · GHG Protocol, ch. 11', 'criterios de corto plazo de SBTi · GHG Protocol, cap. 11')}</small></h4>
+  <p>${esc(tgtName(tr, T))}: −${nf1.format(tr.cut)} % ${T(`from ${tr.by} by ${tr.ty}`, `desde ${tr.by} para ${tr.ty}`)}${tr.nz ? T(`, net zero (−90 %) by ${tr.nz}`, `, cero neto (−90 %) para ${tr.nz}`) : ''}. ${T(`Forecasts assume ${nf1.format(tr.gr * 100)} % business growth a year and phase the savings-plan measures in over ${TGT_RAMP} years.`, `Los pronósticos suponen un crecimiento del negocio de ${nf1.format(tr.gr * 100)} % al año e incorporan las medidas del plan de ahorro en ${TGT_RAMP} años.`)}${tr.est ? ' ' + T('Base-year Scopes 1 and 2 are estimated from the current split.', 'Los alcances 1 y 2 del año base se estiman con la proporción actual.') : ''}</p>
+  ${trajSvg(tr, T)}
+  <table><tbody>${row(T(`Base year ${tr.by} (scopes covered)`, `Año base ${tr.by} (alcances cubiertos)`), fmtT(tr.base) + ' t CO₂e')}${row(T(`Target ${tr.ty}`, `Meta ${tr.ty}`), fmtT(tr.goal) + ' t CO₂e')}${row(T(`${tr.cy}: actual / target path`, `${tr.cy}: real / trayectoria`), `${fmtT(tr.cur)} / ${fmtT(tr.path(tr.cy))} t CO₂e`)}${tr.passed ? '' : row(T('Cut needed from now (compound, a year)', 'Reducción necesaria desde hoy (compuesta, al año)'), nf1.format(tr.need) + ' %')}${row(T(`${Math.max(tr.ty, tr.cy)} business as usual / with the plan`, `${Math.max(tr.ty, tr.cy)} sin cambios / con el plan`), `${fmtT(tr.bau(Math.max(tr.ty, tr.cy)))} / ${fmtT(tr.plan(Math.max(tr.ty, tr.cy)))} t CO₂e`)}${row(T('Plan against the target path', 'Plan frente a la trayectoria'), tr.gap > 0 ? T(`${fmtT(tr.gap)} t above`, `${fmtT(tr.gap)} t por encima`) : T(`${fmtT(-tr.gap)} t below`, `${fmtT(-tr.gap)} t por debajo`))}</tbody></table>
+  <p class="note">${T('Screening forecast for planning; SBTi validates targets itself.', 'Pronóstico preliminar para planear; SBTi valida las metas por su cuenta.')}</p>`; })()}
   <h3>6.5 ${T('Assumptions and limitations', 'Supuestos y limitaciones')}</h3>
   <p>${g.assumptions ? esc(g.assumptions) : `<span class="miss">${T('Not stated: complete before release', 'Sin dato: complétalo antes de publicar')}</span>`}</p>
   <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic CO₂ is reported as a memo item; biogenic removals and land-use change are not assessed. Uncertainty is not quantified; section 6.3 and the pedigree scores in 4.4 stand in for it.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El CO₂ biogénico se reporta como partida de memoria; las remociones biogénicas y el cambio de uso de suelo no se evalúan. La incertidumbre no se cuantifica; la sección 6.3 y los puntajes de calidad de 4.4 la sustituyen.')}</p>
@@ -3651,12 +3693,13 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
 
   // Chart view choices: a per-viewer convenience kept in this browser
   const UI_STORE = 'lca-ui-v1';
-  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all', sensPct: '10', monthMode: 'abs' };
+  const ui = { catView: 'radial', catScope: 'all', ganttScope: 'all', invScope: 'all', sensPct: '10', monthMode: 'abs', tgtOff: [] };
   try { Object.assign(ui, JSON.parse(localStorage.getItem(UI_STORE) || '{}')); } catch (e) {}
   if (!['radial', 'treemap'].includes(ui.catView)) ui.catView = 'radial';
   ['catScope', 'ganttScope', 'invScope'].forEach(k => { if (!['all', '1', '2', '3'].includes(String(ui[k]))) ui[k] = 'all'; ui[k] = String(ui[k]); });
   if (!['5', '10', '25'].includes(String(ui.sensPct))) ui.sensPct = '10';
   if (!['abs', 'pct'].includes(ui.monthMode)) ui.monthMode = 'abs';
+  if (!Array.isArray(ui.tgtOff)) ui.tgtOff = [];
   const saveUi = () => { try { localStorage.setItem(UI_STORE, JSON.stringify(ui)); } catch (e) {} };
   const scopesOf = v => (v === 'all' ? [1, 2, 3] : [+v]);
   const scopeName = v => (v === 'all' ? L('all scopes', 'todos los alcances') : SC(v));
@@ -4055,6 +4098,17 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     if (by && !(bt > 0)) out.push(['info', L(`Enter the base-year (${by}) total so the dashboard can track change against it.`, `Captura el total del año base (${by}) para que el tablero siga el cambio frente a él.`)]);
     if (by && bt > 0 && t.total > 0 && Math.abs(t.total - bt) / bt * 100 > thr) out.push(['info', L(`The total is ${chg(t.total, bt)} against the base year, more than the ${thr} % recalculation threshold. If part of the change comes from acquisitions, divestments, outsourcing or a method or factor change, recalculate the base year (ISO 14064-1; GHG Protocol, chapter 5).`, `El total cambió ${chg(t.total, bt)} frente al año base, más que el umbral de recálculo de ${thr} %. Si parte del cambio viene de adquisiciones, desinversiones, subcontratación o un cambio de método o de factores, recalcula el año base (ISO 14064-1; GHG Protocol, capítulo 5).`)]);
     if (by && !String(g.recalcPolicy || '').trim()) out.push(['info', L('A base year is set but there is no recalculation policy. State what triggers a recalculation.', 'Hay un año base, pero no una política de recálculo. Indica qué detona un recálculo.')]);
+    // reduction target (SBTi near-term criteria; GHG Protocol, chapter 11)
+    if (g.tgtType) {
+      const ty = parseInt(g.tgtYear, 10), tr = target(t, []);
+      if (!(by && bt > 0)) out.push(['info', L('A reduction target needs a base year and its total.', 'Una meta de reducción necesita un año base y su total.')]);
+      else if (!(ty > by)) out.push(['err', L('The target year must come after the base year.', 'El año meta debe ser posterior al año base.')]);
+      if (g.tgtType === 'custom' && !(parseFloat(g.tgtPct) > 0)) out.push(['info', L('Enter the cut of the own target (% of the base year).', 'Captura la reducción de la meta propia (% del año base).')]);
+      if (tr && yr && !tr.passed && (ty - yr < 5 || ty - yr > 10)) out.push(['info', L(`The target year is ${ty - yr} years away. SBTi near-term targets cover 5 to 10 years from submission.`, `El año meta está a ${ty - yr} años. Las metas de corto plazo de SBTi cubren de 5 a 10 años desde su envío.`)]);
+      if (tr && tr.s12 && t.total > 0 && t.byScope[3] >= t.total * 0.4) out.push(['info', L(`Scope 3 is ${pct(t.byScope[3], t.total)} of the total. SBTi also asks for a Scope 3 target when Scope 3 is 40 % or more of all emissions.`, `El alcance 3 es ${pct(t.byScope[3], t.total)} del total. SBTi también pide una meta de alcance 3 cuando este es 40 % o más de todas las emisiones.`)]);
+      if (tr && !tr.passed && tr.gap > 0) out.push(['info', L(`With every savings measure, ${tr.ty} still lands ${fmtT(tr.gap)} t CO₂e above the target path. See Target and trajectory.`, `Con todas las medidas de ahorro, ${tr.ty} sigue ${fmtT(tr.gap)} t CO₂e por encima de la trayectoria de la meta. Ver Meta y trayectoria.`)]);
+      if (tr && tr.est) out.push(['info', L('Base-year Scopes 1 and 2 are estimated from this year’s split. Enter the real figure under Goal and scope.', 'Los alcances 1 y 2 del año base se estiman con la proporción de este año. Captura la cifra real en Objetivo y alcance.')]);
+    }
     const direct = t.lines.filter(r => (+r.scope || 3) < 3 && evStatus(r) === 'miss'), dT = direct.reduce((a, r) => a + emis(r), 0);
     if (direct.length) out.push(['warn', L(`${direct.length} Scope 1 or 2 line${direct.length === 1 ? '' : 's'} (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'has' : 'have'} no documents. Verifiers will ask for them.`, `${direct.length} ${direct.length === 1 ? 'línea' : 'líneas'} de alcance 1 o 2 (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'no tiene' : 'no tienen'} documentos. Los verificadores los pedirán.`)]);
     if (state.region === 'mx') {
@@ -4154,6 +4208,81 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     </div>`;
   }
 
+  // ---------- reduction target and forecast (SBTi near-term criteria; GHG Protocol, chapter 11) ----------
+  // Linear absolute contraction from the base year: at least 4.2 % of the base a year for 1.5 °C and 2.5 % for well below 2 °C.
+  // Net zero: a 90 % cut from the base by the net-zero year. Forecasts start this year: business as usual grows with the business;
+  // with the plan, the savings-plan measures (minus the ones switched off) phase in over TGT_RAMP years.
+  const TGT_RATE = { sbti15: 4.2, wb2c: 2.5 }, TGT_RAMP = 3;
+  function target(t, off = ui.tgtOff) {
+    const g = state.goal, by = parseInt(g.baseYear, 10), bt = parseFloat(g.baseTotal), ty = parseInt(g.tgtYear, 10), cy = parseInt(state.year, 10);
+    if (!g.tgtType || !(by && bt > 0 && ty > by && cy >= by)) return null;
+    const s12 = g.tgtScope !== 'all', cover = r => !s12 || (+r.scope || 3) < 3;
+    const cur = s12 ? t.byScope[1] + t.byScope[2] : t.total, share = t.total > 0 ? cur / t.total : 0;
+    const b12 = parseFloat(g.baseS12), est = s12 && !(b12 > 0), base = s12 ? (b12 > 0 ? b12 : bt * share) : bt;
+    const pt = parseFloat(g.priorTotal), prior = pt > 0 && cy - 1 > by ? (s12 ? pt * share : pt) : 0;
+    const cut = g.tgtType === 'custom' ? Math.min(100, Math.max(0, parseFloat(g.tgtPct) || 0)) : Math.min(100, TGT_RATE[g.tgtType] * (ty - by));
+    const goal = base * (1 - cut / 100), nzy = parseInt(g.nzYear, 10), nz = nzy > ty ? nzy : 0, nzGoal = base * 0.1;
+    const path = y => (y <= ty ? base - (base - goal) * Math.max(0, (y - by) / (ty - by)) : nz ? goal - (goal - Math.min(goal, nzGoal)) * Math.min(1, (y - ty) / (nz - ty)) : goal);
+    const gr = (parseFloat(g.growth) || 0) / 100, offs = new Set(off || []);
+    const sv = savings({ lines: t.lines.filter(cover) });
+    const planT = MEASURES.reduce((a, [id]) => a + (offs.has(id) ? 0 : sv.by[id].t), 0);
+    const bau = y => cur * Math.pow(1 + gr, y - cy);
+    const plan = y => Math.max(0, cur - planT * Math.min(1, (y - cy) / TGT_RAMP)) * Math.pow(1 + gr, y - cy);
+    const need = ty > cy && cur > 0 ? (1 - Math.pow(Math.max(goal, 0) / cur, 1 / (ty - cy))) * 100 : 0;
+    const at = Math.max(ty, cy);
+    return { by, ty, cy, nz, end: Math.max(nz || ty, cy + 1), s12, est, base, prior, cur, cut, goal, nzGoal, path, bau, plan, planT, sv, offs, need, gr,
+      onTrack: cur <= path(cy) + 1e-9, gap: plan(at) - path(at), passed: cy >= ty };
+  }
+  // the trajectory chart; class names take the page's colour tokens, the attributes are the report's light colours
+  // page = true: wide canvas for the dashboard card, legend left to the card's HTML
+  function trajSvg(tr, T, page) {
+    const W = page ? 1100 : 760, H = page ? 300 : 250, x0 = 56, x1 = W - 16, y0 = page ? 12 : 40, y1 = H - 28, span = tr.end - tr.by;
+    const mx = Math.max(tr.base, tr.cur, tr.prior, tr.bau(tr.end), tr.plan(tr.end)), tk = niceMax(mx / 4), top = tk * Math.ceil(mx * 1.04 / tk);
+    const X = y => x0 + (y - tr.by) / span * (x1 - x0), Y = v => y1 - v / top * (y1 - y0);
+    const pts = (ys, f) => ys.map(y => `${X(y).toFixed(1)},${Y(f(y)).toFixed(1)}`).join(' ');
+    const yrs = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+    const C = { act: RC.s[1], tgt: '#2E7D4F', bau: RC.mute, plan: RC.s[2] };
+    let out = '';
+    for (let v = 0; v <= top + tk / 2; v += tk) { const y = Y(v).toFixed(1); out += `<line class="tj-grid" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${RC.line}"${v ? ' stroke-dasharray="3 3"' : ''}/>` + svgTxt(x0 - 6, +y + 3, v ? fmtT(v) : '0', { a: 'end', fs: 9.5, c: RC.mute }).replace('<text', '<text class="tj-t"'); }
+    const step = span <= 12 ? 1 : span <= 30 ? 5 : 10;
+    yrs(tr.by, tr.end).filter(y => y === tr.by || y === tr.end || y === tr.ty || y === tr.cy || (y % step === 0 && Math.abs(y - tr.ty) > step / 2 && Math.abs(y - tr.cy) > step / 2 && y - tr.by > step / 2 && tr.end - y > step / 2))
+      .forEach(y => { out += svgTxt(X(y), H - 10, String(y), { a: 'middle', fs: 10, c: RC.mute, w: y === tr.ty || y === tr.cy ? 600 : 0 }).replace('<text', '<text class="tj-t"'); });
+    const tgtYs = [tr.by, tr.ty, ...(tr.nz ? [tr.nz] : [])].filter(y => y <= tr.end);
+    out += `<polyline class="tj-tgt" points="${pts(tgtYs, tr.path)}" fill="none" stroke="${C.tgt}" stroke-width="2" stroke-dasharray="6 4"/>`;
+    const fy = yrs(tr.cy, tr.end);
+    out += `<polyline class="tj-bau" points="${pts(fy, tr.bau)}" fill="none" stroke="${C.bau}" stroke-width="1.6" stroke-dasharray="2 4"/>`;
+    out += `<polyline class="tj-plan" points="${pts(fy, tr.plan)}" fill="none" stroke="${C.plan}" stroke-width="2.4"/>`;
+    const act = [[tr.by, tr.base], ...(tr.prior ? [[tr.cy - 1, tr.prior]] : []), ...(tr.cy > tr.by ? [[tr.cy, tr.cur]] : [])];
+    out += `<polyline class="tj-act" points="${act.map(([y, v]) => `${X(y).toFixed(1)},${Y(v).toFixed(1)}`).join(' ')}" fill="none" stroke="${C.act}" stroke-width="2.6"/>`;
+    out += act.map(([y, v]) => `<circle class="tj-dot" cx="${X(y).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="4" fill="${C.act}"/>`).join('');
+    out += `<circle class="tj-goal" cx="${X(tr.ty).toFixed(1)}" cy="${Y(tr.goal).toFixed(1)}" r="5" fill="#fff" stroke="${C.tgt}" stroke-width="2"/>`;
+    if (tr.nz && tr.nz <= tr.end) out += `<circle class="tj-goal" cx="${X(tr.nz).toFixed(1)}" cy="${Y(tr.nzGoal).toFixed(1)}" r="5" fill="#fff" stroke="${C.tgt}" stroke-width="2"/>`;
+    const leg = [['act', T('Actual', 'Real'), ''], ['tgt', T('Target path', 'Trayectoria de la meta'), '6 4'], ['plan', T('With the plan', 'Con el plan'), ''], ['bau', T('Business as usual', 'Sin cambios'), '2 4']];
+    let lx = x0;
+    if (!page) leg.forEach(([k, txt, d]) => { out += `<line class="tj-${k}" x1="${lx}" y1="14" x2="${lx + 22}" y2="14" stroke="${C[k]}" stroke-width="2.4"${d ? ` stroke-dasharray="${d}"` : ''}/>` + svgTxt(lx + 28, 18, txt, { fs: 11, c: RC.ink }).replace('<text', '<text class="tj-t tj-ink"'); lx += 40 + txt.length * 6.2; });
+    return `<svg viewBox="0 0 ${W} ${H}" class="ch traj" role="img" aria-label="${esc(T('Emissions trajectory against the target', 'Trayectoria de emisiones frente a la meta'))}">${out}</svg>`;
+  }
+  const tgtName = (tr, T = L) => `${{ sbti15: T('1.5 °C path', 'trayectoria de 1.5 °C'), wb2c: T('well below 2 °C', 'muy por debajo de 2 °C'), custom: T('own target', 'meta propia') }[state.goal.tgtType]} · ${tr.s12 ? T('Scopes 1 and 2', 'alcances 1 y 2') : T('Scopes 1, 2 and 3', 'alcances 1, 2 y 3')}`;
+  function tgtCard(t) {
+    const tr = target(t);
+    if (!tr) return `<div class="card full" id="c-tgt"><h3>${L('Target and trajectory', 'Meta y trayectoria')}</h3>
+      <p class="cap">${L('Set a base year with its total and a reduction target under Goal and scope to see the path to the target, a business-as-usual forecast and what the savings plan gets you (SBTi near-term criteria; GHG Protocol, chapter 11).', 'Captura un año base con su total y una meta de reducción en Objetivo y alcance para ver la trayectoria hacia la meta, un pronóstico sin cambios y lo que logra el plan de ahorro (criterios de corto plazo de SBTi; GHG Protocol, capítulo 11).')}</p>
+      <p><button type="button" class="linkish" data-open-setup="${state.goal.baseYear && +state.goal.baseTotal > 0 ? 'g-tgtType' : 'g-baseYear'}">${L('Open Goal and scope', 'Abrir Objetivo y alcance')}</button></p></div>`;
+    const ok = tr.passed ? tr.cur <= tr.goal : tr.gap <= 0, ms = MEASURES.filter(([id]) => tr.sv.by[id].t > 0);
+    const status = tr.passed ? (ok ? L('Target met', 'Meta cumplida') : L('Target missed', 'Meta no cumplida')) : ok ? L('Plan reaches the target', 'El plan alcanza la meta') : tr.onTrack ? L('On track today', 'En curso hoy') : L('Off track', 'Fuera de curso');
+    const kpi = (k, v, sub) => `<div><span>${k}</span><b>${v}</b><span>${sub}</span></div>`;
+    return `<div class="card full" id="c-tgt">
+      <div class="card-head"><h3>${L('Target and trajectory', 'Meta y trayectoria')}</h3><span class="pill ${ok ? 'ok' : 'warn'}">${status}</span></div>
+      <p class="cap">${L(`${esc(tgtName(tr))}: −${nf1.format(tr.cut)} % from ${tr.by} by ${tr.ty}${tr.nz ? `, net zero (−90 %) by ${tr.nz}` : ''}.${tr.est ? ' Base-year Scopes 1 and 2 are estimated from this year’s split; enter them under Goal and scope.' : ''} Business as usual grows ${nf1.format(tr.gr * 100)} % a year; with the plan, the measures below phase in over ${TGT_RAMP} years.`, `${esc(tgtName(tr))}: −${nf1.format(tr.cut)} % desde ${tr.by} para ${tr.ty}${tr.nz ? `, cero neto (−90 %) para ${tr.nz}` : ''}.${tr.est ? ' Los alcances 1 y 2 del año base se estiman con la proporción de este año; captúralos en Objetivo y alcance.' : ''} Sin cambios, crece ${nf1.format(tr.gr * 100)} % al año; con el plan, las medidas de abajo entran en ${TGT_RAMP} años.`)}</p>
+      <div class="tj-kpis">${kpi(L(`Target ${tr.ty}`, `Meta ${tr.ty}`), fmtT(tr.goal), L(`t CO₂e · base ${fmtT(tr.base)}`, `t CO₂e · base ${fmtT(tr.base)}`))}${kpi(L(`This year (${tr.cy})`, `Este año (${tr.cy})`), fmtT(tr.cur), L(`path allows ${fmtT(tr.path(tr.cy))}`, `la trayectoria permite ${fmtT(tr.path(tr.cy))}`))}${tr.passed ? '' : kpi(L('Cut needed from now', 'Reducción necesaria desde hoy'), `${nf1.format(tr.need)} %`, L('a year, compounded', 'al año, compuesta'))}${kpi(L(`With the plan in ${Math.max(tr.ty, tr.cy)}`, `Con el plan en ${Math.max(tr.ty, tr.cy)}`), fmtT(tr.plan(Math.max(tr.ty, tr.cy))), tr.gap > 0 ? L(`${fmtT(tr.gap)} t above the path`, `${fmtT(tr.gap)} t por encima de la trayectoria`) : L(`${fmtT(-tr.gap)} t below the path`, `${fmtT(-tr.gap)} t por debajo de la trayectoria`))}</div>
+      <div class="legend tj-leg"><span class="la">${L('Actual', 'Real')}</span><span class="lt">${L('Target path', 'Trayectoria de la meta')}</span><span class="lp">${L('With the plan', 'Con el plan')}</span><span class="lb">${L('Business as usual', 'Sin cambios')}</span></div>
+      <div class="tj-plot">${trajSvg(tr, L, true)}</div>
+      ${ms.length ? `<div class="tj-what"><span class="label">${L('What if: switch measures on or off', 'Qué pasa si: activa o desactiva medidas')}</span><div class="tj-ms">${ms.map(([id, , , , en, es]) => `<button type="button" data-tgt-m="${id}" aria-pressed="${!tr.offs.has(id)}"${tip(L(en, es), `${fmtT(tr.sv.by[id].t)} t CO₂e ${L('a year', 'al año')}${tr.sv.by[id].m ? ' · ' + money(tr.sv.by[id].m) : ''}`)}>${esc(L(en, es).replace(/ \(.*\)$/, ''))} <b>−${fmtT(tr.sv.by[id].t)} t</b></button>`).join('')}</div></div>` : ''}
+      ${!tr.passed && tr.gap > 0 ? `<p class="note">${L(`The plan leaves ${fmtT(tr.gap)} t CO₂e to close by ${tr.ty}: add deeper measures (electrification, renewable supply contracts, supplier programmes) before considering credits.`, `El plan deja ${fmtT(tr.gap)} t CO₂e por cerrar para ${tr.ty}: agrega medidas más profundas (electrificación, contratos de suministro renovable, programas con proveedores) antes de considerar créditos.`)}</p>` : ''}
+      <p class="note">${L('Screening forecast for planning. SBTi validates targets itself; this card is not a validation.', 'Pronóstico preliminar para planear. SBTi valida las metas por su cuenta; esta tarjeta no es una validación.')}</p>
+    </div>`;
+  }
+
   function renderCharts(t) {
     const cats = Object.entries(t.byCat).sort((a, b) => b[1] - a[1]);
     const maxCat = cats.length ? cats[0][1] : 0;
@@ -4237,7 +4366,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + s3Card(t) + sensCard(t);
+    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + tgtCard(t) + s3Card(t) + sensCard(t);
     drawTreemap();
   }
 
@@ -4489,7 +4618,16 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       if (again) again.focus();
       return;
     }
-    if (e.target.closest('[data-open-setup]')) { $('setup').open = true; goTo($('g-baseYear')); setTimeout(() => $('g-baseYear').focus({ preventScroll: true }), 400); return; }
+    const tm = e.target.closest('[data-tgt-m]');
+    if (tm) {
+      const id = tm.dataset.tgtM, off = new Set(ui.tgtOff);
+      off.has(id) ? off.delete(id) : off.add(id); ui.tgtOff = [...off]; saveUi();
+      renderCharts(totals());
+      const again = document.querySelector(`[data-tgt-m="${id}"]`); if (again) again.focus();
+      return;
+    }
+    const os = e.target.closest('[data-open-setup]');
+    if (os) { const f = $(os.dataset.openSetup || 'g-baseYear'); $('setup').open = true; goTo(f); setTimeout(() => f.focus({ preventScroll: true }), 400); return; }
     const go = e.target.closest('[data-goto]'); if (!go) return;
     const r = findRow(go.dataset.goto); if (!r) return;
     expanded.add(r.id);
@@ -4743,7 +4881,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   }));
   $('methodSel').addEventListener('change', e => { state.method = e.target.value; renderMeta(); renderStages(); touched(); });
   // goal fields the dashboard reads (SB 253 card and the Checks list)
-  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy']);
+  const GOAL_CHECKED = new Set(['ca', 'rev1b', 'reason', 'commissioner', 'practitioner', 'refFlow', 'comparative', 'review', 'reviewer', 'exclusions', 'assurance', 'materiality', 'baseYear', 'baseTotal', 'priorTotal', 'recalc', 'recalcPolicy', 'tgtType', 'tgtScope', 'tgtYear', 'tgtPct', 'baseS12', 'growth', 'nzYear']);
   const onGoal = e => {
     const pk = e.target.dataset.price;
     if (pk) { state.goal.prices = Object.assign({}, state.goal.prices, { [pk]: e.target.value }); touched(); updateTotals(); return; }
@@ -5049,7 +5187,8 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       { p: ['sbti', 'science based', 'basadas en la ciencia', 'reduction target', 'meta de reduccion', 'target', 'meta', 'metas', 'targets', '1 5', 'paris'], k: 'target targets sbti science based reduction goal paris pathway meta metas reduccion ciencia paris trayectoria',
         en: `<p>A <b>reduction target</b> needs a base year, a target year, the scopes covered and a % cut. The Science Based Targets initiative (<b>SBTi</b>) checks that targets match the Paris 1.5 °C path: roughly halving Scopes 1 and 2 by 2030 and net zero by 2050, with Scope 3 targets when it is 40 % or more of the total. Small companies can use SBTi’s simpler SME route. Track progress against the base year in CO2Trace.</p>`,
         es: `<p>Una <b>meta de reducción</b> necesita un año base, un año meta, los alcances cubiertos y un % de reducción. La iniciativa Science Based Targets (<b>SBTi</b>) revisa que las metas sigan la trayectoria de 1.5 °C de París: más o menos reducir a la mitad los alcances 1 y 2 para 2030 y cero neto para 2050, con metas de alcance 3 cuando es 40 % o más del total. Las pymes pueden usar la ruta simplificada de SBTi. Sigue el avance contra el año base en CO2Trace.</p>`,
-        rel: ['reduce', 'offs'], acts: [['Base year', 'Año base', 'c-base']] },
+        x: () => { const tr = target(totals()); return tr ? `<p>${L('Your target', 'Tu meta')}: <b>${fmtT(tr.goal)} t CO₂e</b> ${L('by', 'para')} ${tr.ty} (${esc(tgtName(tr))}); ${L('this year', 'este año')} ${fmtT(tr.cur)} t.</p>` : `<p>${L('Set yours under Goal and scope: the Target and trajectory card draws the path and the forecast.', 'Fija la tuya en Objetivo y alcance: la tarjeta Meta y trayectoria dibuja la trayectoria y el pronóstico.')}</p>`; },
+        rel: ['reduce', 'offs'], acts: [['Target and trajectory', 'Meta y trayectoria', 'c-tgt'], ['Base year', 'Año base', 'c-base']] },
       { p: ['how to reduce', 'como reducir', 'reduce emissions', 'reducir emisiones', 'reduce my', 'reducir mi', 'reduce', 'reducir', 'reduzco', 'reduzca', 'reducimos', 'cut my emissions', 'cut emissions', 'lower emissions', 'lower my', 'bajar emisiones', 'bajar mis', 'disminuir', 'decarbonize', 'decarbonise', 'descarbonizar', 'recommendations', 'recomendaciones', 'recommended actions', 'acciones recomendadas'], k: 'reduce reduction cut lower decarbonize decarbonise recommendations actions improve reducir reduzco reduzca reducimos reduccion bajar disminuir descarbonizar recomendaciones acciones mejorar',
         en: `<p>Reduce in this order: <b>use less</b> (energy management, ISO 50001; fix leaks; lighter products), <b>switch</b> (electrify heat and fleet; renewable electricity; lower-carbon materials from suppliers with EPDs), then <b>compensate</b> only what remains. Start with the hotspots: the largest stage, line and supplier. The Recommended actions under the monthly chart and the green savings row size each measure in t CO₂e and money.</p>`,
         es: `<p>Reduce en este orden: <b>usar menos</b> (gestión de la energía, ISO 50001; corregir fugas; productos más ligeros), <b>cambiar</b> (electrificar calor y flota; electricidad renovable; materiales con menos carbono de proveedores con DAP), y solo al final <b>compensar</b> lo que quede. Empieza por los puntos críticos: la etapa, línea y proveedor más grandes. Las Acciones recomendadas bajo la gráfica mensual y la fila verde de ahorro dimensionan cada medida en t CO₂e y dinero.</p>`,
@@ -5107,6 +5246,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
       { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'target trajectory forecast pathway scenario whatif projection track meta trayectoria pronostico proyeccion escenario rumbo', p: ['my target', 'mi meta', 'on track', 'en curso', 'what if', 'que pasa si', 'target and trajectory', 'meta y trayectoria', 'set a target', 'fijar una meta'], a: () => { const tr = target(totals()); return { html: tr ? L(`<p>Your target (${esc(tgtName(tr))}) is <b>${fmtT(tr.goal)} t CO₂e</b> by ${tr.ty}. This year is ${fmtT(tr.cur)} t against ${fmtT(tr.path(tr.cy))} t on the path. With the savings plan, ${Math.max(tr.ty, tr.cy)} lands ${tr.gap > 0 ? `${fmtT(tr.gap)} t above` : `${fmtT(-tr.gap)} t below`} the path. Switch measures on and off in the card to test scenarios.</p>`, `<p>Tu meta (${esc(tgtName(tr))}) es <b>${fmtT(tr.goal)} t CO₂e</b> para ${tr.ty}. Este año van ${fmtT(tr.cur)} t frente a ${fmtT(tr.path(tr.cy))} t de la trayectoria. Con el plan de ahorro, ${Math.max(tr.ty, tr.cy)} queda ${tr.gap > 0 ? `${fmtT(tr.gap)} t por encima` : `${fmtT(-tr.gap)} t por debajo`} de la trayectoria. Activa o desactiva medidas en la tarjeta para probar escenarios.</p>`) : L('<p>Set a base year, its total and a <b>reduction target</b> under Goal and scope (1.5 °C path, well below 2 °C or your own). The <b>Target and trajectory</b> card then draws the path, a business-as-usual forecast and the forecast with the savings plan, and lets you switch measures on and off.</p>', '<p>Captura un año base, su total y una <b>meta de reducción</b> en Objetivo y alcance (trayectoria de 1.5 °C, muy por debajo de 2 °C o propia). La tarjeta <b>Meta y trayectoria</b> dibuja la trayectoria, un pronóstico sin cambios y el pronóstico con el plan de ahorro, y te deja activar o desactivar medidas.</p>'), acts: [go('Target and trajectory', 'Meta y trayectoria', 'c-tgt')] }; } },
       { k: 'base baseline year recalculation recalculate prior previous trend progress base año recalculo recalcular anterior tendencia avance', a: () => ({ html: L(`<p>Set a <b>base year</b>, its total, the prior-year total and a recalculation threshold under Goal and scope. The dashboard then shows the change against the base year, and Checks reminds you to recalculate when the change is above the threshold.</p>`, `<p>Captura un <b>año base</b>, su total, el total del año anterior y un umbral de recálculo en Objetivo y alcance. El tablero muestra el cambio frente al año base y Revisiones te recuerda recalcular cuando el cambio supera el umbral.</p>`), acts: [go('Base year', 'Año base', 'c-base')] }) },
       { k: 'total much result tonnes tons cuanto cuanta total toneladas emito emitimos', p: ['my total', 'mi huella total', 'my footprint', 'mi huella', 'how much do i emit', 'cuanto emito', 'cuanto emitimos', 'total footprint'], a: live.total },
       { k: 'biggest largest hotspot hotspots most where mayor mas grande punto critico criticos donde', p: ['my biggest', 'mis mayores', 'my largest', 'where are my', 'donde estan mis', 'hotspot', 'hotspots', 'punto critico', 'puntos criticos'], a: live.hot },
