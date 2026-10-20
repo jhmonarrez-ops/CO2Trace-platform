@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-ncpU8yphnDH+LYk3eey8ZPugP0cYmQ79iCz7A/ReD6U=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-MrbkJioAHHjTmCJZm/TY842S13VPLMUAtMrXWvyHwRU=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -771,6 +771,19 @@ table.inv tr.memo td { color: var(--muted); font-style: italic; }
 .db-src a { color: inherit; }
 @media (max-width: 640px) { .db-bar, .db-bar.geo { grid-template-columns: 1fr; } .db-bar input { font-size: 16px; } }
 
+.imp-drop { display: grid; place-items: center; gap: 6px; padding: 18px; border: 1.5px dashed var(--line); border-radius: 12px; background: var(--surface-2); text-align: center; font-size: 13.5px; color: var(--muted); cursor: pointer; }
+.imp-drop.drag { border-color: var(--go); background: color-mix(in srgb, var(--go) 8%, var(--surface)); }
+.imp-drop input { max-width: 100%; font: inherit; }
+.imp-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+.imp-map label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); }
+.imp-map select, #impRate { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; font-size: 13px; color: var(--ink); }
+.imp-tbl { max-height: min(44vh, 400px); overflow: auto; }
+.imp-tbl td small { display: block; color: var(--muted); font-size: 11.5px; }
+.imp-tbl select { max-width: 280px; width: 100%; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; font-size: 12.5px; color: var(--ink); }
+.imp-tbl tr.off td { color: var(--muted); }
+#impMode button { white-space: normal; }
+.imp form > * { min-width: 0; max-width: 100%; }
+@media (max-width: 640px) { .imp-tbl table { min-width: 600px; } .imp-map { grid-template-columns: 1fr 1fr; } .imp-map select, #impRate { font-size: 16px; } }
 /* Preview overlay */
 .overlay { position: fixed; inset: 0; background: rgb(0 0 0 / .55); display: grid; place-items: center; padding: 16px; z-index: 10; }
 .viewer { background: var(--surface); border-radius: 18px; width: min(960px, 100%); max-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
@@ -1820,6 +1833,21 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="acts"><button class="btn" value="close" data-es="Cerrar">Close</button></div>
   </form>
 </dialog>
+<dialog class="acct db imp" id="impDlg" aria-labelledby="impTitle" data-lenis-prevent>
+  <form method="dialog" id="impForm">
+    <div class="eyebrow" data-es="Importar datos">Import data</div>
+    <h2 id="impTitle" data-es="Agregar líneas desde un archivo">Add lines from a file</h2>
+    <div class="seg seg-sm" id="impMode" role="group" aria-label="File type" data-es-aria-label="Tipo de archivo"><button type="button" data-imp-mode="act" aria-pressed="true" data-es="Actividad (kWh, L, kg)">Activity (kWh, L, kg)</button><button type="button" data-imp-mode="spend" aria-pressed="false" data-es="Gasto contable">Accounting spend</button></div>
+    <label class="imp-drop" id="impDrop"><input type="file" id="impFile" multiple accept=".csv,.tsv,.txt,.xlsx,.xml,text/csv"><span data-es="Elige un archivo CSV o Excel (.xlsx), o facturas CFDI (.xml), o suéltalos aquí">Choose a CSV or Excel (.xlsx) file, or drop it here</span></label>
+    <p class="db-src"><button type="button" class="linkish" id="impTpl"><span id="impTplName"></span></button> <span data-es="· El archivo se lee en este navegador; no se sube a ningún lado.">· The file is read in this browser and is not uploaded anywhere.</span></p>
+    <div class="field" id="impRateWrap" hidden><label for="impRate" id="impRateLbl"></label><input id="impRate" type="number" min="0" step="any"></div>
+    <div class="imp-map" id="impMap" hidden></div>
+    <p class="db-src" id="impMsg" aria-live="polite"></p>
+    <p class="db-src" id="impEx" hidden data-es="Estás viendo un ejemplo: las líneas se agregan a él. Para empezar con tus datos, elige primero Tus propios datos.">You are looking at an example: the lines are added to it. To start with your own data, choose Your own data first.</p>
+    <div class="table-scroll imp-tbl" id="impTable" hidden><table class="inv"><thead><tr><th></th><th data-es="Descripción">Description</th><th class="r" id="impQtyH">Quantity</th><th data-es="Factor">Factor</th><th class="r">t CO₂e</th></tr></thead><tbody id="impRows"></tbody></table></div>
+    <div class="acts"><button class="btn" value="close" data-es="Cerrar">Close</button><button type="button" class="btn primary" id="impAdd" disabled data-es="Agregar líneas">Add lines</button></div>
+  </form>
+</dialog>
 <div class="overlay" id="overlay" hidden>
   <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerName">
     <header><span id="viewerName"></span><button type="button" class="btn" id="viewerClose" data-es="Cerrar">Close</button></header>
@@ -2681,7 +2709,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
           <thead><tr><th>${L('Activity', 'Actividad')}</th><th>${L('Supplier', 'Proveedor')}</th><th>${L('Description', 'Descripción')}</th><th class="r">${L('Quantity', 'Cantidad')}</th><th>${L('Unit', 'Unidad')}</th><th class="r">${L('kg CO₂e / unit', 'kg CO₂e / unidad')}</th><th>${L('Scope', 'Alcance')}</th><th>${L('Months', 'Meses')}</th><th class="r">t CO₂e</th><th>${L('Evidence', 'Evidencia')}</th><th><span class="vh">${L('Remove', 'Quitar')}</span></th></tr></thead>
           <tbody>${rows.map(rowHtml).join('')}</tbody></table></div>`
           : `<div class="empty">${L('No lines in this stage yet.', 'Aún no hay líneas en esta etapa.')}</div>`}
-        <div class="stage-foot"><span class="adds"><button type="button" class="add" data-add="${s.id}">${L('+ Add line', '+ Agregar línea')}</button><button type="button" class="add" data-libadd="${s.id}">${L('+ From database', '+ Desde base de datos')}</button></span><span class="note">${rows.length} ${rows.length === 1 ? L('line', 'línea') : L('lines', 'líneas')}</span></div>
+        <div class="stage-foot"><span class="adds"><button type="button" class="add" data-add="${s.id}">${L('+ Add line', '+ Agregar línea')}</button><button type="button" class="add" data-libadd="${s.id}">${L('+ From database', '+ Desde base de datos')}</button><button type="button" class="add" data-import="${s.id}">${L('+ Import file', '+ Importar archivo')}</button></span><span class="note">${rows.length} ${rows.length === 1 ? L('line', 'línea') : L('lines', 'líneas')}</span></div>
       </section>`;
     }).join('');
     renderSupplierList();
@@ -4653,6 +4681,335 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
     if (r) addFiles(r, e.dataTransfer.files);
   });
 
+  // ---------- Import a file: activity data or an accounting (spend) export → ledger lines ----------
+  // Reads CSV/TSV (delimiter guessed) and .xlsx (first sheet; a small zip reader with the browser's DecompressionStream, no library).
+  // Columns are guessed from the headers (English or Spanish) and can be changed. Activity rows are matched to the built-in factors
+  // by name and unit; spend rows to the spend database of the country (EPA supply chain in the US, EXIOBASE México in México).
+  // Nothing is added until the preview is confirmed.
+  function parseCsv(text) {
+    text = text.replace(/^﻿/, '');
+    const first = text.split(/\r?\n/, 1)[0], delim = ['\t', ';', ','].map(d => [d, first.split(d).length]).sort((a, b) => b[1] - a[1])[0][0];
+    const rows = []; let row = [], f = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true;
+      else if (c === delim) { row.push(f); f = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += c;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    return rows.filter(r => r.some(v => v.trim() !== ''));
+  }
+  const colIdx = ref => { const m = /^([A-Z]+)/.exec(ref); return m ? [...m[1]].reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0) - 1 : -1; };
+  async function readXlsx(buf) {
+    const u8 = new Uint8Array(buf), dv = new DataView(buf), dec = new TextDecoder();
+    let e = u8.length - 22; while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
+    if (e < 0) throw new Error('not a zip');
+    const files = {}; let p = dv.getUint32(e + 16, true);
+    for (let i = 0, n = dv.getUint16(e + 10, true); i < n; i++) {
+      const nl = dv.getUint16(p + 28, true);
+      files[dec.decode(u8.subarray(p + 46, p + 46 + nl))] = { method: dv.getUint16(p + 10, true), size: dv.getUint32(p + 20, true), off: dv.getUint32(p + 42, true) };
+      p += 46 + nl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+    }
+    const get = async name => {
+      const f = files[name]; if (!f) return null;
+      const at = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true), data = u8.subarray(at, at + f.size);
+      if (f.method === 0) return dec.decode(data);
+      return new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+    };
+    const X = s => new DOMParser().parseFromString(s || '<x/>', 'application/xml'), tags = (d, t) => [...d.getElementsByTagName(t)];
+    const ss = await get('xl/sharedStrings.xml'), strings = ss ? tags(X(ss), 'si').map(si => tags(si, 't').map(t => t.textContent).join('')) : [];
+    const s0 = tags(X(await get('xl/workbook.xml')), 'sheet')[0], rid = s0 && s0.getAttribute('r:id');
+    const rel = tags(X(await get('xl/_rels/workbook.xml.rels')), 'Relationship').find(r => r.getAttribute('Id') === rid);
+    const sheet = X(await get('xl/' + (rel ? rel.getAttribute('Target').replace(/^\/?(xl\/)?/, '') : 'worksheets/sheet1.xml')));
+    return tags(sheet, 'row').map(r => {
+      const out = [];
+      tags(r, 'c').forEach(c => {
+        const t = c.getAttribute('t'), v = c.getElementsByTagName('v')[0], col = colIdx(c.getAttribute('r') || '');
+        const val = t === 's' ? strings[+(v && v.textContent)] ?? '' : t === 'inlineStr' ? tags(c, 't').map(x => x.textContent).join('') : v ? v.textContent : '';
+        out[col >= 0 ? col : out.length] = val;
+      });
+      return Array.from(out, x => x ?? '');
+    }).filter(r => r.some(v => String(v).trim() !== ''));
+  }
+
+  const normTxt = s => String(s || '').toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const STOPW = new Set('a an and the of for to in on at by with from per de del la el los las y e o u para por con sin en al un una sa cv s rl inc llc ltd co corp nec except thereof first other otro otra'.split(' '));
+  const stem = w => (w.length > 4 && w.endsWith('es') ? w.slice(0, -2) : w.length > 3 && w.endsWith('s') ? w.slice(0, -1) : w);
+  const toks = s => normTxt(s).split(' ').filter(w => w && !STOPW.has(w) && !/^\d+$/.test(w)).map(stem);
+  // number in US (1,234.5) or European (1.234,5) style, with or without a currency sign
+  const numIn = v => {
+    if (typeof v === 'number') return v;
+    let s = String(v || '').replace(/[^\d.,\-]/g, ''); if (!s) return NaN;
+    const c = s.lastIndexOf(','), d = s.lastIndexOf('.');
+    if (c > -1 && d > -1) s = c > d ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
+    else if (c > -1) s = /,\d{3}$/.test(s) && s.split(',').length > 1 && !/^-?0,/.test(s) ? s.replace(/,/g, '') : s.replace(',', '.');
+    return parseFloat(s);
+  };
+  const MON_N = ['jan feb mar apr may jun jul aug sep oct nov dec', 'ene feb mar abr may jun jul ago sep oct nov dic'].map(x => x.split(' '));
+  // month 0–11 from 1–12, a month name, an ISO or local date, or an Excel serial date
+  function monthIn(v) {
+    const s = normTxt(v); if (!s) return null;
+    const n = Number(String(v).trim());
+    if (Number.isInteger(n) && n >= 1 && n <= 12) return n - 1;
+    if (isFinite(n) && n > 59 && n < 80000) return new Date(Date.UTC(1899, 11, 30) + n * 864e5).getUTCMonth();
+    let m = /^(\d{4})\D(\d{1,2})/.exec(String(v).trim()); if (m) return Math.min(11, +m[2] - 1);
+    m = /^(\d{1,2})\D(\d{1,2})\D(\d{2,4})/.exec(String(v).trim()); if (m) { const mm = state.region === 'us' ? +m[1] : +m[2]; if (mm >= 1 && mm <= 12) return mm - 1; }
+    for (const names of MON_N) { const i = names.findIndex(x => s.startsWith(x) || s.split(' ').some(w => w.startsWith(x) && w.length <= 10)); if (i > -1) return i; }
+    return null;
+  }
+  const UNIT_ALIAS = { kwh: 'kWh', mwh: 'MWh', gwh: 'GWh', l: 'L', lt: 'L', lts: 'L', litro: 'L', litros: 'L', liter: 'L', liters: 'L', litre: 'L', litres: 'L', gal: 'gal', gallon: 'gal', gallons: 'gal', galon: 'gal', galones: 'gal',
+    m3: 'm³', 'metros cubicos': 'm³', 'cubic meters': 'm³', kg: 'kg', kgs: 'kg', kilo: 'kg', kilos: 'kg', kilogramo: 'kg', kilogramos: 'kg', kilogram: 'kg', kilograms: 'kg', t: 't', ton: 't', tons: 't', tonne: 't', tonnes: 't', tonelada: 't', toneladas: 't',
+    lb: 'lb', lbs: 'lb', pound: 'lb', pounds: 'lb', km: 'km', kilometros: 'km', kilometers: 'km', mi: 'mi', mile: 'mi', miles: 'mi', millas: 'mi', tkm: 't·km', 't km': 't·km', 'ton km': 't·km', pkm: 'p·km', 'p km': 'p·km', 'passenger km': 'p·km', 'pasajero km': 'p·km',
+    scf: 'scf', ft3: 'scf', 'cubic feet': 'scf', ccf: 'ccf', mcf: 'Mcf', therm: 'therm', therms: 'therm', mmbtu: 'MMBtu' };
+  const unitIn = u => { const n = normTxt(String(u).replace('³', '3').replace('·', ' ')); return UNIT_ALIAS[n] || UNIT_ALIAS[n.replace(/ /g, '')] || String(u || '').trim(); };
+  // to the factor's unit; natural gas energy units at 1,026 Btu per cubic foot (EPA)
+  const UNIT_CONV = { 'MWh>kWh': 1e3, 'GWh>kWh': 1e6, 'gal>L': 3.78541, 't>kg': 1e3, 'lb>kg': 0.453592, 'mi>km': 1.609344, 'scf>m³': 0.0283168, 'ccf>m³': 2.83168, 'Mcf>m³': 28.3168, 'therm>m³': 2.7599, 'MMBtu>m³': 27.599, 't>t·km': NaN };
+  const convQty = (q, from, to) => (!from || from === to ? q : UNIT_CONV[`${from}>${to}`] ? q * UNIT_CONV[`${from}>${to}`] : NaN);
+  // extra words for matching built-in factors from common bill and invoice wording
+  const ACT_SYN = { luz: 'electricity electricidad grid', cfe: 'electricity electricidad grid', electric: 'electricity', power: 'electricity', energia: 'electricity electricidad', gasoil: 'diesel', diesel: 'diesel', gasolina: 'gasoline', petrol: 'gasoline', propano: 'lpg propane', propane: 'lpg propane', lp: 'lpg',
+    flete: 'truck freight road', freight: 'truck freight road', camion: 'truck', trucking: 'truck', tren: 'rail', ferrocarril: 'rail', barco: 'sea ship', maritimo: 'sea ship', aereo: 'air', vuelo: 'flight air', vuelos: 'flight air', avion: 'flight air', auto: 'car', coche: 'car', kilometraje: 'car', mileage: 'car',
+    basura: 'landfill waste', residuos: 'landfill waste', relleno: 'landfill', reciclaje: 'recycling', agua: 'water', acero: 'steel', aluminio: 'aluminium aluminum', carton: 'cardboard corrugated', papel: 'paper', vidrio: 'glass', plastico: 'plastic', cobre: 'copper', cemento: 'cement', concreto: 'concrete', refrigerante: 'refrigerant', gas: 'natural gas' };
+  // Spanish and accounting words → the English words used by EPA (NAICS titles) and EXIOBASE product names
+  const SPEND_SYN = { papeleria: 'paper stationery', lamina: 'steel sheet', varilla: 'steel', perfil: 'steel', placa: 'steel sheet', papel: 'paper', oficina: 'paper stationery', toner: 'printing ink', tinta: 'ink printing', computo: 'computer', computadora: 'computer', laptop: 'computer', software: 'software computer', licencia: 'software', licencias: 'software',
+    internet: 'telecommunications', telefono: 'telecommunications', telefonia: 'telecommunications', celular: 'telecommunications wireless', limpieza: 'janitorial cleaning soap', cleaning: 'janitorial cleaning soap', mantenimiento: 'repair maintenance', maintenance: 'repair maintenance', reparacion: 'repair', refacciones: 'parts machinery', repuestos: 'parts',
+    acero: 'steel', aluminio: 'aluminium aluminum', aluminum: 'aluminium aluminum', cobre: 'copper', plastico: 'plastics plastic rubber', resina: 'plastics resin', carton: 'paperboard paper', cardboard: 'paperboard', empaque: 'packaging paperboard plastics', embalaje: 'packaging paperboard', packaging: 'packaging paperboard', envase: 'container packaging', envases: 'container packaging',
+    vidrio: 'glass', madera: 'wood', quimicos: 'chemical chemicals', chemicals: 'chemical', fertilizante: 'fertilizer fertiliser', fertilizer: 'fertilizer fertiliser', semilla: 'seed crops', alimentos: 'food', comida: 'food restaurant', restaurante: 'restaurant food', restaurant: 'restaurant food', hotel: 'hotel accommodation', hospedaje: 'hotel accommodation', viaticos: 'hotel restaurant travel',
+    avion: 'air transport', vuelo: 'air transport', airfare: 'air transport', flete: 'freight trucking truck transport transportation land road', transporte: 'transport transportation land freight', freight: 'freight trucking truck transport transportation land', paqueteria: 'courier postal', courier: 'courier postal', mensajeria: 'courier postal', renta: 'real estate lessors rental', arrendamiento: 'rental leasing real estate', rent: 'real estate lessors',
+    seguro: 'insurance', insurance: 'insurance', banco: 'financial banking', comision: 'financial', honorario: 'legal accounting services', consultoria: 'consulting management services', consulting: 'consulting management', abogado: 'legal', legal: 'legal', contabilidad: 'accounting', accounting: 'accounting',
+    publicidad: 'advertising', advertising: 'advertising', marketing: 'advertising', capacitacion: 'education training', training: 'education training', uniforme: 'apparel clothing', uniform: 'apparel', textil: 'textile', ropa: 'apparel', mueble: 'furniture', furniture: 'furniture',
+    maquinaria: 'machinery', machinery: 'machinery', equipo: 'equipment machinery', vehiculo: 'motor vehicle', llanta: 'tire rubber', tire: 'tire rubber', construccion: 'construction', obra: 'construction', cemento: 'cement', concreto: 'concrete cement', pintura: 'paint', agua: 'water', seguridad: 'security services', vigilancia: 'security services',
+    medicamento: 'pharmaceutical medicine', farmacia: 'pharmaceutical', laboratorio: 'laboratory testing', fruta: 'fruit vegetable', verdura: 'vegetable', carne: 'meat', leche: 'milk dairy', azucar: 'sugar', bebida: 'beverage', tornillo: 'fastener fabricated metal', herramienta: 'tool hand', electrico: 'electrical', cable: 'wire cable', impresion: 'printing', imprenta: 'printing' };
+  const expand = (s, syn) => { const w0 = normTxt(s).split(' '), t = toks(s); return [...new Set(t.concat(w0.flatMap(w => (syn[w] || syn[stem(w)] ? toks(syn[w] || syn[stem(w)]) : []))))]; };
+  // common purchase categories → the database entry that fits them best: [words in the description, EPA (US), EXIOBASE México]. First hit wins.
+  const SPEND_PREF = [
+    [/\b(maritim|naviera|ocean freight|sea freight)/, /^Deep Sea Freight/, /^Sea and coastal/], [/\b(rail|ferrocarril|tren)/, /^Line-Haul Railroads/, /^Railway transportation/],
+    [/\b(airfare|vuelo|avion|airline|aerolinea|flight)/, /^Scheduled Passenger Air/, /^Air transport services/], [/\b(courier|paqueteria|mensajeria|dhl|fedex|ups|estafeta)/, /^Couriers and Express/, /^Post and telecommunication/],
+    [/\b(flete|freight|trucking|carrier|autotransporte|shipping|transporte)/, /^General Freight Trucking, Long-Distance, Truckload/, /^Other land transportation/],
+    [/\b(acero|steel|lamina|varilla|perfil|placa)/, /^Iron and Steel Mills/, /^Basic iron and steel/], [/\b(alumin)/, /^Aluminum Sheet/, /^Aluminium and aluminium/], [/\b(cobre|copper)/, /^Copper Rolling/, /^Copper products/],
+    [/\b(carton|cardboard|corrugad|caja|boxes)/, /^Corrugated and Solid Fiber Box/, /^Paper and paper products/], [/\b(papel|papeleria|paper|stationery|office supplies|articulos de oficina)/, /^Stationery Product/, /^Paper and paper products/],
+    [/\b(plastic|plastico|resina|resin|polietileno|polyethylene)/, /^Plastics Material and Resin/, /^Plastics, basic/], [/\b(vidrio|glass)/, /^Glass Container/, /^Glass and glass/], [/\b(madera|wood|tarima|pallet)/, /^Wood Container and Pallet/, /^Wood and products of wood/],
+    [/\b(fertiliz|urea)/, /^Nitrogenous Fertilizer/, /^N-fertiliser/], [/\b(quimic|chemical|solvente|solvent)/, /^All Other Basic Organic Chemical/, /^Chemicals nec/], [/\b(paint|pintura)/, /^Paint and Coating/, /^Chemicals nec/],
+    [/\b(cement|cemento)/, /^Cement Manufacturing/, /^Cement, lime/], [/\b(concret)/, /^Ready-Mix Concrete/, /^Cement, lime/], [/\b(construction|construccion|obra civil)/, /^Commercial and Institutional Building Construction/, /^Construction work/],
+    [/\b(tire|llanta|neumatico)/, /^Tire Manufacturing/, /^Rubber and plastic products/], [/\b(vehicle|vehiculo|camioneta|automovil)/, /^Automobile Manufacturing/, /^Motor vehicles/],
+    [/\b(repair|mantenimiento|maintenance|reparacion)/, /^Commercial and Industrial Machinery and Equipment.*Repair/, /^Other business services/], [/\b(machinery|maquinaria)/, /^All Other Miscellaneous General Purpose Machinery/, /^Machinery and equipment n\.e\.c/],
+    [/\b(software|licencia|saas|cloud|nube|suscripcion)/, /^Software Publishers/, /^Computer and related services/], [/\b(computadora|laptop|computer|computo|servidor|server)/, /^Electronic Computer Manufacturing/, /^Office machinery and computers/],
+    [/\b(internet|telefon|phone|telecom|celular|wireless|telmex)/, /^Wired Telecommunications/, /^Post and telecommunication/], [/\b(hotel|hospedaje|lodging|motel)/, /^Hotels \(except Casino/, /^Hotel and restaurant/],
+    [/\b(restaurant|comida|meals|catering|comedor)/, /^Full-Service Restaurants/, /^Hotel and restaurant/], [/\b(insurance|seguro|poliza)/, /^Direct Property and Casualty/, /^Insurance and pension/],
+    [/\b(legal|abogad|lawyer|attorney|notari)/, /^Offices of Lawyers/, /^Other business services/], [/\b(accounting|contab|audit)/, /^Offices of Certified Public/, /^Other business services/],
+    [/\b(consult|asesoria|honorario)/, /^Administrative Management/, /^Other business services/], [/\b(advertis|publicidad|marketing)/, /^Advertising Agencies/, /^Other business services/],
+    [/\b(cleaning|limpieza|janitor)/, /^Janitorial Services/, /^Other business services/], [/\b(security|seguridad|vigilancia|guard)/, /^Security Guards/, /^Other business services/],
+    [/\b(training|capacitacion|curso|course)/, /^Professional and Management Development/, /^Education services/], [/\b(uniform|ropa|apparel|clothing)/, /^Cut and Sew Apparel/, /^Wearing apparel/],
+    [/\b(mueble|furniture|mobiliario)/, /^Office Furniture/, /^Furniture/], [/\b(printing|impresion|imprenta)/, /^Commercial Printing/, /^Printed matter/],
+    [/\b(rent|renta|arrendamiento|lease|alquiler)/, /^Lessors of Nonresidential/, /^Real estate services/], [/\b(bank|banco|bancari)/, /^Commercial Banking/, /^Financial intermediation/],
+    [/\b(gasolinera|gas station)/, /^Gasoline Stations/, /^Retail trade services of motor fuel/], [/\b(water|agua)/, /^Water Supply/, /^Collected and purified water/],
+  ];
+
+  const IMP_FIELDS = {
+    act: [['desc', 'Description', 'Descripción', /desc|concept|detalle|item|nombre|name/], ['activity', 'Activity or factor', 'Actividad o factor', /activ|factor|fuente|source|material|combust|fuel|tipo|type/],
+      ['qty', 'Quantity', 'Cantidad', /qty|quant|cantidad|consumo|volume|volumen|amount/], ['unit', 'Unit', 'Unidad', /^unit|unidad|uom|^um$/], ['supplier', 'Supplier', 'Proveedor', /supplier|vendor|provee/],
+      ['stage', 'Life-cycle stage', 'Etapa', /stage|etapa/], ['scope', 'Scope', 'Alcance', /scope|alcance/], ['m0', 'First month', 'Primer mes', /first|start|desde|inicio|from|primer/], ['m1', 'Last month', 'Último mes', /last|end|hasta|^fin|^to$|ultimo/],
+      ['ref', 'Document reference', 'Referencia del documento', /ref|invoice|factura|folio|document|recibo|uuid/]],
+    spend: [['desc', 'Description or account', 'Descripción o cuenta', /desc|concept|account|cuenta|detalle|item|memo|glosa/], ['amount', 'Amount (before tax)', 'Importe (sin IVA)', /amount|importe|monto|subtotal|total|cost|costo|gasto|spend/],
+      ['supplier', 'Supplier', 'Proveedor', /supplier|vendor|provee/], ['cat', 'Category', 'Categoría', /categ|class|rubro|^gl|tipo|type/], ['date', 'Date or month', 'Fecha o mes', /date|fecha|month|^mes|period/], ['ref', 'Document reference', 'Referencia del documento', /ref|invoice|factura|folio|uuid/]],
+  };
+  const imp = { mode: 'act', stage: 'materials', head: [], body: [], map: {}, rows: [], lib: null, name: '' };
+  const stageIn = v => {
+    const s = normTxt(v); if (!s) return null;
+    if (/^[1-5]$/.test(s)) return STAGES[+s - 1].id;
+    const hit = STAGES.find(x => x.id === s || normTxt(x.name).startsWith(s) || normTxt(x.es[0]).startsWith(s) || s.includes(x.id.slice(0, 5)));
+    return hit ? hit.id : /raw|materia|purchas|compra/.test(s) ? 'materials' : /manuf|oper|plant|planta/.test(s) ? 'manufacturing' : /transp|distrib|flete|freight/.test(s) ? 'distribution' : /^use|^uso/.test(s) ? 'use' : /end|fin|eol|dispos/.test(s) ? 'eol' : null;
+  };
+  const kindStage = k => ({ mat: 'materials', transport: 'distribution', fuel: 'manufacturing', elec: 'manufacturing', refrig: 'manufacturing', waste: 'manufacturing' })[k];
+  const usable = f => f.key !== 'custom' && !f.lib && (!f.only || f.only === state.region) && (f.gas || f[state.region]);
+  // built-in factor candidates for one activity row, best first: [key, score, qty in factor unit]
+  function matchAct(text, unit, qty) {
+    const q = expand(text, ACT_SYN), u = unitIn(unit), list = FACTORS.filter(usable);
+    const used = state.rows.find(r => kindOf(r) === 'elec' && +r.scope === 2 && r.key !== 'elec_ren' && F[r.key] && !F[r.key].lib), grid = used ? used.key : REGIONS[state.region].grid;
+    const isElec = q.some(w => ['electricity', 'electricidad', 'grid', 'power', 'kwh'].includes(w)) || ['kWh', 'MWh', 'GWh'].includes(u), green = /renew|renov|solar|certif|green|verde/.test(normTxt(text));
+    if (!q.length) return [];
+    const df = {}; list.forEach(f => new Set(toks(`${f.en ? f.en[0] : f.name} ${FACTOR_ES[f.key] || ''} ${f.key.replace(/_/g, ' ')}`)).forEach(w => (df[w] = (df[w] || 0) + 1)));
+    return list.map(f => {
+      if (normTxt(text) === normTxt(f.key)) return [f.key, 99, convQty(qty, u, f.unit)];
+      const ft = new Set(toks(`${f.en ? f.en[0] : f.name} ${FACTOR_ES[f.key] || ''} ${f.key.replace(/_/g, ' ')}`));
+      let sc = q.reduce((a, w) => a + (ft.has(w) ? 1 / (df[w] || 1) : 0), 0);
+      const qq = convQty(qty, u || f.unit, f.unit);
+      if (u && isNaN(qq)) sc = 0; else if (u && sc) sc += 0.5;
+      // electricity: the grid already used in the ledger, else the country's grid; never the other country's average
+      if (f.kind === 'elec' && isElec && !green) sc = f.key === grid && !(u && isNaN(qq)) ? sc + 3 : f.key === 'elec_ren' || /^elec_(mx|us|eu)$/.test(f.key) ? sc * 0.2 : sc;
+      return [f.key, sc, qq];
+    }).filter(c => c[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  }
+  // spend database items for the country, with token sets (built once per database)
+  async function spendLib() {
+    if (imp.lib && imp.lib.region === state.region) return imp.lib;
+    const id = state.region === 'us' ? 'epa-sc' : 'exiobase', meta = (await libIndex()).find(l => l.id === id);
+    const items = (await libItems(id)).filter(it => id !== 'exiobase' || it.geo === 'MX').map(it => ({ it, t: new Set(toks(`${it.n} ${id === 'epa-sc' ? it.g || '' : ''}`)) }));
+    const df = {}; items.forEach(x => x.t.forEach(w => (df[w] = (df[w] || 0) + 1)));
+    return (imp.lib = { region: state.region, id, meta, items, df });
+  }
+  function matchSpend(text) {
+    const L_ = imp.lib, q = expand(text, SPEND_SYN), raw = normTxt(text); if (!q.length) return [];
+    let out = L_.items.map(x => [x.it, q.reduce((a, w) => a + (x.t.has(w) ? 1 / Math.sqrt(L_.df[w]) : 0), 0) / Math.pow(x.t.size, 0.25)])
+      .filter(c => c[1] > 0).sort((a, b) => b[1] - a[1]);
+    const pref = SPEND_PREF.find(([re]) => re.test(raw)), hit = pref && L_.items.find(x => pref[L_.id === 'epa-sc' ? 1 : 2].test(x.it.n));
+    if (hit) out = [[hit.it, 99], ...out.filter(c => c[0] !== hit.it)];
+    return out.slice(0, 5);
+  }
+  // spend → the database's currency and price year (screening defaults; the user can change it)
+  const spendRate = () => { const y = parseInt(state.year, 10) || 2025; return state.region === 'us' ? +(1 / Math.pow(1.03, Math.max(0, y - 2022))).toFixed(2) : +(21.56 * Math.pow(1.045, Math.max(0, y - 2019))).toFixed(1); };
+
+  function impTemplate(mode) {
+    const es = isEs(), q = v => `"${String(v).replace(/"/g, '""')}"`;
+    const rows = mode === 'act'
+      ? [IMP_FIELDS.act.map(f => (es ? f[2] : f[1])), ...(es
+        ? [['Recibo de luz planta', 'Electricidad', '125000', 'kWh', 'CFE', '2', '2', '1', '12', 'CFE-0001'], ['Diésel montacargas', 'Diésel', '3400', 'L', 'Gasolinera del Norte', '2', '1', '1', '12', 'F-123'], ['Lámina de acero', 'Acero', '12', 't', 'Aceros MX', '1', '3', '1', '12', 'F-456']]
+        : [['Plant electricity bill', 'Electricity', '125000', 'kWh', 'City Power', '2', '2', '1', '12', 'INV-0001'], ['Forklift diesel', 'Diesel', '900', 'gal', 'Fuel Co', '2', '1', '1', '12', 'F-123'], ['Steel sheet', 'Steel', '12', 't', 'Steel Supply', '1', '3', '1', '12', 'F-456']])]
+      : [IMP_FIELDS.spend.map(f => (es ? f[2] : f[1])), ...(es
+        ? [['Papelería y artículos de oficina', '18500', 'Office Depot', 'Gastos de oficina', '2025-03-15', 'F-1001'], ['Fletes de entrega', '96000', 'Transportes del Norte', 'Fletes', '2025-04-02', 'F-1002'], ['Mantenimiento de maquinaria', '45000', 'Servicios Industriales', 'Mantenimiento', '2025-05-20', 'F-1003']]
+        : [['Office supplies', '1200', 'Office Depot', 'Office expense', '2025-03-15', 'INV-1001'], ['Outbound freight', '8600', 'Lone Star Freight', 'Freight', '2025-04-02', 'INV-1002'], ['Machinery repair', '3500', 'Industrial Services', 'Maintenance', '2025-05-20', 'INV-1003']])];
+    const a = document.createElement('a'), u = URL.createObjectURL(new Blob(['﻿' + rows.map(r => r.map(q).join(',')).join('\r\n')], { type: 'text/csv' }));
+    a.href = u; a.download = `co2trace_${mode === 'act' ? L('activity', 'actividad') : L('spend', 'gasto')}_${L('template', 'plantilla')}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+  }
+  function openImport(stage) {
+    imp.stage = stage || 'materials'; imp.head = []; imp.body = []; imp.rows = []; imp.name = '';
+    $('impMode').querySelectorAll('[data-imp-mode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.impMode === imp.mode));
+    $('impFile').value = ''; $('impRate').value = ''; renderImp();
+    const dlg = $('impDlg'); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  // Mexican e-invoices (CFDI 3.3 / 4.0 XML): one row per concept, with the issuer, date and UUID
+  const CFDI_UNIT = { LTR: 'L', KGM: 'kg', TNE: 't', KWH: 'kWh', MTQ: 'm³', GLI: 'gal', KMT: 'km', MWH: 'MWh' };
+  async function readCfdi(files) {
+    const head = ['Fecha', 'Proveedor', 'Concepto', 'Cantidad', 'Unidad', 'Importe', 'UUID'], body = [];
+    for (const f of files) {
+      const d = new DOMParser().parseFromString(await f.text(), 'application/xml'), by = n => [...d.getElementsByTagName('*')].filter(e => e.localName === n);
+      const c = by('Comprobante')[0]; if (!c) continue;
+      const em = by('Emisor')[0], tf = by('TimbreFiscalDigital')[0], tc = parseFloat(c.getAttribute('TipoCambio')) || 1;
+      by('Concepto').forEach(k => body.push([c.getAttribute('Fecha') || '', em ? em.getAttribute('Nombre') || em.getAttribute('Rfc') || '' : '', k.getAttribute('Descripcion') || '', k.getAttribute('Cantidad') || '',
+        CFDI_UNIT[k.getAttribute('ClaveUnidad')] || k.getAttribute('Unidad') || '', String((parseFloat(k.getAttribute('Importe')) - (parseFloat(k.getAttribute('Descuento')) || 0)) * tc), tf ? tf.getAttribute('UUID') || '' : '']));
+    }
+    return body.length ? [head, ...body] : null;
+  }
+  async function loadImpFile(file, all) {
+    if (!file) return;
+    imp.name = file.name; $('impMsg').textContent = L('Reading…', 'Leyendo…');
+    try {
+      const xml = [...(all || [file])].filter(f => /\.xml$/i.test(f.name));
+      if (xml.length) imp.name = xml.length === 1 ? xml[0].name : L(`${xml.length} XML invoices`, `${xml.length} facturas XML`);
+      const rows = xml.length ? await readCfdi(xml) : /\.xlsx$/i.test(file.name) ? await readXlsx(await file.arrayBuffer()) : /\.(csv|tsv|txt)$/i.test(file.name) || /text/.test(file.type) ? parseCsv(await file.text()) : null;
+      if (!rows) { $('impMsg').textContent = L('Use a .csv, .tsv or .xlsx file (or CFDI .xml invoices). Save older .xls files as .xlsx or CSV first.', 'Usa un archivo .csv, .tsv o .xlsx, o facturas CFDI en .xml. Guarda los .xls antiguos como .xlsx o CSV primero.'); return; }
+      if (rows.length < 2) { $('impMsg').textContent = L('The file needs a header row and at least one data row.', 'El archivo necesita una fila de encabezados y al menos una fila de datos.'); return; }
+      imp.head = rows[0].map(h => String(h).trim()); imp.body = rows.slice(1, 1001);
+      guessMap(); await buildImp();
+    } catch (err) { $('impMsg').textContent = L('The file could not be read. Save it as CSV (UTF-8) and try again.', 'No se pudo leer el archivo. Guárdalo como CSV (UTF-8) e inténtalo de nuevo.'); }
+  }
+  function guessMap() {
+    const used = new Set(); imp.map = {};
+    IMP_FIELDS[imp.mode].forEach(([k, , , re]) => { const i = imp.head.findIndex((h, j) => !used.has(j) && re.test(normTxt(h))); if (i > -1) { imp.map[k] = i; used.add(i); } });
+  }
+  async function buildImp() {
+    const m = imp.map, cell = (r, k) => (m[k] != null ? r[m[k]] ?? '' : '');
+    imp.rows = [];
+    if (imp.mode === 'spend') {
+      try { await spendLib(); } catch (e) { $('impMsg').textContent = L('The spend database could not be loaded. It is served with the site (co2trace.io).', 'No se pudo cargar la base de gasto. Se sirve con el sitio (co2trace.io).'); renderImp(); return; }
+      const rate = parseFloat($('impRate').value) || spendRate();
+      imp.body.forEach(r => {
+        const amt = numIn(cell(r, 'amount')), text = `${cell(r, 'desc')} ${cell(r, 'cat')}`;
+        if (!(amt > 0) || !normTxt(text)) return;
+        const c = matchSpend(text), mo = monthIn(cell(r, 'date'));
+        imp.rows.push({ on: c.length > 0, desc: String(cell(r, 'desc')).trim() || String(cell(r, 'cat')).trim(), supplier: String(cell(r, 'supplier')).trim(), ref: String(cell(r, 'ref')).trim(), stage: 'materials', scope: 3,
+          m0: mo ?? 0, m1: mo ?? 11, src: amt, qty: state.region === 'us' ? amt * rate : amt / rate, cands: c.map(([it]) => it.k), pick: c.length ? c[0][0].k : '' });
+      });
+    } else {
+      imp.body.forEach(r => {
+        const qty = numIn(cell(r, 'qty')), text = `${cell(r, 'activity')} ${cell(r, 'desc')}`, unit = cell(r, 'unit');
+        if (!(qty > 0) && !normTxt(text)) return;
+        const c = matchAct(text, unit, qty), m0 = monthIn(cell(r, 'm0')), m1 = monthIn(cell(r, 'm1')), sc = parseInt(String(cell(r, 'scope')).replace(/\D/g, ''), 10);
+        const best = c[0] && !isNaN(c[0][2]) ? c[0] : null;
+        imp.rows.push({ on: !!best && qty > 0, desc: String(cell(r, 'desc')).trim() || String(cell(r, 'activity')).trim(), supplier: String(cell(r, 'supplier')).trim(), ref: String(cell(r, 'ref')).trim(),
+          stage: stageIn(cell(r, 'stage')), scope: sc >= 1 && sc <= 3 ? sc : 0, m0: m0 ?? 0, m1: m1 ?? m0 ?? 11, src: qty, unit: unitIn(unit), cands: c.map(x => x[0]), conv: Object.fromEntries(c.map(x => [x[0], x[2]])), pick: best ? best[0] : 'custom' });
+      });
+    }
+    renderImp();
+  }
+  const impItem = k => imp.lib && imp.lib.items.find(x => x.it.k === k);
+  const impEst = r => {
+    if (!r.on || !r.pick) return 0;
+    if (imp.mode === 'spend') { const x = impItem(r.pick); return x ? r.qty * co2eOf(Object.fromEntries(Object.entries(x.it.gas).filter(([g]) => g !== 'HCFC-22'))) / 1000 : 0; }
+    const q = r.pick === 'custom' ? NaN : r.conv[r.pick] ?? convQty(r.src, r.unit, F[r.pick].unit);
+    return isFinite(q) ? q * libEf(r.pick) / 1000 : 0;
+  };
+  function renderImp() {
+    const fields = IMP_FIELDS[imp.mode], has = imp.head.length > 0, spend = imp.mode === 'spend';
+    $('impTplName').textContent = spend ? L('Spend template (CSV)', 'Plantilla de gasto (CSV)') : L('Activity template (CSV)', 'Plantilla de actividad (CSV)');
+    $('impRateWrap').hidden = !spend;
+    $('impQtyH').textContent = spend ? L('Amount', 'Importe') : L('Quantity', 'Cantidad');
+    if (spend && !$('impRate').value) $('impRate').value = spendRate();
+    $('impRateLbl').textContent = state.region === 'us' ? L('2022 USD per USD spent (inflation adjustment)', '') : 'MXN por EUR de 2019 (tipo de cambio × inflación)';
+    $('impMap').innerHTML = has ? fields.map(([k, en, es]) => `<label><span>${L(en, es)}</span><select data-imp-map="${k}"><option value="">${L('(none)', '(ninguna)')}</option>${imp.head.map((h, i) => `<option value="${i}"${imp.map[k] === i ? ' selected' : ''}>${esc(h || L(`Column ${i + 1}`, `Columna ${i + 1}`))}</option>`).join('')}</select></label>`).join('') : '';
+    $('impMap').hidden = !has;
+    const on = imp.rows.filter(r => r.on), tot = on.reduce((a, r) => a + impEst(r), 0);
+    const need = spend ? ['desc', 'amount'] : ['qty'], miss = need.filter(k => imp.map[k] == null);
+    $('impMsg').textContent = !has ? L('Pick a file, or drop it here. The first row must hold the column names.', 'Elige un archivo o suéltalo aquí. La primera fila debe tener los nombres de las columnas.')
+      : miss.length ? L(`Choose the column for: ${miss.map(k => fields.find(f => f[0] === k)[1]).join(', ')}.`, `Elige la columna de: ${miss.map(k => fields.find(f => f[0] === k)[2]).join(', ')}.`)
+      : L(`${imp.name}: ${imp.rows.length} rows read, ${imp.rows.filter(r => r.cands.length).length} matched to a factor. ${on.length} selected · about ${fmtT(tot)} t CO₂e.`, `${imp.name}: ${imp.rows.length} filas leídas, ${imp.rows.filter(r => r.cands.length).length} con factor. ${on.length} seleccionadas · cerca de ${fmtT(tot)} t CO₂e.`);
+    const fName = k => { if (spend) { const x = impItem(k); return x ? x.it.n : k; } return F[k] ? F[k].name : k; };
+    $('impRows').innerHTML = imp.rows.slice(0, 300).map((r, i) => `<tr class="${r.on ? '' : 'off'}"><td><input type="checkbox" data-imp-on="${i}"${r.on ? ' checked' : ''} aria-label="${L('Import this row', 'Importar esta fila')}"></td>
+      <td data-l="${L('Description', 'Descripción')}">${esc(r.desc)}${r.supplier ? `<small>${esc(r.supplier)}</small>` : ''}</td>
+      <td class="r" data-l="${spend ? L('Amount', 'Importe') : L('Quantity', 'Cantidad')}">${spend ? money(r.src, false) : `${nf2.format(r.src)} ${esc(r.unit || '')}`}</td>
+      <td data-l="${L('Factor', 'Factor')}"><select data-imp-pick="${i}">${r.cands.map(k => `<option value="${esc(k)}"${k === r.pick ? ' selected' : ''}>${esc(fName(k))}${!spend && isNaN(r.conv[k]) ? ' · ' + L('unit differs', 'otra unidad') : ''}</option>`).join('')}${spend ? '' : `<option value="custom"${r.pick === 'custom' ? ' selected' : ''}>${L('Custom factor (enter it later)', 'Factor personalizado (captúralo después)')}</option>`}${!r.cands.length && spend ? `<option value="">${L('No match', 'Sin coincidencia')}</option>` : ''}</select></td>
+      <td class="r" data-l="t CO₂e">${r.on ? fmtT(impEst(r)) : '–'}</td></tr>`).join('');
+    $('impTable').hidden = !imp.rows.length;
+    $('impAdd').disabled = !on.length;
+    $('impAdd').textContent = on.length ? L(`Add ${on.length} line${on.length === 1 ? '' : 's'}`, `Agregar ${on.length} línea${on.length === 1 ? '' : 's'}`) : L('Add lines', 'Agregar líneas');
+    $('impEx').hidden = !state.isExample;
+  }
+  // a database item → registered factor key, as + From database does
+  function useLibItem(lib, meta, it) {
+    const f0 = libFactor(lib, meta, it);
+    if (isEs()) f0.g = GROUP_ES[f0.g] || f0.g;
+    const f = registerFactor(f0);
+    state.lib = state.lib || {};
+    state.lib[f.key] = { key: f.key, g: f.en[1], name: f.en[0], unit: f.unit, kind: f.kind, gas: f.gas, lib: f.lib, src: f.src, cite: f.cite };
+    return f.key;
+  }
+  function addImp() {
+    const spend = imp.mode === 'spend', on = imp.rows.filter(r => r.on && r.pick);
+    on.forEach(r => {
+      let key = r.pick, qty;
+      if (spend) { const x = impItem(r.pick); if (!x) return; key = useLibItem(imp.lib.id, imp.lib.meta, x.it); qty = r.qty; }
+      else qty = key === 'custom' ? r.src : r.conv[key] ?? convQty(r.src, r.unit, F[key].unit);
+      if (!isFinite(qty)) qty = r.src;
+      const stage = r.stage || (spend ? 'materials' : kindStage(F[key].kind) || imp.stage);
+      const ln = row(stage, key, String(+qty.toPrecision(10)), r.desc, r.supplier, r.ref ? { ref: r.ref } : null);
+      if (key === 'custom' && r.unit) ln.unit = r.unit;
+      if (r.scope) ln.scope = r.scope;
+      ln.m0 = Math.min(r.m0, r.m1); ln.m1 = Math.max(r.m0, r.m1);
+      state.rows.push(ln);
+    });
+    $('impDlg').close();
+    renderStages(); renderSetup(); touched();
+    toast(L(`Added ${on.length} line${on.length === 1 ? '' : 's'} from ${imp.name}`, `Se agregaron ${on.length} línea${on.length === 1 ? '' : 's'} de ${imp.name}`));
+  }
+  $('impMode').addEventListener('click', e => { const b = e.target.closest('[data-imp-mode]'); if (!b) return; imp.mode = b.dataset.impMode; $('impMode').querySelectorAll('[data-imp-mode]').forEach(x => x.setAttribute('aria-pressed', x === b)); if (imp.head.length) { guessMap(); buildImp(); } else renderImp(); });
+  $('impTpl').addEventListener('click', () => impTemplate(imp.mode));
+  $('impFile').addEventListener('change', e => loadImpFile(e.target.files[0], e.target.files));
+  $('impDrop').addEventListener('dragover', e => { e.preventDefault(); $('impDrop').classList.add('drag'); });
+  $('impDrop').addEventListener('dragleave', () => $('impDrop').classList.remove('drag'));
+  $('impDrop').addEventListener('drop', e => { e.preventDefault(); $('impDrop').classList.remove('drag'); loadImpFile(e.dataTransfer.files[0], e.dataTransfer.files); });
+  $('impMap').addEventListener('change', e => { const s = e.target.closest('[data-imp-map]'); if (!s) return; if (s.value === '') delete imp.map[s.dataset.impMap]; else imp.map[s.dataset.impMap] = +s.value; buildImp(); });
+  $('impRate').addEventListener('change', () => { if (imp.mode === 'spend' && imp.head.length) buildImp(); });
+  $('impRows').addEventListener('change', e => {
+    const c = e.target.closest('[data-imp-on]'), p = e.target.closest('[data-imp-pick]');
+    if (c) imp.rows[+c.dataset.impOn].on = c.checked;
+    if (p) { const r = imp.rows[+p.dataset.impPick]; r.pick = p.value; if (p.value) r.on = true; }
+    renderImp();
+  });
+  $('impAdd').addEventListener('click', addImp);
+  $('impForm').addEventListener('submit', e => { if (!e.submitter || e.submitter.value !== 'close') e.preventDefault(); });
+  $('impDlg').addEventListener('click', e => { if (e.target === $('impDlg')) $('impDlg').close(); });
+
   // ---------- + From database: search the factor libraries and add a line with the chosen factor ----------
   const libs = { index: null, items: {}, stage: null };
   const libFetch = url => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
@@ -4753,6 +5110,8 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
   stagesEl.addEventListener('click', e => {
     const libAdd = e.target.closest('[data-libadd]');
     if (libAdd) { openLib(libAdd.dataset.libadd); return; }
+    const impB = e.target.closest('[data-import]');
+    if (impB) { openImport(impB.dataset.import); return; }
     const add = e.target.closest('[data-add]');
     if (add) {
       const s = STAGES.find(x => x.id === add.dataset.add);
@@ -5435,6 +5794,7 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
       { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'import upload file csv xlsx excel spreadsheet accounting spend bulk template importar subir archivo hoja calculo contable gasto plantilla masivo', p: ['import file', 'importar archivo', 'import data', 'importar datos', 'upload a file', 'subir un archivo', 'import from excel', 'importar desde excel', 'accounting export', 'exportacion contable', 'spend data', 'datos de gasto'], a: () => ({ html: L('<p>Press <b>+ Import file</b> in any stage to add many lines at once from a CSV or Excel (.xlsx) file. Choose <b>Activity</b> for quantities (kWh, litres, gallons, therms, kg, t·km…: units are converted to each factor’s unit) or <b>Accounting spend</b> for an export of purchases (amount before tax, description, supplier, date): spend lines are matched to the EPA supply-chain factors in the US or EXIOBASE México in México and go to Scope 3, category 1. Columns are guessed from the headers; check the match of each row in the preview before adding. Download a template from the same box. The file is read in the browser and not uploaded.</p>', '<p>Pulsa <b>+ Importar archivo</b> en cualquier etapa para agregar muchas líneas a la vez desde un archivo CSV o Excel (.xlsx). Elige <b>Actividad</b> para cantidades (kWh, litros, galones, kg, t·km…: las unidades se convierten a la del factor) o <b>Gasto contable</b> para una exportación de compras (importe sin IVA, descripción, proveedor, fecha): las líneas de gasto se asocian con EXIOBASE México y van al alcance 3, categoría 1. Las columnas se adivinan por los encabezados; revisa la asociación de cada fila en la vista previa antes de agregarlas. Descarga una plantilla desde la misma ventana. El archivo se lee en el navegador y no se sube.</p>') }) },
       { k: 'export exports questionnaire portal datapoints exportar exportacion exportaciones cuestionario portal', p: ['framework exports', 'export cdp', 'export to csrd', 'export esrs', 'export ifrs', 'exportar niif', 'exportaciones por marco', 'export to cdp', 'exportar a cdp', 'fill cdp', 'llenar cdp', 'csrd export', 'esrs e1', 'ifrs s2', 'niif s2', 'sb 253 report', 'cdp questionnaire', 'cuestionario de cdp'], a: () => ({ html: L(`<p><b>Framework exports</b> (under Reports) lay the ledger out the way ${fwList().map(f => f[1]).join(', ')} ask for it: each datapoint with its value, a status (filled, to complete, outside CO2Trace) and a note. Open one to print it or download the CSV to copy into each portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} of ${fw.ok + fw.todo} filled`; }).join(' · ')}.</p>`, `<p>Las <b>exportaciones por marco</b> (en Reportes) ordenan el registro como lo piden ${fwList().map(f => f[1]).join(', ')}: cada dato con su valor, un estado (lleno, por completar, fuera de CO2Trace) y una nota. Ábrelas para imprimir o descarga el CSV para copiarlo a cada portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} de ${fw.ok + fw.todo} llenos`; }).join(' · ')}.</p>`), acts: [go('Framework exports', 'Exportaciones por marco', 'fw')] }) },
       { k: 'target trajectory forecast pathway scenario whatif projection track meta trayectoria pronostico proyeccion escenario rumbo', p: ['my target', 'mi meta', 'on track', 'en curso', 'what if', 'que pasa si', 'target and trajectory', 'meta y trayectoria', 'set a target', 'fijar una meta'], a: () => { const tr = target(totals()); return { html: tr ? L(`<p>Your target (${esc(tgtName(tr))}) is <b>${fmtT(tr.goal)} t CO₂e</b> by ${tr.ty}. This year is ${fmtT(tr.cur)} t against ${fmtT(tr.path(tr.cy))} t on the path. With the savings plan, ${Math.max(tr.ty, tr.cy)} lands ${tr.gap > 0 ? `${fmtT(tr.gap)} t above` : `${fmtT(-tr.gap)} t below`} the path. Switch measures on and off in the card to test scenarios.</p>`, `<p>Tu meta (${esc(tgtName(tr))}) es <b>${fmtT(tr.goal)} t CO₂e</b> para ${tr.ty}. Este año van ${fmtT(tr.cur)} t frente a ${fmtT(tr.path(tr.cy))} t de la trayectoria. Con el plan de ahorro, ${Math.max(tr.ty, tr.cy)} queda ${tr.gap > 0 ? `${fmtT(tr.gap)} t por encima` : `${fmtT(-tr.gap)} t por debajo`} de la trayectoria. Activa o desactiva medidas en la tarjeta para probar escenarios.</p>`) : L('<p>Set a base year, its total and a <b>reduction target</b> under Goal and scope (1.5 °C path, well below 2 °C or your own). The <b>Target and trajectory</b> card then draws the path, a business-as-usual forecast and the forecast with the savings plan, and lets you switch measures on and off.</p>', '<p>Captura un año base, su total y una <b>meta de reducción</b> en Objetivo y alcance (trayectoria de 1.5 °C, muy por debajo de 2 °C o propia). La tarjeta <b>Meta y trayectoria</b> dibuja la trayectoria, un pronóstico sin cambios y el pronóstico con el plan de ahorro, y te deja activar o desactivar medidas.</p>'), acts: [go('Target and trajectory', 'Meta y trayectoria', 'c-tgt')] }; } },
       { k: 'base baseline year recalculation recalculate prior previous trend progress base año recalculo recalcular anterior tendencia avance', a: () => ({ html: L(`<p>Set a <b>base year</b>, its total, the prior-year total and a recalculation threshold under Goal and scope. The dashboard then shows the change against the base year, and Checks reminds you to recalculate when the change is above the threshold.</p>`, `<p>Captura un <b>año base</b>, su total, el total del año anterior y un umbral de recálculo en Objetivo y alcance. El tablero muestra el cambio frente al año base y Revisiones te recuerda recalcular cuando el cambio supera el umbral.</p>`), acts: [go('Base year', 'Año base', 'c-base')] }) },
