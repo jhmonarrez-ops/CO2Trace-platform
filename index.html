@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-MrbkJioAHHjTmCJZm/TY842S13VPLMUAtMrXWvyHwRU=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-bG6FEz8R9G7om9lvyAkrnJ4fkCX4SnrhUwsR+z8/Bu8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -353,7 +353,21 @@ html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
 .fw-card h4 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
 .fw-card p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--slate); }
 .fw-card .note { font-size: 12px; color: var(--muted); }
-.fw-act { display: flex; gap: 8px; margin-top: 4px; }
+.fw-act { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
+.cr-card { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.cr-card.sent { background: var(--surface-2); }
+.cr-card .fw-top b { font-size: 15px; letter-spacing: -.01em; text-transform: none; color: var(--ink); font-family: var(--f-display); }
+.cr-card p { margin: 0; font-size: 13px; color: var(--slate); }
+.cr-card .pill { border: 0; cursor: pointer; font: inherit; font-size: 11px; }
+.cr-nums { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+.cr-nums b { font-size: 20px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cr-card .note { font-size: 12px; color: var(--muted); }
+.cr-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; align-items: end; padding: 16px; border-radius: 16px; background: var(--surface-2); }
+.cr-form label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.cr-form input:not([type="checkbox"]), .cr-form select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; font-size: 13.5px; color: var(--ink); }
+.cr-form .cr-chk { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); padding-bottom: 10px; }
+.cr-form .note { grid-column: 1 / -1; margin: 0; font-size: 12.5px; color: var(--miss); }
+@media (max-width: 640px) { .cr-form input:not([type="checkbox"]), .cr-form select { font-size: 16px; } }
 .fw-act .btn { padding: 8px 14px; font-size: 13.5px; }
 @media (max-width: 1000px) { .rep-flow, .rep-types, .fw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .rep-flow, .rep-types, .fw-grid { grid-template-columns: minmax(0, 1fr); } }
@@ -1289,6 +1303,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#c-hot" data-es="Puntos críticos">Hotspots</a></li>
             <li><a href="#c-tgt" data-es="Meta y trayectoria">Target and trajectory</a></li>
             <li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li>
+            <li><a href="#fw" data-es="Exportaciones por marco">Framework exports</a></li>
+            <li><a href="#cust" data-es="Solicitudes de clientes">Customer requests</a></li>
           </ul>
           <p class="drop-foot" data-es="Toneladas de CO₂e por alcance, categoría, etapa y proveedor, al momento.">Tonnes of CO₂e by scope, category, stage and supplier, updated as you type.</p>
         </div>
@@ -1651,6 +1667,20 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="fw-wrap rv" id="fw">
       <div class="fw-head"><h3 data-es="Exportaciones por marco de reporte">Framework exports</h3><p data-es="Las mismas cifras, ordenadas como las pide cada marco: valor, estado y lo que falta. Ábrelas para imprimir o descarga el CSV para copiar a cada portal.">The same figures, laid out the way each framework asks for them: value, status and what is missing. Open one to print it, or download the CSV to copy into each portal.</p></div>
       <div class="fw-grid" id="fwGrid"></div>
+    </div>
+    <div class="fw-wrap rv" id="cust">
+      <div class="fw-head"><h3 data-es="Solicitudes de tus clientes">Customer data requests</h3><p data-es="Cuando un cliente te pide tus emisiones (por CDP Supply Chain, un portal de proveedores o un cuestionario), regístralo aquí: CO2Trace asigna tu huella a ese cliente y arma la hoja para enviarle.">When a customer asks for your emissions (through CDP Supply Chain, a supplier portal or a questionnaire), record the request here: CO2Trace allocates your footprint to that customer and builds the sheet to send.</p></div>
+      <div class="fw-grid" id="crList"></div>
+      <form class="cr-form" id="crForm" novalidate>
+        <label><span data-es="Cliente">Customer</span><input name="customer" type="text" required></label>
+        <label><span data-es="Qué le vendes">What you sell them</span><input name="product" type="text"></label>
+        <label><span data-es="Base de asignación">Allocation basis</span><select name="basis" id="crBasis"></select></label>
+        <label><span data-es="Valor">Value</span><input name="val" type="number" min="0" step="any" required></label>
+        <label><span data-es="Fecha límite">Due date</span><input name="due" type="date"></label>
+        <label class="cr-chk"><input name="s3" type="checkbox" checked><span data-es="Incluir alcance 3 aguas arriba">Include upstream Scope 3</span></label>
+        <button type="submit" class="btn primary" data-es="Agregar solicitud">Add request</button>
+        <p class="note" id="crMsg" aria-live="polite"></p>
+      </form>
     </div>
     <div class="rep-cta rv">
       <button type="button" class="btn primary" id="makeReport" data-es="Generar el reporte ahora&lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;▶&lt;/span&gt;">Generate the report now<span class="arr" aria-hidden="true">▶</span></button>
@@ -2391,8 +2421,12 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       region, method: REGIONS[region].method,
       goal: Object.assign(blankGoal(), { allocation: 'cutoff', cutoff: T('Inputs under 1% of product mass and of total emissions may be left out', 'Se pueden excluir insumos menores al 1% de la masa del producto y de las emisiones totales') }, exGoal(T, id, b.rows), b.goal),
       rows: b.rows,
+      requests: CR_EX[id] ? [{ id: 'qex', customer: T(CR_EX[id][0], CR_EX[id][1]) + X, product: T(CR_EX[id][2], CR_EX[id][3]), basis: 'units', val: String(Math.round((+b.fuQty || 0) * 0.18)), due: '2026-11-30', s3: true, sent: false }] : [],
     };
   }
+  // one fictional customer request per example: [customer en, es, product en, es]; 18 % of the units go to that customer
+  const CR_EX = { agua: ['Lone Star Grocers', 'Supermercados Cadena Norte', 'Sparkling water, cases of 24 bottles', 'Agua mineral, cajas de 24 botellas'], autopartes: ['Great Lakes Assembly', 'Ensambladora del Bajío', 'Stamped steel brackets', 'Soportes de acero estampado'],
+    citricos: ['Sierra Juice Co.', 'Jugos Sierra Alta', 'Fresh oranges for juice', 'Naranja fresca para jugo'], imprenta: ['Desert Mutual Insurance', 'Corporativo Cumbres', 'Printed brochures', 'Folletos impresos'] };
   // Base year and Scope 3 screening for the examples, so their goal and scope reads complete. Base and prior totals
   // are filled from the ledger once it is loaded (exampleBase()); categories with lines count as included on their own.
   function exGoal(T, id, rows) {
@@ -2918,7 +2952,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
       ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
     ];
-    renderFw();
+    renderFw(); renderCust();
     $('repTypes').innerHTML = types.map(([ic, t, std, d], i) => `<article class="rep-type rv in" style="--i: ${i}"><span class="evg-ico">${svgI(ic)}</span><div><span class="rep-std">${esc(std)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div></article>`).join('');
     // the two automatic steps are not live yet
     $('repFlow').querySelectorAll('li[data-k="0"], li[data-k="1"]').forEach(li => {
@@ -3452,6 +3486,97 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
       a.href = u; a.download = `${bare(state.company || 'co2trace').replace(/[^\w-]+/g, '_')}_${id}_${state.year || ''}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
   });
 
+  // ---------- Customer data requests: allocate the footprint to one customer and build the sheet they asked for ----------
+  // state.requests[] = { id, customer, product, basis ('units' | 'revenue' | 'pct'), val, due, s3 (true = upstream Scope 3 included), sent }.
+  // Allocation (GHG Protocol Scope 3 Standard, ch. 8; CDP Supply Chain): physical (functional units sold to the customer) when
+  // possible, else economic (customer revenue ÷ company revenue), else an agreed share. Upstream Scope 3 = categories 1–8.
+  const CR_BASIS = () => [['units', L('Units sold to them', 'Unidades que les vendes')], ['revenue', L(`Revenue from them (${PRICE_DEF[state.region].cur})`, `Ingresos del cliente (${PRICE_DEF[state.region].cur})`)], ['pct', L('Agreed share (%)', 'Porcentaje acordado (%)')]];
+  function crAlloc(q, t = totals()) {
+    const g = state.goal, v = parseFloat(q.val) || 0, fu = parseFloat(state.fuQty) || 0, rev = parseFloat(g.revenue) || 0;
+    const share = Math.min(1, Math.max(0, q.basis === 'units' ? (fu ? v / fu : 0) : q.basis === 'revenue' ? (rev ? v / rev : 0) : v / 100));
+    const up = [1, 2, 3, 4, 5, 6, 7, 8].reduce((a, i) => a + (t.byS3[i] || 0), 0);
+    const s1 = t.byScope[1] * share, lb = t.s2lb * share, mb = t.s2mb * share, s3 = q.s3 ? up * share : 0;
+    const why = q.basis === 'units' && !fu ? L('Enter the functional units produced in Project setup', 'Captura las unidades funcionales producidas en la configuración del proyecto')
+      : q.basis === 'revenue' && !rev ? L('Enter net revenue under Goal and scope', 'Captura los ingresos netos en Objetivo y alcance') : !(v > 0) ? L('Enter the allocation value', 'Captura el valor de asignación') : '';
+    return { share, s1, lb, mb, s3, up, total: s1 + mb + s3, perFu: fu ? (t.byScope[1] + t.s2mb + up) * 1000 / fu : 0, why };
+  }
+  const crBasisTxt = q => { const v = parseFloat(q.val) || 0; return q.basis === 'units' ? L(`Physical: ${nf0.format(v)} of ${nf0.format(+state.fuQty || 0)} units${state.fuName ? ` (${state.fuName})` : ''}`, `Física: ${nf0.format(v)} de ${nf0.format(+state.fuQty || 0)} unidades${state.fuName ? ` (${state.fuName})` : ''}`) : q.basis === 'revenue' ? L(`Economic: ${money(v, false)} of ${money(+state.goal.revenue || 0, false)} revenue`, `Económica: ${money(v, false)} de ${money(+state.goal.revenue || 0, false)} de ingresos`) : L(`Agreed share: ${nf1.format(v)} %`, `Porcentaje acordado: ${nf1.format(v)} %`); };
+  function crData(q) {
+    const t = totals(), a = crAlloc(q, t), g = state.goal, tr = target(t, []), sv = savings(t), cov = t.total ? (t.byEv.ok + t.byEv.att) / t.total : 0;
+    const tt = v => `${fmtT(v)} t CO₂e`;
+    return { a, secs: [
+      [L('Supplier and reporting period', 'Proveedor y periodo de reporte'), [
+        [L('Supplier', 'Proveedor'), state.company || ''], [L('Site', 'Sitio'), g.site || ''], [L('Reporting year', 'Año de reporte'), String(state.year || '')],
+        [L('Consolidation approach', 'Enfoque de consolidación'), (document.querySelector(`#g-consol option[value="${g.consol}"]`) || {}).textContent || ''],
+        [L('Standards', 'Normas'), `GHG Protocol · ISO 14064-1 · ISO 14067 · IPCC ${state.method} GWP100`]]],
+      [L(`Emissions allocated to ${q.customer}`, `Emisiones asignadas a ${q.customer}`), [
+        [L('Product or service supplied', 'Producto o servicio suministrado'), q.product || ''], [L('Allocation method', 'Método de asignación'), crBasisTxt(q)], [L('Share of the supplier’s emissions', 'Parte de las emisiones del proveedor'), `${nf2.format(a.share * 100)} %`],
+        [L('Scope 1', 'Alcance 1'), tt(a.s1)], [L('Scope 2, market-based', 'Alcance 2, basado en mercado'), tt(a.mb)], [L('Scope 2, location-based', 'Alcance 2, basado en ubicación'), tt(a.lb)],
+        [L('Upstream Scope 3 (categories 1–8)', 'Alcance 3 aguas arriba (categorías 1–8)'), q.s3 ? tt(a.s3) : L('Not included in this answer', 'No incluido en esta respuesta')],
+        [L('Total allocated (Scope 2 market-based)', 'Total asignado (alcance 2 basado en mercado)'), tt(a.total)]]],
+      [L('Product carbon footprint', 'Huella de carbono del producto'), [
+        [L('Functional unit', 'Unidad funcional'), state.fuName || ''], [L('Footprint per unit, cradle to gate', 'Huella por unidad, de la cuna a la puerta'), a.perFu ? `${nf2.format(a.perFu)} kg CO₂e` : ''],
+        ...STAGES.filter(s => included(s.id) && t.byStage[s.id] > 0).map(s => [`· ${s.name}`, +state.fuQty ? `${nf2.format(t.byStage[s.id] * 1000 / +state.fuQty)} kg CO₂e` : tt(t.byStage[s.id])])]],
+      [L('Data quality and verification', 'Calidad de los datos y verificación'), [
+        [L('Data quality score (1 best – 5)', 'Calidad de los datos (1 mejor – 5)'), t.total ? `${nf1.format(t.dq)} · ${dqWord(t.dq)}` : ''], [L('Emissions backed by documents', 'Emisiones respaldadas con documentos'), pct(cov, 1)],
+        [L('Third-party verification', 'Verificación de terceros'), { none: L('None', 'Ninguna'), limited: L('Limited assurance', 'Aseguramiento limitado'), reasonable: L('Reasonable assurance', 'Aseguramiento razonable') }[g.assurance || 'none'] + (g.reviewer ? ` · ${g.reviewer}` : '')]]],
+      [L('Targets and reduction actions', 'Metas y acciones de reducción'), [
+        [L('Emission reduction target', 'Meta de reducción de emisiones'), tr ? `${tgtName(tr)}: −${nf1.format(tr.cut)} % ${L('from', 'desde')} ${tr.by} ${L('by', 'para')} ${tr.ty}` : L('No target yet', 'Sin meta todavía')],
+        [L('Planned reductions (savings plan)', 'Reducciones planeadas (plan de ahorro)'), sv.t > 0 ? `${tt(sv.t)} ${L('a year', 'al año')} (${pct(sv.t, t.total)})` : ''],
+        [L('Share passed to this customer', 'Parte que corresponde a este cliente'), sv.t > 0 ? `${tt(sv.t * a.share)} ${L('a year', 'al año')}` : '']]],
+    ] };
+  }
+  function crHtml(q) {
+    const d = crData(q), es = isEs();
+    return `<!doctype html><html lang="${es ? 'es-MX' : 'en'}"><meta charset="utf-8"><title>${esc(bare(state.company || 'CO2Trace'))} → ${esc(q.customer)} · ${esc(state.year || '')}</title>
+<style>
+${REP_CSS}  .gs td:first-child{width:42%}
+</style>
+<div class="doc">
+  <div class="cover"><div class="brand">CO2Trace</div>
+    <h1>${L('Supplier emissions data', 'Datos de emisiones del proveedor')}</h1>
+    <div style="font-size:15px">${esc(state.company || '')} → ${esc(q.customer)} · ${esc(state.year || '')}</div>
+    <div class="kpis" style="margin-top:16px"><div class="k main"><span>${L('Allocated to the customer', 'Asignado al cliente')}</span><b>${fmtT(d.a.total)}</b><i>t CO₂e</i><small>${nf2.format(d.a.share * 100)} % · ${esc(crBasisTxt(q))}</small></div>
+      <div class="k"><span>${L('Per unit', 'Por unidad')}</span><b>${d.a.perFu ? nf2.format(d.a.perFu) : '–'}</b><i>kg CO₂e</i><small>${esc(state.fuName || '')}</small></div>
+      <div class="k"><span>${L('Scopes 1 + 2', 'Alcances 1 + 2')}</span><b>${fmtT(d.a.s1 + d.a.mb)}</b><i>t CO₂e</i><small>${L('market-based', 'basado en mercado')}</small></div></div>
+    ${d.a.why ? `<div class="stbox draft"><b>${L('Incomplete.', 'Incompleto.')}</b> ${esc(d.a.why)}.</div>` : ''}</div>
+  ${d.secs.map(([h, rows]) => `<h2>${esc(h)}</h2><table class="gs"><tbody>${rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v ? esc(v) : `<span class="miss">${L('Not stated', 'Sin dato')}</span>`}</td></tr>`).join('')}</tbody></table>`).join('')}
+  <p class="note">${L('Allocation follows the GHG Protocol Scope 3 Standard (chapter 8): physical allocation by units sold when possible, economic allocation by revenue otherwise. Copy these values into the customer’s questionnaire (for example CDP Supply Chain) or send this sheet. Prepared with CO2Trace from the same ledger as the ISO report.', 'La asignación sigue el Estándar de Alcance 3 del GHG Protocol (capítulo 8): asignación física por unidades vendidas cuando se puede y económica por ingresos en otro caso. Copia estos valores al cuestionario del cliente (por ejemplo CDP Supply Chain) o envía esta hoja. Preparado con CO2Trace con el mismo registro del reporte ISO.')}</p>
+</div>`;
+  }
+  function crCsv(q) {
+    const d = crData(q), c = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    return '﻿' + [[L('Section', 'Sección'), L('Item', 'Concepto'), L('Value', 'Valor')], ...d.secs.flatMap(([h, rows]) => rows.map(([k, v]) => [h, k, v]))].map(r => r.map(c).join(',')).join('\r\n');
+  }
+  function renderCust() {
+    const el = $('crList'); if (!el) return;
+    const list = state.requests || [], t = totals();
+    el.innerHTML = list.length ? list.map(q => { const a = crAlloc(q, t);
+      return `<article class="cr-card${q.sent ? ' sent' : ''}"><div class="fw-top"><b>${esc(q.customer)}</b><button type="button" class="pill ${q.sent ? 'ok' : 'warn'}" data-cr-sent="${q.id}" aria-pressed="${!!q.sent}">${q.sent ? L('Sent', 'Enviada') : L('Open', 'Pendiente')}</button></div>
+        <p>${esc(q.product || '')}${q.due ? ` · ${L('due', 'vence')} ${esc(q.due)}` : ''}</p>
+        <div class="cr-nums"><span><b>${fmtT(a.total)}</b> t CO₂e</span><span>${nf2.format(a.share * 100)} %</span>${a.perFu ? `<span>${nf2.format(a.perFu)} kg/${esc(L('unit', 'unidad'))}</span>` : ''}</div>
+        <span class="note">${esc(a.why || crBasisTxt(q))}</span>
+        <div class="fw-act"><button type="button" class="btn" data-cr-open="${q.id}">${L('Open the sheet', 'Abrir la hoja')}</button><button type="button" class="btn ghost" data-cr-csv="${q.id}">CSV</button><button type="button" class="linkish" data-cr-del="${q.id}">${L('Delete', 'Eliminar')}</button></div></article>`; }).join('')
+      : `<p class="note">${L('No requests yet. Add the first one below.', 'Aún no hay solicitudes. Agrega la primera abajo.')}</p>`;
+    const sel = $('crBasis'), v = sel.value || 'units';
+    sel.innerHTML = CR_BASIS().map(([k, txt]) => `<option value="${k}"${k === v ? ' selected' : ''}>${esc(txt)}</option>`).join('');
+  }
+  $('crForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = $('crForm'), customer = f.elements.customer.value.trim(), val = f.elements.val.value;
+    if (!customer || !(parseFloat(val) > 0)) { $('crMsg').textContent = L('Enter the customer and an allocation value.', 'Captura el cliente y un valor de asignación.'); return; }
+    state.requests = (state.requests || []).concat({ id: 'q' + Date.now().toString(36), customer, product: f.elements.product.value.trim(), basis: f.elements.basis.value, val, due: f.elements.due.value, s3: f.elements.s3.checked, sent: false });
+    f.reset(); $('crMsg').textContent = ''; touched(); renderCust();
+  });
+  $('crList').addEventListener('click', e => {
+    const b = e.target.closest('[data-cr-open],[data-cr-csv],[data-cr-del],[data-cr-sent]'); if (!b) return;
+    const id = b.dataset.crOpen || b.dataset.crCsv || b.dataset.crDel || b.dataset.crSent, q = (state.requests || []).find(x => x.id === id); if (!q) return;
+    if (b.dataset.crOpen) openReport({ html: () => crHtml(q), title: () => `${bare(state.company || 'CO2Trace')} → ${q.customer} · ${state.year || ''}` });
+    else if (b.dataset.crCsv) { const a = document.createElement('a'), u = URL.createObjectURL(new Blob([crCsv(q)], { type: 'text/csv' })); a.href = u; a.download = `${bare(state.company || 'co2trace').replace(/[^\w-]+/g, '_')}_${q.customer.replace(/[^\w-]+/g, '_')}_${state.year || ''}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
+    else if (b.dataset.crDel) { state.requests = state.requests.filter(x => x !== q); touched(); renderCust(); }
+    else { q.sent = !q.sent; touched(); renderCust(); }
+  });
+
   // doc = { html: () => document, title } (default: the ISO report); kept so the browser's forward button reopens the same one
   let repDoc = null;
   function openReport(doc) {
@@ -3803,7 +3928,7 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
     renderKpis(t);
     renderCharts(t);
     renderS3(t);
-    renderFw();
+    renderFw(); renderCust();
   }
 
   const SN = s => (state.region === 'mx'
@@ -5794,6 +5919,7 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
       { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'customer customers client clients buyer request requests supplier questionnaire allocate allocation allocated cliente clientes comprador solicitud solicitudes cuestionario asignar asignacion asignado', p: ['customer request', 'solicitud de cliente', 'my customer asks', 'mi cliente pide', 'customer wants my emissions', 'cliente quiere mis emisiones', 'cdp supply chain', 'supplier questionnaire', 'cuestionario de proveedores', 'allocate emissions', 'asignar emisiones'], a: () => { const q = state.requests || []; return { html: L(`<p>Under <b>Customer data requests</b> (Reports), add each customer that asks for your emissions: what you sell them and how to allocate (units sold to them is best; revenue from them otherwise; or an agreed share). CO2Trace allocates Scope 1, Scope 2 (both methods) and, if you tick it, upstream Scope 3 (categories 1–8), adds the footprint per unit, data quality, verification, your target and planned reductions, and builds a sheet to send or a CSV to copy into their questionnaire (GHG Protocol Scope 3 Standard, chapter 8).${q.length ? ` You have ${q.length} request${q.length === 1 ? '' : 's'}, ${q.filter(x => !x.sent).length} still open.` : ''}</p>`, `<p>En <b>Solicitudes de tus clientes</b> (Reportes), agrega cada cliente que te pide tus emisiones: qué le vendes y cómo asignar (mejor por unidades que le vendes; si no, por ingresos de ese cliente; o un porcentaje acordado). CO2Trace asigna el alcance 1, el alcance 2 (ambos métodos) y, si lo marcas, el alcance 3 aguas arriba (categorías 1–8), agrega la huella por unidad, la calidad de los datos, la verificación, tu meta y las reducciones planeadas, y arma una hoja para enviar o un CSV para copiar a su cuestionario (Estándar de Alcance 3 del GHG Protocol, capítulo 8).${q.length ? ` Tienes ${q.length} solicitud${q.length === 1 ? '' : 'es'}, ${q.filter(x => !x.sent).length} pendiente${q.filter(x => !x.sent).length === 1 ? '' : 's'}.` : ''}</p>`), acts: [go('Customer requests', 'Solicitudes de clientes', 'cust')] }; } },
       { k: 'import upload file csv xlsx excel spreadsheet accounting spend bulk template importar subir archivo hoja calculo contable gasto plantilla masivo', p: ['import file', 'importar archivo', 'import data', 'importar datos', 'upload a file', 'subir un archivo', 'import from excel', 'importar desde excel', 'accounting export', 'exportacion contable', 'spend data', 'datos de gasto'], a: () => ({ html: L('<p>Press <b>+ Import file</b> in any stage to add many lines at once from a CSV or Excel (.xlsx) file. Choose <b>Activity</b> for quantities (kWh, litres, gallons, therms, kg, t·km…: units are converted to each factor’s unit) or <b>Accounting spend</b> for an export of purchases (amount before tax, description, supplier, date): spend lines are matched to the EPA supply-chain factors in the US or EXIOBASE México in México and go to Scope 3, category 1. Columns are guessed from the headers; check the match of each row in the preview before adding. Download a template from the same box. The file is read in the browser and not uploaded.</p>', '<p>Pulsa <b>+ Importar archivo</b> en cualquier etapa para agregar muchas líneas a la vez desde un archivo CSV o Excel (.xlsx). Elige <b>Actividad</b> para cantidades (kWh, litros, galones, kg, t·km…: las unidades se convierten a la del factor) o <b>Gasto contable</b> para una exportación de compras (importe sin IVA, descripción, proveedor, fecha): las líneas de gasto se asocian con EXIOBASE México y van al alcance 3, categoría 1. Las columnas se adivinan por los encabezados; revisa la asociación de cada fila en la vista previa antes de agregarlas. Descarga una plantilla desde la misma ventana. El archivo se lee en el navegador y no se sube.</p>') }) },
       { k: 'export exports questionnaire portal datapoints exportar exportacion exportaciones cuestionario portal', p: ['framework exports', 'export cdp', 'export to csrd', 'export esrs', 'export ifrs', 'exportar niif', 'exportaciones por marco', 'export to cdp', 'exportar a cdp', 'fill cdp', 'llenar cdp', 'csrd export', 'esrs e1', 'ifrs s2', 'niif s2', 'sb 253 report', 'cdp questionnaire', 'cuestionario de cdp'], a: () => ({ html: L(`<p><b>Framework exports</b> (under Reports) lay the ledger out the way ${fwList().map(f => f[1]).join(', ')} ask for it: each datapoint with its value, a status (filled, to complete, outside CO2Trace) and a note. Open one to print it or download the CSV to copy into each portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} of ${fw.ok + fw.todo} filled`; }).join(' · ')}.</p>`, `<p>Las <b>exportaciones por marco</b> (en Reportes) ordenan el registro como lo piden ${fwList().map(f => f[1]).join(', ')}: cada dato con su valor, un estado (lleno, por completar, fuera de CO2Trace) y una nota. Ábrelas para imprimir o descarga el CSV para copiarlo a cada portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} de ${fw.ok + fw.todo} llenos`; }).join(' · ')}.</p>`), acts: [go('Framework exports', 'Exportaciones por marco', 'fw')] }) },
       { k: 'target trajectory forecast pathway scenario whatif projection track meta trayectoria pronostico proyeccion escenario rumbo', p: ['my target', 'mi meta', 'on track', 'en curso', 'what if', 'que pasa si', 'target and trajectory', 'meta y trayectoria', 'set a target', 'fijar una meta'], a: () => { const tr = target(totals()); return { html: tr ? L(`<p>Your target (${esc(tgtName(tr))}) is <b>${fmtT(tr.goal)} t CO₂e</b> by ${tr.ty}. This year is ${fmtT(tr.cur)} t against ${fmtT(tr.path(tr.cy))} t on the path. With the savings plan, ${Math.max(tr.ty, tr.cy)} lands ${tr.gap > 0 ? `${fmtT(tr.gap)} t above` : `${fmtT(-tr.gap)} t below`} the path. Switch measures on and off in the card to test scenarios.</p>`, `<p>Tu meta (${esc(tgtName(tr))}) es <b>${fmtT(tr.goal)} t CO₂e</b> para ${tr.ty}. Este año van ${fmtT(tr.cur)} t frente a ${fmtT(tr.path(tr.cy))} t de la trayectoria. Con el plan de ahorro, ${Math.max(tr.ty, tr.cy)} queda ${tr.gap > 0 ? `${fmtT(tr.gap)} t por encima` : `${fmtT(-tr.gap)} t por debajo`} de la trayectoria. Activa o desactiva medidas en la tarjeta para probar escenarios.</p>`) : L('<p>Set a base year, its total and a <b>reduction target</b> under Goal and scope (1.5 °C path, well below 2 °C or your own). The <b>Target and trajectory</b> card then draws the path, a business-as-usual forecast and the forecast with the savings plan, and lets you switch measures on and off.</p>', '<p>Captura un año base, su total y una <b>meta de reducción</b> en Objetivo y alcance (trayectoria de 1.5 °C, muy por debajo de 2 °C o propia). La tarjeta <b>Meta y trayectoria</b> dibuja la trayectoria, un pronóstico sin cambios y el pronóstico con el plan de ahorro, y te deja activar o desactivar medidas.</p>'), acts: [go('Target and trajectory', 'Meta y trayectoria', 'c-tgt')] }; } },
