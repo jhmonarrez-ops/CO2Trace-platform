@@ -8,15 +8,25 @@
       "monthlyBudgetUsd": 50,
       "mailFrom": "",
       "sesDomain": "",
-      "alertEmail": ""
+      "alertEmail": "",
+      "helpModel": "anthropic.claude-opus-5-5",
+      "extractModel": "anthropic.claude-opus-5-5",
+      "helpPerVisitor": 30,
+      "helpPerDay": 1500,
+      "docsPerMonth": 300
     },
     "stages": {
       "prod": {
-        "siteUrls": ["https://co2trace.io", "https://www.co2trace.io"],
+        "siteUrls": [
+          "https://co2trace.io",
+          "https://www.co2trace.io"
+        ],
         "authDomainPrefix": "co2trace"
       },
       "dev": {
-        "siteUrls": ["http://localhost:8080"],
+        "siteUrls": [
+          "http://localhost:8080"
+        ],
         "authDomainPrefix": "co2trace-dev"
       }
     }

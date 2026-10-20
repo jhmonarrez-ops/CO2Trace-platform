@@ -1,9 +1,9 @@
 import { PGlite } from '@electric-sql/pglite';
-import { createApp, type Identity, type Mailer, type Storage } from '../src/app.ts';
+import { createApp, type AiDeps, type Identity, type Mailer, type Storage } from '../src/app.ts';
 import { pgliteDb, type Db } from '../src/db/db.ts';
 import { migrations, grantsSql, APP_ROLE, migrationStatement } from '../src/db/migrations.ts';
 
-export async function setup() {
+export async function setup(opts: { ai?: AiDeps } = {}) {
   const pg = new PGlite();
   await pg.exec('create table schema_migrations (id text primary key, applied_at timestamptz not null default now())');
   for (const m of migrations) await pg.exec(migrationStatement(m));
@@ -22,7 +22,7 @@ export async function setup() {
   const mailer: Mailer = { async sendInvite(to, p) { sent.push({ to, link: p.link }); return true; } };
 
   const db: Db = pgliteDb(pg as any);
-  const handle = createApp({ db, storage, mailer, config: { siteUrl: 'https://co2trace.io' } });
+  const handle = createApp({ db, storage, mailer, config: { siteUrl: 'https://co2trace.io' }, ai: opts.ai });
   const as = (identity: Identity) => ({
     get: (path: string, query?: Record<string, string>) => handle({ method: 'GET', path, query, identity }),
     post: (path: string, body?: unknown) => handle({ method: 'POST', path, body, identity }),

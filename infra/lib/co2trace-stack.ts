@@ -14,9 +14,11 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as budgets from 'aws-cdk-lib/aws-budgets';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import { NodejsFunction, OutputFormat } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Provider } from 'aws-cdk-lib/custom-resources';
-import { CfnStage, CorsHttpMethod, HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
+import { CfnStage, CorsHttpMethod, HttpApi, HttpMethod, HttpNoneAuthorizer } from 'aws-cdk-lib/aws-apigatewayv2';
 import { HttpJwtAuthorizer } from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
 import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import type { Construct } from 'constructs';
@@ -35,6 +37,10 @@ export interface Co2TraceProps extends StackProps {
   /** Email for the monthly budget alert. */
   alertEmail?: string;
   monthlyBudgetUsd: number;
+  /** Claude through Amazon Bedrock: model IDs and the limits that keep cost bounded. */
+  ai: { helpModel: string; extractModel: string; helpPerVisitor: number; helpPerDay: number; docsPerMonth: number;
+    /** Reserved concurrency for the public help function (needs spare account concurrency; leave unset on new accounts). */
+    helpConcurrency?: number };
 }
 
 const API_DIR = path.join(__dirname, '..', '..', 'api');
@@ -139,10 +145,21 @@ export class Co2TraceStack extends Stack {
       }],
       lifecycleRules: [
         { abortIncompleteMultipartUploadAfter: Duration.days(1) },
+        // documents waiting to be read by the assistant; the worker deletes them once read
+        { prefix: 'inbox/', expiration: Duration.days(1), noncurrentVersionExpiration: Duration.days(1) },
         { noncurrentVersionExpiration: Duration.days(90) },
       ],
       removalPolicy: keep,
       autoDeleteObjects: !prod,
+    });
+
+    /* ---------- Assistant state: rate counters and document-reading jobs (items expire by ttl) ---------- */
+    const aiTable = new dynamodb.Table(this, 'Ai', {
+      partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      timeToLiveAttribute: 'ttl',
+      encryption: dynamodb.TableEncryption.AWS_MANAGED,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     /* ---------- Functions ---------- */
@@ -195,6 +212,30 @@ export class Co2TraceStack extends Stack {
       }));
     }
     api.node.addDependency(schema);
+    aiTable.grantReadWriteData(api);
+    api.addEnvironment('AI_TABLE', aiTable.tableName);
+    api.addEnvironment('DOCS_PER_MONTH', String(props.ai.docsPerMonth));
+
+    // Claude in Amazon Bedrock (bedrock-mantle endpoint), called with the function's role.
+    const bedrock = new iam.PolicyStatement({ actions: ['bedrock-mantle:CreateInference'], resources: ['*'] });
+    const aiEnv = { AI_TABLE: aiTable.tableName, BEDROCK_REGION: this.region, HELP_MODEL: props.ai.helpModel, EXTRACT_MODEL: props.ai.extractModel, NODE_OPTIONS: '--enable-source-maps' };
+
+    // Public help chat: no database, no bucket; only the counters table and Bedrock.
+    const help = fn('Help', 'public.ts', {
+      timeout: Duration.seconds(29),
+      environment: { ...aiEnv, HELP_PER_VISITOR: String(props.ai.helpPerVisitor), HELP_PER_DAY: String(props.ai.helpPerDay) },
+      ...(props.ai.helpConcurrency ? { reservedConcurrentExecutions: props.ai.helpConcurrency } : {}),
+    });
+    help.addToRolePolicy(bedrock);
+    aiTable.grantReadWriteData(help);
+
+    // Reads each upload to inbox/<cid>/<job> and stores the proposed lines on the job.
+    const reader = fn('Reader', 'worker.ts', { timeout: Duration.minutes(5), memorySize: 1024, environment: { ...aiEnv, BUCKET: bucket.bucketName } });
+    reader.addToRolePolicy(bedrock);
+    aiTable.grantReadWriteData(reader);
+    bucket.grantRead(reader, 'inbox/*');
+    bucket.grantDelete(reader, 'inbox/*');
+    bucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(reader), { prefix: 'inbox/' });
 
     /* ---------- HTTP API ---------- */
     const httpApi = new HttpApi(this, 'HttpApi', {
@@ -210,9 +251,11 @@ export class Co2TraceStack extends Stack {
       }),
       defaultIntegration: new HttpLambdaIntegration('ApiIntegration', api),
     });
+    httpApi.addRoutes({ path: '/assistant/help', methods: [HttpMethod.POST], integration: new HttpLambdaIntegration('HelpIntegration', help), authorizer: new HttpNoneAuthorizer() });
     const accessLogs = new logs.LogGroup(this, 'ApiAccessLogs', { retention: logs.RetentionDays.ONE_YEAR, removalPolicy: keep });
     const stage = httpApi.defaultStage!.node.defaultChild as CfnStage;
     stage.defaultRouteSettings = { throttlingBurstLimit: 100, throttlingRateLimit: 50 };
+    stage.routeSettings = { 'POST /assistant/help': { throttlingBurstLimit: 10, throttlingRateLimit: 3 } };
     stage.accessLogSettings = {
       destinationArn: accessLogs.logGroupArn,
       format: JSON.stringify({ requestId: '$context.requestId', ip: '$context.identity.sourceIp', sub: '$context.authorizer.claims.sub',

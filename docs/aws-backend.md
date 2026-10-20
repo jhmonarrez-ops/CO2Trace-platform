@@ -65,6 +65,25 @@ All routes need `Authorization: Bearer <Cognito ID token>`.
 A line's `data` is the ledger row object the page already uses (stage, key, supplier, qty, scope, months, evidence metadata);
 inventory `settings` holds the project setup (company, year, functional unit, boundary, country, method, goal and scope).
 
+## Assistant (Claude in Amazon Bedrock)
+
+Two uses, both through the Bedrock Messages API (`bedrock-mantle` endpoint, `@anthropic-ai/bedrock-sdk`), signed with each
+function's IAM role (`bedrock-mantle:CreateInference`; no API key anywhere):
+
+| Route | Who | What |
+|---|---|---|
+| POST `/assistant/help` `{question, lang, history?, context?}` → `{answer}` | anyone, no sign-in | The help chat on co2trace.io. `context` is a short ledger summary from the browser, sent as data. Function `Help` (`api/src/public.ts`) has no database or bucket access. |
+| POST `/companies/:cid/extract` `{name, size, contentType, lang, region}` → `{job, upload}` | editor | Reads a bill or invoice (PDF, PNG/JPEG/WebP/GIF photo, CSV, TXT, CFDI XML; up to 10 MB). The browser uploads to the presigned form (`inbox/<cid>/<job>`), which starts `Reader` (`api/src/worker.ts`). |
+| GET `/companies/:cid/extract/:job` → `{status: upload\|running\|done\|failed, result, error}` | the editor who sent it | `result` = document type, supplier, reference, service period and lines (activity, description, quantity and unit as printed, amount, months, confidence, the words it was read from). The browser maps them to factors and shows them in the import preview; nothing enters the ledger until someone accepts it. |
+
+- Prompts and the output schema: `api/src/assistant.ts`. The system prompts are fixed and cached; documents and visitor text go in the user turn as data, and extraction uses structured outputs (JSON schema) so the answer is always parseable.
+- Models (`infra/cdk.json`): `helpModel` and `extractModel`, both `anthropic.claude-opus-5-5` by default. Changing `helpModel` to `anthropic.claude-haiku-5-5` makes the public chat far cheaper; keep Opus for reading documents.
+- Cost guards: `helpPerVisitor` (30 questions per IP per day), `helpPerDay` (1,500 for everyone), route throttle 3 req/s (burst 10), optional `helpConcurrency`; `docsPerMonth` (300 documents per company per month, counted when the job is created). Counters and jobs live in the `Ai` DynamoDB table and expire by `ttl` (jobs after a day; uploads in `inbox/` are deleted once read and expire after a day anyway).
+- Logs: each call logs input, output and cache-read tokens (CloudWatch), never the question or the document.
+- Bedrock data handling is governed by AWS (Bedrock does not use prompts to train models); turn on Bedrock invocation logging only if you need it.
+
+Before the first deploy: in the AWS console, **Amazon Bedrock → Model access**, request access to Claude Opus 5.5 (and Claude Haiku 5.5 if you switch the help model) in `us-east-2`.
+
 ## Deploying
 
 One-time, by the account owner:

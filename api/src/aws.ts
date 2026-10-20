@@ -40,6 +40,15 @@ export function s3Storage(bucket: string, s3 = new S3Client({})): Storage {
   };
 }
 
+// Documents waiting to be read (inbox/<cid>/<job>), deleted once read.
+export interface Inbox { read(key: string): Promise<Buffer>; delete(key: string): Promise<void>; }
+export function s3Inbox(bucket: string, s3 = new S3Client({})): Inbox {
+  return {
+    async read(key) { const o = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key })); return Buffer.from(await o.Body!.transformToByteArray()); },
+    async delete(key) { await s3.send(new DeleteObjectCommand({ Bucket: bucket, Key: key })); },
+  };
+}
+
 const esc = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 const ROLE_ES = { viewer: 'lector', editor: 'editor', admin: 'administrador', owner: 'propietario' } as const;
 

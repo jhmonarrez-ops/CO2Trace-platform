@@ -8,6 +8,7 @@
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { DbError, type Db, type Tx } from './db/db.ts';
+import type { JobStore, Limiter } from './ai-store.ts';
 
 export type Role = 'viewer' | 'editor' | 'admin' | 'owner';
 const RANK: Record<Role, number> = { viewer: 0, editor: 1, admin: 2, owner: 3 };
@@ -26,6 +27,12 @@ export interface Storage {
 export interface Mailer { sendInvite(to: string, p: { company: string; inviter: string; role: Role; link: string }): Promise<boolean>; }
 
 export interface AppConfig { siteUrl: string; maxFileBytes?: number; }
+/** Document reading (assistant.ts, run by worker.ts): jobs, the monthly per-company cap and its counter. */
+export interface AiDeps { jobs: JobStore; limiter: Limiter; monthlyDocs: number; }
+
+// Documents the reader takes; uploads go to inbox/<cid>/<job>, which the bucket expires after a day.
+export const READABLE_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg', 'image/webp', 'image/gif', 'text/csv', 'text/plain', 'application/xml', 'text/xml']);
+export const MAX_READ_BYTES = 10 * 1024 * 1024;
 
 export class HttpError extends Error {
   status: number; code: string; extra?: unknown;
@@ -54,6 +61,7 @@ const S = {
   linePatch: z.object({ data: jsonObject(20_000).optional(), position: z.number().int().min(0).optional(), version: z.number().int() }),
   import: z.object({ settings: jsonObject(50_000).optional(), lines: z.array(z.object({ clientId: z.string().min(1).max(100), position: z.number().int().min(0), data: jsonObject(20_000) })).max(500) }),
   file: z.object({ name: z.string().trim().min(1).max(255), size: z.number().int().positive(), contentType: z.string() }),
+  extract: z.object({ name: z.string().trim().min(1).max(255), size: z.number().int().positive(), contentType: z.string(), lang: z.enum(['en', 'es']).default('en'), region: z.enum(['us', 'mx']).default('us') }),
 };
 
 function parse<T>(schema: z.ZodType<T, any, any>, body: unknown): T {
@@ -78,8 +86,8 @@ const safeName = (n: string) => n.replace(/[\\/\x00-\x1f"]/g, '_');
 type Handler = (ctx: { tx: Tx; req: Req; p: Record<string, string>; me: Identity; after: (fn: () => Promise<void>) => void }) => Promise<Res>;
 const ok = (body: unknown, status = 200): Res => ({ status, body });
 
-export function createApp(deps: { db: Db; storage: Storage; mailer?: Mailer; config: AppConfig }) {
-  const { db, storage, mailer, config } = deps;
+export function createApp(deps: { db: Db; storage: Storage; mailer?: Mailer; config: AppConfig; ai?: AiDeps }) {
+  const { db, storage, mailer, config, ai } = deps;
   const maxFile = config.maxFileBytes ?? 25 * 1024 * 1024;
   const routes: [string, RegExp, string[], Handler][] = [];
   const on = (method: string, pattern: string, h: Handler) => {
@@ -299,6 +307,29 @@ export function createApp(deps: { db: Db; storage: Storage; mailer?: Mailer; con
     await tx.query('delete from evidence_files where id = $1::uuid', [f.id]);
     after(() => storage.delete(f.s3_key));
     return ok({ deleted: true });
+  });
+
+  /* ---- reading documents with the assistant ---- */
+  // 1. POST: a job and an upload form. 2. The browser uploads to S3. 3. The upload starts worker.ts. 4. GET until done.
+  on('POST', '/companies/:cid/extract', async ({ tx, p, req, me }) => {
+    await need(tx, p.cid, 'editor');
+    if (!ai) throw new HttpError(503, 'unavailable', 'Document reading is not set up');
+    const b = parse(S.extract, req.body);
+    if (!READABLE_TYPES.has(b.contentType)) throw new HttpError(415, 'unsupported_type', 'CO2Trace can read PDF, PNG, JPEG, WebP, GIF, CSV, TXT and XML files');
+    if (b.size > MAX_READ_BYTES) throw new HttpError(413, 'too_large', `Documents can be up to ${MAX_READ_BYTES / 1048576} MB; split larger ones`);
+    const month = new Date().toISOString().slice(0, 7);
+    if (!await ai.limiter.hit(`co#${p.cid}#${month}`, ai.monthlyDocs, 40 * 86400)) throw new HttpError(429, 'limit', `This company has read ${ai.monthlyDocs} documents this month, the limit of its plan`);
+    const id = randomUUID();
+    await ai.jobs.create({ id, cid: p.cid, sub: me.sub, name: safeName(b.name), contentType: b.contentType, size: b.size, lang: b.lang, region: b.region, status: 'upload', createdAt: new Date().toISOString() });
+    return ok({ job: id, upload: await storage.presignUpload(`inbox/${p.cid}/${id}`, b.contentType, b.size) }, 201);
+  });
+  on('GET', '/companies/:cid/extract/:jid', async ({ tx, p, me }) => {
+    await need(tx, p.cid, 'editor');
+    if (!ai) throw new HttpError(503, 'unavailable', 'Document reading is not set up');
+    const j = uuid.safeParse(p.jid).success ? await ai.jobs.get(p.jid) : null;
+    // only the person who sent the document sees what was read from it
+    if (!j || j.cid !== p.cid || j.sub !== me.sub) throw new HttpError(404, 'not_found', 'Job not found');
+    return ok({ job: j.id, name: j.name, status: j.status, result: j.result ?? null, error: j.error ?? null });
   });
 
   /* ---- audit log ---- */

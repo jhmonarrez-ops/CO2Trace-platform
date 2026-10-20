@@ -18,5 +18,6 @@ new Co2TraceStack(app, `CO2Trace-${stage}`, {
   sesDomain: cfg.sesDomain || undefined,
   alertEmail: cfg.alertEmail || undefined,
   monthlyBudgetUsd: cfg.monthlyBudgetUsd,
+  ai: { helpModel: cfg.helpModel, extractModel: cfg.extractModel, helpPerVisitor: cfg.helpPerVisitor, helpPerDay: cfg.helpPerDay, docsPerMonth: cfg.docsPerMonth, helpConcurrency: cfg.helpConcurrency },
   tags: { app: 'co2trace', stage },
 });

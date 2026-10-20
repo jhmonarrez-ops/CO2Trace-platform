@@ -4,6 +4,7 @@ import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 }
 import { createApp } from './app.ts';
 import { dataApiDb } from './db/db.ts';
 import { s3Storage, sesMailer } from './aws.ts';
+import { dynamoJobs, dynamoLimiter } from './ai-store.ts';
 
 const env = (k: string) => { const v = process.env[k]; if (!v) throw new Error(`missing env ${k}`); return v; };
 
@@ -12,6 +13,7 @@ const handle = createApp({
   storage: s3Storage(env('BUCKET')),
   mailer: process.env.MAIL_FROM ? sesMailer(process.env.MAIL_FROM) : undefined,
   config: { siteUrl: env('SITE_URL') },
+  ai: process.env.AI_TABLE ? { jobs: dynamoJobs(process.env.AI_TABLE), limiter: dynamoLimiter(process.env.AI_TABLE), monthlyDocs: Number(process.env.DOCS_PER_MONTH) || 300 } : undefined,
 });
 
 export async function handler(event: APIGatewayProxyEventV2WithJWTAuthorizer): Promise<APIGatewayProxyResultV2> {
