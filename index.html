@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-+jvEuxz9OUeQ2BDfTHR4665wpwgpUuiq6/VVEU/zCOk=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-2m63jphJ7bcYMrBCEq93l2YEWhAzlFYGLBSIF8iJLS0=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -338,6 +338,10 @@ html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
 .rep-type { display: grid; gap: 12px; align-content: start; padding: 18px; border-radius: 16px; background: var(--surface-2); transition: transform .4s cubic-bezier(.2, .7, .2, 1); }
 .rep-type:hover { transform: translateY(-3px); }
 .rep-type .evg-ico { width: 38px; height: 38px; }
+.rep-type > .btn { justify-self: start; padding: 8px 14px; font-size: 13.5px; }
+.rep-ex { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px; border-radius: 14px; background: var(--surface-2); font-size: 14px; color: var(--ink); }
+.rep-ex select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; font-weight: 600; color: var(--ink); }
+.rep-ex .note { color: var(--muted); font-size: 13px; }
 .rep-type h3 { margin: 2px 0 4px; font-size: 16px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
 .rep-type p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--slate); }
 .rep-std { font-family: var(--f-label); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
@@ -354,6 +358,56 @@ html.rv-on .evg-rules.in li { opacity: 1; transform: none; }
 .fw-card p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--slate); }
 .fw-card .note { font-size: 12px; color: var(--muted); }
 .fw-act { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
+/* dashboard chart animations (#charts.anim: the card gets .play once it scrolls into view) */
+#charts.anim > .card:not(.play) :is(.fill, .meter i, .stack > div, .mc-stack i, .sens-bar i, .tm-cell, .s3g li, .wedge, .radial-wrap svg path, svg.traj :is(.tj-act, .tj-plan, .tj-bau, .tj-tgt, .tj-dot, .tj-goal)) { animation: none; opacity: 0; }
+#charts.anim > .card.play :is(.fill, .meter i, .stack > div, .sens-bar i) { transform-origin: left center; animation: chGrowX .9s cubic-bezier(.2, .7, .2, 1) both; }
+#charts.anim > .card.play .bar-row:nth-child(2) .fill { animation-delay: .06s; } #charts.anim > .card.play .bar-row:nth-child(3) .fill { animation-delay: .12s; }
+#charts.anim > .card.play .bar-row:nth-child(4) .fill { animation-delay: .18s; } #charts.anim > .card.play .bar-row:nth-child(n+5) .fill { animation-delay: .24s; }
+#charts.anim > .card.play .mc-stack i { transform-origin: bottom center; animation: chGrowY .8s cubic-bezier(.2, .7, .2, 1) both; }
+#charts.anim > .card.play .mc-col:nth-child(even) .mc-stack i { animation-delay: .08s; }
+#charts.anim > .card.play :is(.tm-cell, .s3g li) { animation: chPop .55s cubic-bezier(.2, .7, .2, 1) both; }
+#charts.anim > .card.play .s3g li:nth-child(n+6) { animation-delay: .1s; } #charts.anim > .card.play .s3g li:nth-child(n+11) { animation-delay: .2s; }
+#charts.anim > .card.play .wedge { animation: chRing 1s cubic-bezier(.2, .7, .2, 1) both; }
+#charts.anim > .card.play .radial-wrap svg path { transform-box: view-box; transform-origin: 50% 50%; animation: chPop .8s cubic-bezier(.2, .7, .2, 1) both; }
+#charts.anim > .card.play svg.traj :is(.tj-act, .tj-plan) { stroke-dasharray: 3000; animation: chDraw 1.8s ease-out both; }
+#charts.anim > .card.play svg.traj :is(.tj-bau, .tj-tgt, .tj-dot, .tj-goal) { animation: chFade 1s ease-out .4s both; }
+@keyframes chGrowX { from { transform: scaleX(0); } }
+@keyframes chGrowY { from { transform: scaleY(0); } }
+@keyframes chPop { from { opacity: 0; transform: scale(.6); } }
+@keyframes chRing { from { stroke-width: 0; opacity: 0; } }
+@keyframes chDraw { from { stroke-dashoffset: 3000; } to { stroke-dashoffset: 0; } }
+@keyframes chFade { from { opacity: 0; } }
+/* customer request walkthrough (public site) */
+html:not(.public) .cr-demo { display: none; }
+.cr-demo { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 16px; align-items: start; }
+.crd-win { border-radius: 16px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; box-shadow: var(--shadow); }
+.crd-bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: var(--surface-2); font-size: 12px; color: var(--muted); }
+.crd-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); } .crd-bar span { margin-left: 8px; }
+.crd-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 16px; min-height: 240px; }
+.crd-form { display: grid; gap: 8px; align-content: start; }
+.crd-form label { display: grid; gap: 3px; font-size: 11.5px; color: var(--muted); }
+.crd-form b { min-height: 32px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; font-weight: 500; font-size: 13px; color: var(--ink); background: var(--surface); }
+[data-step="1"] .crd-form b:not(:empty):last-of-type { border-color: var(--go); }
+.crd-btn { justify-self: start; margin-top: 4px; padding: 8px 14px; border-radius: 6px; background: var(--go); color: var(--go-ink); font-size: 13px; transition: transform .15s ease, box-shadow .15s ease; }
+.cr-demo.press .crd-btn { transform: scale(.95); box-shadow: 0 0 0 4px color-mix(in srgb, var(--go) 25%, transparent); }
+.crd-card, .crd-sheet { display: grid; gap: 8px; align-content: start; padding: 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .45s cubic-bezier(.2, .7, .2, 1); }
+.cr-demo:is([data-step="2"], [data-step="3"], [data-step="4"], [data-step="5"]) .crd-card, .cr-demo:is([data-step="3"], [data-step="4"], [data-step="5"]) .crd-sheet { opacity: 1; transform: none; }
+.crd-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 13.5px; }
+.crd-pill { padding: 2px 8px; border-radius: 99px; font-size: 11px; background: var(--warn-bg); color: var(--warn); transition: background .3s, color .3s; }
+.cr-demo[data-step="5"] .crd-pill { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
+.crd-num { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 12.5px; color: var(--muted); }
+.crd-num b { font-size: 22px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.crd-open, .crd-send { justify-self: start; padding: 6px 11px; border-radius: 6px; border: 1px solid var(--line); font-size: 12.5px; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+.cr-demo[data-step="3"] .crd-open, .cr-demo[data-step="4"] .crd-send { border-color: var(--go); box-shadow: 0 0 0 4px color-mix(in srgb, var(--go) 18%, transparent); }
+.crd-sheet > b { font-size: 13.5px; color: var(--title); } .crd-sheet > span { font-size: 12px; color: var(--muted); }
+.crd-sheet i { display: flex; justify-content: space-between; gap: 8px; font-style: normal; font-size: 12.5px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.crd-sheet i em { font-style: normal; font-weight: 600; font-variant-numeric: tabular-nums; }
+.crd-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: crd; }
+.crd-steps li { counter-increment: crd; display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: center; font-size: 13.5px; color: var(--muted); transition: color .3s; }
+.crd-steps li::before { content: counter(crd); display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); font-size: 12px; transition: background .3s, color .3s, border-color .3s; }
+.crd-steps li.on { color: var(--ink); } .crd-steps li.on::before { background: var(--go); border-color: var(--go); color: var(--go-ink); }
+@media (max-width: 900px) { .cr-demo { grid-template-columns: minmax(0, 1fr); } .crd-body { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .crd-card, .crd-sheet { transition: none; } }
 .cr-card { display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
 .cr-card.sent { background: var(--surface-2); }
 .cr-card .fw-top b { font-size: 15px; letter-spacing: -.01em; text-transform: none; color: var(--ink); font-family: var(--f-display); }
@@ -456,6 +510,9 @@ html.rep-open .help-fab, html.rep-open .help-chat { display: none; }
 .ex-card.own[aria-pressed="true"] { border-style: solid; border-color: var(--brand); }
 @media (max-width: 760px) { .ex-head { grid-template-columns: minmax(0, 1fr); } }
 html.viewing #projectSetup { display: none; }
+/* public site: no own data; the example's goal and scope, KPIs, ledger and dashboard appear after See examples */
+html.public #projectSetup, html.public .acct-skip { display: none; }
+html.public:not(.ex-open) :is(#setup, #exampleBanner, #kpis, .workspace) { display: none !important; }
 html.viewing .stage-foot .adds, html.viewing [data-remove], html.viewing [data-rm-file], html.viewing .ev-actions > .add { display: none; }
 html.viewing .stages :is(input, select, textarea):disabled { opacity: 1; color: var(--ink); -webkit-text-fill-color: var(--ink); cursor: default; }
 html.viewing:not(.ledger-open) .workspace { grid-template-columns: minmax(0, 1fr); }
@@ -1348,7 +1405,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
           <p class="drop-foot" data-es="Por qué existe CO2Trace y dónde seguirnos.">Why CO2Trace exists and where to follow us.</p>
         </div>
       </div>
-      <a class="cta" href="#ledgerTitle"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
+      <a class="cta" href="#examples"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
     </nav>
     <div class="nav-tools">
       <div class="seg pill" role="group" aria-label="Operations in" data-es-aria-label="Operaciones en">
@@ -1670,6 +1727,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       <li data-k="3"><div class="rep-ill rp"><span class="cover"><b>CO2Trace</b><i class="b1"></i><i class="b2"></i><i class="b3"></i><em>PDF</em></span></div>
         <span class="rep-n">04</span><h3 data-es="El reporte queda listo">The report is ready</h3><p data-es="Inventario, huella de producto y paquete de evidencia, listos para imprimir o enviar.">Inventory, product footprint and evidence pack, ready to print or send.</p></li>
     </ol>
+    <div class="rep-ex" id="repEx"></div>
     <div class="rep-types" id="repTypes"></div>
     <div class="fw-wrap rv" id="fw">
       <div class="fw-head"><h3 data-es="Exportaciones por marco de reporte">Framework exports</h3><p data-es="Las mismas cifras, ordenadas como las pide cada marco: valor, estado y lo que falta. Ábrelas para imprimir o descarga el CSV para copiar a cada portal.">The same figures, laid out the way each framework asks for them: value, status and what is missing. Open one to print it, or download the CSV to copy into each portal.</p></div>
@@ -1678,7 +1736,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="fw-wrap rv" id="cust">
       <div class="fw-head"><h3 data-es="Solicitudes de tus clientes">Customer data requests</h3><p data-es="Cuando un cliente te pide tus emisiones (por CDP Supply Chain, un portal de proveedores o un cuestionario), regístralo aquí: CO2Trace asigna tu huella a ese cliente y arma la hoja para enviarle.">When a customer asks for your emissions (through CDP Supply Chain, a supplier portal or a questionnaire), record the request here: CO2Trace allocates your footprint to that customer and builds the sheet to send.</p></div>
       <div class="fw-grid" id="crList"></div>
-      <p class="note" id="crEx" hidden data-es="Solicitud de ejemplo: ábrela para ver la hoja. Para registrar las de tus clientes, elige Tus propios datos.">Example request: open it to see the sheet. To record your own customers’ requests, choose Your own data.</p>
+      <div class="cr-demo" id="crDemo" data-step="0" aria-hidden="true"></div>
+      <p class="note" id="crEx" hidden data-es="Solicitud de ejemplo: ábrela para ver la hoja. Con una cuenta, registras las solicitudes de tus propios clientes.">Example request: open it to see the sheet. With an account, you record your own customers’ requests.</p>
       <form class="cr-form" id="crForm" novalidate>
         <label><span data-es="Cliente">Customer</span><input name="customer" type="text" required></label>
         <label><span data-es="Qué le vendes">What you sell them</span><input name="product" type="text"></label>
@@ -1847,13 +1906,13 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="acct-done">
       <div class="eyebrow" data-es="Cuentas de empresa">Company accounts</div>
       <h2 data-es="Las cuentas abren pronto">Accounts are opening soon</h2>
-      <p data-es="Todavía no hay servidor de cuentas, así que no se envió nada y tu contraseña no se guardó. Tu proyecto se guardará en este navegador; cuando abran las cuentas podrás pasarlo a la nube, con:">There is no account server yet, so nothing was sent and your password was not saved. Your project will be kept in this browser; when accounts open you can move it to the cloud, with:</p>
+      <p data-es="Todavía no hay servidor de cuentas, así que no se envió nada y tu contraseña no se guardó. Capturar tus propios datos requiere una cuenta; mientras tanto, explora los ejemplos. Las cuentas incluyen:">There is no account server yet, so nothing was sent and your password was not saved. Entering your own data needs an account; until accounts open, explore the examples. Accounts include:</p>
       <ul>
         <li data-es="Un perfil de empresa con varios miembros y roles de propietario, administrador, editor y lector.">One company profile with several members, with owner, admin, editor and viewer roles.</li>
         <li data-es="Tu registro y tus archivos de evidencia cifrados en la nube, en todos tus dispositivos.">Your ledger and evidence files encrypted in the cloud, on all your devices.</li>
         <li data-es="Un historial de cada cambio, para que los revisores vean quién capturó qué.">A history of every change, so reviewers can see who entered what.</li>
       </ul>
-      <div class="acts"><button type="button" class="btn primary" data-acct-skip data-es="Ir a mi proyecto">Go to my project</button></div>
+      <div class="acts"><button type="button" class="btn primary" data-acct-skip data-es="Ver los ejemplos">See the examples</button></div>
     </div>
   </form>
 </dialog>
@@ -2510,8 +2569,13 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   // Otherwise the page opens the visitor's own ledger, blank on a first visit; an example left open last time is not reopened.
   const DEMO = (location.search.match(/[?&]demo(?:=(\w+))?\b/) || [])[0] ? (location.search.match(/[?&]demo=(\w+)/) || [])[1] || EX_IDS[0] : null;
   const startRegion = state && REGIONS[state.region] ? state.region : 'mx';
+  // The public site (no signed-in account) never holds the visitor's own data: it always has a fixed example in state, shown
+  // in full only after See examples. Own ledgers exist only for signed-in accounts (needs the backend, see Cloud).
+  const PUBLIC = !(window.CO2TRACE_CONFIG && window.CO2TRACE_CONFIG.apiUrl && (() => { try { return !!JSON.parse(sessionStorage.getItem('co2trace-auth') || 'null'); } catch (e) { return false; } })());
+  document.documentElement.classList.toggle('public', PUBLIC);
   const ownSaved = () => { try { const o = JSON.parse(localStorage.getItem('lca-ledger-own')); return o && Array.isArray(o.rows) ? o : null; } catch (e) { return null; } };
   if (DEMO) state = example(startRegion, DEMO);
+  else if (PUBLIC) state = example(startRegion, EX_IDS[0]);
   // an example (or one edited before examples became fixed, its name still ending in "(example)") is not the visitor's data
   else if (state && Array.isArray(state.rows) && state.example && EXAMPLES[state.example] && (state.isExample || / \((example|ejemplo)\)$/.test(state.company || ''))) state = ownSaved() || blank(startRegion);
   else if (!state || !Array.isArray(state.rows)) state = blank(startRegion);
@@ -2965,13 +3029,17 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   function renderReports() {
     const mx = state.region === 'mx';
     const types = [
-      ['inv', L('GHG inventory', 'Inventario de GEI'), 'GHG Protocol · ISO 14064-1', L('Scopes 1, 2 and 3 by category, with Scope 2 location- and market-based.', 'Alcances 1, 2 y 3 por categoría, con el método y los factores de cada línea.')],
-      ['pcf', L('Product carbon footprint', 'Huella de carbono de producto'), 'ISO 14067', L('kg CO₂e per functional unit, by life-cycle stage.', 'kg CO₂e por unidad funcional, por etapa del ciclo de vida.')],
+      ['inv', L('GHG inventory report', 'Reporte del inventario de GEI'), mx ? 'ISO 14064-1:2018 · GHG Protocol · RENE' : 'ISO 14064-1:2018 · GHG Protocol', mx ? 'Alcances 1, 2 y 3 y las seis categorías de la ISO 14064-1, con las directas e indirectas del RENE por gas en AR5 y FESEN.' : 'Scopes 1, 2 and 3, the six ISO 14064-1 categories, every gas, base year, methods, uncertainty and verification.'],
+      ['pcf', L('Product carbon footprint study', 'Estudio de huella de carbono de producto'), 'ISO 14067 · ISO 14044', L('kg CO₂e per functional unit by life-cycle stage, with the full ISO 14044 study report.', 'kg CO₂e por unidad funcional por etapa del ciclo de vida, con el reporte completo del estudio ISO 14044.')],
       ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
       ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
     ];
+    // every report is a working example: built from the example company in view (with an account, from the visitor's ledger)
+    $('repEx').innerHTML = state.isExample ? `<label for="repExSel">${L('Every report and export below is built from', 'Cada reporte y exportación de abajo se arma con')}</label>
+      <select id="repExSel">${EX_IDS.map(id => `<option value="${id}"${id === state.example ? ' selected' : ''}>${esc(bare(exSummary(id).st.company))}</option>`).join('')}</select>
+      <span class="note">${L('a fictional example. Change the company to see its reports.', 'un ejemplo ficticio. Cambia la empresa para ver sus reportes.')}</span>` : `<span class="note">${L('Built from your ledger.', 'Se arman con tu registro.')}</span>`;
     renderFw(); renderCust();
-    $('repTypes').innerHTML = types.map(([ic, t, std, d], i) => `<article class="rep-type rv in" style="--i: ${i}"><span class="evg-ico">${svgI(ic)}</span><div><span class="rep-std">${esc(std)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div></article>`).join('');
+    $('repTypes').innerHTML = types.map(([ic, t, std, d], i) => `<article class="rep-type rv in" style="--i: ${i}"><span class="evg-ico">${svgI(ic)}</span><div><span class="rep-std">${esc(std)}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div><button type="button" class="btn" data-rep="${ic}">${L('Open the report', 'Abrir el reporte')}</button></article>`).join('');
     // the two automatic steps are not live yet
     $('repFlow').querySelectorAll('li[data-k="0"], li[data-k="1"]').forEach(li => {
       let b = li.querySelector('.rep-soon');
@@ -3341,6 +3409,147 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   // Back step inside the frame instead of closing the report.
   let repUrl = null, repOpen = false, repY = 0;
   const repFrame = () => $('repBody').querySelector('iframe');
+  // ---------- Report library: one document per report type, filled from the ledger in view (an example on the public site) ----------
+  // inv  GHG inventory report: ISO 14064-1:2018 (clause 9 content, categories 1–6) with the GHG Protocol Corporate Standard
+  //      (US) or the RENE rules (México: AR5, FESEN, direct and indirect per gas).
+  // pcf  product carbon footprint study: reportHtml() (ISO 14044 5.2 / ISO 14067).
+  // disc México: summary for the COA (RENE); US: California SB 253 and EPA GHGRP summary.
+  // pack evidence pack for the verifier (ISO 14064-3): scope, materiality, coverage, document index, data trail, sign-off.
+  // Clause and article numbers only; the wording is ours. Regulatory content is general information, not legal advice.
+  // ISO 14064-1:2018 category of each line: 1 direct, 2 imported energy, 3 transport, 4 products used, 5 use of the
+  // organisation's products, 6 other. Scope 3 categories map as 4,6,7,9 → 3; 1,2,3,5,8 → 4; 10–14 → 5; 15 → 6 (our mapping).
+  const ISO_CAT = r => { const sc = +r.scope || 3; if (sc === 1) return 1; if (sc === 2) return 2; const c = s3Cat(r); return [4, 6, 7, 9].includes(c) ? 3 : [1, 2, 3, 5, 8].includes(c) ? 4 : c >= 10 && c <= 14 ? 5 : 6; };
+  const ISO_N = () => L(['Direct emissions and removals', 'Indirect emissions from imported energy', 'Indirect emissions from transport', 'Indirect emissions from products the organisation uses', 'Indirect emissions from the use of the organisation’s products', 'Other indirect emissions'],
+    ['Emisiones y remociones directas', 'Emisiones indirectas por energía importada', 'Emisiones indirectas por transporte', 'Emisiones indirectas por productos que usa la organización', 'Emisiones indirectas por el uso de los productos de la organización', 'Otras emisiones indirectas']);
+  const docPage = (title, sub, meta, status, body) => `<!doctype html><html lang="${isEs() ? 'es-MX' : 'en'}"><meta charset="utf-8"><title>${esc(bare(state.company || 'CO2Trace'))} · ${esc(title)} ${esc(state.year || '')}</title>
+<style>
+${REP_CSS}  .gs td:first-child{width:38%} .num{font-variant-numeric:tabular-nums} td.c{text-align:center}
+</style>
+<div class="doc"><div class="cover"><div class="brand">CO2Trace</div><h1>${esc(title)}</h1><div style="font-size:15px">${esc(sub)}</div>
+  <div class="meta">${meta.map(([k, v]) => `<div><b>${esc(k)}</b>${esc(v)}</div>`).join('')}</div>${state.isExample ? `<div class="ex">${L('Worked example: a fictional company with fictional suppliers, built in CO2Trace to show the report. With an account, the same report is built from your own ledger.', 'Ejemplo práctico: una empresa ficticia con proveedores ficticios, armado en CO2Trace para mostrar el reporte. Con una cuenta, el mismo reporte se arma con tu propio registro.')}</div>` : ''}${status}</div>
+${body}
+<p class="note">${L('Prepared with CO2Trace from the activity ledger and its evidence. Standards are cited by number and clause only; regulatory sections are general information, not legal advice.', 'Preparado con CO2Trace a partir del registro de actividades y su evidencia. Las normas se citan solo por número y cláusula; las secciones regulatorias son información general, no asesoría legal.')}</p></div>`;
+  const kv = rows => `<table class="gs"><tbody>${rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v === '' || v == null ? `<span class="miss">${L('Not stated', 'Sin dato')}</span>` : esc(v)}</td></tr>`).join('')}</tbody></table>`;
+  const tbl = (head, rows, foot) => `<table><thead><tr>${head.map(h => `<th${/^(t |kg|%|MWh|t$)/.test(h) || h.startsWith('t CO') ? ' class="n"' : ''}>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => `<td${typeof c === 'number' || (i && /^[\d,.\-–]+( %)?$/.test(String(c))) ? ' class="n"' : ''}>${typeof c === 'number' ? fmtT(c) : esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>${foot ? `<tfoot><tr>${foot.map(c => `<td${typeof c === 'number' ? ' class="n"' : ''}>${typeof c === 'number' ? fmtT(c) : esc(c)}</td>`).join('')}</tr></tfoot>` : ''}</table>`;
+  const periodTxt = () => L(`1 January to 31 December ${state.year || ''}`, `1 de enero al 31 de diciembre de ${state.year || ''}`);
+  const selTxt = (id, v) => { const o = document.querySelector(`#${id} option[value="${v}"]`); return o ? o.textContent : v || ''; };
+  // tonnes of each gas and t CO2e per scope (byGas holds tonnes of gas)
+  const gasTable = (t, scopes, method) => {
+    const G = GWP[method || state.method], mass = {};
+    scopes.forEach(s => Object.entries(t.byGas[s] || {}).forEach(([g, m]) => (mass[g] = (mass[g] || 0) + m)));
+    const rows = Object.entries(mass).filter(([, m]) => m > 0).sort((a, b) => b[1] * G[b[0]] - a[1] * G[a[0]]);
+    return tbl([L('Gas', 'Gas'), L('t of gas', 't de gas'), 'GWP', 't CO₂e'], rows.map(([g, m]) => [GAS_NAMES[g] || g, g === 'CO2e' ? '–' : fmtMass(m), g === 'CO2e' ? '–' : nf0.format(G[g]), m * (g === 'CO2e' ? 1 : G[g])]),
+      [L('Total', 'Total'), '', '', rows.reduce((a, [g, m]) => a + m * (g === 'CO2e' ? 1 : G[g]), 0)]);
+  };
+
+  function invHtml() {
+    const t = totals(), g = state.goal, mx = state.region === 'mx', es = isEs(), tr = target(t, []), sv = savings(t), ck = checks(t);
+    const lines = t.lines.slice().sort((a, b) => emis(b) - emis(a));
+    const isoT = [0, 0, 0, 0, 0, 0]; lines.forEach(r => (isoT[ISO_CAT(r) - 1] += emis(r)));
+    const srcs = [...new Set(lines.map(r => libSrc(r.key)).filter(Boolean))];
+    const s3rows = Array.from({ length: 15 }, (_, k) => k + 1).map(i => { const d = s3State(i, t); return [`${i}. ${S3N(i)}`, d === 'in' ? L('Included', 'Incluida') : d === 'out' ? L('Excluded', 'Excluida') : d === 'na' ? L('Not relevant', 'No aplica') : L('Not screened', 'Sin revisar'), t.byS3[i] || 0, s3Of(i).why || '']; });
+    const gaps = [!g.practitioner && L('person responsible', 'persona responsable'), !g.baseYear && L('base year', 'año base'), !g.recalcPolicy && L('recalculation policy', 'política de recálculo'), s3rows.some(r => r[1] === L('Not screened', 'Sin revisar')) && L('Scope 3 screening', 'evaluación del alcance 3')].filter(Boolean);
+    const status = gaps.length ? `<div class="stbox draft"><b>${L('Draft.', 'Borrador.')}</b> ${L('Still to complete:', 'Falta completar:')} ${esc(gaps.join(', '))}.</div>` : `<div class="stbox ready"><b>${L('Complete.', 'Completo.')}</b> ${L('Every element this report needs is filled.', 'Cada elemento que pide este reporte está lleno.')}</div>`;
+    const rene = mx ? (() => {
+      const dl = lines.filter(r => +r.scope < 3), ar5 = r => emisWith(r, 'AR5');
+      const direct = dl.filter(r => +r.scope === 1).reduce((a, r) => a + ar5(r), 0), indirect = dl.filter(r => +r.scope === 2).reduce((a, r) => a + ar5(r), 0);
+      return `<h2>4. Registro Nacional de Emisiones (RENE) <small>LGCC art. 87 · Reglamento del RENE arts. 3–14</small></h2>
+  ${kv([['RFC', g.rfc], ['Código SCIAN', g.scian], ['Ubicación del establecimiento', g.site], ['Potenciales de calentamiento', 'IPCC AR5 (Acuerdo DOF 14/08/2015)'], ['Factor eléctrico', 'FESEN 2024: 0.444 t CO₂e/MWh (aplicado en el ciclo COA 2026)']])}
+  ${tbl(['Tipo de emisión', 't CO₂e (AR5)', '% del umbral'], [['Directas (fuentes fijas y móviles propias o arrendadas)', direct, pct(direct, RENE_T)], ['Indirectas (consumo de electricidad y energía térmica)', indirect, pct(indirect, RENE_T)]], ['Directas + indirectas', direct + indirect, pct(direct + indirect, RENE_T)])}
+  <p>${direct + indirect >= RENE_T ? '<b>Supera el umbral de 25,000 t CO₂e:</b> el establecimiento debe reportar en la COA (1 de marzo al 30 de junio) y presentar dictamen de verificación cada 3 años.' : 'Debajo del umbral de 25,000 t CO₂e: no hay obligación de reporte al RENE; pueden aplicar registros estatales (Reglamento, art. 24).'} Los documentos de soporte se conservan 5 años (art. 9, fr. VII).</p>
+  <h3>Emisiones directas e indirectas por gas (AR5)</h3>${gasTable(t, [1, 2], 'AR5')}
+  <p class="note">El alcance 3 queda fuera del RENE; aparece en este reporte como inventario voluntario del GHG Protocol y de la ISO 14064-1.</p>`;
+    })() : '';
+    const n = mx ? 5 : 4;
+    const body = `
+  <h2>1. ${L('Reporting organisation', 'Organización que reporta')} <small>ISO 14064-1:2018, 9.3.1 a–c</small></h2>
+  ${kv([[L('Organisation', 'Organización'), state.company], [L('Site', 'Sitio'), g.site], [L('Person responsible for the inventory', 'Persona responsable del inventario'), g.practitioner], [L('Commissioned by', 'Encargado por'), g.commissioner], [L('Intended users', 'Usuarios previstos'), g.audience], [L('Reporting period', 'Periodo de reporte'), periodTxt()], [L('Report date', 'Fecha del reporte'), g.reportDate || new Date().toISOString().slice(0, 10)]])}
+  <h2>2. ${L('Boundaries', 'Límites')} <small>${L('GHG Protocol ch. 3–4 · ISO 14064-1:2018, 5.1–5.2', 'GHG Protocol cap. 3–4 · ISO 14064-1:2018, 5.1–5.2')}</small></h2>
+  ${kv([[L('Consolidation approach', 'Enfoque de consolidación'), selTxt('g-consol', g.consol)], [L('Operational boundary', 'Límite operativo'), L('Scopes 1 and 2 in full; Scope 3 categories as screened below', 'Alcances 1 y 2 completos; categorías del alcance 3 según la evaluación de abajo')], [L('Significance threshold for indirect emissions', 'Umbral de relevancia para emisiones indirectas'), `${g.materiality || 5} %`], [L('Exclusions', 'Exclusiones'), g.exclusions]])}
+  ${tbl([L('Scope 3 category', 'Categoría del alcance 3'), L('Decision', 'Decisión'), 't CO₂e', L('Reason', 'Motivo')], s3rows)}
+  <h2>3. ${L('Emissions', 'Emisiones')} <small>${L('GHG Protocol ch. 9 · ISO 14064-1:2018, 9.3.1 d–g', 'GHG Protocol cap. 9 · ISO 14064-1:2018, 9.3.1 d–g')}</small></h2>
+  ${tbl([L('Scope', 'Alcance'), 't CO₂e', L('Share', 'Parte')], [[L('Scope 1 · direct', 'Alcance 1 · directas'), t.byScope[1], pct(t.byScope[1], t.total)], [L('Scope 2 · location-based', 'Alcance 2 · basado en ubicación'), t.s2lb, ''], [L('Scope 2 · market-based', 'Alcance 2 · basado en mercado'), t.s2mb, pct(t.s2mb, t.total)], [L('Scope 3 · value chain', 'Alcance 3 · cadena de valor'), t.byScope[3], pct(t.byScope[3], t.total)]], [L('Total (Scope 2 market-based)', 'Total (alcance 2 basado en mercado)'), t.total, '100 %'])}
+  <h3>${L('ISO 14064-1:2018 categories', 'Categorías de la ISO 14064-1:2018')}</h3>
+  ${tbl([L('Category', 'Categoría'), 't CO₂e', L('Share', 'Parte')], isoT.map((v, i) => [`${i + 1}. ${ISO_N()[i]}`, v, pct(v, t.total)]), [L('Total', 'Total'), t.total, '100 %'])}
+  <h3>${L('By gas, all scopes', 'Por gas, todos los alcances')} (${esc(state.method)})</h3>${gasTable(t, [1, 2, 3])}
+  ${kv([[L('Biogenic CO₂ (reported separately, not in the total)', 'CO₂ biogénico (aparte, fuera del total)'), `${fmtT(t.bio)} t CO₂`], [L('GHG removals', 'Remociones de GEI'), L('None quantified', 'No se cuantificaron')], [L('Carbon credits', 'Créditos de carbono'), L('None; never subtracted from the inventory', 'Ninguno; nunca se restan del inventario')]])}
+  ${rene}
+  <h2>${n}. ${L('Base year and recalculation', 'Año base y recálculo')} <small>${L('GHG Protocol ch. 5 · ISO 14064-1:2018, 6.4', 'GHG Protocol cap. 5 · ISO 14064-1:2018, 6.4')}</small></h2>
+  ${kv([[L('Base year', 'Año base'), g.baseYear], [L('Base-year emissions', 'Emisiones del año base'), +g.baseTotal > 0 ? `${fmtT(+g.baseTotal)} t CO₂e` : ''], [L('Change against the base year', 'Cambio frente al año base'), +g.baseTotal > 0 ? chg(t.total, +g.baseTotal) : ''], [L('Recalculation policy', 'Política de recálculo'), g.recalcPolicy ? `${g.recalcPolicy} (${L('threshold', 'umbral')} ${g.recalc || 5} %)` : '']])}
+  <h2>${n + 1}. ${L('Methods, factors and GWPs', 'Métodos, factores y PCG')} <small>ISO 14064-1:2018, 6.2 · 9.3.1 h–l</small></h2>
+  <p>${L(`Emissions = activity data × emission factor per gas × GWP100 (IPCC ${state.method}). Scope 2 is reported location-based and market-based${mx ? '; in México the RENE figure uses the national FESEN grid factor only' : ''}.`, `Emisiones = dato de actividad × factor de emisión por gas × PCG100 (IPCC ${state.method}). El alcance 2 se reporta basado en ubicación y en mercado${mx ? '; en México la cifra del RENE usa solo el factor nacional FESEN' : ''}.`)}</p>
+  <ul>${srcs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+  ${kv([[L('Assumptions and limitations', 'Supuestos y limitaciones'), g.assumptions], [L('Data quality (pedigree score, 1 best to 5)', 'Calidad de datos (puntaje, 1 mejor a 5)'), t.total ? `${nf1.format(t.dq)} · ${dqWord(t.dq)}` : '']])}
+  <h2>${n + 2}. ${L('Uncertainty', 'Incertidumbre')} <small>ISO 14064-1:2018, 8.3</small></h2>
+  <p>${L('Uncertainty is assessed qualitatively from the data-quality score of each line and the sensitivity of the total to its largest lines:', 'La incertidumbre se evalúa de forma cualitativa con el puntaje de calidad de cada línea y la sensibilidad del total a sus líneas más grandes:')}</p>
+  ${tbl([L('Assumption changed', 'Supuesto modificado'), 't CO₂e', L('Change', 'Cambio')], sensitivity(t, 10, 3).rows.slice(0, 7).map(([k, v]) => [k, v, chg(v, t.total)]))}
+  <h2>${n + 3}. ${L('Targets and reduction actions', 'Metas y acciones de reducción')} <small>ISO 14064-1:2018, 7 · 9.3.2</small></h2>
+  ${kv([[L('Target', 'Meta'), tr ? `${tgtName(tr)}: −${nf1.format(tr.cut)} % ${L('from', 'desde')} ${tr.by} ${L('by', 'para')} ${tr.ty} (${fmtT(tr.goal)} t CO₂e)` : ''], [L('Progress this year', 'Avance este año'), tr ? `${fmtT(tr.cur)} t · ${tr.onTrack ? L('on the path', 'en la trayectoria') : L('above the path', 'por encima de la trayectoria')}` : ''], [L('Planned measures (savings plan)', 'Medidas planeadas (plan de ahorro)'), sv.t > 0 ? `${fmtT(sv.t)} t CO₂e ${L('a year', 'al año')} · ${money(sv.m)}` : '']])}
+  <h2>${n + 4}. ${L('Verification and open checks', 'Verificación y revisiones pendientes')} <small>ISO 14064-1:2018, 9.3.1 q · ISO 14064-3</small></h2>
+  ${kv([[L('Third-party verification', 'Verificación de terceros'), selTxt('g-assurance', g.assurance)], [L('Verifier', 'Verificador'), g.reviewer || (g.assurance === 'none' ? L('None planned', 'No planeada') : '')], [L('Evidence coverage', 'Cobertura de evidencia'), `${pct(t.byEv.ok + t.byEv.att, t.total)} ${L('of emissions documented', 'de las emisiones documentadas')} · ${pct(t.byEv.ok, t.total)} ${L('reviewed', 'revisadas')}`]])}
+  <ul class="chk">${ck.length ? ck.slice(0, 12).map(([lv, txt]) => `<li><b>${{ err: 'ERROR', warn: L('WARNING', 'ADVERTENCIA'), info: L('NOTE', 'NOTA') }[lv]}</b>${esc(txt)}</li>`).join('') : `<li>${L('No open issues.', 'Sin pendientes.')}</li>`}</ul>
+  <h2>${n + 5}. ${L('Statement', 'Declaración')}</h2>
+  <p>${L(`This greenhouse gas inventory of ${esc(state.company || '')} for ${esc(state.year || '')} has been prepared following ISO 14064-1:2018 and the GHG Protocol Corporate Standard${mx ? ', and its direct and indirect emissions follow the RENE rules' : ''}. ${g.assurance && g.assurance !== 'none' ? '' : 'It has not been verified by a third party.'}`, `Este inventario de gases de efecto invernadero de ${esc(state.company || '')} para ${esc(state.year || '')} se preparó conforme a la ISO 14064-1:2018 y al Estándar Corporativo del GHG Protocol${mx ? ', y sus emisiones directas e indirectas siguen las reglas del RENE' : ''}. ${g.assurance && g.assurance !== 'none' ? '' : 'No ha sido verificado por un tercero.'}`)}</p>
+  <h2>${L('Annex A. Inventory by line', 'Anexo A. Inventario por línea')}</h2>
+  ${tbl([L('Activity', 'Actividad'), L('Supplier', 'Proveedor'), L('Quantity', 'Cantidad'), L('Scope', 'Alcance'), 'ISO', 't CO₂e', L('Evidence', 'Evidencia')], lines.map(r => [lineName(r) + (r.note && r.key !== 'custom' ? ' · ' + r.note : ''), r.supplier, `${nf2.format(qtyOf(r))} ${r.unit}`, SA(+r.scope || 3) + (+r.scope === 3 ? ` · ${s3Cat(r)}` : ''), String(ISO_CAT(r)), emis(r), { ok: L('Reviewed', 'Revisada'), att: L('Attached', 'Adjunta'), miss: L('Missing', 'Falta') }[evStatus(r)]]), [L('Total', 'Total'), '', '', '', '', t.total, ''])}`;
+    return docPage(L('Greenhouse gas inventory report', 'Reporte del inventario de gases de efecto invernadero'), `${state.company || ''} · ${state.year || ''}`,
+      [[L('Standards', 'Normas'), mx ? 'ISO 14064-1:2018 · GHG Protocol · RENE' : 'ISO 14064-1:2018 · GHG Protocol'], [L('Impact method', 'Método'), `IPCC ${state.method} GWP100${mx ? ' · RENE AR5' : ''}`], [L('Total', 'Total'), `${fmtT(t.total)} t CO₂e`]], status, body);
+  }
+
+  function discHtml() {
+    const t = totals(), g = state.goal, mx = state.region === 'mx';
+    const lines = t.lines.filter(r => +r.scope < 3);
+    if (mx) {
+      const ar5 = r => emisWith(r, 'AR5'), gt = r => gasT(r);
+      const t3 = v => (v || 0).toLocaleString('es-MX', { minimumFractionDigits: 3, maximumFractionDigits: 3 });   // the COA asks for tonnes of each gas
+      const grp = (f, name) => { const ls = lines.filter(f); return ls.map(r => [name, lineName(r) + (r.note ? ' · ' + r.note : ''), `${nf2.format(qtyOf(r))} ${r.unit}`, t3(gt(r).CO2), t3(gt(r).CH4), t3(gt(r).N2O), ar5(r)]); };
+      const fixed = grp(r => +r.scope === 1 && !F[r.key].mobile && F[r.key].kind !== 'refrig', 'Fuente fija'), mob = grp(r => +r.scope === 1 && F[r.key].mobile, 'Fuente móvil'), fug = grp(r => +r.scope === 1 && F[r.key].kind === 'refrig', 'Emisiones fugitivas'), ind = grp(r => +r.scope === 2, 'Indirecta (electricidad)');
+      const tot = lines.reduce((a, r) => a + ar5(r), 0);
+      const body = `<h2>1. Datos del establecimiento <small>Reglamento del RENE, art. 13</small></h2>
+  ${kv([['Razón social', bare(state.company || '')], ['RFC', g.rfc], ['Código SCIAN', g.scian], ['Ubicación', g.site], ['Responsable del reporte', g.practitioner], ['Periodo', periodTxt()]])}
+  <h2>2. Emisiones por fuente y gas <small>arts. 13–14 · AR5 · FESEN 0.444</small></h2>
+  ${tbl(['Tipo de fuente', 'Actividad', 'Volumen anual', 't CO₂', 't CH₄', 't N₂O', 't CO₂e'], [...fixed, ...mob, ...fug, ...ind], ['Total', '', '', '', '', '', tot])}
+  ${mob.length ? '<p class="note">Fuentes móviles: la COA pide además el número y tipo de unidades; captúralos en la descripción de cada línea.</p>' : ''}
+  <h2>3. Umbral y obligaciones <small>arts. 3, 9, 10, 15–17</small></h2>
+  ${kv([['Directas + indirectas (AR5)', `${fmtT(tot)} t CO₂e · ${pct(tot, RENE_T)} del umbral de 25,000`], ['Obligación de reporte', tot >= RENE_T ? 'Sí: reportar en la COA del 1 de marzo al 30 de junio' : 'No: debajo del umbral (pueden aplicar registros estatales)'], ['Dictamen de verificación', tot >= RENE_T ? 'Cada 3 años, por un organismo acreditado por la EMA y aprobado por SEMARNAT, del 1 de julio al 30 de noviembre' : 'No aplica'], ['Conservación de información', '5 años después de presentar la COA'], ['Alcance 3', 'Fuera del RENE; se reporta de forma voluntaria']])}
+  <p class="note">Formato de captura: la COA Web de SEMARNAT. Este resumen ordena las cifras como las pide la cédula; revisa el instructivo vigente antes de capturar.</p>`;
+      return docPage('Resumen para la Cédula de Operación Anual (RENE)', `${state.company || ''} · ${state.year || ''}`, [['Marco', 'LGCC · Reglamento del RENE'], ['PCG', 'IPCC AR5'], ['Factor eléctrico', 'FESEN 0.444 t CO₂e/MWh']], '', body);
+    }
+    const stat = t.lines.filter(r => +r.scope === 1 && !F[r.key].mobile && F[r.key].kind === 'fuel'), statT = stat.reduce((a, r) => a + emis(r), 0);
+    const sb = g.ca === 'yes' && g.rev1b === 'yes';
+    const body = `<h2>1. California SB 253 (Climate Corporate Data Accountability Act)</h2>
+  ${kv([['Does business in California', { yes: 'Yes', no: 'No' }[g.ca] || ''], ['Total annual revenue above $1 billion', { yes: 'Yes', no: 'No' }[g.rev1b] || ''], ['Applies', sb ? 'Yes: report Scopes 1 and 2, then Scope 3 from the second reporting year, with assurance' : g.ca === 'no' || g.rev1b === 'no' ? 'No' : 'Answer both questions under Goal and scope']])}
+  ${tbl(['Item', 't CO₂e'], [['Scope 1', t.byScope[1]], ['Scope 2, location-based', t.s2lb], ['Scope 2, market-based', t.s2mb], ['Scope 3', t.byScope[3]]])}
+  ${kv([['Standard', 'GHG Protocol Corporate and Scope 3 Standards'], ['Assurance', selTxt('g-assurance', g.assurance)], ['Deadlines and fees', 'Set by CARB regulation; check the current CARB rules']])}
+  <h2>2. EPA Greenhouse Gas Reporting Program (40 CFR Part 98)</h2>
+  <p>Facilities report to the GHGRP when their emissions reach 25,000 t CO₂e a year from covered source categories. For most manufacturers that is stationary fuel combustion (Subpart C), reported per facility through e-GGRT by March 31.</p>
+  ${tbl(['Stationary combustion line', 'Fuel', 't CO₂', 't CH₄', 't N₂O', 't CO₂e'], stat.map(r => [lineName(r) + (r.note ? ' · ' + r.note : ''), `${nf2.format(qtyOf(r))} ${r.unit}`, fmtMass(gasT(r).CO2 || 0), fmtMass(gasT(r).CH4 || 0), fmtMass(gasT(r).N2O || 0), emis(r)]), ['Subpart C estimate', '', '', '', '', statT])}
+  ${kv([['Against the 25,000 t threshold', `${pct(statT, 25000)} · ${statT >= 25000 ? 'likely required to report (check each facility and source category)' : 'below the threshold for Subpart C'}`], ['GWPs', 'GHGRP uses the GWPs in 40 CFR 98 Table A-1; check the reporting-year values']])}`;
+    return docPage('SB 253 and EPA GHGRP summary', `${state.company || ''} · ${state.year || ''}`, [['Frameworks', 'California SB 253 · EPA GHGRP'], ['Impact method', `IPCC ${state.method} GWP100`], ['Total', `${fmtT(t.total)} t CO₂e`]], '', body);
+  }
+
+  function packHtml() {
+    const t = totals(), g = state.goal, mat = parseFloat(g.materiality) || 5, lines = t.lines.slice().sort((a, b) => emis(b) - emis(a));
+    let cum = 0;
+    const rows = lines.map(r => { cum += emis(r); const ev = r.evidence; return [lineName(r) + (r.note ? ' · ' + r.note : ''), emis(r), pct(cum, t.total), (DOCS[ev.doc] || DOCS.other)[0], ev.ref || '–', ev.period || '–', ev.files.map(f => f.name).join(', ') || '–', { ok: L('Reviewed', 'Revisada'), att: L('Attached', 'Adjunta'), miss: L('Missing', 'Falta') }[evStatus(r)]]; });
+    const risk = lines.filter(r => emis(r) >= t.total * mat / 100 && evStatus(r) !== 'ok');
+    const sumLines = lines.reduce((a, r) => a + emis(r), 0);
+    const body = `<h2>1. ${L('Verification scope', 'Alcance de la verificación')} <small>ISO 14064-3:2019, 5.1</small></h2>
+  ${kv([[L('Level of assurance', 'Nivel de aseguramiento'), selTxt('g-assurance', g.assurance)], [L('Criteria', 'Criterios'), state.region === 'mx' ? 'ISO 14064-1:2018 · GHG Protocol · RENE' : 'ISO 14064-1:2018 · GHG Protocol'], [L('Boundaries', 'Límites'), `${selTxt('g-consol', g.consol)} · ${g.site || ''}`], [L('Period', 'Periodo'), periodTxt()], [L('Gases', 'Gases'), 'CO₂, CH₄, N₂O, HFCs, PFCs, SF₆, NF₃'], [L('Materiality', 'Materialidad'), `${mat} % ${L('of the total', 'del total')} (${fmtT(t.total * mat / 100)} t CO₂e)`], [L('Verifier', 'Verificador'), g.reviewer]])}
+  <h2>2. ${L('Evidence coverage', 'Cobertura de la evidencia')} <small>6.1.3</small></h2>
+  ${tbl([L('Status', 'Estado'), 't CO₂e', L('Share', 'Parte')], [[L('Reviewed against the documents', 'Revisada contra los documentos'), t.byEv.ok, pct(t.byEv.ok, t.total)], [L('Documents attached, not yet reviewed', 'Documentos adjuntos, sin revisar'), t.byEv.att, pct(t.byEv.att, t.total)], [L('No documents', 'Sin documentos'), t.byEv.miss, pct(t.byEv.miss, t.total)]], [L('Total', 'Total'), t.total, '100 %'])}
+  <h2>3. ${L('Lines to look at first', 'Líneas que revisar primero')} <small>6.1.2</small></h2>
+  ${risk.length ? `<ul class="chk">${risk.map(r => `<li><b>${pct(emis(r), t.total)}</b>${esc(lineName(r))}${r.note ? ' · ' + esc(r.note) : ''}: ${evStatus(r) === 'miss' ? L('no documents', 'sin documentos') : L('documents not reviewed', 'documentos sin revisar')}</li>`).join('')}</ul>` : `<p>${L('Every line above the materiality threshold is reviewed against its documents.', 'Cada línea por encima del umbral de materialidad está revisada contra sus documentos.')}</p>`}
+  <h2>4. ${L('Document index', 'Índice de documentos')} <small>${L('largest first, with cumulative share', 'de mayor a menor, con parte acumulada')}</small></h2>
+  ${tbl([L('Line', 'Línea'), 't CO₂e', L('Cum.', 'Acum.'), L('Document type', 'Tipo de documento'), L('Reference', 'Referencia'), L('Period', 'Periodo'), L('Files', 'Archivos'), L('Status', 'Estado')], rows)}
+  <h2>5. ${L('Data trail', 'Rastro de datos')} <small>6.1.3</small></h2>
+  ${kv([[L('Sum of the lines', 'Suma de las líneas'), `${fmtT(sumLines)} t CO₂e`], [L('Total in the inventory report', 'Total del reporte de inventario'), `${fmtT(t.total)} t CO₂e`], [L('Difference', 'Diferencia'), Math.abs(sumLines - t.total) < 0.01 ? L('None: the statement reconciles to the records', 'Ninguna: la declaración cuadra con los registros') : fmtT(sumLines - t.total)], [L('Record retention', 'Conservación de registros'), state.region === 'mx' ? '5 años (Reglamento del RENE, art. 9, fr. VII)' : L('Keep the documents for as long as the verifier and your programme require', 'Conserva los documentos el tiempo que pidan el verificador y tu programa')]])}
+  <h2>6. ${L('Sign-off', 'Firmas')}</h2>
+  ${kv([[L('Prepared by', 'Preparó'), g.practitioner], [L('Reviewed by', 'Revisó'), ''], [L('Date', 'Fecha'), '']])}`;
+    return docPage(L('Evidence pack for the verifier', 'Paquete de evidencia para el verificador'), `${state.company || ''} · ${state.year || ''}`, [[L('Standard', 'Norma'), 'ISO 14064-3:2019'], [L('Lines', 'Líneas'), String(lines.length)], [L('Documented', 'Documentado'), pct(t.byEv.ok + t.byEv.att, t.total)]], '', body);
+  }
+  const REP_DOCS = { inv: invHtml, pcf: () => reportHtml(true), disc: discHtml, pack: packHtml };
+
   // ---------- framework exports: CDP, California SB 253, CSRD ESRS E1, IFRS S2 ----------
   // Each framework is a list of datapoints [ref, datapoint, value, status, note] filled from totals() and the goal fields.
   // Status: ok = filled, todo = needs an answer, nt = outside CO2Trace (left out of the readiness count), na = not applicable.
@@ -3578,10 +3787,68 @@ ${REP_CSS}  .gs td:first-child{width:42%}
         <div class="fw-act"><button type="button" class="btn" data-cr-open="${q.id}">${L('Open the sheet', 'Abrir la hoja')}</button><button type="button" class="btn ghost" data-cr-csv="${q.id}">CSV</button>${state.isExample ? '' : `<button type="button" class="linkish" data-cr-del="${q.id}">${L('Delete', 'Eliminar')}</button>`}</div></article>`; }).join('')
       : `<p class="note">${L('No requests yet. Add the first one below.', 'Aún no hay solicitudes. Agrega la primera abajo.')}</p>`;
     $('crForm').hidden = !!state.isExample;
+    if (window.crDemo) window.crDemo();
     $('crEx').hidden = !state.isExample;
     const sel = $('crBasis'), v = sel.value || 'units';
     sel.innerHTML = CR_BASIS().map(([k, txt]) => `<option value="${k}"${k === v ? ' selected' : ''}>${esc(txt)}</option>`).join('');
   }
+  // Customer request walkthrough (public site): a mock window types the example's request, CO2Trace allocates it, the sheet
+  // opens and the request is marked sent; it loops while on screen. Reduced motion shows the finished state, no typing.
+  (() => {
+    const box = $('crDemo'); if (!box) return;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timers = [], onScreen = false, running = false;
+    const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+    const stop = () => { timers.forEach(clearTimeout); timers = []; running = false; };
+    function build() {
+      const q = (state.requests || [])[0] || { customer: L('Your customer', 'Tu cliente'), product: '', basis: 'units', val: '0', s3: true };
+      const a = crAlloc(q), basis = (CR_BASIS().find(b => b[0] === q.basis) || [])[1] || '';
+      box.innerHTML = `<div class="crd-win"><div class="crd-bar"><i></i><i></i><i></i><span>${L('CO2Trace · Customer requests', 'CO2Trace · Solicitudes de clientes')}</span></div>
+        <div class="crd-body">
+          <div class="crd-form">
+            ${[[L('Customer', 'Cliente'), bare(q.customer)], [L('What you sell them', 'Qué le vendes'), q.product], [L('Allocation basis', 'Base de asignación'), basis], [L('Value', 'Valor'), nf0.format(+q.val || 0)]].map(([k, v]) => `<label><span>${esc(k)}</span><b data-type="${esc(v)}"></b></label>`).join('')}
+            <span class="crd-btn">${L('Add request', 'Agregar solicitud')}</span>
+          </div>
+          <div class="crd-card"><div class="crd-top"><b>${esc(bare(q.customer))}</b><span class="crd-pill">${L('Open', 'Pendiente')}</span></div>
+            <div class="crd-num"><b data-count="${a.total}">0</b> t CO₂e <span>${nf2.format(a.share * 100)} %</span>${a.perFu ? `<span>${nf2.format(a.perFu)} kg/${esc(L('unit', 'unidad'))}</span>` : ''}</div>
+            <span class="crd-open">${L('Open the sheet', 'Abrir la hoja')}</span></div>
+          <div class="crd-sheet"><b>${L('Supplier emissions data', 'Datos de emisiones del proveedor')}</b><span>${esc(bare(state.company || ''))} → ${esc(bare(q.customer))}</span>
+            ${[[L('Scope 1', 'Alcance 1'), a.s1], [L('Scope 2, market-based', 'Alcance 2, mercado'), a.mb], [L('Upstream Scope 3', 'Alcance 3 aguas arriba'), a.s3], [L('Total allocated', 'Total asignado'), a.total]].map(([k, v]) => `<i><span>${esc(k)}</span><em>${fmtT(v)} t</em></i>`).join('')}
+            <span class="crd-send">${L('Send to the customer', 'Enviar al cliente')}</span></div>
+        </div></div>
+        <ol class="crd-steps">${[L('Record what the customer asked for', 'Registra lo que pidió el cliente'), L('CO2Trace allocates your footprint', 'CO2Trace asigna tu huella'), L('Open the supplier sheet', 'Abre la hoja del proveedor'), L('Send it and mark it sent', 'Envíala y márcala enviada')].map((t, i) => `<li data-k="${i}">${esc(t)}</li>`).join('')}</ol>`;
+    }
+    const step = k => { box.dataset.step = k; box.querySelectorAll('.crd-steps li').forEach(li => li.classList.toggle('on', +li.dataset.k === Math.min(3, Math.max(0, k - 1)))); };
+    function finish() {
+      box.querySelectorAll('[data-type]').forEach(b => (b.textContent = b.dataset.type));
+      box.querySelectorAll('[data-count]').forEach(b => (b.textContent = fmtT(+b.dataset.count)));
+      box.querySelector('.crd-pill').textContent = L('Sent', 'Enviada'); step(5);
+    }
+    function play() {
+      stop(); build(); running = true;
+      if (still) { finish(); return; }
+      step(1);
+      let at = 400;
+      box.querySelectorAll('[data-type]').forEach(b => {   // type each field, one character at a time
+        const txt = b.dataset.type;
+        for (let i = 1; i <= txt.length; i++) later(at + i * 45, () => (b.textContent = txt.slice(0, i)));
+        at += txt.length * 45 + 350;
+      });
+      later(at, () => box.classList.add('press'));
+      later(at + 350, () => { box.classList.remove('press'); step(2);
+        const n = box.querySelector('[data-count]'), end = +n.dataset.count;
+        for (let i = 1; i <= 20; i++) later(i * 40, () => (n.textContent = fmtT(end * i / 20)));
+      });
+      later(at + 2200, () => step(3));
+      later(at + 4400, () => step(4));
+      later(at + 5400, () => { box.querySelector('.crd-pill').textContent = L('Sent', 'Enviada'); step(5); });
+      later(at + 8500, () => (onScreen ? play() : stop()));
+    }
+    window.crDemo = () => { if (running) play(); else build(); };   // rebuilt when the example or the language changes
+    if (window.IntersectionObserver) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; if (onScreen && !running) play(); }, { threshold: 0.35 }).observe(box);
+    else play();
+  })();
+
   $('crForm').addEventListener('submit', e => {
     e.preventDefault();
     if (state.isExample) return;
@@ -3630,6 +3897,18 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     $('makeReport').focus({ preventScroll: true });
   }
   $('makeReport').addEventListener('click', () => openReport());
+  $('repTypes').addEventListener('click', e => {
+    const b = e.target.closest('[data-rep]'); if (!b) return;
+    const id = b.dataset.rep, name = b.closest('.rep-type').querySelector('h3').textContent;
+    openReport({ html: () => REP_DOCS[id](), title: () => `${bare(state.company || 'CO2Trace')} · ${name} ${state.year || ''}` });
+  });
+  // switch the example company behind the reports without opening its dashboard
+  $('repEx').addEventListener('change', e => {
+    if (e.target.id !== 'repExSel') return;
+    expanded.clear(); state = example(state.region, e.target.value); save();
+    renderMeta(); renderStages();
+    $('repExSel') && $('repExSel').focus();
+  });
   // the wheel over the toolbar must not scroll the page hidden behind (the frame scrolls on its own)
   $('repView').addEventListener('wheel', e => e.preventDefault(), { passive: false });
   $('repBack').addEventListener('click', () => closeReport(false));
@@ -3699,7 +3978,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   // dashboard takes the full width; the ledger opens on request (html.ledger-open). Loading an example over the visitor's own
   // ledger keeps a copy in OWN_STORE so "Your own data" can bring it back.
   const OWN_STORE = 'lca-ledger-own';
-  let exOpen = false;
+  // exOpen: the gallery is open; exShown: the chosen example is shown in full (goal and scope, KPIs, ledger, dashboard)
+  let exOpen = !!DEMO, exShown = !!DEMO;
   const SIZES = { small: ['Small', 'Pequeña'], medium: ['Medium', 'Mediana'], large: ['Large', 'Grande'] };
   const exCache = {};
   function exSummary(id) {
@@ -3709,7 +3989,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   const bare = name => String(name).replace(/ \((example|ejemplo)\)$/, '');
   function renderExamples() {
-    const es = isEs() ? 1 : 0, cur = state.isExample ? state.example : 'own';
+    const es = isEs() ? 1 : 0, cur = state.isExample ? (PUBLIC && !exShown ? '' : state.example) : 'own';
     const cards = EX_IDS.map(id => {
       const ex = EXAMPLES[id], { st, t } = exSummary(id), per = st.fuQty ? t.total * 1000 / st.fuQty : 0;
       const w = s => pctN(t.byScope[s], t.total).toFixed(1) + '%';
@@ -3728,11 +4008,11 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     cards.push(`<button type="button" class="ex-card own" data-ex="own" aria-pressed="${cur === 'own'}">
       <span class="ex-tags"><span>${L('Your company', 'Tu empresa')}</span></span>
       <b class="ex-name">${L('Your own data', 'Tus propios datos')}</b>
-      <span class="ex-place">${cur === 'own' || own ? L('Go back to your project and keep editing it.', 'Regresa a tu proyecto y sigue editándolo.') : L('Start a blank project: company, functional unit, then one line per activity.', 'Empieza un proyecto en blanco: empresa, unidad funcional y una línea por actividad.')}</span>
-      <span class="ex-go">${cur === 'own' || own ? L('Open my project', 'Abrir mi proyecto') : L('Start blank', 'Empezar en blanco')} <span aria-hidden="true">→</span></span>
+      <span class="ex-place">${PUBLIC ? L('Entering your own data needs a company account: your ledger, evidence and reports, saved and shared with your team.', 'Capturar tus propios datos requiere una cuenta de empresa: tu registro, evidencia y reportes, guardados y compartidos con tu equipo.') : cur === 'own' || own ? L('Go back to your project and keep editing it.', 'Regresa a tu proyecto y sigue editándolo.') : L('Start a blank project: company, functional unit, then one line per activity.', 'Empieza un proyecto en blanco: empresa, unidad funcional y una línea por actividad.')}</span>
+      <span class="ex-go">${PUBLIC ? L('Create an account', 'Crear una cuenta') : cur === 'own' || own ? L('Open my project', 'Abrir mi proyecto') : L('Start blank', 'Empezar en blanco')} <span aria-hidden="true">→</span></span>
     </button>`);
     $('exGrid').innerHTML = cards.join('');
-    if (state.isExample) exOpen = true;   // an example in view keeps the gallery open
+    if (state.isExample && !PUBLIC) exOpen = true;   // signed in, an example in view keeps the gallery open
     $('exGrid').hidden = !exOpen;
     $('exToggle').setAttribute('aria-expanded', exOpen);
     $('exToggle').innerHTML = exOpen ? L('Hide examples', 'Ocultar ejemplos') : L('See examples<span class="arr" aria-hidden="true">▶</span>', 'Ver ejemplos<span class="arr" aria-hidden="true">▶</span>');
@@ -3740,13 +4020,14 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   function renderView() {
     const view = !!state.isExample, root = document.documentElement;
     root.classList.toggle('viewing', view);
+    root.classList.toggle('ex-open', !PUBLIC || exShown);
     if (!view) root.classList.remove('ledger-open');
     lockExample();
     const b = $('exampleBanner'); b.hidden = !view;
     if (view) {
       const ex = EXAMPLES[state.example], open = root.classList.contains('ledger-open');
       b.innerHTML = `<strong>${L('Example data.', 'Datos de ejemplo.')}</strong><span>${L(`${esc(bare(state.company))} is a fictional ${esc(ex.ind[0].toLowerCase())} business in ${esc(state.goal.site)}; its suppliers are fictional too.`, `${esc(bare(state.company))} es un negocio ficticio de ${esc(ex.ind[1].toLowerCase())} en ${esc(state.goal.site)}; sus proveedores también son ficticios.`)}</span>
-        <button type="button" class="btn" data-ex-back>${L('Back to my data', 'Volver a mis datos')}</button>
+        <button type="button" class="btn" data-ex-back>${PUBLIC ? L('Close the example', 'Cerrar el ejemplo') : L('Back to my data', 'Volver a mis datos')}</button>
         <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines, read-only)`, `Ver los datos de actividad (${state.rows.length} líneas, solo lectura)`)}</button>`;
     }
     renderExamples();
@@ -3757,11 +4038,13 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   function loadExample(id) {
     if (id === 'own') {
+      if (PUBLIC) { account('create'); return; }
       if (CFG || window.openAccount) { account('create', ({ company }) => openOwn(company)); return; }
       openOwn('');
       return;
     }
     if (!state.isExample) { try { localStorage.setItem(OWN_STORE, JSON.stringify(state)); } catch (e) {} }
+    exOpen = exShown = true;
     expanded.clear(); document.documentElement.classList.remove('ledger-open');
     state = example(state.region, id); save();
     renderMeta(); renderStages();
@@ -3769,6 +4052,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   // Your own data: bring back the visitor's ledger (or a blank one) and open Project setup; a company typed in the account box fills an empty Company field
   function openOwn(company) {
+    if (PUBLIC) return;   // own data needs a signed-in account
     if (state.isExample) {
       let own = null; try { own = JSON.parse(localStorage.getItem(OWN_STORE)); } catch (e) {}
       expanded.clear();
@@ -3783,12 +4067,13 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   // the gallery stays closed until the visitor asks to see the examples; hiding it while one is open goes back to their own data
   $('exToggle').addEventListener('click', () => {
     exOpen = !exOpen;
-    if (!exOpen && state.isExample) { openOwn(''); return; }
-    renderExamples();
+    if (!exOpen) exShown = false;
+    if (!exOpen && state.isExample && !PUBLIC) { openOwn(''); return; }
+    renderView();
     if (exOpen) goTo($('examples'));
   });
   $('exampleBanner').addEventListener('click', e => {
-    if (e.target.closest('[data-ex-back]')) { exOpen = false; openOwn(''); return; }
+    if (e.target.closest('[data-ex-back]')) { exOpen = exShown = false; if (PUBLIC) { renderView(); goTo($('examples')); } else openOwn(''); return; }
     if (!e.target.closest('#ledgerToggle')) return;
     const open = document.documentElement.classList.toggle('ledger-open');
     renderView();
@@ -4663,6 +4948,18 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     </div>`;
   }
 
+  // Dashboard charts grow in as each card scrolls into view: bars from the left, rings and columns from zero, lines drawn.
+  // Once per example (company, country, method, boundary); re-renders from switches and toggles don't replay it.
+  let animKey = '', animObs = null;
+  function animateCharts() {
+    const ch = $('charts'), key = [state.example || 'own', state.isExample, state.region, state.method, state.boundary].join('|');
+    if (animObs) { animObs.disconnect(); animObs = null; }
+    if (PUBLIC && !exShown) { animKey = ''; ch.classList.remove('anim'); return; }   // hidden: play when it is shown
+    if (key === animKey || !window.IntersectionObserver || matchMedia('(prefers-reduced-motion: reduce)').matches) { ch.classList.remove('anim'); return; }
+    animKey = key; ch.classList.add('anim');
+    animObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('play'); animObs.unobserve(e.target); } }), { threshold: 0.2 });
+    ch.querySelectorAll(':scope > .card').forEach(c => animObs.observe(c));
+  }
   function renderCharts(t) {
     const cats = Object.entries(t.byCat).sort((a, b) => b[1] - a[1]);
     const maxCat = cats.length ? cats[0][1] : 0;
@@ -4747,6 +5044,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
 
     if (typeof hideTip === 'function') hideTip();
     $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + tgtCard(t) + s3Card(t) + sensCard(t);
+    animateCharts();
     drawTreemap();
   }
 
@@ -6274,7 +6572,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
 
   renderMeta();
   renderStages();
-  if (CFG) cloud.finish().then(after => { renderAcct(); if (after === 'own') openOwn(''); });
+  // signed in on the way back: reload so the page starts as the account's workspace instead of the public site
+  if (CFG) cloud.finish().then(after => { if (PUBLIC && cloud.signedIn()) { location.reload(); return; } renderAcct(); if (after === 'own') openOwn(''); });
 })();
 </script>
 <script>
