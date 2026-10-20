@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-klFnsbL+03JNVlWPzr3yGHZtq5CkTr0lEPEbr6ruKqY=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-Mr0xnw11fOz5lmcFF6NA8WRmfCjrouNc6FI1t/AxiQA=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -454,6 +454,8 @@ html.rep-open .help-fab, html.rep-open .help-chat { display: none; }
 .ex-card.own[aria-pressed="true"] { border-style: solid; border-color: var(--brand); }
 @media (max-width: 760px) { .ex-head { grid-template-columns: minmax(0, 1fr); } }
 html.viewing #projectSetup { display: none; }
+html.viewing .stage-foot .adds, html.viewing [data-remove], html.viewing [data-rm-file], html.viewing .ev-actions > .add { display: none; }
+html.viewing .stages :is(input, select, textarea):disabled { opacity: 1; color: var(--ink); -webkit-text-fill-color: var(--ink); cursor: default; }
 html.viewing:not(.ledger-open) .workspace { grid-template-columns: minmax(0, 1fr); }
 html.viewing:not(.ledger-open) .workspace > section.stages { display: none; }
 html.viewing:not(.ledger-open) .side { position: static; max-height: none; overflow: visible; }
@@ -1673,6 +1675,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="fw-wrap rv" id="cust">
       <div class="fw-head"><h3 data-es="Solicitudes de tus clientes">Customer data requests</h3><p data-es="Cuando un cliente te pide tus emisiones (por CDP Supply Chain, un portal de proveedores o un cuestionario), regístralo aquí: CO2Trace asigna tu huella a ese cliente y arma la hoja para enviarle.">When a customer asks for your emissions (through CDP Supply Chain, a supplier portal or a questionnaire), record the request here: CO2Trace allocates your footprint to that customer and builds the sheet to send.</p></div>
       <div class="fw-grid" id="crList"></div>
+      <p class="note" id="crEx" hidden data-es="Solicitud de ejemplo: ábrela para ver la hoja. Para registrar las de tus clientes, elige Tus propios datos.">Example request: open it to see the sheet. To record your own customers’ requests, choose Your own data.</p>
       <form class="cr-form" id="crForm" novalidate>
         <label><span data-es="Cliente">Customer</span><input name="customer" type="text" required></label>
         <label><span data-es="Qué le vendes">What you sell them</span><input name="product" type="text"></label>
@@ -2505,6 +2508,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   const startRegion = state && REGIONS[state.region] ? state.region : 'mx';
   if (DEMO) state = example(startRegion, DEMO);
   else if (!state || !Array.isArray(state.rows) || state.isExample) state = example(startRegion, state && state.isExample ? state.example : EX_IDS[0]);
+  // an example that was edited before examples became fixed (its name still ends in "(example)"): open it as the fixed example again
+  else if (state.example && EXAMPLES[state.example] && / \((example|ejemplo)\)$/.test(state.company || '')) state = example(startRegion, state.example);
   // brings a loaded ledger (saved, restored or older) up to the current shape
   function adopt() {
     if (!REGIONS[state.region]) state.region = 'mx';
@@ -2731,6 +2736,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </tr>${open ? evHtml(r) : ''}`;
   }
 
+  // Examples are fixed: in view mode the activity data opens read-only (values shown, controls disabled; documents can still be viewed).
+  const lockExample = () => { if (state.isExample) $('stages').querySelectorAll('input, select, textarea').forEach(el => { el.disabled = true; }); };
   function renderStages() {
     $('stages').innerHTML = STAGES.map((s, i) => {
       const rows = state.rows.filter(r => r.stage === s.id);
@@ -2751,6 +2758,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     }).join('');
     renderSupplierList();
     updateTotals();
+    lockExample();
   }
 
   function rerenderRow(r, focusId) {
@@ -2759,6 +2767,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     const ev = document.getElementById(r.id + '-ev');
     if (ev) ev.remove();
     tr.outerHTML = rowHtml(r);
+    lockExample();
     if (focusId) { const el = document.getElementById(focusId); if (el) el.focus(); }
   }
 
@@ -3556,17 +3565,21 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     const el = $('crList'); if (!el) return;
     const list = state.requests || [], t = totals();
     el.innerHTML = list.length ? list.map(q => { const a = crAlloc(q, t);
-      return `<article class="cr-card${q.sent ? ' sent' : ''}"><div class="fw-top"><b>${esc(q.customer)}</b><button type="button" class="pill ${q.sent ? 'ok' : 'warn'}" data-cr-sent="${q.id}" aria-pressed="${!!q.sent}">${q.sent ? L('Sent', 'Enviada') : L('Open', 'Pendiente')}</button></div>
+      const pill = `${q.sent ? L('Sent', 'Enviada') : L('Open', 'Pendiente')}`;
+      return `<article class="cr-card${q.sent ? ' sent' : ''}"><div class="fw-top"><b>${esc(q.customer)}</b>${state.isExample ? `<span class="pill ${q.sent ? 'ok' : 'warn'}">${pill}</span>` : `<button type="button" class="pill ${q.sent ? 'ok' : 'warn'}" data-cr-sent="${q.id}" aria-pressed="${!!q.sent}">${pill}</button>`}</div>
         <p>${esc(q.product || '')}${q.due ? ` · ${L('due', 'vence')} ${esc(q.due)}` : ''}</p>
         <div class="cr-nums"><span><b>${fmtT(a.total)}</b> t CO₂e</span><span>${nf2.format(a.share * 100)} %</span>${a.perFu ? `<span>${nf2.format(a.perFu)} kg/${esc(L('unit', 'unidad'))}</span>` : ''}</div>
         <span class="note">${esc(a.why || crBasisTxt(q))}</span>
-        <div class="fw-act"><button type="button" class="btn" data-cr-open="${q.id}">${L('Open the sheet', 'Abrir la hoja')}</button><button type="button" class="btn ghost" data-cr-csv="${q.id}">CSV</button><button type="button" class="linkish" data-cr-del="${q.id}">${L('Delete', 'Eliminar')}</button></div></article>`; }).join('')
+        <div class="fw-act"><button type="button" class="btn" data-cr-open="${q.id}">${L('Open the sheet', 'Abrir la hoja')}</button><button type="button" class="btn ghost" data-cr-csv="${q.id}">CSV</button>${state.isExample ? '' : `<button type="button" class="linkish" data-cr-del="${q.id}">${L('Delete', 'Eliminar')}</button>`}</div></article>`; }).join('')
       : `<p class="note">${L('No requests yet. Add the first one below.', 'Aún no hay solicitudes. Agrega la primera abajo.')}</p>`;
+    $('crForm').hidden = !!state.isExample;
+    $('crEx').hidden = !state.isExample;
     const sel = $('crBasis'), v = sel.value || 'units';
     sel.innerHTML = CR_BASIS().map(([k, txt]) => `<option value="${k}"${k === v ? ' selected' : ''}>${esc(txt)}</option>`).join('');
   }
   $('crForm').addEventListener('submit', e => {
     e.preventDefault();
+    if (state.isExample) return;
     const f = $('crForm'), customer = f.elements.customer.value.trim(), val = f.elements.val.value;
     if (!customer || !(parseFloat(val) > 0)) { $('crMsg').textContent = L('Enter the customer and an allocation value.', 'Captura el cliente y un valor de asignación.'); return; }
     state.requests = (state.requests || []).concat({ id: 'q' + Date.now().toString(36), customer, product: f.elements.product.value.trim(), basis: f.elements.basis.value, val, due: f.elements.due.value, s3: f.elements.s3.checked, sent: false });
@@ -3575,6 +3588,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   $('crList').addEventListener('click', e => {
     const b = e.target.closest('[data-cr-open],[data-cr-csv],[data-cr-del],[data-cr-sent]'); if (!b) return;
     const id = b.dataset.crOpen || b.dataset.crCsv || b.dataset.crDel || b.dataset.crSent, q = (state.requests || []).find(x => x.id === id); if (!q) return;
+    if (state.isExample && (b.dataset.crDel || b.dataset.crSent)) return;
     if (b.dataset.crOpen) openReport({ html: () => crHtml(q), title: () => `${bare(state.company || 'CO2Trace')} → ${q.customer} · ${state.year || ''}` });
     else if (b.dataset.crCsv) { const a = document.createElement('a'), u = URL.createObjectURL(new Blob([crCsv(q)], { type: 'text/csv' })); a.href = u; a.download = `${bare(state.company || 'co2trace').replace(/[^\w-]+/g, '_')}_${q.customer.replace(/[^\w-]+/g, '_')}_${state.year || ''}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
     else if (b.dataset.crDel) { state.requests = state.requests.filter(x => x !== q); touched(); renderCust(); }
@@ -3717,11 +3731,12 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     const view = !!state.isExample, root = document.documentElement;
     root.classList.toggle('viewing', view);
     if (!view) root.classList.remove('ledger-open');
+    lockExample();
     const b = $('exampleBanner'); b.hidden = !view;
     if (view) {
       const ex = EXAMPLES[state.example], open = root.classList.contains('ledger-open');
       b.innerHTML = `<strong>${L('Example data.', 'Datos de ejemplo.')}</strong><span>${L(`${esc(bare(state.company))} is a fictional ${esc(ex.ind[0].toLowerCase())} business in ${esc(state.goal.site)}; its suppliers are fictional too.`, `${esc(bare(state.company))} es un negocio ficticio de ${esc(ex.ind[1].toLowerCase())} en ${esc(state.goal.site)}; sus proveedores también son ficticios.`)}</span>
-        <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines)`, `Ver los datos de actividad (${state.rows.length} líneas)`)}</button>`;
+        <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines, read-only)`, `Ver los datos de actividad (${state.rows.length} líneas, solo lectura)`)}</button>`;
     }
     renderExamples();
     if ($('setupRO').hidden === view) renderSetupView();
@@ -4804,6 +4819,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   });
   stagesEl.addEventListener('dragleave', e => { const ev = e.target.closest('.ev'); if (ev) ev.classList.remove('drag'); });
   stagesEl.addEventListener('drop', e => {
+    if (state.isExample) return;
     const ev = e.target.closest('.ev'); if (!ev) return;
     e.preventDefault(); ev.classList.remove('drag');
     const r = findRow(ev.closest('tr[data-id]').dataset.id);
