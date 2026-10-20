@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-Mr0xnw11fOz5lmcFF6NA8WRmfCjrouNc6FI1t/AxiQA=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-+jvEuxz9OUeQ2BDfTHR4665wpwgpUuiq6/VVEU/zCOk=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -432,6 +432,8 @@ html.rep-open .help-fab, html.rep-open .help-chat { display: none; }
 @media (max-width: 900px) { .plans-grid { grid-template-columns: minmax(0, 1fr); } }
 /* Example gallery (#examples) and view mode (html.viewing: an untouched example is loaded) */
 .examples { display: grid; gap: 22px; }
+.ex-open { margin-top: 18px; }
+.ex-grid[hidden] { display: none; }
 .ex-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 14px 32px; align-items: end; }
 .examples h2 { font-size: clamp(28px, 3vw, 44px); line-height: 1; color: var(--title); margin-top: 8px; }
 .ex-lede { margin: 0; color: var(--slate); font-size: 15px; line-height: 1.55; }
@@ -1545,7 +1547,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       <div class="kicker"><div class="eyebrow" data-es="Empieza aquí">Start here</div><h2 id="exTitle" class="rv-h" data-es="Explora un ejemplo">Explore an example</h2></div>
       <p class="ex-lede" data-es="Elige una empresa para ver su huella. Cada una es un negocio ficticio de Nuevo León con un año de datos de actividad, de distinto tamaño e industria. Baja para recorrer su tablero.">Pick a company to see its footprint. Each is a fictional US business with a year of activity data, of a different size and industry. Scroll down to explore its dashboard.</p>
     </div>
-    <div class="ex-grid" id="exGrid" role="group" aria-label="Examples" data-es-aria-label="Ejemplos"></div>
+    <div class="ex-open"><button type="button" class="btn primary" id="exToggle" aria-expanded="false" aria-controls="exGrid"></button></div>
+    <div class="ex-grid" id="exGrid" role="group" aria-label="Examples" data-es-aria-label="Ejemplos" hidden></div>
   </section>
 
   <section class="setup rv" id="projectSetup" aria-labelledby="setupTitle">
@@ -2503,13 +2506,15 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     const raw = localStorage.getItem(STORE);
     if (raw) state = JSON.parse(raw);
   } catch (e) { state = null; }
-  // ?demo loads the first example, ?demo=<id> a given one; new visitors and untouched examples open an example, never a blank ledger
+  // Examples open only when the visitor asks (See examples, or ?demo for the first one, ?demo=<id> for a given one).
+  // Otherwise the page opens the visitor's own ledger, blank on a first visit; an example left open last time is not reopened.
   const DEMO = (location.search.match(/[?&]demo(?:=(\w+))?\b/) || [])[0] ? (location.search.match(/[?&]demo=(\w+)/) || [])[1] || EX_IDS[0] : null;
   const startRegion = state && REGIONS[state.region] ? state.region : 'mx';
+  const ownSaved = () => { try { const o = JSON.parse(localStorage.getItem('lca-ledger-own')); return o && Array.isArray(o.rows) ? o : null; } catch (e) { return null; } };
   if (DEMO) state = example(startRegion, DEMO);
-  else if (!state || !Array.isArray(state.rows) || state.isExample) state = example(startRegion, state && state.isExample ? state.example : EX_IDS[0]);
-  // an example that was edited before examples became fixed (its name still ends in "(example)"): open it as the fixed example again
-  else if (state.example && EXAMPLES[state.example] && / \((example|ejemplo)\)$/.test(state.company || '')) state = example(startRegion, state.example);
+  // an example (or one edited before examples became fixed, its name still ending in "(example)") is not the visitor's data
+  else if (state && Array.isArray(state.rows) && state.example && EXAMPLES[state.example] && (state.isExample || / \((example|ejemplo)\)$/.test(state.company || ''))) state = ownSaved() || blank(startRegion);
+  else if (!state || !Array.isArray(state.rows)) state = blank(startRegion);
   // brings a loaded ledger (saved, restored or older) up to the current shape
   function adopt() {
     if (!REGIONS[state.region]) state.region = 'mx';
@@ -3694,6 +3699,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   // dashboard takes the full width; the ledger opens on request (html.ledger-open). Loading an example over the visitor's own
   // ledger keeps a copy in OWN_STORE so "Your own data" can bring it back.
   const OWN_STORE = 'lca-ledger-own';
+  let exOpen = false;
   const SIZES = { small: ['Small', 'Pequeña'], medium: ['Medium', 'Mediana'], large: ['Large', 'Grande'] };
   const exCache = {};
   function exSummary(id) {
@@ -3726,6 +3732,10 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       <span class="ex-go">${cur === 'own' || own ? L('Open my project', 'Abrir mi proyecto') : L('Start blank', 'Empezar en blanco')} <span aria-hidden="true">→</span></span>
     </button>`);
     $('exGrid').innerHTML = cards.join('');
+    if (state.isExample) exOpen = true;   // an example in view keeps the gallery open
+    $('exGrid').hidden = !exOpen;
+    $('exToggle').setAttribute('aria-expanded', exOpen);
+    $('exToggle').innerHTML = exOpen ? L('Hide examples', 'Ocultar ejemplos') : L('See examples<span class="arr" aria-hidden="true">▶</span>', 'Ver ejemplos<span class="arr" aria-hidden="true">▶</span>');
   }
   function renderView() {
     const view = !!state.isExample, root = document.documentElement;
@@ -3736,6 +3746,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     if (view) {
       const ex = EXAMPLES[state.example], open = root.classList.contains('ledger-open');
       b.innerHTML = `<strong>${L('Example data.', 'Datos de ejemplo.')}</strong><span>${L(`${esc(bare(state.company))} is a fictional ${esc(ex.ind[0].toLowerCase())} business in ${esc(state.goal.site)}; its suppliers are fictional too.`, `${esc(bare(state.company))} es un negocio ficticio de ${esc(ex.ind[1].toLowerCase())} en ${esc(state.goal.site)}; sus proveedores también son ficticios.`)}</span>
+        <button type="button" class="btn" data-ex-back>${L('Back to my data', 'Volver a mis datos')}</button>
         <button type="button" class="btn" id="ledgerToggle" aria-expanded="${open}">${open ? L('Hide the activity data', 'Ocultar los datos de actividad') : L(`Show the activity data (${state.rows.length} lines, read-only)`, `Ver los datos de actividad (${state.rows.length} líneas, solo lectura)`)}</button>`;
     }
     renderExamples();
@@ -3769,7 +3780,15 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     goTo($('projectSetup'));
   }
   $('exGrid').addEventListener('click', e => { const b = e.target.closest('[data-ex]'); if (b) loadExample(b.dataset.ex); });
+  // the gallery stays closed until the visitor asks to see the examples; hiding it while one is open goes back to their own data
+  $('exToggle').addEventListener('click', () => {
+    exOpen = !exOpen;
+    if (!exOpen && state.isExample) { openOwn(''); return; }
+    renderExamples();
+    if (exOpen) goTo($('examples'));
+  });
   $('exampleBanner').addEventListener('click', e => {
+    if (e.target.closest('[data-ex-back]')) { exOpen = false; openOwn(''); return; }
     if (!e.target.closest('#ledgerToggle')) return;
     const open = document.documentElement.classList.toggle('ledger-open');
     renderView();
