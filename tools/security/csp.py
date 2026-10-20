@@ -23,7 +23,8 @@ BASE = [
     "img-src 'self' data: blob:",
     "media-src 'self'",
     "frame-src blob:",
-    "connect-src 'self'",
+    # the backend (infra/, us-east-2): API Gateway, the Cognito token endpoint and presigned S3 uploads
+    "connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com",
     "object-src 'none'",
     "base-uri 'none'",
     "form-action 'self'",

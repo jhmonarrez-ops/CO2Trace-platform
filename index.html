@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-bG6FEz8R9G7om9lvyAkrnJ4fkCX4SnrhUwsR+z8/Bu8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-klFnsbL+03JNVlWPzr3yGHZtq5CkTr0lEPEbr6ruKqY=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -795,6 +795,7 @@ table.inv tr.memo td { color: var(--muted); font-style: italic; }
 .imp-tbl td small { display: block; color: var(--muted); font-size: 11.5px; }
 .imp-tbl select { max-width: 280px; width: 100%; padding: 5px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font: inherit; font-size: 12.5px; color: var(--ink); }
 .imp-tbl tr.off td { color: var(--muted); }
+.imp-tbl td small.imp-flag { color: var(--warn); }
 #impMode button { white-space: normal; }
 .imp form > * { min-width: 0; max-width: 100%; }
 @media (max-width: 640px) { .imp-tbl table { min-width: 600px; } .imp-map { grid-template-columns: 1fr 1fr; } .imp-map select, #impRate { font-size: 16px; } }
@@ -1184,6 +1185,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 .hc-go:hover, .hc-chip:hover { background: var(--go); border-color: var(--go); color: var(--go-ink); }
 .hc-next { margin-top: 10px; font-family: var(--f-label); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; opacity: .7; }
 .hc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.hc-ai { font-size: 11.5px; color: var(--muted); margin-top: 6px; }
 .hc-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); }
 .hc-typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: hcDot 1s infinite ease-in-out; }
 .hc-typing i:nth-child(2) { animation-delay: .15s; } .hc-typing i:nth-child(3) { animation-delay: .3s; }
@@ -1867,9 +1869,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   <form method="dialog" id="impForm">
     <div class="eyebrow" data-es="Importar datos">Import data</div>
     <h2 id="impTitle" data-es="Agregar líneas desde un archivo">Add lines from a file</h2>
-    <div class="seg seg-sm" id="impMode" role="group" aria-label="File type" data-es-aria-label="Tipo de archivo"><button type="button" data-imp-mode="act" aria-pressed="true" data-es="Actividad (kWh, L, kg)">Activity (kWh, L, kg)</button><button type="button" data-imp-mode="spend" aria-pressed="false" data-es="Gasto contable">Accounting spend</button></div>
-    <label class="imp-drop" id="impDrop"><input type="file" id="impFile" multiple accept=".csv,.tsv,.txt,.xlsx,.xml,text/csv"><span data-es="Elige un archivo CSV o Excel (.xlsx), o facturas CFDI (.xml), o suéltalos aquí">Choose a CSV or Excel (.xlsx) file, or drop it here</span></label>
-    <p class="db-src"><button type="button" class="linkish" id="impTpl"><span id="impTplName"></span></button> <span data-es="· El archivo se lee en este navegador; no se sube a ningún lado.">· The file is read in this browser and is not uploaded anywhere.</span></p>
+    <div class="seg seg-sm" id="impMode" role="group" aria-label="File type" data-es-aria-label="Tipo de archivo"><button type="button" data-imp-mode="act" aria-pressed="true" data-es="Actividad (kWh, L, kg)">Activity (kWh, L, kg)</button><button type="button" data-imp-mode="spend" aria-pressed="false" data-es="Gasto contable">Accounting spend</button><button type="button" data-imp-mode="ai" aria-pressed="false" id="impAiBtn" hidden data-es="Documentos (IA)">Documents (AI)</button></div>
+    <label class="imp-drop" id="impDrop"><input type="file" id="impFile" multiple accept=".csv,.tsv,.txt,.xlsx,.xml,text/csv"><span id="impDropTxt"></span></label>
+    <p class="db-src"><button type="button" class="linkish" id="impTpl"><span id="impTplName"></span></button> <span id="impPriv"></span></p>
     <div class="field" id="impRateWrap" hidden><label for="impRate" id="impRateLbl"></label><input id="impRate" type="number" min="0" step="any"></div>
     <div class="imp-map" id="impMap" hidden></div>
     <p class="db-src" id="impMsg" aria-live="polite"></p>
@@ -1885,6 +1887,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   </div>
 </div>
 
+<script src="co2trace.config.js"></script>
 <script>
 (function () {
   const STAGES = [
@@ -2774,6 +2777,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   function renderMeta() {
     exampleBase();
     applyLang();
+    renderAcct();
     $('company').value = state.company || '';
     $('year').value = state.year || '';
     $('fuName').value = state.fuName || '';
@@ -3657,7 +3661,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     document.querySelectorAll('[data-bill]').forEach(x => x.setAttribute('aria-pressed', x.dataset.bill === bill));
     renderPlans();
   }));
-  $('plansGrid').addEventListener('click', e => { if (e.target.closest('[data-plan]') && window.openAccount) window.openAccount('create'); });
+  $('plansGrid').addEventListener('click', e => { if (e.target.closest('[data-plan]')) account('create'); });
   (() => {
     const grid = $('plansGrid'), stacked = matchMedia('(max-width: 900px)');
     grid.addEventListener('pointerover', e => { const c = e.target.closest('.plan'); if (c && !stacked.matches) setPlan(c.dataset.p); });
@@ -3727,7 +3731,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   function loadExample(id) {
     if (id === 'own') {
-      if (window.openAccount) { window.openAccount('create', ({ company }) => openOwn(company)); return; }
+      if (CFG || window.openAccount) { account('create', ({ company }) => openOwn(company)); return; }
       openOwn('');
       return;
     }
@@ -4806,6 +4810,131 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     if (r) addFiles(r, e.dataTransfer.files);
   });
 
+  // ---------- Cloud: sign-in (Cognito managed login with PKCE), the assistant and document reading ----------
+  // Off until a deploy writes co2trace.config.js (infra/scripts/write-config.mjs) with the API and sign-in addresses;
+  // the committed file sets window.CO2TRACE_CONFIG = null, so the page works exactly as before without a backend.
+  const CFG = window.CO2TRACE_CONFIG && window.CO2TRACE_CONFIG.apiUrl ? window.CO2TRACE_CONFIG : null;
+  const cloud = (() => {
+    const KEY = 'co2trace-auth', PK = 'co2trace-pkce';
+    const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const rnd = () => b64u(crypto.getRandomValues(new Uint8Array(32)));
+    const ss = { get: k => { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+    let tok = ss.get(KEY), cid = null;
+    const back = () => location.origin + '/';   // the Cognito app client allows the site root as its callback
+    const claims = t => { try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (e) { return {}; } };
+    const keep = t => { tok = t; ss.set(KEY, t); renderAcct(); };
+    async function token(body) {
+      const r = await fetch(`${CFG.authDomain}/oauth2/token`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(Object.assign({ client_id: CFG.clientId }, body)) });
+      if (!r.ok) throw new Error('token ' + r.status);
+      return r.json();
+    }
+    async function idToken() {
+      if (!tok) return null;
+      if (tok.exp - 60 > Date.now() / 1000) return tok.id;
+      if (!tok.refresh) { keep(null); return null; }
+      try { const t = await token({ grant_type: 'refresh_token', refresh_token: tok.refresh }); keep({ id: t.id_token, refresh: tok.refresh, exp: claims(t.id_token).exp }); return tok.id; }
+      catch (e) { keep(null); return null; }
+    }
+    async function signIn(mode, after) {
+      const verifier = rnd(), st = rnd(), challenge = b64u(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));
+      ss.set(PK, { verifier, state: st, after: after || null });
+      const q = new URLSearchParams({ response_type: 'code', client_id: CFG.clientId, redirect_uri: back(), scope: 'openid email profile', code_challenge: challenge, code_challenge_method: 'S256', state: st, lang: isEs() ? 'es' : 'en' });
+      location.assign(`${CFG.authDomain}/${mode === 'create' ? 'signup' : 'oauth2/authorize'}?${q}`);
+    }
+    // coming back from the sign-in page with ?code=…&state=…
+    async function finish() {
+      const u = new URL(location.href), code = u.searchParams.get('code'), st = u.searchParams.get('state'), pk = ss.get(PK);
+      if (!code || !pk || st !== pk.state) return null;
+      ss.set(PK, null); history.replaceState(null, '', u.pathname + u.hash);
+      try {
+        const t = await token({ grant_type: 'authorization_code', code, redirect_uri: back(), code_verifier: pk.verifier });
+        keep({ id: t.id_token, refresh: t.refresh_token, exp: claims(t.id_token).exp });
+        return pk.after;
+      } catch (e) { toast(L('Sign-in did not finish. Try again.', 'El inicio de sesión no terminó. Inténtalo de nuevo.')); return null; }
+    }
+    function signOut() {
+      keep(null); cid = null;
+      location.assign(`${CFG.authDomain}/logout?${new URLSearchParams({ client_id: CFG.clientId, logout_uri: back() })}`);
+    }
+    async function api(path, opts = {}) {
+      const id = opts.auth === false ? null : await idToken();
+      if (opts.auth !== false && !id) { const e = new Error(L('Sign in first.', 'Inicia sesión primero.')); e.status = 401; throw e; }
+      const r = await fetch(CFG.apiUrl + path, { method: opts.method || 'GET', headers: Object.assign({ 'content-type': 'application/json' }, id ? { authorization: 'Bearer ' + id } : {}), body: opts.body ? JSON.stringify(opts.body) : undefined });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) { const e = new Error((j.error && j.error.message) || r.statusText); e.status = r.status; throw e; }
+      return j;
+    }
+    // the visitor's company in the cloud: the first one they belong to, created from this ledger if there is none
+    async function company() {
+      if (cid) return cid;
+      const me = await api('/me');
+      if (me.companies && me.companies.length) return (cid = me.companies[0].id);
+      const c = await api('/companies', { method: 'POST', body: { name: bare(state.company || '') || claims(tok.id).email || 'My company', country: state.region } });
+      return (cid = c.id);
+    }
+    async function help(question, history) {
+      return api('/assistant/help', { method: 'POST', auth: false, body: { question, lang: isEs() ? 'es' : 'en', history, context: ledgerSummary() } });
+    }
+    // one document: job → upload to the inbox → poll until the reader is done (about a minute at most)
+    async function read(file, onStep) {
+      const c = await company();
+      const j = await api(`/companies/${c}/extract`, { method: 'POST', body: { name: file.name, size: file.size, contentType: file.type || (/\.xml$/i.test(file.name) ? 'application/xml' : /\.csv$/i.test(file.name) ? 'text/csv' : ''), lang: isEs() ? 'es' : 'en', region: state.region } });
+      onStep && onStep('upload');
+      const fd = new FormData(); Object.entries(j.upload.fields).forEach(([k, v]) => fd.append(k, v)); fd.append('file', file);
+      const up = await fetch(j.upload.url, { method: 'POST', body: fd });
+      if (!up.ok) throw new Error(L('The upload failed.', 'La carga falló.'));
+      onStep && onStep('read');
+      for (let i = 0; i < 90; i++) {
+        await new Promise(res => setTimeout(res, i < 5 ? 1500 : 3000));
+        const s = await api(`/companies/${c}/extract/${j.job}`);
+        if (s.status === 'done') return s.result;
+        if (s.status === 'failed') throw new Error(s.error || L('The document could not be read.', 'No se pudo leer el documento.'));
+      }
+      throw new Error(L('Reading took too long. Try again.', 'La lectura tardó demasiado. Inténtalo de nuevo.'));
+    }
+    const signedIn = () => !!(tok && (tok.refresh || tok.exp > Date.now() / 1000));
+    const email = () => (tok ? claims(tok.id).email || '' : '');
+    return { on: !!CFG, signIn, signOut, finish, help, read, signedIn, email };
+  })();
+  window.co2traceCloud = CFG ? cloud : null;
+  // With a backend, Create account / Sign in go to the sign-in page; signed in, the pair becomes the email and Sign out.
+  function renderAcct() {
+    if (!CFG) return;
+    document.querySelectorAll('[data-acct]').forEach(b => {
+      const on = cloud.signedIn();
+      if (b.dataset.acct === 'create') b.hidden = on;
+      else b.textContent = on ? L(`Sign out (${cloud.email()})`, `Cerrar sesión (${cloud.email()})`) : L('Sign in', 'Iniciar sesión');
+    });
+  }
+  if (CFG) {
+    // runs before the account box's own click handler (capture phase) and replaces it
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-acct]'); if (!b) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (cloud.signedIn()) { if (b.dataset.acct !== 'create') cloud.signOut(); } else cloud.signIn(b.dataset.acct);
+    }, true);
+  }
+  // the account box, or the real sign-in when there is a backend
+  function account(mode, onDone) {
+    if (CFG) { if (cloud.signedIn()) { if (onDone) onDone({ company: '' }); } else cloud.signIn(mode, onDone ? 'own' : null); return; }
+    if (window.openAccount) window.openAccount(mode, onDone);
+  }
+  // what the assistant may know about the ledger in view: totals, the largest lines and open checks (no files, no names of people)
+  function ledgerSummary() {
+    const t = totals(); if (!(t.total > 0)) return L('The ledger is empty.', 'El registro está vacío.');
+    const ln = t.lines.slice().sort((a, b) => emis(b) - emis(a)).slice(0, 10).map(r => `- ${lineName(r)}${r.note ? ' (' + r.note + ')' : ''}: ${fmtT(emis(r))} t, ${SC(+r.scope || 3)}, ${pct(emis(r), t.total)}`);
+    const ck = checks(t), tr = target(t, []);
+    return [`${state.company || ''} · ${state.year || ''} · ${REGIONS[state.region].name} · ${state.method} · ${state.boundary === 'gate' ? 'cradle-to-gate' : 'cradle-to-grave'}${state.isExample ? ' · fictional example' : ''}`,
+      `Total ${fmtT(t.total)} t CO2e: Scope 1 ${fmtT(t.byScope[1])}, Scope 2 ${fmtT(t.byScope[2])} (location ${fmtT(t.s2lb)}, market ${fmtT(t.s2mb)}), Scope 3 ${fmtT(t.byScope[3])}.`,
+      state.fuQty ? `Per functional unit (${state.fuName}): ${nf2.format(t.total * 1000 / +state.fuQty)} kg CO2e.` : '',
+      `Evidence: ${pct(t.byEv.ok, t.total)} verified, ${pct(t.byEv.att, t.total)} attached, ${pct(t.byEv.miss, t.total)} missing. Data quality ${nf1.format(t.dq || 0)} of 5.`,
+      tr ? `Target: ${tgtName(tr)}, ${fmtT(tr.goal)} t by ${tr.ty}; this year ${fmtT(tr.cur)} t; plan gap ${fmtT(tr.gap)} t.` : 'No reduction target set.',
+      `Largest lines:\n${ln.join('\n')}`,
+      ck.length ? `Open checks (${ck.length}):\n${ck.slice(0, 6).map(c => `- ${c[0]}: ${c[1]}`).join('\n')}` : 'No open checks.'].filter(Boolean).join('\n').slice(0, 7800);
+  }
+  // assistant text → safe HTML: paragraphs, "- " lists and **bold**
+  const mdLite = s => esc(s).split(/\n{2,}/).map(p => /^\s*[-•] /m.test(p) ? `<ul>${p.split('\n').filter(x => x.trim()).map(x => `<li>${x.replace(/^\s*[-•] /, '')}</li>`).join('')}</ul>` : `<p>${p.replace(/\n/g, '<br>')}</p>`).join('').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+
   // ---------- Import a file: activity data or an accounting (spend) export → ledger lines ----------
   // Reads CSV/TSV (delimiter guessed) and .xlsx (first sheet; a small zip reader with the browser's DecompressionStream, no library).
   // Columns are guessed from the headers (English or Spanish) and can be changed. Activity rows are matched to the built-in factors
@@ -4948,10 +5077,12 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   };
   const kindStage = k => ({ mat: 'materials', transport: 'distribution', fuel: 'manufacturing', elec: 'manufacturing', refrig: 'manufacturing', waste: 'manufacturing' })[k];
   const usable = f => f.key !== 'custom' && !f.lib && (!f.only || f.only === state.region) && (f.gas || f[state.region]);
+  // the grid factor already used in the ledger, else the country's grid
+  const ledgerGrid = () => { const u = state.rows.find(r => kindOf(r) === 'elec' && +r.scope === 2 && r.key !== 'elec_ren' && F[r.key] && !F[r.key].lib); return u ? u.key : REGIONS[state.region].grid; };
   // built-in factor candidates for one activity row, best first: [key, score, qty in factor unit]
   function matchAct(text, unit, qty) {
     const q = expand(text, ACT_SYN), u = unitIn(unit), list = FACTORS.filter(usable);
-    const used = state.rows.find(r => kindOf(r) === 'elec' && +r.scope === 2 && r.key !== 'elec_ren' && F[r.key] && !F[r.key].lib), grid = used ? used.key : REGIONS[state.region].grid;
+    const grid = ledgerGrid();
     const isElec = q.some(w => ['electricity', 'electricidad', 'grid', 'power', 'kwh'].includes(w)) || ['kWh', 'MWh', 'GWh'].includes(u), green = /renew|renov|solar|certif|green|verde/.test(normTxt(text));
     if (!q.length) return [];
     const df = {}; list.forEach(f => new Set(toks(`${f.en ? f.en[0] : f.name} ${FACTOR_ES[f.key] || ''} ${f.key.replace(/_/g, ' ')}`)).forEach(w => (df[w] = (df[w] || 0) + 1)));
@@ -4998,7 +5129,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     a.href = u; a.download = `co2trace_${mode === 'act' ? L('activity', 'actividad') : L('spend', 'gasto')}_${L('template', 'plantilla')}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
   }
   function openImport(stage) {
-    imp.stage = stage || 'materials'; imp.head = []; imp.body = []; imp.rows = []; imp.name = '';
+    imp.stage = stage || 'materials'; imp.head = []; imp.body = []; imp.rows = []; imp.name = ''; imp.msg = ''; imp.notes = [];
+    if (imp.mode === 'ai' && !CFG) imp.mode = 'act';
     $('impMode').querySelectorAll('[data-imp-mode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.impMode === imp.mode));
     $('impFile').value = ''; $('impRate').value = ''; renderImp();
     const dlg = $('impDlg'); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
@@ -5018,6 +5150,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   async function loadImpFile(file, all) {
     if (!file) return;
+    if (imp.mode === 'ai') { readDocs(all || [file]); return; }
     imp.name = file.name; $('impMsg').textContent = L('Reading…', 'Leyendo…');
     try {
       const xml = [...(all || [file])].filter(f => /\.xml$/i.test(f.name));
@@ -5043,7 +5176,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
         const amt = numIn(cell(r, 'amount')), text = `${cell(r, 'desc')} ${cell(r, 'cat')}`;
         if (!(amt > 0) || !normTxt(text)) return;
         const c = matchSpend(text), mo = monthIn(cell(r, 'date'));
-        imp.rows.push({ on: c.length > 0, desc: String(cell(r, 'desc')).trim() || String(cell(r, 'cat')).trim(), supplier: String(cell(r, 'supplier')).trim(), ref: String(cell(r, 'ref')).trim(), stage: 'materials', scope: 3,
+        imp.rows.push({ spend: true, on: c.length > 0, desc: String(cell(r, 'desc')).trim() || String(cell(r, 'cat')).trim(), supplier: String(cell(r, 'supplier')).trim(), ref: String(cell(r, 'ref')).trim(), stage: 'materials', scope: 3,
           m0: mo ?? 0, m1: mo ?? 11, src: amt, qty: state.region === 'us' ? amt * rate : amt / rate, cands: c.map(([it]) => it.k), pick: c.length ? c[0][0].k : '' });
       });
     } else {
@@ -5061,29 +5194,38 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   const impItem = k => imp.lib && imp.lib.items.find(x => x.it.k === k);
   const impEst = r => {
     if (!r.on || !r.pick) return 0;
-    if (imp.mode === 'spend') { const x = impItem(r.pick); return x ? r.qty * co2eOf(Object.fromEntries(Object.entries(x.it.gas).filter(([g]) => g !== 'HCFC-22'))) / 1000 : 0; }
+    if (r.spend) { const x = impItem(r.pick); return x ? r.qty * co2eOf(Object.fromEntries(Object.entries(x.it.gas).filter(([g]) => g !== 'HCFC-22'))) / 1000 : 0; }
     const q = r.pick === 'custom' ? NaN : r.conv[r.pick] ?? convQty(r.src, r.unit, F[r.pick].unit);
     return isFinite(q) ? q * libEf(r.pick) / 1000 : 0;
   };
   function renderImp() {
-    const fields = IMP_FIELDS[imp.mode], has = imp.head.length > 0, spend = imp.mode === 'spend';
+    const fields = IMP_FIELDS[imp.mode] || [], ai = imp.mode === 'ai', has = imp.head.length > 0, spend = imp.mode === 'spend';
+    $('impAiBtn').hidden = !CFG;
+    $('impFile').accept = ai ? '.pdf,.png,.jpg,.jpeg,.webp,.gif,.csv,.txt,.xml' : '.csv,.tsv,.txt,.xlsx,.xml,text/csv';
+    $('impDropTxt').textContent = ai ? L('Choose bills or invoices (PDF, photos, CFDI XML; up to 10 at a time), or drop them here', 'Elige recibos o facturas (PDF, fotos, CFDI XML; hasta 10 a la vez) o suéltalos aquí') : L('Choose a CSV or Excel (.xlsx) file, or drop it here', 'Elige un archivo CSV o Excel (.xlsx), o facturas CFDI (.xml), o suéltalos aquí');
+    $('impTpl').hidden = ai;
+    $('impPriv').textContent = ai ? L('Documents go to CO2Trace’s servers on AWS to be read, and are deleted from there once read; the copy attached to each line stays in this browser.', 'Los documentos van a los servidores de CO2Trace en AWS para leerlos y se borran de ahí al terminar; la copia adjunta a cada línea se queda en este navegador.')
+      : L('· The file is read in this browser and is not uploaded anywhere.', '· El archivo se lee en este navegador; no se sube a ningún lado.');
     $('impTplName').textContent = spend ? L('Spend template (CSV)', 'Plantilla de gasto (CSV)') : L('Activity template (CSV)', 'Plantilla de actividad (CSV)');
     $('impRateWrap').hidden = !spend;
     $('impQtyH').textContent = spend ? L('Amount', 'Importe') : L('Quantity', 'Cantidad');
     if (spend && !$('impRate').value) $('impRate').value = spendRate();
     $('impRateLbl').textContent = state.region === 'us' ? L('2022 USD per USD spent (inflation adjustment)', '') : 'MXN por EUR de 2019 (tipo de cambio × inflación)';
     $('impMap').innerHTML = has ? fields.map(([k, en, es]) => `<label><span>${L(en, es)}</span><select data-imp-map="${k}"><option value="">${L('(none)', '(ninguna)')}</option>${imp.head.map((h, i) => `<option value="${i}"${imp.map[k] === i ? ' selected' : ''}>${esc(h || L(`Column ${i + 1}`, `Columna ${i + 1}`))}</option>`).join('')}</select></label>`).join('') : '';
-    $('impMap').hidden = !has;
+    $('impMap').hidden = !has || ai;
     const on = imp.rows.filter(r => r.on), tot = on.reduce((a, r) => a + impEst(r), 0);
     const need = spend ? ['desc', 'amount'] : ['qty'], miss = need.filter(k => imp.map[k] == null);
-    $('impMsg').textContent = !has ? L('Pick a file, or drop it here. The first row must hold the column names.', 'Elige un archivo o suéltalo aquí. La primera fila debe tener los nombres de las columnas.')
+    $('impMsg').textContent = ai ? (imp.msg || (imp.rows.length ? L(`${imp.name}: ${imp.rows.length} lines read. ${on.length} selected · about ${fmtT(tot)} t CO₂e. Check each one against the document before adding.`, `${imp.name}: ${imp.rows.length} líneas leídas. ${on.length} seleccionadas · cerca de ${fmtT(tot)} t CO₂e. Revisa cada una contra el documento antes de agregarla.`)
+        : cloud.signedIn() ? L('CO2Trace reads each document with AI and proposes its lines: quantity, unit, period, supplier and reference. The document is attached to each line as evidence.', 'CO2Trace lee cada documento con IA y propone sus líneas: cantidad, unidad, periodo, proveedor y referencia. El documento queda adjunto a cada línea como evidencia.')
+        : L('Sign in to let CO2Trace read your documents.', 'Inicia sesión para que CO2Trace lea tus documentos.'))) + ((imp.notes || []).length ? ' ' + imp.notes.join(' ') : '')
+      : !has ? L('Pick a file, or drop it here. The first row must hold the column names.', 'Elige un archivo o suéltalo aquí. La primera fila debe tener los nombres de las columnas.')
       : miss.length ? L(`Choose the column for: ${miss.map(k => fields.find(f => f[0] === k)[1]).join(', ')}.`, `Elige la columna de: ${miss.map(k => fields.find(f => f[0] === k)[2]).join(', ')}.`)
       : L(`${imp.name}: ${imp.rows.length} rows read, ${imp.rows.filter(r => r.cands.length).length} matched to a factor. ${on.length} selected · about ${fmtT(tot)} t CO₂e.`, `${imp.name}: ${imp.rows.length} filas leídas, ${imp.rows.filter(r => r.cands.length).length} con factor. ${on.length} seleccionadas · cerca de ${fmtT(tot)} t CO₂e.`);
-    const fName = k => { if (spend) { const x = impItem(k); return x ? x.it.n : k; } return F[k] ? F[k].name : k; };
+    const fName = (k, r) => { if (r.spend) { const x = impItem(k); return x ? x.it.n : k; } return F[k] ? F[k].name : k; };
     $('impRows').innerHTML = imp.rows.slice(0, 300).map((r, i) => `<tr class="${r.on ? '' : 'off'}"><td><input type="checkbox" data-imp-on="${i}"${r.on ? ' checked' : ''} aria-label="${L('Import this row', 'Importar esta fila')}"></td>
-      <td data-l="${L('Description', 'Descripción')}">${esc(r.desc)}${r.supplier ? `<small>${esc(r.supplier)}</small>` : ''}</td>
-      <td class="r" data-l="${spend ? L('Amount', 'Importe') : L('Quantity', 'Cantidad')}">${spend ? money(r.src, false) : `${nf2.format(r.src)} ${esc(r.unit || '')}`}</td>
-      <td data-l="${L('Factor', 'Factor')}"><select data-imp-pick="${i}">${r.cands.map(k => `<option value="${esc(k)}"${k === r.pick ? ' selected' : ''}>${esc(fName(k))}${!spend && isNaN(r.conv[k]) ? ' · ' + L('unit differs', 'otra unidad') : ''}</option>`).join('')}${spend ? '' : `<option value="custom"${r.pick === 'custom' ? ' selected' : ''}>${L('Custom factor (enter it later)', 'Factor personalizado (captúralo después)')}</option>`}${!r.cands.length && spend ? `<option value="">${L('No match', 'Sin coincidencia')}</option>` : ''}</select></td>
+      <td data-l="${L('Description', 'Descripción')}">${esc(r.desc)}${r.supplier ? `<small>${esc(r.supplier)}</small>` : ''}${r.flag ? `<small class="imp-flag">${esc(r.flag)}</small>` : ''}</td>
+      <td class="r" data-l="${r.spend ? L('Amount', 'Importe') : L('Quantity', 'Cantidad')}">${r.spend ? money(r.src, false) : `${nf2.format(r.src)} ${esc(r.unit || '')}`}</td>
+      <td data-l="${L('Factor', 'Factor')}"><select data-imp-pick="${i}">${r.cands.map(k => `<option value="${esc(k)}"${k === r.pick ? ' selected' : ''}>${esc(fName(k, r))}${!r.spend && isNaN(r.conv[k]) ? ' · ' + L('unit differs', 'otra unidad') : ''}</option>`).join('')}${r.spend ? '' : `<option value="custom"${r.pick === 'custom' ? ' selected' : ''}>${L('Custom factor (enter it later)', 'Factor personalizado (captúralo después)')}</option>`}${!r.cands.length && r.spend ? `<option value="">${L('No match', 'Sin coincidencia')}</option>` : ''}</select></td>
       <td class="r" data-l="t CO₂e">${r.on ? fmtT(impEst(r)) : '–'}</td></tr>`).join('');
     $('impTable').hidden = !imp.rows.length;
     $('impAdd').disabled = !on.length;
@@ -5100,9 +5242,10 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     return f.key;
   }
   function addImp() {
-    const spend = imp.mode === 'spend', on = imp.rows.filter(r => r.on && r.pick);
+    const on = imp.rows.filter(r => r.on && r.pick);
     on.forEach(r => {
       let key = r.pick, qty;
+      const spend = r.spend;
       if (spend) { const x = impItem(r.pick); if (!x) return; key = useLibItem(imp.lib.id, imp.lib.meta, x.it); qty = r.qty; }
       else qty = key === 'custom' ? r.src : r.conv[key] ?? convQty(r.src, r.unit, F[key].unit);
       if (!isFinite(qty)) qty = r.src;
@@ -5111,13 +5254,66 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       if (key === 'custom' && r.unit) ln.unit = r.unit;
       if (r.scope) ln.scope = r.scope;
       ln.m0 = Math.min(r.m0, r.m1); ln.m1 = Math.max(r.m0, r.m1);
+      // read by the assistant: the document itself becomes the line's evidence
+      if (r.file) { if (r.doc && DOCS[r.doc]) ln.evidence.doc = r.doc; if (r.period) ln.evidence.period = r.period; addFiles(ln, [r.file]); }
       state.rows.push(ln);
     });
     $('impDlg').close();
     renderStages(); renderSetup(); touched();
     toast(L(`Added ${on.length} line${on.length === 1 ? '' : 's'} from ${imp.name}`, `Se agregaron ${on.length} línea${on.length === 1 ? '' : 's'} de ${imp.name}`));
   }
-  $('impMode').addEventListener('click', e => { const b = e.target.closest('[data-imp-mode]'); if (!b) return; imp.mode = b.dataset.impMode; $('impMode').querySelectorAll('[data-imp-mode]').forEach(x => x.setAttribute('aria-pressed', x === b)); if (imp.head.length) { guessMap(); buildImp(); } else renderImp(); });
+  // Documents read by the assistant (signed-in companies): each line it finds becomes a preview row with the document as evidence.
+  const AI_KEY = { renewable_electricity: 'elec_ren', natural_gas: 'natgas', diesel: 'diesel', diesel_vehicle: 'diesel_veh', gasoline: 'gasoline', gasoline_vehicle: 'gasoline_veh', lpg: 'lpg',
+    refrigerant_r410a: 'r410a', refrigerant_r134a: 'r134a', refrigerant_r404a: 'r404a', refrigerant_r32: 'r32', refrigerant_r22: 'r22', water: 'water', wastewater: 'wastewater',
+    landfill_waste: 'landfill_mixed', recycling: 'recycling', road_freight: 'truck', rail_freight: 'rail', sea_freight: 'sea', air_freight: 'air', flight: 'flight', car_travel: 'car' };
+  const monthOf = ym => { const m = /^(\d{4})-(\d{2})/.exec(ym || ''); return m ? Math.min(11, Math.max(0, +m[2] - 1)) : null; };
+  async function aiRows(file, res) {
+    const out = [];
+    const docRef = res.reference || '', per = res.period_start ? `${res.period_start}${res.period_end && res.period_end !== res.period_start ? ' – ' + res.period_end : ''}` : '';
+    for (const x of res.lines) {
+      const unit = unitIn(x.unit || ''), q = x.quantity, m0 = monthOf(x.period_start || res.period_start), m1 = monthOf(x.period_end || res.period_end || x.period_start || res.period_start);
+      const base = { desc: x.description, supplier: res.supplier || '', ref: docRef, file, doc: res.doc_type, period: per, m0: m0 ?? 0, m1: m1 ?? m0 ?? 11, scope: 0, stage: null,
+        flag: [x.confidence === 'low' ? L('Low confidence: check it against the document', 'Confianza baja: revísalo contra el documento') : '', x.source_text ? `“${x.source_text}”` : ''].filter(Boolean).join(' · ') };
+      if (x.activity === 'purchase' || (!(q > 0) && x.amount > 0)) {
+        try { await spendLib(); } catch (e) { continue; }
+        const c = matchSpend(`${x.description}`), rate = spendRate();
+        out.push(Object.assign(base, { spend: true, on: c.length > 0, src: x.amount || 0, qty: state.region === 'us' ? (x.amount || 0) * rate : (x.amount || 0) / rate, cands: c.map(([it]) => it.k), pick: c.length ? c[0][0].k : '' }));
+        continue;
+      }
+      const key = x.activity === 'electricity' ? ledgerGrid() : AI_KEY[x.activity];
+      let cands = matchAct(x.description, x.unit || '', q || 0);
+      if (key && F[key]) cands = [[key, 99, convQty(q || 0, unit || F[key].unit, F[key].unit)], ...cands.filter(c => c[0] !== key)];
+      cands = cands.slice(0, 5);
+      const best = cands[0] && !isNaN(cands[0][2]) ? cands[0] : null;
+      out.push(Object.assign(base, { on: !!best && q > 0, src: q || 0, unit, cands: cands.map(c => c[0]), conv: Object.fromEntries(cands.map(c => [c[0], c[2]])), pick: best ? best[0] : 'custom' }));
+    }
+    return out;
+  }
+  async function readDocs(files) {
+    const list = [...files].slice(0, 10);
+    if (!cloud.signedIn()) { imp.msg = L('Sign in to let CO2Trace read your documents.', 'Inicia sesión para que CO2Trace lea tus documentos.'); renderImp(); return; }
+    imp.rows = []; imp.name = list.length === 1 ? list[0].name : L(`${list.length} documents`, `${list.length} documentos`);
+    const notes = [];
+    for (const [i, f] of list.entries()) {
+      const pre = list.length > 1 ? `${i + 1}/${list.length} · ` : '';
+      if (f.size > 10 * 1048576) { notes.push(L(`${f.name}: over 10 MB, skipped.`, `${f.name}: más de 10 MB, se omitió.`)); continue; }
+      try {
+        const res = await cloud.read(f, step => { imp.msg = pre + (step === 'upload' ? L(`Uploading ${f.name}…`, `Subiendo ${f.name}…`) : L(`Reading ${f.name}… (up to a minute)`, `Leyendo ${f.name}… (hasta un minuto)`)); renderImp(); });
+        if (!res.is_supported_document) notes.push(L(`${f.name}: not a bill or invoice CO2Trace can read.`, `${f.name}: no es un recibo o factura que CO2Trace pueda leer.`));
+        if (res.notes) notes.push(`${f.name}: ${res.notes}`);
+        imp.rows.push(...await aiRows(f, res));
+      } catch (e) { notes.push(`${f.name}: ${e.message}`); }
+      renderImp();
+    }
+    imp.msg = ''; imp.notes = notes; renderImp();
+  }
+
+  $('impMode').addEventListener('click', e => {
+    const b = e.target.closest('[data-imp-mode]'); if (!b) return;
+    const was = imp.mode; imp.mode = b.dataset.impMode; $('impMode').querySelectorAll('[data-imp-mode]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    if (imp.mode === 'ai' || was === 'ai') { imp.head = []; imp.body = []; imp.rows = []; imp.msg = ''; imp.notes = []; $('impFile').value = ''; renderImp(); }
+    else if (imp.head.length) { guessMap(); buildImp(); } else renderImp();
+  });
   $('impTpl').addEventListener('click', () => impTemplate(imp.mode));
   $('impFile').addEventListener('change', e => loadImpFile(e.target.files[0], e.target.files));
   $('impDrop').addEventListener('dragover', e => { e.preventDefault(); $('impDrop').classList.add('drag'); });
@@ -5974,7 +6170,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
         (t.p || []).forEach(ph => { if (qn.includes(' ' + ph + ' ')) s += 2 + ph.split(' ').length; });
         if (s > score) { score = s; best = t; }
       });
-      return best && score >= 0.15 ? best.a() : { html: L(`<p>I don’t have an answer for that yet. Try one of these, or rephrase with a key word like “scope”, “evidence”, “factor” or “functional unit”. For anything else, write to <a href="mailto:support@co2trace.io">support@co2trace.io</a>.</p>`, `<p>Todavía no tengo respuesta para eso. Prueba una de estas o reformula con una palabra clave como “alcance”, “evidencia”, “factor” o “unidad funcional”. Para cualquier otra cosa, escribe a <a href="mailto:support@co2trace.io">support@co2trace.io</a>.</p>`), chips: true };
+      if (best && score >= 0.15) return Object.assign(best.a(), { score });
+      return { score: 0, html: L(`<p>I don’t have an answer for that yet. Try one of these, or rephrase with a key word like “scope”, “evidence”, “factor” or “functional unit”. For anything else, write to <a href="mailto:support@co2trace.io">support@co2trace.io</a>.</p>`, `<p>Todavía no tengo respuesta para eso. Prueba una de estas o reformula con una palabra clave como “alcance”, “evidencia”, “factor” o “unidad funcional”. Para cualquier otra cosa, escribe a <a href="mailto:support@co2trace.io">support@co2trace.io</a>.</p>`), chips: true };
     }
 
     function add(cls, html) {
@@ -6003,13 +6200,24 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       if (matchMedia('(max-width: 640px)').matches) toggle(false);
       goTo(t);
     }
-    let busy = false;
+    let busy = false, hist = [];
     function ask(q) {
       q = q.trim(); if (!q || busy) return;
       add('me', esc(q)); input.value = ''; busy = true;
       const dots = document.createElement('div'); dots.className = 'hc-typing'; dots.innerHTML = '<i></i><i></i><i></i>';
       log.appendChild(dots); log.scrollTop = log.scrollHeight;
-      setTimeout(() => { dots.remove(); busy = false; reply(answer(q)); }, 450);
+      const kb = answer(q);
+      // With the backend, the assistant (Claude) answers; an exact phrase from the knowledge base still answers at once,
+      // with its buttons, and the knowledge base stands in whenever the assistant can't answer.
+      if (!CFG || kb.score >= 3) { setTimeout(() => { dots.remove(); busy = false; reply(kb); }, 450); return; }
+      cloud.help(q, hist.slice(-6)).then(r => {
+        hist.push({ role: 'user', text: q }, { role: 'assistant', text: r.answer });
+        dots.remove(); busy = false;
+        reply({ html: mdLite(r.answer) + `<p class="hc-ai">${L('Answered by AI. Check figures and rules before you rely on them.', 'Respuesta con IA. Revisa cifras y reglas antes de basarte en ellas.')}</p>`, acts: kb.score >= 0.15 ? kb.acts : null });
+      }).catch(err => {
+        dots.remove(); busy = false;
+        reply(Object.assign({}, kb, { html: (err.status === 429 ? `<p class="hc-ai">${esc(err.message)}</p>` : '') + kb.html }));
+      });
     }
 
     let lang = null;
@@ -6031,6 +6239,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
 
   renderMeta();
   renderStages();
+  if (CFG) cloud.finish().then(after => { renderAcct(); if (after === 'own') openOwn(''); });
 })();
 </script>
 <script>
