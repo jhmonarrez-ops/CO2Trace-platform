@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-R+vEa8AWBJHqlkwW7h6gpvvBjfhSi+g4zOjwpALxlNI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventory · Option D, LCA workspace · CO2Trace draft</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22735.8%20-0.6%20156.9%20156.9%22%3E%3Cstyle%3Epath%7Bfill%3A%2316201E%7D%40media%20%28prefers-color-scheme%3Adark%29%7Bpath%7Bfill%3A%23E3EBE8%7D%7D%3C/style%3E%3Cpath%20d%3D%22M789.76%20151.20C787.39%20150.32%20786.47%20149.76%20784.64%20148.10C781.76%20145.50%20779.31%20141.15%20777.53%20135.50C776.98%20133.74%20774.93%20127.75%20774.10%20125.50C773.56%20124.00%20771.68%20120.18%20770.01%20117.17C768.92%20115.21%20767.70%20113.27%20762.84%20105.83C758.24%2098.79%20756.56%2095.50%20755.62%2091.67C753.85%2084.45%20755.99%2077.80%20762.18%2071.29C767.96%2065.21%20773.91%2061.31%20781.33%2058.76C789.61%2055.91%20797.09%2057.52%20799.81%2062.73C801.99%2066.90%20802.49%2070.50%20801.47%2074.57C800.52%2078.34%20798.94%2080.84%20794.20%2086.00C790.99%2089.50%20788.25%2093.25%20786.96%2095.91C785.89%2098.11%20785.87%2098.28%20785.87%20102.50C785.88%20106.19%20785.99%20107.10%20786.61%20108.61C788.50%20113.18%20791.51%20116.58%20798.01%20121.50C802.91%20125.20%20805.10%20127.41%20806.77%20130.30C808.59%20133.46%20809.13%20135.47%20809.12%20139.00C809.12%20141.71%20808.99%20142.44%20808.23%20144.07C806.63%20147.54%20803.49%20150.25%20799.71%20151.44C797.02%20152.28%20792.39%20152.17%20789.76%20151.20ZM831.17%20125.99C826.98%20125.41%20822.13%20121.92%20819.97%20117.93C818.86%20115.88%20818.83%20115.74%20818.84%20112.00C818.86%20108.34%20818.91%20108.07%20819.95%20106.01C821.79%20102.37%20824.08%2099.93%20829.33%2096.00C839.74%2088.21%20842.84%2083.10%20842.16%2074.86C841.79%2070.30%20839.98%2067.22%20833.85%2060.67C830.20%2056.76%20827.63%2052.83%20826.46%2049.33C826.01%2048.00%20825.85%2046.59%20825.87%2044.17C825.89%2041.13%20825.99%2040.63%20826.96%2038.60C828.17%2036.08%20830.47%2033.77%20832.95%2032.60C834.30%2031.97%20835.07%2031.87%20838.83%2031.87C842.82%2031.86%20843.43%2031.94%20846.45%2032.93C855.03%2035.74%20862.56%2041.02%20867.58%2047.75C871.26%2052.68%20872.63%2056.26%20872.65%2061.00C872.68%2066.16%20870.36%2072.56%20866.36%2078.32C858.45%2089.73%20854.23%2097.56%20851.35%20106.17C848.84%20113.67%20848.73%20113.96%20847.25%20116.74C843.56%20123.69%20837.93%20126.92%20831.17%20125.99ZM748.76%2075.03C746.70%2073.54%20745.78%2070.37%20746.82%2068.36C747.52%2067.01%20748.74%2066.80%20750.41%2067.74C752.36%2068.83%20753.71%2070.64%20753.91%2072.45C754.28%2075.75%20751.61%2077.09%20748.76%2075.03ZM755.93%2067.06C754.54%2066.90%20752.22%2064.13%20751.75%2062.07C751.05%2059.04%20752.15%2057.00%20754.48%2057.00C756.54%2057.00%20758.18%2058.37%20759.42%2061.11C760.22%2062.89%20760.15%2064.29%20759.18%2065.71C758.36%2066.93%20757.57%2067.26%20755.93%2067.06ZM763.14%2059.37C761.57%2058.42%20760.13%2056.46%20759.49%2054.43C759.01%2052.88%20758.98%2052.38%20759.32%2051.24C760.27%2048.08%20763.35%2046.94%20765.54%2048.94C766.81%2050.09%20767.71%2051.44%20768.24%2052.99C769.81%2057.47%20766.60%2061.48%20763.14%2059.37ZM773.93%2054.22C771.25%2053.01%20769.00%2048.84%20769.00%2045.08C769.00%2041.53%20770.69%2039.83%20774.08%2039.96C776.57%2040.06%20780.00%2045.60%20780.00%2049.52C780.00%2052.61%20776.45%2055.36%20773.93%2054.22ZM789.23%2051.99C787.40%2051.44%20785.01%2049.29%20783.94%2047.21C782.23%2043.88%20781.67%2039.99%20782.49%2037.13C783.12%2034.96%20783.55%2034.35%20785.47%2032.95C788.38%2030.82%20792.99%2032.52%20795.10%2036.50C797.07%2040.22%20797.68%2046.04%20796.36%2048.60C794.83%2051.58%20792.13%2052.87%20789.23%2051.99ZM875.26%2049.42C873.85%2047.80%20873.69%2046.54%20874.65%2044.44C875.34%2042.91%20877.66%2040.99%20878.80%2041.01C879.61%2041.02%20880.74%2041.88%20881.28%2042.91C882.64%2045.45%20879.77%2050.00%20876.81%2050.00C876.24%2050.00%20875.54%2049.74%20875.26%2049.42ZM869.83%2041.02C868.46%2040.46%20867.86%2039.38%20867.86%2037.50C867.86%2035.98%20868.04%2035.44%20869.10%2033.91C871.18%2030.89%20872.98%2030.36%20875.17%2032.13C876.09%2032.88%20876.17%2033.10%20876.17%2035.08C876.17%2037.06%20876.07%2037.34%20874.93%2038.74C873.75%2040.17%20871.92%2041.36%20870.95%2041.31C870.70%2041.30%20870.20%2041.17%20869.83%2041.02ZM861.10%2034.01C859.63%2033.12%20859.00%2031.73%20859.00%2029.43C859.01%2027.12%20860.24%2024.67%20862.23%2023.04C863.95%2021.62%20865.29%2021.65%20866.92%2023.14L868.17%2024.28L868.17%2027.08C868.17%2029.64%20868.09%2029.99%20867.23%2031.12C865.89%2032.87%20865.00%2033.65%20863.71%2034.19C862.30%2034.79%20862.38%2034.79%20861.10%2034.01ZM849.99%2028.25C848.17%2027.33%20847.37%2025.86%20847.35%2023.40C847.32%2019.80%20849.41%2016.16%20852.39%2014.64C853.81%2013.91%20854.47%2013.99%20855.82%2015.05C859.57%2018.00%20858.08%2025.91%20853.30%2028.35C851.72%2029.16%20851.79%2029.16%20849.99%2028.25ZM834.17%2026.20C830.51%2024.60%20829.27%2020.13%20830.82%2014.17C833.05%205.61%20841.39%203.39%20844.47%2010.54C845.42%2012.73%20845.12%2018.23%20843.92%2020.68C841.59%2025.45%20837.61%2027.71%20834.17%2026.20Z%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap">
+<style>
+/* Shared by the three Inventory drafts. Tokens copied from index.html (:root + dark overrides); keep colours as tokens. */
+:root {
+  --brand: #072AC8; --hero-accent: #AFC0FF; --forest: #252422; --forest-accent: #CCD5AE;
+  --go: #072AC8; --go-ink: #FFFFFF; --menu-hover: #FFFFFF; --menu-hover-ink: #072AC8;
+  --title: #072AC8; --kick: #072AC8;
+  --bg: #EEF0EB; --surface: #FFFFFF; --surface-2: #E5E9E1; --ink: #1D2B35; --muted: #5A6A74; --slate: #072AC8; --line: #DADFD5;
+  --accent: #072AC8; --accent-ink: #FFFFFF;
+  --hero: #072AC8; --hero-ink: #FFFFFF; --hero-muted: rgb(255 255 255 / .7); --hero-line: rgb(255 255 255 / .16);
+  --shadow: 0 1px 2px rgb(7 42 200 / .04), 0 12px 40px -24px rgb(7 42 200 / .25);
+  --warn: #9A5B12; --warn-bg: #FBF0DF; --ok: #2E7D4F; --ok-soft: #8CC2A2; --miss: #B23A3A; --save: #0B7A5C; --save-t: #0B7A5C;
+  --s1: #072AC8; --s2: #5A76E2; --s3: #93A6F0;
+  --c-mat: #EDA100; --c-fuel: #EB6834; --c-elec: #2A78D6; --c-refrig: #E87BA4; --c-transport: #1BAF7A; --c-waste: #008300; --c-custom: #6250D6; --on-c: #FFFFFF;
+  --f-display: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body: var(--f-display); --f-label: var(--f-display); --f-mono: var(--f-display);
+  --ok-bg: #E3F1E8; --sel: #E8ECFB;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141C; --surface: #191E2A; --surface-2: #222939; --ink: #E9ECF3; --muted: #A0A8BA; --slate: #B6C3F2; --line: #2F3748;
+    --accent: #C4D0FA; --accent-ink: #061233; --hero: #081A5C; --title: #C4D0FA; --kick: #9DB1FA; --go: #3D5CE8; --go-ink: #FFFFFF; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+    --save: #13775B; --save-t: #5FD0A8; --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
+    --s1: #A9B9F5; --s2: #6F8DF0; --s3: #3D5BC8;
+    --c-mat: #C98500; --c-fuel: #D95926; --c-elec: #3987E5; --c-refrig: #D55181; --c-transport: #199E70; --c-waste: #008300; --c-custom: #9085E9; --on-c: #0F1110;
+    --ok-bg: #18301F; --sel: #222B47; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141C; --surface: #191E2A; --surface-2: #222939; --ink: #E9ECF3; --muted: #A0A8BA; --slate: #B6C3F2; --line: #2F3748;
+  --accent: #C4D0FA; --accent-ink: #061233; --hero: #081A5C; --title: #C4D0FA; --kick: #9DB1FA; --go: #3D5CE8; --go-ink: #FFFFFF; --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 40px -24px rgb(0 0 0 / .6);
+  --save: #13775B; --save-t: #5FD0A8; --warn: #E8B36A; --warn-bg: #2C2416; --ok: #6CC495; --ok-soft: #2F6B4B; --miss: #E8807A;
+  --s1: #A9B9F5; --s2: #6F8DF0; --s3: #3D5BC8;
+  --c-mat: #C98500; --c-fuel: #D95926; --c-elec: #3987E5; --c-refrig: #D55181; --c-transport: #199E70; --c-waste: #008300; --c-custom: #9085E9; --on-c: #0F1110;
+  --ok-bg: #18301F; --sel: #222B47; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; letter-spacing: -.01em; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; font-weight: 500; letter-spacing: -.03em; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px; }
+.eyebrow { font-family: var(--f-label); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); }
+.muted { color: var(--muted); }
+.r { text-align: right; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* buttons, fields, segmented controls (as index.html) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--f-display); font-size: 14.5px; font-weight: 500; letter-spacing: -.01em; padding: 11px 18px; border: 1px solid var(--line); border-radius: 6px; background: transparent; cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s, color .2s; white-space: nowrap; }
+.btn:hover { border-color: var(--ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { background: transparent; color: var(--ink); }
+.btn.go:hover { background: var(--go); color: var(--go-ink); border-color: var(--go); }
+.btn.sm { padding: 7px 12px; font-size: 13.5px; }
+.btn.danger { border-color: var(--miss); color: var(--miss); }
+.linkish { border: 0; background: none; padding: 0; color: var(--title); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: inherit; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .label { font-family: var(--f-label); font-size: 11px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); }
+.field input, .field select, .field textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); min-width: 0; }
+.field .hint { font-size: 12.5px; color: var(--muted); }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { flex: 1; padding: 9px 12px; border: 0; background: transparent; cursor: pointer; white-space: nowrap; font-size: 14px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.seg.seg-sm { border-radius: 999px; display: inline-flex; }
+.seg.seg-sm button { padding: 6px 12px; font-size: 13px; flex: none; }
+.card { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 20px 22px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.card h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--title); }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+/* status pills */
+.st { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; line-height: 1.5; }
+.st::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.st.needs { background: var(--warn-bg); color: var(--warn); }
+.st.ready { background: var(--sel); color: var(--title); }
+.st.checked { background: var(--ok-bg); color: var(--ok); }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.dot { width: 9px; height: 9px; border-radius: 3px; flex: none; display: inline-block; }
+.sc { display: inline-block; min-width: 26px; padding: 1px 6px; border-radius: 4px; font-size: 11.5px; font-weight: 600; text-align: center; color: #fff; }
+.sc.s1 { background: var(--s1); } .sc.s2 { background: var(--s2); } .sc.s3 { background: var(--s3); color: #0B1440; }
+:root[data-theme="dark"] .sc { color: #0B1440; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sc { color: #0B1440; } :root:not([data-theme="light"]) .sc.s3 { color: #fff; } }
+:root[data-theme="dark"] .sc.s3 { color: #fff; }
+
+/* app top bar: brand blue, as #topbar */
+.appbar { position: sticky; top: 0; z-index: 40; background: var(--hero); color: var(--hero-ink); border-bottom: 1px solid var(--hero-line); }
+.appbar-in { max-width: 1760px; margin: 0 auto; padding: 10px clamp(16px, 3vw, 44px); display: flex; align-items: center; gap: clamp(10px, 2vw, 28px); }
+.brand { line-height: 0; color: var(--hero-ink); }
+.brand .logo { height: 30px; width: auto; display: block; }
+.co { display: grid; line-height: 1.2; padding-left: clamp(10px, 1.6vw, 22px); border-left: 1px solid var(--hero-line); min-width: 0; }
+.co b { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 26ch; }
+.co span { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--hero-muted); }
+.nav { display: flex; gap: 4px; margin-left: auto; }
+.nav a, .nav button { padding: 8px 14px; border-radius: 4px; border: 0; background: transparent; color: var(--hero-ink); font-size: 14.5px; font-weight: 500; text-decoration: none; cursor: pointer; transition: background .25s, color .25s; }
+.nav a:hover, .nav button:hover { background: var(--menu-hover); color: var(--menu-hover-ink); }
+.nav [aria-current="page"] { background: rgb(255 255 255 / .14); }
+.who { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--hero-ink); color: var(--hero); font-size: 13px; font-weight: 600; }
+.bar-btn { padding: 7px 12px; border-radius: 6px; border: 1px solid var(--hero-line); background: transparent; color: var(--hero-ink); font-size: 13.5px; cursor: pointer; white-space: nowrap; }
+.bar-btn:hover { background: var(--menu-hover); color: var(--menu-hover-ink); }
+.bar-btn.icon { padding: 6px 8px; line-height: 0; }
+.bar-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.signed-out .co, .signed-out .nav, .signed-out .who .avatar, .signed-out [data-signout] { display: none; }
+
+/* draft note */
+.draft-note { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border-radius: 12px; background: var(--warn-bg); color: var(--warn); font-size: 13px; line-height: 1.45; }
+.draft-note b { font-weight: 600; }
+
+/* gate: same dark tone as the hero */
+.gate { background: var(--forest); color: #fff; --line: rgb(255 255 255 / .16); }
+.gate-in { max-width: 1760px; margin: 0 auto; padding: clamp(40px, 7vw, 96px) clamp(16px, 3vw, 44px); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 520px); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.gate h1 { font-size: clamp(38px, 5vw, 76px); line-height: 1; letter-spacing: -.035em; }
+.gate .eyebrow { color: var(--forest-accent); }
+.gate .lede { margin-top: 18px; font-size: 18px; color: rgb(255 255 255 / .74); max-width: 48ch; }
+.gate ul.steps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 12px; max-width: 52ch; }
+.gate ul.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: baseline; color: rgb(255 255 255 / .82); }
+.gate ul.steps b { font-weight: 500; color: var(--forest-accent); font-size: 13px; letter-spacing: .06em; }
+.acct { background: var(--surface); color: var(--ink); border-radius: 18px; box-shadow: 0 30px 80px -20px rgb(0 0 0 / .5); --line: #DADFD5; }
+:root[data-theme="dark"] .acct { --line: #2F3748; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .acct { --line: #2F3748; } }
+.acct form { display: grid; gap: 14px; padding: 28px; }
+.acct h2 { font-size: 28px; line-height: 1.1; color: var(--title); }
+.acct[data-mode="create"] .for-signin, .acct[data-mode="signin"] .for-create { display: none; }
+.acct .acct-tabs { justify-self: start; }
+.acct .acct-tabs button[aria-pressed="true"] { background: var(--brand); color: #fff; }
+.acct .sub { color: var(--slate); margin-top: -6px; }
+.acct .acct-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+.acct .acct-fields .field:not(.for-create) { grid-column: 1 / -1; }
+.acct .acct-go, .acct .acct-skip { width: 100%; }
+.acct .acct-or { display: flex; align-items: center; gap: 10px; color: var(--slate); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.acct .acct-or::before, .acct .acct-or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.acct input[aria-invalid] { border-color: var(--miss); }
+.acct .acct-err { color: var(--miss); font-size: 13px; }
+.acct .note { color: var(--muted); font-size: 12.5px; text-align: center; }
+
+/* drop zone */
+.drop { position: relative; display: grid; place-items: center; gap: 6px; text-align: center; padding: 22px 16px; border: 1.5px dashed var(--line); border-radius: 14px; background: var(--bg); cursor: pointer; transition: border-color .2s, background .2s; }
+.drop:hover, .drop.over { border-color: var(--title); background: var(--sel); }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.drop b { font-weight: 600; color: var(--title); }
+.drop small { color: var(--muted); font-size: 12.5px; }
+.drop svg { width: 26px; height: 26px; fill: none; stroke: var(--title); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* receipt form dialog */
+dialog.sheet { border: 0; padding: 0; border-radius: 18px; width: min(620px, calc(100% - 24px)); background: var(--surface); color: var(--ink); box-shadow: 0 30px 80px -20px rgb(0 0 0 / .5); }
+dialog.sheet::backdrop { background: rgb(8 12 20 / .45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+dialog.sheet form { display: grid; gap: 14px; padding: 24px; }
+dialog.sheet h2 { font-size: 24px; color: var(--title); }
+dialog.sheet .acts { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.rform { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px 14px; }
+.rform .w6 { grid-column: span 6; } .rform .w3 { grid-column: span 3; } .rform .w2 { grid-column: span 2; } .rform .w4 { grid-column: span 4; }
+.rform .calc { grid-column: span 6; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 12px 14px; border-radius: 10px; background: var(--bg); font-size: 13.5px; }
+.rform .calc b { font-size: 20px; font-weight: 600; color: var(--title); letter-spacing: -.02em; }
+.check { display: flex; gap: 10px; align-items: center; font-size: 14px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--ok); }
+
+/* charts */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+svg.chart { display: block; width: 100%; height: auto; overflow: visible; }
+svg.chart text { font-family: var(--f-label); fill: var(--muted); font-size: 11px; }
+svg.chart .grid { stroke: var(--line); stroke-width: 1; }
+.bar-track { height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; display: flex; }
+.bar-track i { display: block; height: 100%; }
+
+/* toast */
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 90; padding: 10px 16px; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: 14px; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+
+/* compact footer: wordmark band from footer.site-foot */
+.site-foot { margin-top: 56px; }
+.foot-row { max-width: 1760px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 44px) 28px; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; }
+.foot-row a { text-decoration: none; opacity: .8; } .foot-row a:hover { opacity: 1; color: var(--title); }
+.foot-mark { display: grid; gap: clamp(20px, 3vw, 40px); padding: clamp(28px, 4vw, 52px) clamp(16px, 3vw, 44px) 24px; color: #1B1C1A;
+  background: radial-gradient(70% 120% at 0% 100%, #B9E28C 0%, rgb(185 226 140 / 0) 70%), radial-gradient(45% 90% at 82% 100%, #F9CF9F 0%, rgb(249 207 159 / 0) 70%), radial-gradient(40% 80% at 100% 70%, #F6D2DC 0%, rgb(246 210 220 / 0) 70%), linear-gradient(var(--bg), var(--bg)); }
+.foot-logo { width: 100%; height: auto; display: block; }
+.foot-logo use { fill: currentColor; }
+.foot-copy { text-align: center; font-size: 13px; color: rgb(27 28 26 / .62); }
+:root[data-theme="dark"] .foot-mark { color: #F3F1EA; background: radial-gradient(70% 120% at 0% 100%, #2E4A1E 0%, rgb(46 74 30 / 0) 70%), radial-gradient(45% 90% at 82% 100%, #4A3322 0%, rgb(74 51 34 / 0) 70%), radial-gradient(40% 80% at 100% 70%, #3E2633 0%, rgb(62 38 51 / 0) 70%), linear-gradient(var(--bg), var(--bg)); }
+:root[data-theme="dark"] .foot-copy { color: rgb(243 241 234 / .6); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .foot-mark { color: #F3F1EA; background: radial-gradient(70% 120% at 0% 100%, #2E4A1E 0%, rgb(46 74 30 / 0) 70%), radial-gradient(45% 90% at 82% 100%, #4A3322 0%, rgb(74 51 34 / 0) 70%), radial-gradient(40% 80% at 100% 70%, #3E2633 0%, rgb(62 38 51 / 0) 70%), linear-gradient(var(--bg), var(--bg)); } :root:not([data-theme="light"]) .foot-copy { color: rgb(243 241 234 / .6); } }
+
+/* sample document preview (fictional, watermarked, like sampleDoc()) */
+.doc { position: relative; overflow: hidden; background: #FFFFFF; color: #1D2B35; border-radius: 6px; box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 18px 40px -24px rgb(0 0 0 / .45); padding: 26px 26px 30px; font-size: 12.5px; line-height: 1.45; }
+.doc .wm { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.doc .wm span { transform: rotate(-24deg); font-size: 30px; font-weight: 700; letter-spacing: .12em; color: rgb(178 58 58 / .13); white-space: nowrap; }
+.doc .dh { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid #1D2B35; padding-bottom: 10px; margin-bottom: 12px; }
+.doc .dh b { font-size: 16px; }
+.doc table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.doc td, .doc th { padding: 5px 0; border-bottom: 1px solid #E3E6E0; text-align: left; font-weight: 400; }
+.doc th { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #5A6A74; }
+.doc td.r, .doc th.r { text-align: right; }
+.doc .tot { font-weight: 700; }
+.doc .hl { background: #FFF3B0; border-radius: 3px; padding: 0 3px; }
+
+@media (max-width: 920px) {
+  .appbar-in { flex-wrap: wrap; row-gap: 8px; }
+  .nav { order: 5; width: 100%; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
+  .who { margin-left: auto; }
+  .gate-in { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .appbar { position: relative; }
+  .appbar-in { padding: 10px 14px; column-gap: 10px; }
+  .brand .logo { height: 22px; }
+  .co { padding-left: 10px; } .co span { display: none; }
+  [data-theme-toggle] { display: none; }
+  .bar-btn { padding: 6px 10px; font-size: 13px; }
+  .nav a, .nav button { padding: 7px 11px; font-size: 14px; }
+  .co b { max-width: 16ch; font-size: 13.5px; }
+  .who .avatar { display: none; }
+  .field input, .field select, .field textarea { font-size: 16px; }
+  .acct .acct-fields { grid-template-columns: 1fr; }
+  .acct form { padding: 22px; }
+  .rform { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rform .w6, .rform .w4, .rform .calc { grid-column: span 2; } .rform .w3, .rform .w2 { grid-column: span 1; }
+  .gate ul.steps { display: none; }
+}
+</style>
+<style>
+/* Option D: LCA workspace. Option A's ledger reorganised as a process sheet (inputs/outputs), the four LCA phases, and a left user bar. */
+:root { --sbw: 248px; --bar: 57px; }
+html.sb-min { --sbw: 72px; }
+.appbar-in { max-width: none; padding: 9px 22px 9px 14px; }
+.menu-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--hero-ink); cursor: pointer; }
+.menu-btn:hover { background: var(--menu-hover); color: var(--menu-hover-ink); }
+.menu-btn svg, .sb svg.i, .ico svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.bar-chip { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--hero-line); font-size: 12.5px; color: var(--hero-muted); white-space: nowrap; }
+.bar-chip b { color: var(--hero-ink); font-weight: 600; }
+.signed-out .menu-btn, .signed-out .bar-chip { display: none; }
+.signed-out .who { margin-left: auto; }
+
+/* shell: left user bar + work area */
+.shell { display: grid; grid-template-columns: var(--sbw) minmax(0, 1fr); min-height: calc(100vh - var(--bar)); transition: grid-template-columns .22s ease; }
+.sb { position: sticky; top: var(--bar); height: calc(100vh - var(--bar)); overflow-y: auto; overflow-x: hidden; background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; padding: 14px 12px 12px; scrollbar-width: thin; z-index: 30; }
+.sb .grp-l { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 12px 12px 6px; white-space: nowrap; }
+.sb a { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 8px 12px; border-radius: 9px; color: var(--ink); text-decoration: none; font-size: 14.5px; font-weight: 500; white-space: nowrap; position: relative; transition: background .18s, color .18s; }
+.sb a:hover { background: var(--sel); color: var(--title); }
+.sb a[aria-current="page"] { background: var(--accent); color: var(--accent-ink); }
+.sb a .lbl { overflow: hidden; text-overflow: ellipsis; flex: 1; }
+.sb a .cnt { font-size: 11.5px; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); }
+.sb .sub { display: grid; gap: 1px; margin: 2px 0 6px 21px; padding-left: 10px; border-left: 1px solid var(--line); }
+.sb .sub a { min-height: 34px; padding: 6px 10px; font-size: 13.5px; font-weight: 400; gap: 10px; }
+.sb .sub a .n { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; border: 1px solid currentColor; flex: none; opacity: .8; }
+.sb .sub a[aria-current="page"] .n { opacity: 1; }
+.sb .spacer { flex: 1; min-height: 16px; }
+.sb .me { display: flex; align-items: center; gap: 10px; padding: 10px 10px; margin-top: 6px; border-top: 1px solid var(--line); white-space: nowrap; }
+.sb .me .avatar { background: var(--brand); color: #fff; flex: none; }
+.sb .me div { display: grid; line-height: 1.25; min-width: 0; } .sb .me b { font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; } .sb .me span { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
+.sb a.quiet { font-weight: 400; color: var(--muted); min-height: 36px; }
+html.sb-min .sb { padding-inline: 10px; }
+html.sb-min .sb .lbl, html.sb-min .sb .grp-l, html.sb-min .sb .cnt, html.sb-min .sb .me div { display: none; }
+html.sb-min .sb a { justify-content: center; padding-inline: 0; }
+html.sb-min .sb .sub { margin: 2px 0 6px; padding-left: 0; border-left: 0; justify-items: center; }
+html.sb-min .sb .sub a { width: 40px; }
+html.sb-min .sb .me { justify-content: center; padding-inline: 0; }
+html.sb-min .sb .grp-l + a, html.sb-min .sb .grp-sep { margin-top: 8px; }
+html.sb-min [data-collapse] svg { transform: rotate(180deg); }
+.scrim { display: none; }
+
+.main { min-width: 0; display: grid; grid-template-rows: auto 1fr auto; }
+.wrap { padding: 24px clamp(16px, 2.4vw, 36px) 0; display: grid; gap: 18px; align-content: start; min-width: 0; }
+.page-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; }
+.page-head h1 { font-size: clamp(28px, 2.6vw, 40px); line-height: 1.04; color: var(--title); }
+.page-head p { color: var(--muted); margin-top: 6px; max-width: 72ch; font-size: 14.5px; }
+.page-head .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.site-foot { margin-top: 40px; }
+.foot-mark { padding-top: 22px; }
+
+/* phase stepper (LCA explorer) */
+.phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.phases a { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center; padding: 12px 16px; text-decoration: none; border-right: 1px solid var(--line); position: relative; }
+.phases a:last-child { border-right: 0; }
+.phases a:hover { background: var(--sel); }
+.phases a .n { grid-row: span 2; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--title); color: var(--title); font-weight: 600; font-size: 13px; }
+.phases a b { font-weight: 600; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phases a span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phases a[aria-current="step"] { background: var(--accent); }
+.phases a[aria-current="step"] b, .phases a[aria-current="step"] span { color: var(--accent-ink); }
+.phases a[aria-current="step"] .n { background: var(--accent-ink); color: var(--accent); border-color: var(--accent-ink); }
+.phases a.done .n { background: var(--ok); border-color: var(--ok); color: #fff; }
+.phases a span.warn { color: var(--warn); }
+.phases a[aria-current="step"] span.warn { color: var(--accent-ink); }
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: 1.3fr repeat(5, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 16px; display: grid; gap: 2px; min-width: 0; }
+.kpi .label { font-size: 10.5px; }
+.kpi b { font-size: 24px; font-weight: 500; letter-spacing: -.03em; line-height: 1.15; white-space: nowrap; }
+.kpi b small { font-size: 12.5px; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+.kpi span.m { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi.total { background: var(--brand); color: #fff; } .kpi.total .label, .kpi.total span.m, .kpi.total b small { color: rgb(255 255 255 / .78); }
+.kpi.total b { font-size: 30px; }
+.kpi .bar-track { height: 5px; margin-top: 4px; }
+
+/* process documentation strip */
+.proc { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 18px; padding: 14px 20px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); }
+.proc div { display: grid; gap: 1px; min-width: 0; } .proc .label { font-size: 10.5px; }
+.proc div span:last-child { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* process sheet */
+.sheet { padding: 0; gap: 0; overflow: hidden; grid-template-columns: minmax(0, 1fr); }
+.strip { display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: var(--bg); position: relative; }
+.strip.over { background: var(--sel); }
+.strip svg { width: 22px; height: 22px; fill: none; stroke: var(--title); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.strip input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.strip p { font-size: 13.5px; color: var(--muted); } .strip b { color: var(--title); font-weight: 600; }
+.lbar { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+.lbar .grow { flex: 1; }
+.lbar input[type=search], .lbar select { padding: 7px 11px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.lbar input[type=search] { min-width: 220px; }
+.tbl-scroll { overflow-x: auto; }
+table.ps { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.ps th { background: var(--surface); text-align: left; font-family: var(--f-label); font-size: 10.5px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); padding: 9px 5px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.ps td { padding: 4px 5px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.ps td:first-child, table.ps th:first-child { padding-left: 18px; } table.ps td:last-child, table.ps th:last-child { padding-right: 14px; }
+table.ps tr.row:hover td { background: color-mix(in srgb, var(--sel) 55%, transparent); }
+table.ps tr.row.needs td:first-child { box-shadow: inset 3px 0 0 var(--warn); }
+table.ps tr.row.flash td { animation: flash 1.6s ease-out; }
+@keyframes flash { from { background: var(--sel); } }
+tr.sec td { background: var(--bg); padding: 10px 6px 9px; border-bottom: 1px solid var(--line); }
+tr.sec td:first-child { padding-left: 18px; }
+tr.sec .sec-t { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+tr.sec .io { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; background: var(--surface); color: var(--slate); border: 1px solid var(--line); }
+tr.sec b { font-weight: 600; color: var(--title); font-size: 14px; }
+tr.sec .muted { font-size: 12.5px; }
+tr.sec td.t { font-weight: 600; }
+tr.sec .add { border: 0; background: none; color: var(--title); font-size: 12.5px; cursor: pointer; padding: 2px 4px; text-decoration: underline; text-underline-offset: 3px; }
+tr.none td { color: var(--muted); font-size: 12.5px; padding: 9px 6px 9px 18px; font-style: italic; }
+tr.calc td { color: var(--muted); font-size: 12.5px; padding-top: 6px; padding-bottom: 6px; }
+tr.calc td.nm { padding-left: 30px; }
+tr.foot td { padding: 13px 6px; font-weight: 600; border-bottom: 0; font-size: 14.5px; }
+tr.foot td:first-child { padding-left: 18px; }
+.cell { width: 100%; min-width: 0; padding: 5px 7px; border: 1px solid transparent; border-radius: 5px; background: transparent; font-size: 13.5px; }
+.cell:hover:not(:disabled) { border-color: var(--line); } .cell:focus { border-color: var(--title); background: var(--surface); outline: none; }
+.cell:disabled { opacity: .45; }
+.cell.empty { background: var(--warn-bg); }
+select.cell { cursor: pointer; appearance: none; -webkit-appearance: none; text-overflow: ellipsis; }
+.cell.num { text-align: right; }
+.nm .cell { font-weight: 500; }
+.meta { display: block; padding: 0 8px; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+.libref { display: flex; align-items: center; gap: 6px; padding: 0 8px; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+.libref i { font-style: normal; font-size: 10px; letter-spacing: .06em; padding: 0 5px; border-radius: 3px; background: var(--sel); color: var(--title); flex: none; }
+.libref span { overflow: hidden; text-overflow: ellipsis; }
+td.t { text-align: right; font-weight: 600; white-space: nowrap; }
+td.t.zero { color: var(--muted); font-weight: 400; }
+table.ps { table-layout: fixed; }
+th.w-st { width: 112px; } th.w-ds { width: 250px; } th.w-qty { width: 86px; } th.w-unit { width: 64px; } th.w-dist { width: 104px; } th.w-sd { width: 62px; } th.w-cm { width: 170px; } th.w-sc { width: 56px; } th.w-t { width: 68px; } th.w-tools { width: 128px; }
+.c-sd .cell { padding-inline: 4px; }
+.c-ds select.cell { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.meta, .libref { max-width: 100%; }
+.icon-btn { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; position: relative; flex: none; }
+.icon-btn:hover { border-color: var(--line); color: var(--ink); }
+.icon-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn.has { color: var(--ok); } .icon-btn.no { color: var(--warn); }
+.icon-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.icon-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.tools { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+.ok-box { width: 17px; height: 17px; accent-color: var(--ok); cursor: pointer; }
+tr.det td { background: var(--bg); padding: 14px 18px 16px; }
+.det-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 18px; }
+.det-f { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 12px; align-content: start; }
+.det-f .w2 { grid-column: span 2; } .det-f .w4 { grid-column: 1 / -1; }
+.det-f textarea { min-height: 62px; resize: vertical; }
+.det-f .calc { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.det-doc { max-height: 300px; overflow: auto; border-radius: 8px; }
+.det-doc .doc { font-size: 11.5px; padding: 18px; }
+.doc-missing { padding: 22px; border: 1.5px dashed var(--line); border-radius: 10px; display: grid; gap: 6px; font-size: 13px; }
+.doc-img { max-width: 100%; border-radius: 8px; display: block; }
+.empty-ps { padding: 48px 24px; display: grid; justify-items: center; gap: 14px; text-align: center; }
+.empty-ps h2 { font-size: 26px; color: var(--title); }
+.empty-ps p { color: var(--muted); max-width: 56ch; }
+.empty-ps .acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 500; white-space: nowrap; background: var(--surface-2); color: var(--muted); }
+.pill.est { background: var(--warn-bg); color: var(--warn); }
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.blue { background: var(--sel); color: var(--title); }
+.pill.save { background: color-mix(in srgb, var(--save) 14%, transparent); color: var(--save-t); }
+.sc.s0 { background: var(--surface-2); color: var(--muted); }
+
+/* general grids */
+.g2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.g3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.g-imp { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px; align-items: start; }
+table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.t th { text-align: left; font-size: 10.5px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); padding: 7px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.t td { padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.t td.r, table.t th.r { text-align: right; white-space: nowrap; }
+table.t tr.sum td { font-weight: 600; border-bottom: 0; }
+table.t tr.rest td { color: var(--muted); font-style: italic; }
+.bar-cell { width: 26%; } .bar-cell .bar-track { height: 9px; }
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.ctl label { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.ctl input[type=range] { width: 160px; accent-color: var(--brand); }
+.ctl select { padding: 7px 11px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); max-width: 100%; }
+.method { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 14px 18px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); }
+.method .field { min-width: 280px; }
+.method p { font-size: 13px; color: var(--muted); flex: 1; min-width: 240px; }
+.net { overflow-x: auto; }
+.net svg { min-width: 860px; }
+.net rect.box { fill: var(--surface); stroke: var(--line); }
+.net rect.root { stroke: var(--title); stroke-width: 1.5; }
+.net text { font-family: var(--f-label); fill: var(--ink); font-size: 11.5px; }
+.net text.v { fill: var(--muted); font-size: 11px; }
+.net path.lk { fill: none; stroke: var(--s3); opacity: .55; }
+.note { font-size: 12.5px; color: var(--muted); }
+.callout { padding: 12px 14px; border-radius: 10px; background: var(--bg); font-size: 13.5px; }
+.callout b { font-weight: 600; }
+
+/* goal & scope */
+.form-g { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; align-items: start; }
+.form-g .w2 { grid-column: 1 / -1; }
+.form-g textarea { min-height: 70px; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips label { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 12.5px; cursor: pointer; }
+.chips input { accent-color: var(--brand); }
+.chips label:has(input:checked) { border-color: var(--title); background: var(--sel); color: var(--title); }
+
+/* checks */
+.checks { display: grid; gap: 8px; }
+.ck { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; padding: 10px 12px; border-radius: 10px; background: var(--bg); font-size: 13.5px; }
+.ck .dot { margin-top: 6px; width: 9px; height: 9px; border-radius: 50%; }
+.ck.warn .dot { background: var(--warn); } .ck.ok .dot { background: var(--ok); } .ck.info .dot { background: var(--s2); }
+.ck p { color: var(--muted); font-size: 12.5px; }
+
+/* dashboards */
+.yr-kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.delta { font-size: 12.5px; font-weight: 600; }
+.delta.dn { color: var(--ok); } .delta.up { color: var(--miss); }
+
+/* reports */
+table.rep td .acts { display: flex; gap: 6px; justify-content: flex-end; }
+table.rep td b { font-weight: 600; }
+.ext { display: inline-block; font-size: 10.5px; letter-spacing: .06em; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
+
+/* recommendations */
+.recs { display: grid; gap: 12px; }
+.rec { display: grid; grid-template-columns: 46px minmax(0, 1fr) 220px; gap: 16px; align-items: start; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 18px 20px; }
+.rec .rk { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; background: var(--sel); color: var(--title); }
+.rec h3 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--title); }
+.rec .body { display: grid; gap: 6px; }
+.rec .body p { font-size: 13.5px; color: var(--muted); }
+.rec .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.rec .sv { display: grid; gap: 4px; justify-items: end; text-align: right; }
+.rec .sv b { font-size: 26px; font-weight: 500; letter-spacing: -.03em; color: var(--save-t); line-height: 1.1; white-space: nowrap; }
+.rec .sv .bar-track { width: 100%; height: 7px; }
+.rec .sv .bar-track i { background: var(--save); }
+.rec .sv span { font-size: 12px; color: var(--muted); }
+.rec-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.rec-sum .kpi b { color: var(--save-t); }
+
+/* solutions */
+.sols { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.sol { display: grid; gap: 10px; align-content: start; }
+.sol .top { display: flex; align-items: center; gap: 10px; }
+.sol .ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff; flex: none; }
+.sol .ico svg { width: 22px; height: 22px; }
+.sol p { font-size: 13.5px; color: var(--muted); }
+.sol dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: 12.5px; }
+.sol dt { color: var(--muted); } .sol dd { margin: 0; font-weight: 500; }
+.sol .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.sol.in-plan { outline: 2px solid var(--save); outline-offset: -2px; }
+
+/* phones and narrow: user bar becomes a drawer */
+@media (max-width: 1640px) { html:not(.sb-min) table.ps .c-cm { display: none; } }
+@media (max-width: 1400px) { table.ps .c-cm { display: none; } }
+@media (max-width: 1280px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .proc { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1100px) { .g-imp, .g2 { grid-template-columns: 1fr; } .rec { grid-template-columns: 46px minmax(0, 1fr); } .rec .sv { grid-column: 2; justify-items: start; text-align: left; } .det-in { grid-template-columns: 1fr; } .yr-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .g3 { grid-template-columns: 1fr; } }
+@media (max-width: 900px) {
+  :root, html.sb-min { --sbw: 0px; }
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sb { position: fixed; left: 0; top: 0; bottom: 0; height: auto; width: min(300px, 84vw); transform: translateX(-102%); transition: transform .25s ease; z-index: 70; box-shadow: 0 30px 80px -20px rgb(0 0 0 / .5); padding-top: 18px; }
+  html.drawer .sb { transform: none; }
+  html.sb-min .sb .lbl, html.sb-min .sb .grp-l, html.sb-min .sb .cnt, html.sb-min .sb .me div { display: revert; }
+  html.sb-min .sb a { justify-content: flex-start; padding-inline: 12px; } html.sb-min .sb .sub { margin: 2px 0 6px 21px; padding-left: 10px; border-left: 1px solid var(--line); justify-items: stretch; } html.sb-min .sb .sub a { width: auto; }
+  [data-collapse] { display: none !important; }
+  .scrim { display: block; position: fixed; inset: 0; z-index: 60; background: rgb(8 12 20 / .45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity .25s; }
+  html.drawer .scrim { opacity: 1; pointer-events: auto; }
+  .sb .drawer-head { display: flex !important; }
+  .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } .phases a:nth-child(2) { border-right: 0; } .phases a:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}
+.sb .drawer-head { display: none; align-items: center; justify-content: space-between; padding: 0 4px 10px 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); color: var(--title); }
+.sb .drawer-head .logo { height: 22px; width: auto; }
+.sb .drawer-head button { color: var(--ink); }
+@media (max-width: 640px) {
+  .appbar { position: sticky; }
+  .bar-chip { display: none; }
+  .wrap { padding-top: 16px; gap: 14px; }
+  .kpis, .yr-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi.total { grid-column: 1 / -1; }
+  .proc { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px 14px; }
+  .phases a { padding: 10px 12px; gap: 0 10px; } .phases a .n { width: 26px; height: 26px; }
+  .page-head .acts .btn { flex: 1; }
+  .strip p span { display: none; }
+  .lbar input[type=search] { min-width: 0; width: 100%; }
+  table.ps thead { display: none; }
+  table.ps, table.ps tbody, table.ps tr, table.ps td { display: block; width: auto; }
+  table.ps tr.row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: "nm nm nm t" "ds ds ds ds" "qty qty unit sc" "dist dist sd sd" "st st tools tools"; gap: 6px 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  table.ps tr.row td { border: 0; padding: 0 !important; min-width: 0; width: auto; }
+  table.ps tr.row td.c-st { grid-area: st; align-self: center; } table.ps tr.row td.nm { grid-area: nm; } table.ps tr.row td.c-ds { grid-area: ds; } table.ps tr.row td.c-qty { grid-area: qty; } table.ps tr.row td.c-unit { grid-area: unit; } table.ps tr.row td.c-dist { grid-area: dist; } table.ps tr.row td.c-sd { grid-area: sd; } table.ps tr.row td.c-sc { grid-area: sc; align-self: center; text-align: right; } table.ps tr.row td.t { grid-area: t; align-self: start; font-size: 16px; padding-top: 6px !important; } table.ps tr.row td.c-tools { grid-area: tools; } table.ps tr.row td.c-cm { display: none; }
+  table.ps tr.row.needs td:first-child { box-shadow: none; } table.ps tr.row.needs { box-shadow: inset 3px 0 0 var(--warn); }
+  .cell { border-color: var(--line); font-size: 16px; padding: 7px 8px; }
+  tr.sec { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; background: var(--bg); padding: 10px 14px; border-bottom: 1px solid var(--line); } tr.sec td { border: 0 !important; padding: 0 !important; background: none; } tr.sec td:empty { display: none !important; }
+  tr.calc { display: grid !important; grid-template-columns: 1fr auto; padding: 4px 14px; } tr.calc td { padding: 2px 0 !important; border: 0; } tr.calc td:empty { display: none !important; }
+  tr.foot { display: flex !important; justify-content: space-between; padding: 0 14px; } tr.foot td { padding: 12px 0 !important; } tr.foot td:empty { display: none !important; }
+  tr.none td { padding: 9px 14px !important; }
+  tr.det td { padding: 12px 14px !important; } .det-f { grid-template-columns: 1fr 1fr; }
+  .meta, .libref { padding: 0 2px; max-width: none; }
+  .rec { grid-template-columns: 1fr; padding: 16px; } .rec .rk { display: none; } .rec .sv { grid-column: auto; }
+  .rec-sum { grid-template-columns: 1fr; }
+  .method .field { min-width: 0; width: 100%; }
+  .form-g { grid-template-columns: 1fr; }
+  table.t.mob-hide-3 th:nth-child(3), table.t.mob-hide-3 td:nth-child(3) { display: none; }
+  .bar-cell { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="appbar-in">
+    <button type="button" class="menu-btn" data-menu aria-label="Show or hide the user bar" aria-controls="sb"><svg viewBox="0 0 24 24"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button>
+    <a class="brand" href="index.html" aria-label="CO2Trace home"><svg class="logo" viewBox="0 0 888 158" aria-hidden="true" focusable="false"><path id="wordmark" fill="currentColor" fill-rule="evenodd" d="M60.00 132.81C59.36 132.74 57.26 132.51 55.33 132.30C42.64 130.95 31.06 125.32 21.46 115.84C18.76 113.17 15.87 109.49 14.24 106.67C12.98 104.48 10.00 98.39 10.00 98.01C10.00 97.84 9.79 97.20 9.53 96.59C8.36 93.84 7.15 88.51 6.67 83.93C5.63 73.95 7.39 63.37 11.56 54.69C15.31 46.89 19.32 41.65 25.44 36.55C27.78 34.60 31.68 31.92 33.33 31.12C33.61 30.98 34.51 30.48 35.33 30.01C37.10 28.99 41.15 27.27 43.50 26.54C44.42 26.26 45.69 25.86 46.33 25.65C50.50 24.31 57.62 23.34 63.33 23.34C79.88 23.34 92.87 28.28 103.25 38.51C105.13 40.37 106.67 42.10 106.67 42.38C106.67 42.93 102.75 46.84 97.00 52.00C94.89 53.90 92.84 55.80 92.43 56.22C92.03 56.65 91.65 57.00 91.60 57.00C91.54 57.00 90.45 56.00 89.17 54.78C81.13 47.16 73.76 44.00 64.00 44.00C55.01 44.00 47.18 46.98 40.98 52.75C39.59 54.04 36.79 57.49 35.76 59.17C31.74 65.74 29.93 73.67 30.67 81.44C31.64 91.57 35.95 99.56 43.62 105.46C45.50 106.91 46.32 107.41 49.96 109.31C52.81 110.80 58.91 111.98 63.87 111.99C70.49 112.01 75.82 110.60 81.73 107.26C83.38 106.33 87.28 103.29 89.50 101.20C90.78 99.99 91.93 99.04 92.06 99.09C92.41 99.22 102.97 108.64 105.25 110.86C106.40 111.97 107.33 113.08 107.33 113.31C107.33 113.54 105.57 115.48 103.42 117.62C94.71 126.24 85.18 130.85 73.00 132.32C69.81 132.71 61.77 133.01 60.00 132.81ZM167.83 132.81C167.28 132.74 165.26 132.51 163.33 132.31C159.11 131.88 153.86 130.66 151.07 129.47C150.47 129.21 149.82 129.00 149.63 129.00C149.07 129.00 143.02 125.99 140.33 124.38C129.30 117.74 120.66 107.06 116.96 95.50C111.76 79.23 114.01 62.27 123.22 48.33C130.54 37.26 142.72 28.71 155.67 25.56C163.79 23.58 169.45 23.06 176.76 23.63C185.73 24.33 191.57 25.80 198.17 29.02C205.31 32.51 208.30 34.62 213.67 39.99C222.07 48.40 225.87 55.81 228.39 68.67C229.63 75.04 229.14 86.91 227.39 92.50C227.22 93.05 226.81 94.48 226.49 95.67C225.98 97.54 222.49 105.21 221.25 107.16C213.89 118.79 200.33 128.35 187.18 131.19C181.72 132.37 171.12 133.26 167.83 132.81ZM471.33 132.81C470.88 132.74 469.22 132.51 467.67 132.31C460.17 131.34 453.06 127.64 449.01 122.61C443.93 116.31 442.68 107.41 445.74 99.33C447.87 93.74 453.81 88.77 461.50 86.17C467.76 84.06 468.62 83.96 483.77 83.77C495.72 83.62 497.74 83.52 497.91 83.09C498.22 82.28 497.01 77.29 496.09 75.59C494.27 72.23 491.14 69.99 486.35 68.62C484.62 68.13 483.05 68.00 478.77 68.00C473.27 68.00 470.77 68.37 466.50 69.81C464.42 70.51 456.77 74.23 456.50 74.67C456.14 75.25 455.09 75.02 454.59 74.25C454.32 73.84 453.61 72.60 453.01 71.50C452.40 70.40 451.46 68.68 450.90 67.68C448.68 63.64 447.67 61.54 447.67 60.97C447.67 60.59 448.37 59.95 449.58 59.24C451.91 57.88 457.00 55.39 458.26 55.00C458.76 54.84 459.99 54.40 461.00 54.02C463.48 53.08 466.11 52.43 470.67 51.61C475.79 50.68 487.58 50.61 492.17 51.48C504.10 53.72 512.81 59.48 516.98 67.90C517.54 69.03 518.00 70.12 518.00 70.30C518.00 70.49 518.21 71.14 518.46 71.74C520.28 76.02 520.67 82.58 520.67 109.12C520.67 130.39 520.65 130.99 520.02 131.32C519.62 131.54 515.93 131.67 510.33 131.67C504.74 131.67 501.04 131.54 500.64 131.32C500.06 131.01 500.00 130.59 500.00 127.15C500.00 122.88 499.82 122.61 498.15 124.36C495.46 127.19 490.38 130.15 486.36 131.23C482.00 132.41 473.97 133.26 471.33 132.81ZM576.50 132.83C576.13 132.77 574.26 132.54 572.33 132.33C564.32 131.43 558.30 128.98 551.50 123.86C543.85 118.10 538.91 110.43 536.54 100.67C533.94 89.90 536.34 77.72 542.90 68.39C545.89 64.14 551.50 59.14 556.00 56.71C560.98 54.02 564.20 52.84 570.17 51.49C574.18 50.59 584.60 50.65 589.18 51.61C597.87 53.43 604.42 56.84 610.00 62.44C612.61 65.06 614.68 67.73 614.66 68.47C614.65 68.77 602.10 77.44 600.87 78.00C600.66 78.09 600.07 78.46 599.55 78.81L598.60 79.45L596.47 77.09C591.38 71.46 586.19 69.00 579.40 69.00C569.30 69.00 561.81 74.59 558.59 84.55C557.96 86.51 557.86 87.56 557.86 92.00C557.87 97.73 558.28 99.65 560.38 103.73C561.66 106.21 566.07 110.78 568.33 111.95C573.10 114.42 579.02 115.25 584.19 114.17C589.28 113.11 592.73 110.83 597.28 105.52C598.68 103.89 598.71 103.88 599.60 104.39C600.09 104.68 601.38 105.40 602.46 105.99C603.53 106.58 605.18 107.52 606.11 108.07C607.56 108.92 609.94 110.25 612.80 111.81C614.31 112.63 615.00 113.18 615.00 113.56C615.00 114.75 612.22 118.51 608.87 121.86C602.88 127.83 596.78 130.82 587.83 132.17C584.78 132.63 577.71 133.04 576.50 132.83ZM663.67 132.81C655.89 131.95 654.11 131.62 649.62 130.21C642.98 128.12 634.66 122.08 630.03 116.00C626.83 111.79 625.44 109.15 623.70 104.00C622.84 101.44 622.01 95.39 622.00 91.65C621.99 78.87 627.49 67.37 637.21 59.88C642.78 55.58 647.92 53.26 655.83 51.48C659.57 50.64 670.39 50.63 674.00 51.46C679.94 52.83 684.29 54.55 688.33 57.14C693.80 60.64 699.73 67.34 702.37 73.01C705.28 79.24 706.83 87.64 706.37 94.67L706.17 97.83L675.35 97.92C656.19 97.97 644.41 98.12 644.21 98.32C644.00 98.53 644.10 99.16 644.48 100.07C644.81 100.86 645.32 102.10 645.61 102.83C647.30 107.06 652.02 111.25 657.33 113.25C661.96 114.99 669.13 115.46 674.50 114.37C677.59 113.75 681.76 112.26 682.69 111.46C682.98 111.21 683.33 111.00 683.47 111.00C683.60 111.00 684.81 110.17 686.15 109.17C687.49 108.16 688.70 107.33 688.83 107.33C689.26 107.33 701.00 118.73 701.00 119.14C701.00 119.36 700.06 120.47 698.92 121.60C692.95 127.51 685.86 130.86 676.51 132.20C673.08 132.69 665.72 133.04 663.67 132.81ZM240.78 131.06C240.45 130.74 240.33 129.43 240.33 126.17C240.33 121.84 240.36 121.69 241.21 120.67C242.04 119.68 249.98 112.27 258.17 104.84C272.93 91.44 275.01 88.86 274.99 83.91C274.97 77.80 269.83 74.51 262.08 75.66C258.05 76.25 255.61 77.48 252.34 80.56C250.79 82.02 249.49 82.98 249.25 82.87C249.02 82.75 248.38 82.39 247.83 82.05C247.28 81.72 245.63 80.80 244.17 80.00C242.70 79.20 240.75 78.14 239.83 77.63C238.92 77.13 238.12 76.49 238.06 76.21C237.91 75.49 240.28 72.46 242.39 70.65C246.60 67.06 250.63 65.07 257.00 63.46C259.00 62.96 260.70 62.83 265.50 62.84C272.56 62.85 274.35 63.18 280.50 65.60C281.23 65.89 282.07 66.32 282.36 66.56C282.65 66.80 282.99 67.00 283.12 67.00C283.63 67.00 286.93 69.72 287.92 70.95C289.21 72.56 290.76 75.61 291.46 77.95C292.94 82.85 291.51 89.78 287.90 95.31C286.21 97.90 275.46 108.35 266.03 116.57C265.36 117.15 264.99 117.72 265.13 117.95C265.31 118.23 269.17 118.33 279.69 118.33L294.00 118.33L294.00 124.79L294.00 131.26L280.58 131.46C259.78 131.78 241.32 131.60 240.78 131.06ZM327.42 131.41C327.09 131.19 326.98 121.88 326.92 87.48L326.83 43.83L310.02 43.75C297.07 43.68 293.14 43.57 292.94 43.25C292.58 42.68 292.60 25.75 292.96 25.52C293.16 25.40 378.36 25.21 383.59 25.32C383.92 25.33 383.99 27.27 383.92 34.42L383.83 43.50L367.36 43.59C356.37 43.64 350.75 43.79 350.47 44.03C350.12 44.31 350.06 52.80 350.15 87.49C350.20 111.19 350.16 130.75 350.04 130.94C349.78 131.36 328.03 131.81 327.42 131.41ZM389.12 131.41C388.83 131.23 388.71 121.01 388.62 91.94C388.56 70.36 388.61 52.61 388.73 52.49C388.95 52.27 408.71 52.26 408.93 52.48C409.00 52.55 409.14 54.95 409.24 57.81C409.35 60.66 409.53 63.00 409.64 63.00C409.76 63.00 410.64 62.11 411.60 61.01C413.86 58.45 416.91 56.12 419.83 54.73C424.31 52.61 428.86 51.46 434.17 51.11C436.62 50.95 437.25 51.00 437.59 51.41C437.91 51.79 437.99 54.22 437.92 61.54L437.83 71.17L433.50 71.23C429.30 71.30 425.73 71.82 423.33 72.73C417.93 74.77 413.57 79.68 411.57 86.00C410.91 88.07 410.87 89.08 410.75 109.50C410.68 121.23 410.52 130.93 410.39 131.06C410.08 131.37 389.59 131.71 389.12 131.41ZM485.83 116.45C490.63 114.91 494.26 112.42 496.12 109.36C497.63 106.88 498.03 105.04 497.93 100.98L497.83 97.17L488.00 97.07C474.74 96.95 471.83 97.55 468.42 101.12C466.74 102.88 466.00 104.80 466.00 107.42C466.01 112.32 469.99 116.34 475.50 117.03C478.34 117.39 483.87 117.08 485.83 116.45ZM179.17 111.34C186.18 109.83 190.89 107.37 195.60 102.75C199.29 99.13 201.90 94.76 203.41 89.67C203.71 88.66 204.13 87.23 204.35 86.50C204.57 85.77 204.82 82.59 204.91 79.43C205.08 73.36 204.78 70.97 203.29 66.51C200.04 56.87 192.56 49.11 183.33 45.85C180.47 44.84 175.34 44.00 172.01 44.00C159.25 44.00 148.01 50.81 142.57 61.83C139.86 67.31 139.19 69.50 138.63 74.58C138.30 77.57 138.30 79.10 138.64 82.08C139.04 85.68 140.10 90.15 140.71 90.82C140.87 90.99 141.00 91.34 141.00 91.59C141.00 92.42 143.36 96.79 145.04 99.05C147.37 102.20 150.71 105.22 154.09 107.25C155.70 108.21 157.20 109.00 157.44 109.00C157.67 109.00 158.01 109.13 158.18 109.29C158.58 109.64 162.19 110.83 164.83 111.47C167.89 112.21 175.45 112.14 179.17 111.34ZM684.32 83.85C684.60 83.51 684.62 83.19 684.36 82.71C684.16 82.34 684.00 81.74 684.00 81.37C684.00 80.99 683.76 80.12 683.46 79.43C681.14 74.03 677.69 70.58 672.83 68.79C667.72 66.90 661.54 66.89 656.50 68.77C652.51 70.25 648.61 73.53 646.46 77.21C645.35 79.09 643.90 83.26 644.13 83.87C644.41 84.57 683.73 84.56 684.32 83.85Z"/><path id="footprints" fill="currentColor" fill-rule="evenodd" d="M789.76 151.20C787.39 150.32 786.47 149.76 784.64 148.10C781.76 145.50 779.31 141.15 777.53 135.50C776.98 133.74 774.93 127.75 774.10 125.50C773.56 124.00 771.68 120.18 770.01 117.17C768.92 115.21 767.70 113.27 762.84 105.83C758.24 98.79 756.56 95.50 755.62 91.67C753.85 84.45 755.99 77.80 762.18 71.29C767.96 65.21 773.91 61.31 781.33 58.76C789.61 55.91 797.09 57.52 799.81 62.73C801.99 66.90 802.49 70.50 801.47 74.57C800.52 78.34 798.94 80.84 794.20 86.00C790.99 89.50 788.25 93.25 786.96 95.91C785.89 98.11 785.87 98.28 785.87 102.50C785.88 106.19 785.99 107.10 786.61 108.61C788.50 113.18 791.51 116.58 798.01 121.50C802.91 125.20 805.10 127.41 806.77 130.30C808.59 133.46 809.13 135.47 809.12 139.00C809.12 141.71 808.99 142.44 808.23 144.07C806.63 147.54 803.49 150.25 799.71 151.44C797.02 152.28 792.39 152.17 789.76 151.20ZM831.17 125.99C826.98 125.41 822.13 121.92 819.97 117.93C818.86 115.88 818.83 115.74 818.84 112.00C818.86 108.34 818.91 108.07 819.95 106.01C821.79 102.37 824.08 99.93 829.33 96.00C839.74 88.21 842.84 83.10 842.16 74.86C841.79 70.30 839.98 67.22 833.85 60.67C830.20 56.76 827.63 52.83 826.46 49.33C826.01 48.00 825.85 46.59 825.87 44.17C825.89 41.13 825.99 40.63 826.96 38.60C828.17 36.08 830.47 33.77 832.95 32.60C834.30 31.97 835.07 31.87 838.83 31.87C842.82 31.86 843.43 31.94 846.45 32.93C855.03 35.74 862.56 41.02 867.58 47.75C871.26 52.68 872.63 56.26 872.65 61.00C872.68 66.16 870.36 72.56 866.36 78.32C858.45 89.73 854.23 97.56 851.35 106.17C848.84 113.67 848.73 113.96 847.25 116.74C843.56 123.69 837.93 126.92 831.17 125.99ZM748.76 75.03C746.70 73.54 745.78 70.37 746.82 68.36C747.52 67.01 748.74 66.80 750.41 67.74C752.36 68.83 753.71 70.64 753.91 72.45C754.28 75.75 751.61 77.09 748.76 75.03ZM755.93 67.06C754.54 66.90 752.22 64.13 751.75 62.07C751.05 59.04 752.15 57.00 754.48 57.00C756.54 57.00 758.18 58.37 759.42 61.11C760.22 62.89 760.15 64.29 759.18 65.71C758.36 66.93 757.57 67.26 755.93 67.06ZM763.14 59.37C761.57 58.42 760.13 56.46 759.49 54.43C759.01 52.88 758.98 52.38 759.32 51.24C760.27 48.08 763.35 46.94 765.54 48.94C766.81 50.09 767.71 51.44 768.24 52.99C769.81 57.47 766.60 61.48 763.14 59.37ZM773.93 54.22C771.25 53.01 769.00 48.84 769.00 45.08C769.00 41.53 770.69 39.83 774.08 39.96C776.57 40.06 780.00 45.60 780.00 49.52C780.00 52.61 776.45 55.36 773.93 54.22ZM789.23 51.99C787.40 51.44 785.01 49.29 783.94 47.21C782.23 43.88 781.67 39.99 782.49 37.13C783.12 34.96 783.55 34.35 785.47 32.95C788.38 30.82 792.99 32.52 795.10 36.50C797.07 40.22 797.68 46.04 796.36 48.60C794.83 51.58 792.13 52.87 789.23 51.99ZM875.26 49.42C873.85 47.80 873.69 46.54 874.65 44.44C875.34 42.91 877.66 40.99 878.80 41.01C879.61 41.02 880.74 41.88 881.28 42.91C882.64 45.45 879.77 50.00 876.81 50.00C876.24 50.00 875.54 49.74 875.26 49.42ZM869.83 41.02C868.46 40.46 867.86 39.38 867.86 37.50C867.86 35.98 868.04 35.44 869.10 33.91C871.18 30.89 872.98 30.36 875.17 32.13C876.09 32.88 876.17 33.10 876.17 35.08C876.17 37.06 876.07 37.34 874.93 38.74C873.75 40.17 871.92 41.36 870.95 41.31C870.70 41.30 870.20 41.17 869.83 41.02ZM861.10 34.01C859.63 33.12 859.00 31.73 859.00 29.43C859.01 27.12 860.24 24.67 862.23 23.04C863.95 21.62 865.29 21.65 866.92 23.14L868.17 24.28L868.17 27.08C868.17 29.64 868.09 29.99 867.23 31.12C865.89 32.87 865.00 33.65 863.71 34.19C862.30 34.79 862.38 34.79 861.10 34.01ZM849.99 28.25C848.17 27.33 847.37 25.86 847.35 23.40C847.32 19.80 849.41 16.16 852.39 14.64C853.81 13.91 854.47 13.99 855.82 15.05C859.57 18.00 858.08 25.91 853.30 28.35C851.72 29.16 851.79 29.16 849.99 28.25ZM834.17 26.20C830.51 24.60 829.27 20.13 830.82 14.17C833.05 5.61 841.39 3.39 844.47 10.54C845.42 12.73 845.12 18.23 843.92 20.68C841.59 25.45 837.61 27.71 834.17 26.20Z"/></svg></a>
+    <div class="co"><span>Inventory <span data-dyear></span></span><b data-dco></b></div>
+    <span class="bar-chip" title="Impact method">Method <b>IPCC 2021 GWP100</b> · US · location-based</span>
+    <div class="who">
+      <button type="button" class="bar-btn icon" data-theme-toggle aria-label="Switch light or dark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg></button>
+    </div>
+  </div>
+</header>
+<section class="gate" id="gate" hidden>
+  <div class="gate-in">
+    <div>
+      <div class="eyebrow">Your company inventory</div>
+      <h1>Bring a year of receipts. Leave with a GHG inventory.</h1>
+      <p class="lede">Create your company account or sign in to open your Inventory: one company, one reporting year, Scopes 1 to 3, built from your bills and invoices.</p>
+      <ul class="steps">
+        <li><b>01</b><span>Drop in electricity and gas bills, fuel receipts, travel, purchases, refrigerant service and waste invoices.</span></li>
+        <li><b>02</b><span>Confirm the category, amount and date of each one. Every line keeps its document.</span></li>
+        <li><b>03</b><span>See totals by scope, category and month, then open the report.</span></li>
+      </ul>
+    </div>
+    <div class="acct" id="acct" data-mode="create">
+      <form novalidate>
+        <div class="seg acct-tabs" role="group" aria-label="Account"><button type="button" data-acct-mode="create">Create account</button><button type="button" data-acct-mode="signin">Sign in</button></div>
+        <h2><span class="for-create">Create your company account</span><span class="for-signin">Welcome back</span></h2>
+        <p class="for-create sub">Keep your inventory and evidence in one place and work on it with your team.</p>
+        <p class="for-signin sub">Sign in to open your company’s inventory.</p>
+        <div class="acct-fields">
+          <div class="field for-create"><label for="acCompany">Company</label><input id="acCompany" type="text" autocomplete="organization"></div>
+          <div class="field for-create"><label for="acName">Your name</label><input id="acName" type="text" autocomplete="name"></div>
+          <div class="field"><label for="acEmail">Work email</label><input id="acEmail" type="email" autocomplete="email"></div>
+          <div class="field"><label for="acPass">Password</label><input id="acPass" type="password" autocomplete="current-password"></div>
+        </div>
+        <p class="acct-err" role="alert" hidden></p>
+        <button type="submit" class="btn primary acct-go"><span class="for-create">Create account</span><span class="for-signin">Sign in</span></button>
+        <div class="acct-or"><span>or</span></div>
+        <button type="button" class="btn acct-skip" data-try>Try it with a sample company</button>
+        <p class="note">Draft: there is no account server yet. Submitting only starts a pretend session in this browser (localStorage); nothing is sent and the password is not kept.</p>
+      </form>
+    </div>
+  </div>
+</section>
+<div class="shell" id="app" hidden>
+  <nav class="sb" id="sb" aria-label="Workspace"></nav>
+  <div class="scrim" data-menu-close></div>
+  <div class="main">
+    <div class="wrap" id="view"></div>
+    <footer class="site-foot">
+      <nav class="foot-row" aria-label="Footer"><a href="index.html">CO2Trace home</a><a href="index.html#method">Method</a><a href="index.html#evidence">Evidence guide</a><a href="mailto:support@co2trace.io">support@co2trace.io</a></nav>
+      <div class="foot-mark">
+        <svg class="foot-logo" viewBox="0 0 888 158" role="img" aria-label="CO2Trace"><use href="#wordmark"/><use href="#footprints"/></svg>
+        <p class="foot-copy">© 2026 CO2Trace · Monterrey, N.L. · El Paso, TX · Carbon accounting and life cycle assessment</p>
+      </div>
+    </footer>
+  </div>
+</div>
+<script>
+/* Shared by the three Inventory drafts: sample company, receipt types, fake session, totals and small chart helpers.
+   No backend: the session and receipts live in localStorage; uploaded files stay in this tab's memory only. */
+const INV = (() => {
+  const Q = new URLSearchParams(location.search);
+  const DEMO = Q.has('demo'), EMPTY = Q.has('empty');
+  if (Q.get('theme')) document.documentElement.dataset.theme = Q.get('theme');
+  const KEY = 'co2trace-inv-draft-v1', SESS = 'co2trace-inv-session-v1';
+  const CAT_ORDER = ['elec', 'fuel', 'transport', 'mat', 'refrig', 'waste', 'custom'];
+  const CATS = { elec: 'Electricity', fuel: 'Fuels', transport: 'Transport & travel', mat: 'Purchased materials', refrig: 'Refrigerants', waste: 'Waste', custom: 'Other' };
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const S3 = { 1: 'Cat. 1 Purchased goods', 4: 'Cat. 4 Upstream transport', 5: 'Cat. 5 Waste', 6: 'Cat. 6 Business travel' };
+  // Factors copied from the CO2Trace library in index.html (US, AR6 GWPs), rounded to 3 significant figures for this draft.
+  const TYPES = [
+    { id: 'elec', name: 'Electricity bill', kind: 'elec', scope: 2, unit: 'kWh', alt: { MWh: 1000 }, ef: 0.337, src: 'eGRID2023 AZNM subregion, location-based', doc: 'Utility bill', kw: /electric|power|kwh|epe|utility|cfe|luz/i },
+    { id: 'natgas', name: 'Natural gas bill', kind: 'fuel', scope: 1, unit: 'm³', alt: { therm: 2.76 }, ef: 1.92, src: 'EPA GHG Emission Factors Hub, Table 1', doc: 'Gas bill', kw: /natural.?gas|gas.?service|therm/i },
+    { id: 'diesel', name: 'Diesel, own vehicles', kind: 'fuel', scope: 1, unit: 'L', alt: { gal: 3.78541 }, ef: 2.71, src: 'EPA Hub, Table 2 (CO₂) + Table 1 (CH₄, N₂O)', doc: 'Fuel receipt', kw: /diesel|fuel|pump|station|gasolin/i },
+    { id: 'gasoline', name: 'Gasoline, own vehicles', kind: 'fuel', scope: 1, unit: 'L', alt: { gal: 3.78541 }, ef: 2.33, src: 'EPA Hub, Table 2 (CO₂) + Table 1 (CH₄, N₂O)', doc: 'Fuel receipt', kw: /gasoline|petrol|unleaded/i },
+    { id: 'refrig', name: 'Refrigerant top-up, R-410A', kind: 'refrig', scope: 1, unit: 'kg', alt: { lb: 0.453592 }, ef: 2256, src: '50% HFC-32 / 50% HFC-125 × AR6 GWP100', doc: 'Service report', kw: /refrig|hvac|r-?410|freon|a\/?c/i },
+    { id: 'paper', name: 'Paper stock purchase', kind: 'mat', scope: 3, s3: 1, unit: 'kg', alt: { lb: 0.453592, t: 1000 }, ef: 0.92, src: 'CO2Trace library, paper (industry average)', doc: 'Purchase invoice', kw: /paper|stock|invoice|purchase/i },
+    { id: 'freight', name: 'Road freight', kind: 'transport', scope: 3, s3: 4, unit: 't·km', alt: {}, ef: 0.128, src: 'EPA Hub, Table 8 (medium and heavy-duty truck)', doc: 'Freight invoice', kw: /freight|shipping|truck|bol|carrier/i },
+    { id: 'flight', name: 'Business flight', kind: 'transport', scope: 3, s3: 6, unit: 'p·km', alt: {}, ef: 0.15, src: 'DESNZ, air travel economy', doc: 'Travel itinerary', kw: /flight|air|itinerary|boarding|airline/i },
+    { id: 'car', name: 'Car rental', kind: 'transport', scope: 3, s3: 6, unit: 'km', alt: { mi: 1.609344 }, ef: 0.186, src: 'EPA Hub, Table 8 (passenger car)', doc: 'Rental agreement', kw: /rental|car|hertz|avis|mileage/i },
+    { id: 'waste', name: 'Waste to landfill', kind: 'waste', scope: 3, s3: 5, unit: 'kg', alt: { lb: 0.453592, t: 1000 }, ef: 0.467, src: 'DESNZ, mixed commercial waste to landfill', doc: 'Hauler invoice', kw: /waste|haul|landfill|dumpster|trash/i },
+  ];
+  const T = Object.fromEntries(TYPES.map(t => [t.id, t]));
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const blobs = {}; // fid -> object URL (this tab only)
+
+  let mem = null;
+  const blank = () => ({ v: 1, company: '', year: 2025, receipts: [] });
+  function load() {
+    if (mem) return mem;
+    if (DEMO) { mem = sampleState(); return mem; }
+    try { mem = JSON.parse(localStorage.getItem(KEY)) || blank(); } catch { mem = blank(); }
+    if (EMPTY) mem.receipts = [];
+    return mem;
+  }
+  function save() { if (!DEMO) try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch {} }
+  function session() { if (DEMO || EMPTY) return { name: 'Ana Ortega', email: 'ana@suncityprint.example', company: 'Sun City Print Shop' }; try { return JSON.parse(localStorage.getItem(SESS)); } catch { return null; } }
+  function signIn(s) { localStorage.setItem(SESS, JSON.stringify(s)); const st = load(); if (!st.company) { st.company = s.company || 'Your company'; save(); } }
+  function signOut() { localStorage.removeItem(SESS); if (DEMO || EMPTY) location.search = ''; }
+
+  function status(r) {
+    if (!r.type || !(r.qty > 0) || !r.date) return 'needs';
+    return r.checked ? 'checked' : 'ready';
+  }
+  const STATUS = { needs: 'Needs data', ready: 'Ready', checked: 'Checked' };
+  function kg(r) { const t = T[r.type]; if (!t || status(r) === 'needs') return 0; const k = r.unit && r.unit !== t.unit ? (t.alt[r.unit] || 1) : 1; return r.qty * k * t.ef; }
+  function month(r) { return r.date ? +r.date.slice(5, 7) - 1 : -1; }
+  function totals() {
+    const st = load(), R = st.receipts;
+    const by = { 1: 0, 2: 0, 3: 0 }, cat = {}, s3 = {}, mon = Array.from({ length: 12 }, () => ({})), cnt = { needs: 0, ready: 0, checked: 0 };
+    let total = 0, counted = 0, withFile = 0, countedWithFile = 0;
+    for (const r of R) {
+      const s = status(r); cnt[s]++;
+      if (r.file) withFile++;
+      const e = kg(r); if (!e) continue;
+      const t = T[r.type]; counted++; if (r.file) countedWithFile++;
+      total += e; by[t.scope] += e; cat[t.kind] = (cat[t.kind] || 0) + e;
+      if (t.s3) s3[t.s3] = (s3[t.s3] || 0) + e;
+      const m = month(r); if (m >= 0) mon[m][t.kind] = (mon[m][t.kind] || 0) + e;
+    }
+    return { total, by, cat, s3, mon, cnt, n: R.length, counted, withFile, countedWithFile };
+  }
+  const tf = (kgv, d) => { const t = kgv / 1000; const dd = d ?? (t >= 100 ? 0 : t >= 10 ? 1 : 2); return t.toLocaleString('en-US', { minimumFractionDigits: dd, maximumFractionDigits: dd }); };
+  const nf = (v, d = 0) => (+v || 0).toLocaleString('en-US', { maximumFractionDigits: d });
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  const dfmt = d => d ? new Date(d + 'T12:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+  const guess = name => (TYPES.find(t => t.id !== 'paper' && t.kw.test(name)) || (/invoice|purchase/i.test(name) ? T.paper : null))?.id || '';
+
+  function addFiles(files) {
+    const st = load(), out = [];
+    for (const f of files) {
+      const fid = uid(); blobs[fid] = URL.createObjectURL(f);
+      const r = { id: uid(), type: guess(f.name), qty: '', unit: '', date: '', supplier: '', ref: '', checked: false, file: { fid, name: f.name, size: f.size, type: f.type }, added: Date.now(), guessed: !!guess(f.name) };
+      r.unit = r.type ? T[r.type].unit : '';
+      st.receipts.unshift(r); out.push(r);
+    }
+    save(); return out;
+  }
+  function addManual() { const st = load(); const r = { id: uid(), type: '', qty: '', unit: '', date: '', supplier: '', ref: '', checked: false, file: null, added: Date.now() }; st.receipts.unshift(r); save(); return r; }
+  function remove(id) { const st = load(); st.receipts = st.receipts.filter(r => r.id !== id); save(); }
+  function get(id) { return load().receipts.find(r => r.id === id); }
+  function set(id, k, v) {
+    const r = get(id); if (!r) return;
+    if (k === 'qty') v = v === '' ? '' : Math.max(0, +v);
+    if (k === 'type') { r.unit = v ? T[v].unit : ''; r.guessed = false; }
+    r[k] = v; save(); return r;
+  }
+  function attach(id, f) { const r = get(id); const fid = uid(); blobs[fid] = URL.createObjectURL(f); r.file = { fid, name: f.name, size: f.size, type: f.type }; save(); }
+
+  // Sample year for Sun City Print Shop, El Paso TX (the fictional US example company on the homepage). Quantities are illustrative.
+  function sampleState() { const st = blank(); st.company = 'Sun City Print Shop'; st.year = 2025; st.receipts = sampleReceipts(); return st; }
+  function sampleReceipts() {
+    const R = [], y = 2025, d = (m, day) => `${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const add = (type, qty, m, day, supplier, ref, o = {}) => R.push({ id: uid(), type, qty, unit: o.unit || T[type].unit, date: o.nodate ? '' : d(m, day), supplier, ref, checked: !!o.ok, file: o.nofile ? null : { fid: 'sample:' + R.length, name: o.fname || `${ref}.pdf`, size: 80000 + R.length * 3111, type: 'application/pdf', sample: true }, added: Date.now() - R.length * 1000, sm: m });
+    const kwh = [6420, 5980, 6310, 6890, 7740, 8620, 9180, 9050, 8210, 7120, 6380, 6550];
+    kwh.forEach((q, i) => add('elec', q, i + 1, 6, 'El Paso Electric', `EPE-${y}-${String(i + 1).padStart(2, '0')}`, { ok: i < 9 }));
+    [[1, 612], [2, 548], [3, 301], [11, 389], [12, 574]].forEach(([m, q], i) => add('natgas', q, m, 12, 'Texas Gas Service', `TGS-${m}-${y}`, { ok: m < 11 }));
+    [[1, 168, 9], [3, 154, 14], [5, 171, 20], [7, 162, 8], [9, 149, 17], [11, '', 21]].forEach(([m, q, day], i) => add('diesel', q, m, day, 'Loop 375 Fuel Stop', `FS-${4810 + i}`, { ok: i < 4, fname: `fuel_receipt_${m}.jpg` }));
+    add('refrig', 1.2, 7, 22, 'Desert Air HVAC', 'DA-2291', { ok: true });
+    [[2, 3200], [5, 2900], [8, 3350], [10, 3100]].forEach(([m, q], i) => add('paper', q, m, 3, 'Borderland Paper Supply', `BPS-${7731 + i}`, { ok: i < 3 }));
+    add('freight', 1850, 4, 15, 'Franklin Mtn Freight', 'FMF-0415', { ok: true });
+    add('freight', 1620, 9, 18, 'Franklin Mtn Freight', 'FMF-0918', { nofile: true });
+    add('flight', 2380, 6, 2, 'Southwest Airlines', 'Trade show, Dallas', { ok: true, fname: 'itinerary_dal.pdf' });
+    add('flight', '', 10, 13, '', 'Itinerary (to read)', { fname: 'itinerary_oct.pdf' });
+    add('car', 640, 6, 3, 'Rental car, Dallas', 'RA-55120', { ok: true, nofile: true });
+    [[3, 1820], [6, 1940], [9, 1760], [12, 1880]].forEach(([m, q], i) => add('waste', q, m, 28, 'Sun Country Waste', `SCW-Q${i + 1}`, { ok: i < 2, nodate: i === 3 }));
+    return R.sort((a, b) => (b.date || `${y}-${String(b.sm).padStart(2, '0')}`).localeCompare(a.date || `${y}-${String(a.sm).padStart(2, '0')}`));
+  }
+  function loadSample() { const st = load(); st.company = st.company || 'Sun City Print Shop'; st.receipts = sampleReceipts().concat(st.receipts.filter(r => !r.file?.sample && r.file)); save(); }
+  function reset() { const st = load(); st.receipts = []; save(); }
+
+  // fictional document preview for sample receipts (watermarked), or the real uploaded file (this tab only)
+  function docHtml(r) {
+    const t = T[r.type];
+    if (r.file && !r.file.sample) {
+      const u = blobs[r.file.fid];
+      if (!u) return `<div class="doc-missing"><b>${esc(r.file.name)}</b><p class="muted">The file stayed in the browser tab where it was added. Upload it again to see it here.</p></div>`;
+      if (/^image\//.test(r.file.type)) return `<img class="doc-img" src="${u}" alt="${esc(r.file.name)}">`;
+      if (r.file.type === 'application/pdf') return `<object class="doc-pdf" data="${u}" type="application/pdf" aria-label="${esc(r.file.name)}"><a href="${u}" target="_blank" rel="noopener">Open ${esc(r.file.name)}</a></object>`;
+      return `<div class="doc-missing"><b>${esc(r.file.name)}</b><p class="muted">Preview not available for this file type. Nothing is read from it; enter the values on the right.</p></div>`;
+    }
+    if (!r.file) return `<div class="doc-missing"><b>No document attached</b><p class="muted">This line was entered by hand. Attach the bill or receipt so a reviewer can check it.</p></div>`;
+    const m = month(r), per = m >= 0 ? `${MONTHS[m]} ${load().year}` : 'Period not shown';
+    const amt = r.qty ? `${nf(r.qty, 2)} ${esc(r.unit || t?.unit || '')}` : '<span class="hl">illegible</span>';
+    return `<div class="doc"><div class="wm"><span>SAMPLE · FICTIONAL</span></div>
+      <div class="dh"><div><b>${esc(r.supplier || 'Unknown supplier')}</b><br><span style="color:#5A6A74">${esc(t?.doc || 'Document')}</span></div><div style="text-align:right">No. ${esc(r.ref || '—')}<br>${dfmt(r.date)}</div></div>
+      <div>Bill to: <b>${esc(load().company)}</b><br>1400 Mills Ave, El Paso, TX</div>
+      <table><tr><th>Description</th><th>Period</th><th class="r">Quantity</th></tr>
+      <tr><td>${esc(t ? t.name : 'Item')}</td><td>${per}</td><td class="r"><span class="hl">${amt}</span></td></tr>
+      <tr><td>Taxes and fees</td><td></td><td class="r">—</td></tr>
+      <tr class="tot"><td>Total due</td><td></td><td class="r">see original</td></tr></table></div>`;
+  }
+
+  // receipt form (used by options B and C)
+  function unitOpts(r) { const t = T[r.type]; if (!t) return '<option value="">—</option>'; return [t.unit, ...Object.keys(t.alt)].map(u => `<option ${u === (r.unit || t.unit) ? 'selected' : ''}>${u}</option>`).join(''); }
+  function typeOpts(r) { return '<option value="">Choose a category…</option>' + ['Scope 1', 'Scope 2', 'Scope 3'].map((g, i) => `<optgroup label="${g}">` + TYPES.filter(t => t.scope === i + 1).map(t => `<option value="${t.id}" ${t.id === r.type ? 'selected' : ''}>${t.name}</option>`).join('') + '</optgroup>').join(''); }
+  function formHtml(r) {
+    const t = T[r.type];
+    return `<div class="rform" data-rid="${r.id}">
+      <div class="field w6"><label>Category${r.guessed ? ' <span class="muted" style="text-transform:none;letter-spacing:0">· guessed from the file name, please confirm</span>' : ''}</label><select data-k="type">${typeOpts(r)}</select></div>
+      <div class="field w2"><label>Amount</label><input data-k="qty" type="number" min="0" step="any" inputmode="decimal" value="${r.qty}"></div>
+      <div class="field w2"><label>Unit</label><select data-k="unit">${unitOpts(r)}</select></div>
+      <div class="field w2"><label>Date</label><input data-k="date" type="date" value="${r.date}"></div>
+      <div class="field w3"><label>Supplier</label><input data-k="supplier" value="${esc(r.supplier)}" placeholder="e.g. El Paso Electric"></div>
+      <div class="field w3"><label>Reference</label><input data-k="ref" value="${esc(r.ref)}" placeholder="Invoice or account no."></div>
+      <div class="calc">${calcHtml(r)}</div>
+      <label class="check w6"><input type="checkbox" data-k="checked" ${r.checked ? 'checked' : ''} ${status(r) === 'needs' ? 'disabled' : ''}> I checked these values against the document</label>
+    </div>`;
+  }
+  function calcHtml(r) {
+    const t = T[r.type]; if (!t) return '<span class="muted">Pick a category to see the factor.</span>';
+    const e = kg(r);
+    return `<b>${e ? tf(e) + ' t CO₂e' : '—'}</b><span class="muted">${t.ef.toLocaleString('en-US')} kg CO₂e/${t.unit} · ${esc(t.src)}</span><span class="sc s${t.scope}">S${t.scope}</span>${t.s3 ? `<span class="muted">${S3[t.s3]}</span>` : ''}`;
+  }
+  function bindForm(root, onChange) {
+    root.addEventListener('input', e => {
+      const el = e.target.closest('[data-k]'), box = e.target.closest('[data-rid]'); if (!el || !box) return;
+      const k = el.dataset.k, v = el.type === 'checkbox' ? el.checked : el.value;
+      const r = set(box.dataset.rid, k, v);
+      if (k === 'type') { box.querySelector('[data-k="unit"]').innerHTML = unitOpts(r); }
+      const ck = box.querySelector('[data-k="checked"]'); if (ck) { ck.disabled = status(r) === 'needs'; if (ck.disabled) { ck.checked = false; r.checked = false; save(); } }
+      const c = box.querySelector('.calc'); if (c) c.innerHTML = calcHtml(r);
+      onChange && onChange(r, k);
+    });
+  }
+
+  // charts: plain SVG strings (no rAF; static so headless screenshots work)
+  function donut(t, size = 180, w = 26) {
+    const R = (size - w) / 2, C = 2 * Math.PI * R; let off = 0;
+    const segs = [1, 2, 3].map(s => { const f = t.total ? t.by[s] / t.total : 0; const seg = `<circle r="${R}" cx="${size / 2}" cy="${size / 2}" fill="none" stroke="var(--s${s})" stroke-width="${w}" stroke-dasharray="${f * C} ${C}" stroke-dashoffset="${-off * C}" transform="rotate(-90 ${size / 2} ${size / 2})"/>`; off += f; return seg; }).join('');
+    return `<svg class="chart" viewBox="0 0 ${size} ${size}" role="img" aria-label="Emissions by scope"><circle r="${R}" cx="${size / 2}" cy="${size / 2}" fill="none" stroke="var(--surface-2)" stroke-width="${w}"/>${t.total ? segs : ''}
+      <text x="50%" y="47%" text-anchor="middle" style="font-size:${size / 7}px;fill:var(--ink);font-weight:600;letter-spacing:-.02em">${tf(t.total)}</text><text x="50%" y="60%" text-anchor="middle">t CO₂e</text></svg>`;
+  }
+  function niceMax(v) { if (!v) return 1; const p = 10 ** Math.floor(Math.log10(v)); const n = v / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+  function months(t, o = {}) {
+    const W = o.w || 720, H = o.h || 240, L = 40, B = 24, top = 10, cw = (W - L) / 12;
+    const sums = t.mon.map(m => Object.values(m).reduce((a, b) => a + b, 0));
+    const mx = niceMax(Math.max(...sums) / 1000), sy = v => (H - B - top) * (v / 1000) / mx;
+    let g = '';
+    for (let i = 0; i <= 4; i++) { const v = mx * i / 4, y = H - B - (H - B - top) * i / 4; g += `<line class="grid" x1="${L}" x2="${W}" y1="${y}" y2="${y}"/><text x="${L - 8}" y="${y + 4}" text-anchor="end">${v.toLocaleString('en-US', { maximumFractionDigits: 1 })}</text>`; }
+    t.mon.forEach((m, i) => {
+      let y = H - B; const x = L + i * cw + cw * .18, bw = cw * .64;
+      for (const k of CAT_ORDER) { const v = m[k]; if (!v) continue; const h = sy(v); y -= h; g += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(h - 1, 0)}" fill="var(--c-${k})" rx="2"><title>${MONTHS[i]} · ${CATS[k]}: ${tf(v)} t</title></rect>`; }
+      g += `<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${o.short ? MONTHS[i][0] : MONTHS[i]}</text>`;
+    });
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Emissions by month, t CO₂e">${g}</svg>`;
+  }
+  function legend(t, only) { return `<div class="legend">${CAT_ORDER.filter(k => !only || t.cat[k]).map(k => `<span><i class="dot" style="background:var(--c-${k})"></i>${CATS[k]}</span>`).join('')}</div>`; }
+
+  function toast(msg) { let el = document.querySelector('.toast'); if (!el) { el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); document.body.append(el); } el.textContent = msg; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 2600); }
+
+  function csv() {
+    const st = load(), rows = [['date', 'category', 'scope', 'scope3_category', 'amount', 'unit', 'supplier', 'reference', 'status', 'document', 'factor_kgCO2e_per_unit', 'factor_source', 't_CO2e']];
+    for (const r of st.receipts) { const t = T[r.type]; rows.push([r.date, t?.name || '', t?.scope || '', t?.s3 || '', r.qty, r.unit, r.supplier, r.ref, STATUS[status(r)], r.file?.name || '', t?.ef || '', t?.src || '', (kg(r) / 1000).toFixed(3)]); }
+    const b = new Blob(['﻿' + rows.map(x => x.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')], { type: 'text/csv' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(b), download: `${(st.company || 'inventory').replace(/\W+/g, '-')}-${st.year}-inventory-draft.csv` }); a.click();
+  }
+
+  // shell: top bar, gate (account box), settings, theme
+  function shell(o) {
+    const s = session(); document.body.classList.toggle('signed-out', !s);
+    const st = load();
+    document.querySelectorAll('[data-company]').forEach(el => el.textContent = st.company || s?.company || '');
+    document.querySelectorAll('[data-year]').forEach(el => el.textContent = st.year);
+    document.querySelectorAll('[data-user]').forEach(el => el.textContent = s?.name || s?.email || '');
+    document.querySelectorAll('[data-initials]').forEach(el => el.textContent = (s?.name || s?.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join(''));
+    document.getElementById('gate').hidden = !!s; document.getElementById('app').hidden = !s;
+    return s;
+  }
+  function wire(render) {
+    const dlg = document.getElementById('acct'), form = dlg.querySelector('form'), err = dlg.querySelector('.acct-err');
+    const mode = m => { dlg.dataset.mode = m; dlg.querySelectorAll('[data-acct-mode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.acctMode === m)); err.hidden = true; };
+    dlg.addEventListener('click', e => { const b = e.target.closest('[data-acct-mode]'); if (b) mode(b.dataset.acctMode); });
+    mode('create');
+    form.addEventListener('submit', e => {
+      e.preventDefault(); const m = dlg.dataset.mode, v = id => form.querySelector('#' + id).value.trim();
+      const need = m === 'create' ? ['acCompany', 'acEmail', 'acPass'] : ['acEmail', 'acPass'];
+      let bad = need.filter(id => !v(id)); if (v('acEmail') && !/^\S+@\S+\.\S+$/.test(v('acEmail'))) bad.push('acEmail');
+      form.querySelectorAll('input').forEach(i => i.toggleAttribute('aria-invalid', bad.includes(i.id)));
+      if (bad.length) { err.textContent = 'Fill in the highlighted fields.'; err.hidden = false; return; }
+      const email = v('acEmail'); signIn({ name: v('acName') || email.split('@')[0], email, company: m === 'create' ? v('acCompany') : (load().company || email.split('@')[1].split('.')[0]) });
+      form.querySelector('#acPass').value = ''; render(); toast('Pretend session started in this browser. Nothing was sent.');
+    });
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-signout]')) { signOut(); render(); }
+      if (e.target.closest('[data-try]')) { signIn({ name: 'Ana Ortega', email: 'ana@suncityprint.example', company: 'Sun City Print Shop' }); loadSample(); render(); }
+      if (e.target.closest('[data-sample]')) { loadSample(); render(); toast('Sample receipts loaded: fictional company, illustrative quantities.'); }
+      if (e.target.closest('[data-csv]')) csv();
+      if (e.target.closest('[data-theme-toggle]')) { const d = document.documentElement, dark = d.dataset.theme ? d.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; d.dataset.theme = dark ? 'light' : 'dark'; }
+      if (e.target.closest('[data-settings]')) settings(render);
+      if (e.target.closest('[data-soon]')) { e.preventDefault(); toast(e.target.closest('[data-soon]').dataset.soon); }
+    });
+  }
+  function settings(render) {
+    let d = document.getElementById('setDlg');
+    if (!d) { d = document.createElement('dialog'); d.id = 'setDlg'; d.className = 'sheet'; document.body.append(d); }
+    const st = load();
+    d.innerHTML = `<form method="dialog"><div class="eyebrow">Settings</div><h2>Company and reporting year</h2>
+      <div class="rform"><div class="field w4"><label for="sCo">Company</label><input id="sCo" value="${esc(st.company)}"></div>
+      <div class="field w2"><label for="sYr">Reporting year</label><select id="sYr">${[2023, 2024, 2025, 2026].map(y => `<option ${y === st.year ? 'selected' : ''}>${y}</option>`).join('')}</select></div>
+      <p class="w6 muted" style="font-size:13px">Draft: country is fixed to the US (GHG Protocol, AR6, location-based Scope 2). The real page would take country, boundary and methods from the homepage’s Project setup.</p></div>
+      <div class="acts"><button type="button" class="btn danger" id="sReset">Delete all receipts</button><button class="btn" value="cancel">Cancel</button><button class="btn primary" value="ok" id="sOk">Save</button></div></form>`;
+    d.querySelector('#sReset').onclick = () => { reset(); d.close(); render(); toast('All receipts deleted from this browser.'); };
+    d.querySelector('#sOk').onclick = () => { st.company = d.querySelector('#sCo').value.trim() || st.company; st.year = +d.querySelector('#sYr').value; save(); setTimeout(render); };
+    d.showModal();
+  }
+  function bindDrop(el, onFiles) {
+    const inp = el.querySelector('input[type=file]');
+    inp.addEventListener('change', () => { if (inp.files.length) onFiles([...inp.files]); inp.value = ''; });
+    ['dragenter', 'dragover'].forEach(t => el.addEventListener(t, e => { e.preventDefault(); el.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach(t => el.addEventListener(t, e => { e.preventDefault(); el.classList.remove('over'); }));
+    el.addEventListener('drop', e => { const f = [...(e.dataTransfer?.files || [])]; if (f.length) onFiles(f); });
+  }
+  return { DEMO, EMPTY, CAT_ORDER, CATS, MONTHS, S3, TYPES, T, STATUS, esc, load, save, session, status, kg, month, totals, tf, nf, pct, dfmt, addFiles, addManual, remove, get, set, attach, loadSample, docHtml, formHtml, calcHtml, bindForm, typeOpts, unitOpts, donut, months, legend, toast, csv, shell, wire, bindDrop, blobs };
+})();
+
+(() => {
+  const { esc, tf, nf, pct, MONTHS, CATS, CAT_ORDER, toast } = INV;
+  const Q = new URLSearchParams(location.search), DEMO = INV.DEMO, EMPTY = INV.EMPTY;
+  const KEY = 'co2trace-inv-d-v1', UIK = 'co2trace-inv-d-ui-v1', YEAR = 2025, TODAY = '2026-11-04';
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const blobs = {};
+  const t1 = v => (v / 1000).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const p1 = (a, b) => b ? (a / b * 100).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : '0.0';
+
+  // ---------- library: the drafts' factors (INV.TYPES, US, AR6, rounded) presented as library processes ----------
+  const X = INV.T;
+  const LIB = {
+    elec: { ...X.elec, sec: 'elec', ds: 'Electricity, grid mix {US-AZNM}', nm: 'Electricity' },
+    natgas: { ...X.natgas, sec: 'mat', ds: 'Natural gas, burned in boiler {US}', nm: 'Natural gas', gas: { co2: .99891, ch4: .00056, n2o: .00051 } },
+    diesel: { ...X.diesel, sec: 'mat', ds: 'Diesel, burned in own vehicles {US}', nm: 'Diesel', gas: { co2: .9952, mob: .0048 } },
+    gasoline: { ...X.gasoline, sec: 'mat', ds: 'Gasoline, burned in own vehicles {US}', nm: 'Gasoline', gas: { co2: .9953, mob: .0047 } },
+    paper: { ...X.paper, sec: 'mat', ds: 'Paper, printing stock, industry average {GLO}', nm: 'Paper stock', kw: /paper|stock/i },
+    freight: { ...X.freight, sec: 'transport', ds: 'Transport, freight, lorry {US}', nm: 'Road freight' },
+    flight: { ...X.flight, sec: 'transport', ds: 'Transport, passenger aircraft, economy {GLO}', nm: 'Business flight' },
+    car: { ...X.car, sec: 'transport', ds: 'Transport, passenger car, rental {US}', nm: 'Car rental' },
+    refrig: { ...X.refrig, sec: 'air', ds: 'R-410A (50% HFC-32, 50% HFC-125), to air', nm: 'Refrigerant leakage, R-410A', gas: { hfc32: .1709, hfc125: .8291 } },
+    co2: { id: 'co2', name: 'Carbon dioxide, direct', nm: 'Carbon dioxide, fossil', kind: 'custom', scope: 1, unit: 'kg', alt: { t: 1000 }, ef: 1, src: 'IPCC AR6 GWP100 = 1', ds: 'Carbon dioxide, fossil, to air', sec: 'air', gas: { co2: 1 }, kw: /^$/ },
+    ch4: { id: 'ch4', name: 'Methane, direct', nm: 'Methane, fossil', kind: 'custom', scope: 1, unit: 'kg', alt: {}, ef: 29.8, src: 'IPCC AR6 GWP100, fossil CH₄ = 29.8', ds: 'Methane, fossil, to air', sec: 'air', gas: { ch4: 1 }, kw: /^$/ },
+    n2o: { id: 'n2o', name: 'Dinitrogen monoxide, direct', nm: 'Dinitrogen monoxide', kind: 'custom', scope: 1, unit: 'kg', alt: {}, ef: 273, src: 'IPCC AR6 GWP100 = 273', ds: 'Dinitrogen monoxide, to air', sec: 'air', gas: { n2o: 1 }, kw: /^$/ },
+    waste: { ...X.waste, sec: 'waste', ds: 'Mixed commercial waste, to landfill {GB}', nm: 'Landfill waste' },
+    water: { id: 'water', name: 'Water bill', nm: 'Water, withdrawn', kind: 'water', scope: 0, unit: 'm³', alt: { gal: 0.00378541 }, ef: 0, src: 'Elementary flow; no GWP100 factor', ds: 'Water, municipal supply, withdrawn {US-TX}', sec: 'nature', doc: 'Water bill', kw: /water|agua|h2o/i },
+  };
+  const GUESS = ['water', 'elec', 'natgas', 'diesel', 'gasoline', 'refrig', 'freight', 'flight', 'car', 'waste', 'paper'];
+  const guess = n => GUESS.find(k => LIB[k].kw.test(n)) || (/invoice|purchase/i.test(n) ? 'paper' : '');
+  const SUB = {
+    co2: { n: 'Carbon dioxide, fossil', gwp: 1, c: 'fuel' }, ch4: { n: 'Methane, fossil', gwp: 29.8, c: 'custom' }, n2o: { n: 'Dinitrogen monoxide', gwp: 273, c: 'custom' },
+    mob: { n: 'CH₄ + N₂O, mobile combustion (as CO₂e)', gwp: 1, c: 'custom', pre: 1 }, hfc32: { n: 'HFC-32', gwp: 771, c: 'refrig' }, hfc125: { n: 'HFC-125', gwp: 3740, c: 'refrig' },
+    pre_elec: { n: 'CO₂e, pre-characterised: electricity', gwp: 1, c: 'elec', pre: 1 }, pre_mat: { n: 'CO₂e, pre-characterised: materials', gwp: 1, c: 'mat', pre: 1 },
+    pre_transport: { n: 'CO₂e, pre-characterised: transport', gwp: 1, c: 'transport', pre: 1 }, pre_waste: { n: 'CO₂e, pre-characterised: waste', gwp: 1, c: 'waste', pre: 1 },
+  };
+  const gasOf = t => t.gas || { ['pre_' + t.kind]: 1 };
+  const SECS = [
+    { id: 'prod', io: 'Output', t: 'Products', d: 'Outputs to technosphere: the reference flow of this inventory', ex: '' },
+    { id: 'nature', io: 'Input', t: 'Inputs from nature', d: 'Resources taken directly from the environment', ex: 'e.g. water withdrawn (from water bills)', add: ['water'] },
+    { id: 'mat', io: 'Input', t: 'Inputs from technosphere: materials/fuels', d: 'Fuels burned on site and purchased materials', ex: 'e.g. diesel, natural gas, paper stock', add: ['natgas', 'diesel', 'gasoline', 'paper'] },
+    { id: 'elec', io: 'Input', t: 'Inputs from technosphere: electricity/heat', d: 'Purchased electricity, steam and heat', ex: 'e.g. monthly electricity bills (kWh)', add: ['elec'] },
+    { id: 'transport', io: 'Input', t: 'Inputs from technosphere: transport', d: 'Freight (t·km) and business travel (p·km, km)', ex: 'e.g. freight invoices, flight itineraries', add: ['freight', 'flight', 'car'] },
+    { id: 'air', io: 'Output', t: 'Outputs: emissions to air', d: 'Direct emissions not already counted in a fuel line', ex: 'e.g. refrigerant leakage from service reports', add: ['refrig', 'co2', 'ch4', 'n2o'] },
+    { id: 'watersoil', io: 'Output', t: 'Outputs: emissions to water and soil', d: 'Optional; no GWP100 effect in this method', ex: 'Nothing recorded. A print shop rarely has direct releases here (e.g. a spill would go here).', add: [] },
+    { id: 'waste', io: 'Output', t: 'Outputs to technosphere: waste and emissions to treatment', d: 'Waste sent to landfill, incineration or recycling', ex: 'e.g. hauler invoices with weights', add: ['waste'] },
+  ];
+  const SEC = Object.fromEntries(SECS.map(s => [s.id, s]));
+  const STATUS = INV.STATUS;
+  const S3N = { 1: 'Cat. 1', 4: 'Cat. 4', 5: 'Cat. 5', 6: 'Cat. 6' };
+
+  // ---------- state ----------
+  const defGoal = () => ({ app: 'Annual corporate GHG inventory', reason: '', audience: 'Management, customers', standard: 'GHG Protocol Corporate Standard · ISO 14064-1', boundary: 'Operational control', fu: 'One reporting year of company operations', period: 'Jan–Dec ' + YEAR, geo: 'El Paso, TX · eGRID AZNM grid', cutoff: '1', s3: ['1', '4', '5', '6'], excl: '' });
+  const blank = () => ({ v: 1, company: '', year: YEAR, goal: defGoal(), lines: [], hist: false, plan: [] });
+  let st = null;
+  function load() {
+    if (st) return st;
+    if (DEMO) { st = blank(); fillSample(st); return st; }
+    try { st = JSON.parse(localStorage.getItem(KEY)) || blank(); } catch { st = blank(); }
+    if (EMPTY) { st = blank(); st.company = 'Sun City Print Shop'; }
+    st.goal = { ...defGoal(), ...st.goal }; st.plan = st.plan || [];
+    return st;
+  }
+  const save = () => { if (!DEMO && !EMPTY) try { localStorage.setItem(KEY, JSON.stringify(st)); } catch {} };
+  let ui = { collapsed: false };
+  try { ui = { ...ui, ...JSON.parse(localStorage.getItem(UIK)) }; } catch {}
+  const VIEWS = ['goal', 'inventory', 'impact', 'interpretation', 'activity', 'dashboards', 'reports', 'recommendations', 'solutions'];
+  ui.view = VIEWS.includes(Q.get('view')) ? Q.get('view') : (VIEWS.includes(ui.view) ? ui.view : 'inventory');
+  Object.assign(ui, { filt: 'all', q: '', open: {}, cut: null, group: 'process', hy: YEAR, af: { year: 'all', sec: 'all', scope: 'all', status: 'all', q: '' }, rf: 'all', sf: 'all' });
+  const saveUi = () => { try { localStorage.setItem(UIK, JSON.stringify({ collapsed: ui.collapsed, view: ui.view })); } catch {} };
+
+  const status = r => (!r.type || !(r.qty > 0)) ? 'needs' : r.checked ? 'checked' : 'ready';
+  const conv = r => { const t = LIB[r.type]; return t && r.unit && r.unit !== t.unit ? (t.alt[r.unit] || 1) : 1; };
+  const kg = r => { const t = LIB[r.type]; if (!t || status(r) === 'needs') return 0; return r.qty * conv(r) * t.ef; };
+  const secOf = r => LIB[r.type]?.sec || 'unsorted';
+  const monthOf = r => r.date ? +r.date.slice(5, 7) - 1 : -1;
+  function tot(lines) {
+    const o = { total: 0, by: { 0: 0, 1: 0, 2: 0, 3: 0 }, cat: {}, mon: Array.from({ length: 12 }, () => ({})), type: {}, sec: {}, sub: {}, s3: {}, cnt: { needs: 0, ready: 0, checked: 0 }, n: lines.length, withFile: 0, counted: 0, qty: {} };
+    for (const r of lines) {
+      const s = status(r); o.cnt[s]++; if (r.file) o.withFile++;
+      const t = LIB[r.type]; if (t && s !== 'needs') o.qty[r.type] = (o.qty[r.type] || 0) + r.qty * conv(r);
+      const e = kg(r); if (!e) continue;
+      o.counted++; o.total += e; o.by[t.scope] += e; o.cat[t.kind] = (o.cat[t.kind] || 0) + e; o.type[r.type] = (o.type[r.type] || 0) + e; o.sec[t.sec] = (o.sec[t.sec] || 0) + e;
+      if (t.s3) o.s3[t.s3] = (o.s3[t.s3] || 0) + e;
+      for (const [g, f] of Object.entries(gasOf(t))) o.sub[g] = (o.sub[g] || 0) + e * f;
+      const m = monthOf(r); if (m >= 0) o.mon[m][t.kind] = (o.mon[m][t.kind] || 0) + e; else o.mon.forEach(x => x[t.kind] = (x[t.kind] || 0) + e / 12);
+    }
+    return o;
+  }
+
+  // ---------- fictional sample data: Sun City Print Shop, El Paso TX (same 2025 lines as options A–C; 2023–2024 scaled from them) ----------
+  const NM = (type, m, i) => ({ elec: `Electricity, ${MONTHS[m - 1]}`, natgas: `Natural gas, ${MONTHS[m - 1]}`, diesel: `Diesel, delivery van (${MONTHS[m - 1]})`, refrig: 'Refrigerant leakage, R-410A (rooftop unit)', paper: `Paper stock, ${MONTHS[m - 1]} order`, freight: `Inbound freight, paper (${MONTHS[m - 1]})`, flight: m === 6 ? 'Flight ELP–DAL, trade show' : `Flight, ${MONTHS[m - 1]} trip`, car: 'Rental car, Dallas', waste: `Landfill waste, Q${i + 1}`, water: `Water, Q${i + 1}` })[type];
+  const SD = { elec: '1.05', natgas: '1.05', diesel: '1.1', refrig: '1.2', paper: '1.1', freight: '1.5', flight: '1.5', car: '1.3', waste: '1.3', water: '1.05' };
+  function sampleLines(y, Qy) {
+    const L = [], d = (m, day) => `${y}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`, hist = y !== YEAR;
+    const add = (type, qty, m, day, supplier, ref, o = {}) => L.push({ id: uid(), y, type, name: NM(type, m, o.i ?? 0), qty, unit: LIB[type].unit, date: o.nodate ? '' : d(m, day), supplier, ref, dist: 'logn', sd2: SD[type], comment: o.c || '', checked: hist || !!o.ok, file: o.nofile && !hist ? null : { fid: `sample:${y}:${L.length}`, name: o.fname || `${ref}.pdf`, size: 80000 + L.length * 3111, type: 'application/pdf', sample: true }, hist });
+    const sc = (type, arr) => { if (!Qy) return arr; const s = arr.reduce((a, b) => a + (+b || 0), 0) / arr.filter(v => +v).length; const full = arr.map(v => +v || s); const k = Qy[type] / full.reduce((a, b) => a + b, 0); return full.map(v => Math.round(v * k * (type === 'refrig' ? 10 : 1)) / (type === 'refrig' ? 10 : 1)); };
+    sc('elec', [6420, 5980, 6310, 6890, 7740, 8620, 9180, 9050, 8210, 7120, 6380, 6550]).forEach((q, i) => add('elec', q, i + 1, 6, 'El Paso Electric', `EPE-${y}-${String(i + 1).padStart(2, '0')}`, { ok: i < 9, c: i === 6 ? 'Peak month: press dryer and AC' : '' }));
+    const ng = sc('natgas', [612, 548, 301, 389, 574]); [1, 2, 3, 11, 12].forEach((m, i) => add('natgas', ng[i], m, 12, 'Texas Gas Service', `TGS-${m}-${y}`, { ok: m < 11 }));
+    const ds = sc('diesel', [168, 154, 171, 162, 149, '']); [[1, 9], [3, 14], [5, 20], [7, 8], [9, 17], [11, 21]].forEach(([m, day], i) => add('diesel', ds[i], m, day, 'Loop 375 Fuel Stop', `FS-${y % 100}${4810 + i}`, { ok: i < 4, fname: `fuel_receipt_${m}.jpg`, c: !hist && i === 5 ? 'Receipt photo unreadable: amount to enter' : '' }));
+    (hist ? Qy.refrigL : [1.2]).forEach((q, i) => add('refrig', q, i ? 3 : 7, 22, 'Desert Air HVAC', `DA-${y % 100}${91 + i}`, { ok: true, c: 'Top-up = leakage (mass balance)' }));
+    const pp = sc('paper', [3200, 2900, 3350, 3100]); [2, 5, 8, 10].forEach((m, i) => add('paper', pp[i], m, 3, 'Borderland Paper Supply', `BPS-${y % 100}${731 + i}`, { ok: i < 3 }));
+    const fr = sc('freight', [1850, 1620]); add('freight', fr[0], 4, 15, 'Franklin Mtn Freight', `FMF-${y}-04`, { ok: true }); add('freight', fr[1], 9, 18, 'Franklin Mtn Freight', `FMF-${y}-09`, { nofile: true, c: 'Distance from the carrier, weight from the delivery note' });
+    if (hist) sc('flight', [2380, 2380]).forEach((q, i) => add('flight', q, i ? 10 : 6, i ? 13 : 2, 'Southwest Airlines', `Trip ${i + 1}`, { fname: `itinerary_${y}_${i + 1}.pdf` }));
+    else { add('flight', 2380, 6, 2, 'Southwest Airlines', 'Trade show, Dallas', { ok: true, fname: 'itinerary_dal.pdf' }); add('flight', '', 10, 13, '', 'Itinerary (to read)', { fname: 'itinerary_oct.pdf', c: 'Itinerary received; distance to enter' }); }
+    add('car', hist ? Qy.car : 640, 6, 3, 'Rental car, Dallas', `RA-${y % 100}120`, { ok: true, nofile: true });
+    const ws = sc('waste', [1820, 1940, 1760, '']); [3, 6, 9, 12].forEach((m, i) => add('waste', ws[i], m, 28, 'Sun Country Waste', `SCW-${y}-Q${i + 1}`, { i, ok: i < 2, c: !hist && i === 3 ? 'Q4 weight ticket not received yet' : '' }));
+    const wt = sc('water', [96, 104, 112, '']); [3, 6, 9, 12].forEach((m, i) => add('water', wt[i], m, 30, 'El Paso Water', `EPW-${y}-Q${i + 1}`, { i, ok: i < 2 }));
+    return L;
+  }
+  // Earlier years (fictional): a little more of everything before an LED retrofit (2024) and a leak fix; factors held at the draft's 2025 values for comparability.
+  const HQ = { 2023: { elec: 96200, natgas: 2610, diesel: 930, refrigL: [1.4, 1.0], paper: 13400, freight: 3900, flight: 4760, car: 1180, waste: 7300, water: 410 }, 2024: { elec: 92800, natgas: 2520, diesel: 870, refrigL: [1.6], paper: 13100, freight: 3600, flight: 3570, car: 900, waste: 6400, water: 395 } };
+  let HIST = null; const hist = () => HIST || (HIST = { 2023: sampleLines(2023, HQ[2023]), 2024: sampleLines(2024, HQ[2024]) });
+  function fillSample(s) { s.company = s.company || 'Sun City Print Shop'; s.lines = sampleLines(YEAR).concat((s.lines || []).filter(r => r.file && !r.file.sample)); s.hist = true; s.goal = { ...defGoal(), reason: 'Know our footprint, answer customer data requests and set a reduction target.', excl: 'Employee commuting (cat. 7) and capital goods (cat. 2) not screened in this draft.' }; }
+  const years = () => (load().hist ? [2023, 2024] : []).concat([YEAR]);
+  const linesOf = y => y === YEAR ? load().lines : (load().hist ? hist()[y] : []);
+  const get = id => load().lines.find(r => r.id === id);
+
+  function addFiles(files) {
+    const out = [];
+    for (const f of files) {
+      const fid = uid(); blobs[fid] = URL.createObjectURL(f); const type = guess(f.name);
+      const r = { id: uid(), y: YEAR, type, name: f.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '), qty: '', unit: type ? LIB[type].unit : '', date: '', supplier: '', ref: '', dist: 'none', sd2: '', comment: '', checked: false, file: { fid, name: f.name, size: f.size, type: f.type }, guessed: !!type, fresh: true };
+      load().lines.unshift(r); out.push(r);
+    }
+    save(); return out;
+  }
+  function addLine(type = '') { const r = { id: uid(), y: YEAR, type, name: type ? LIB[type].nm : '', qty: '', unit: type ? LIB[type].unit : '', date: '', supplier: '', ref: '', dist: 'none', sd2: '', comment: '', checked: false, file: null, fresh: true }; load().lines.unshift(r); save(); return r; }
+  function setK(id, k, v) {
+    const r = get(id); if (!r) return;
+    if (k === 'qty') v = v === '' ? '' : Math.max(0, +v);
+    if (k === 'type') { r.unit = v ? LIB[v].unit : ''; r.guessed = false; if (!r.name) r.name = LIB[v]?.nm || ''; }
+    if (k === 'dist' && v === 'none') r.sd2 = '';
+    if (k === 'dist' && v === 'logn' && !r.sd2) r.sd2 = '1.1';
+    r[k] = v; if (status(r) === 'needs') r.checked = false; save(); return r;
+  }
+
+  // ---------- icons ----------
+  const P = {
+    inv: 'M12 3 3 7.5l9 4.5 9-4.5L12 3Z M3 12l9 4.5 9-4.5 M3 16.5 12 21l9-4.5', act: 'M4 5.5h16M4 10.5h16M4 15.5h16M4 20.5h9', dash: 'M4 20V11M10 20V4.5M16 20v-6.5M21 20H3', rep: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z M14 3v5h5 M9 13h6M9 17h4',
+    rec: 'M3 6.5l6.5 6.5 4-4L21 16.5 M21 11v5.5h-5.5', sol: 'M4 4h6.5v6.5H4z M13.5 4H20v6.5h-6.5z M4 13.5h6.5V20H4z M13.5 13.5H20V20h-6.5z', set: 'M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8',
+    out: 'M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3 M10 16.5 14.5 12 10 7.5 M14.5 12H3.5', col: 'M15 6l-6 6 6 6', x: 'M6 6l12 12M18 6 6 18', clip: 'm20 11.5-8.2 8.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4L15 7',
+    trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.5 1.5 0 0 0 8.5 21h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V7', down: 'M6 9l6 6 6-6',
+    sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4', plug: 'M9 3v5M15 3v5M6.5 8h11v3.5a5.5 5.5 0 0 1-11 0V8Z M12 17v4', van: 'M3 7h11v9H3z M14 10h4l3 3v3h-7 M7 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z M17.5 18.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z',
+    snow: 'M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9 M9.5 4.5 12 6.5l2.5-2 M9.5 19.5 12 17.5l2.5 2', leaf: 'M5 19c0-8 6-13 15-14-1 9-6 15-14 15 M5 19l7-7', recyc: 'M7 19H4.5l3-5 M17 19h2.5l-3-5 M10 5l2-3 2 3 M8 13l-2.5 4.5h13L16 13 M9.5 9 12 5l2.5 4', heat: 'M12 21a5 5 0 0 0 5-5c0-4-5-6-5-13-1 4-5 7-5 13a5 5 0 0 0 5 5Z', train: 'M6 4h12v11H6z M6 10h12 M8 19l-2 2M16 19l2 2 M9 15v4h6v-4',
+  };
+  const ic = (k, cls = 'i') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${P[k]}"/></svg>`;
+
+  // ---------- left user bar ----------
+  function sidebar() {
+    const s = INV.session() || {}, t = tot(load().lines), cur = ui.view;
+    const a = (v, icon, label, extra = '') => `<a href="?view=${v}" data-view="${v}" ${cur === v ? 'aria-current="page"' : ''} title="${label}">${ic(icon)}<span class="lbl">${label}</span>${extra}</a>`;
+    const ph = (v, n, label) => `<a href="?view=${v}" data-view="${v}" ${cur === v ? 'aria-current="page"' : ''} title="${n}. ${label}"><span class="n">${n}</span><span class="lbl">${label}</span>${v === 'inventory' && t.cnt.needs ? `<span class="cnt">${t.cnt.needs}</span>` : ''}</a>`;
+    const ini = (s.name || s.email || '?').split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+    document.getElementById('sb').innerHTML = `
+      <div class="drawer-head"><svg class="logo" viewBox="0 0 888 158" aria-hidden="true" focusable="false"><path id="wordmark" fill="currentColor" fill-rule="evenodd" d="M60.00 132.81C59.36 132.74 57.26 132.51 55.33 132.30C42.64 130.95 31.06 125.32 21.46 115.84C18.76 113.17 15.87 109.49 14.24 106.67C12.98 104.48 10.00 98.39 10.00 98.01C10.00 97.84 9.79 97.20 9.53 96.59C8.36 93.84 7.15 88.51 6.67 83.93C5.63 73.95 7.39 63.37 11.56 54.69C15.31 46.89 19.32 41.65 25.44 36.55C27.78 34.60 31.68 31.92 33.33 31.12C33.61 30.98 34.51 30.48 35.33 30.01C37.10 28.99 41.15 27.27 43.50 26.54C44.42 26.26 45.69 25.86 46.33 25.65C50.50 24.31 57.62 23.34 63.33 23.34C79.88 23.34 92.87 28.28 103.25 38.51C105.13 40.37 106.67 42.10 106.67 42.38C106.67 42.93 102.75 46.84 97.00 52.00C94.89 53.90 92.84 55.80 92.43 56.22C92.03 56.65 91.65 57.00 91.60 57.00C91.54 57.00 90.45 56.00 89.17 54.78C81.13 47.16 73.76 44.00 64.00 44.00C55.01 44.00 47.18 46.98 40.98 52.75C39.59 54.04 36.79 57.49 35.76 59.17C31.74 65.74 29.93 73.67 30.67 81.44C31.64 91.57 35.95 99.56 43.62 105.46C45.50 106.91 46.32 107.41 49.96 109.31C52.81 110.80 58.91 111.98 63.87 111.99C70.49 112.01 75.82 110.60 81.73 107.26C83.38 106.33 87.28 103.29 89.50 101.20C90.78 99.99 91.93 99.04 92.06 99.09C92.41 99.22 102.97 108.64 105.25 110.86C106.40 111.97 107.33 113.08 107.33 113.31C107.33 113.54 105.57 115.48 103.42 117.62C94.71 126.24 85.18 130.85 73.00 132.32C69.81 132.71 61.77 133.01 60.00 132.81ZM167.83 132.81C167.28 132.74 165.26 132.51 163.33 132.31C159.11 131.88 153.86 130.66 151.07 129.47C150.47 129.21 149.82 129.00 149.63 129.00C149.07 129.00 143.02 125.99 140.33 124.38C129.30 117.74 120.66 107.06 116.96 95.50C111.76 79.23 114.01 62.27 123.22 48.33C130.54 37.26 142.72 28.71 155.67 25.56C163.79 23.58 169.45 23.06 176.76 23.63C185.73 24.33 191.57 25.80 198.17 29.02C205.31 32.51 208.30 34.62 213.67 39.99C222.07 48.40 225.87 55.81 228.39 68.67C229.63 75.04 229.14 86.91 227.39 92.50C227.22 93.05 226.81 94.48 226.49 95.67C225.98 97.54 222.49 105.21 221.25 107.16C213.89 118.79 200.33 128.35 187.18 131.19C181.72 132.37 171.12 133.26 167.83 132.81ZM471.33 132.81C470.88 132.74 469.22 132.51 467.67 132.31C460.17 131.34 453.06 127.64 449.01 122.61C443.93 116.31 442.68 107.41 445.74 99.33C447.87 93.74 453.81 88.77 461.50 86.17C467.76 84.06 468.62 83.96 483.77 83.77C495.72 83.62 497.74 83.52 497.91 83.09C498.22 82.28 497.01 77.29 496.09 75.59C494.27 72.23 491.14 69.99 486.35 68.62C484.62 68.13 483.05 68.00 478.77 68.00C473.27 68.00 470.77 68.37 466.50 69.81C464.42 70.51 456.77 74.23 456.50 74.67C456.14 75.25 455.09 75.02 454.59 74.25C454.32 73.84 453.61 72.60 453.01 71.50C452.40 70.40 451.46 68.68 450.90 67.68C448.68 63.64 447.67 61.54 447.67 60.97C447.67 60.59 448.37 59.95 449.58 59.24C451.91 57.88 457.00 55.39 458.26 55.00C458.76 54.84 459.99 54.40 461.00 54.02C463.48 53.08 466.11 52.43 470.67 51.61C475.79 50.68 487.58 50.61 492.17 51.48C504.10 53.72 512.81 59.48 516.98 67.90C517.54 69.03 518.00 70.12 518.00 70.30C518.00 70.49 518.21 71.14 518.46 71.74C520.28 76.02 520.67 82.58 520.67 109.12C520.67 130.39 520.65 130.99 520.02 131.32C519.62 131.54 515.93 131.67 510.33 131.67C504.74 131.67 501.04 131.54 500.64 131.32C500.06 131.01 500.00 130.59 500.00 127.15C500.00 122.88 499.82 122.61 498.15 124.36C495.46 127.19 490.38 130.15 486.36 131.23C482.00 132.41 473.97 133.26 471.33 132.81ZM576.50 132.83C576.13 132.77 574.26 132.54 572.33 132.33C564.32 131.43 558.30 128.98 551.50 123.86C543.85 118.10 538.91 110.43 536.54 100.67C533.94 89.90 536.34 77.72 542.90 68.39C545.89 64.14 551.50 59.14 556.00 56.71C560.98 54.02 564.20 52.84 570.17 51.49C574.18 50.59 584.60 50.65 589.18 51.61C597.87 53.43 604.42 56.84 610.00 62.44C612.61 65.06 614.68 67.73 614.66 68.47C614.65 68.77 602.10 77.44 600.87 78.00C600.66 78.09 600.07 78.46 599.55 78.81L598.60 79.45L596.47 77.09C591.38 71.46 586.19 69.00 579.40 69.00C569.30 69.00 561.81 74.59 558.59 84.55C557.96 86.51 557.86 87.56 557.86 92.00C557.87 97.73 558.28 99.65 560.38 103.73C561.66 106.21 566.07 110.78 568.33 111.95C573.10 114.42 579.02 115.25 584.19 114.17C589.28 113.11 592.73 110.83 597.28 105.52C598.68 103.89 598.71 103.88 599.60 104.39C600.09 104.68 601.38 105.40 602.46 105.99C603.53 106.58 605.18 107.52 606.11 108.07C607.56 108.92 609.94 110.25 612.80 111.81C614.31 112.63 615.00 113.18 615.00 113.56C615.00 114.75 612.22 118.51 608.87 121.86C602.88 127.83 596.78 130.82 587.83 132.17C584.78 132.63 577.71 133.04 576.50 132.83ZM663.67 132.81C655.89 131.95 654.11 131.62 649.62 130.21C642.98 128.12 634.66 122.08 630.03 116.00C626.83 111.79 625.44 109.15 623.70 104.00C622.84 101.44 622.01 95.39 622.00 91.65C621.99 78.87 627.49 67.37 637.21 59.88C642.78 55.58 647.92 53.26 655.83 51.48C659.57 50.64 670.39 50.63 674.00 51.46C679.94 52.83 684.29 54.55 688.33 57.14C693.80 60.64 699.73 67.34 702.37 73.01C705.28 79.24 706.83 87.64 706.37 94.67L706.17 97.83L675.35 97.92C656.19 97.97 644.41 98.12 644.21 98.32C644.00 98.53 644.10 99.16 644.48 100.07C644.81 100.86 645.32 102.10 645.61 102.83C647.30 107.06 652.02 111.25 657.33 113.25C661.96 114.99 669.13 115.46 674.50 114.37C677.59 113.75 681.76 112.26 682.69 111.46C682.98 111.21 683.33 111.00 683.47 111.00C683.60 111.00 684.81 110.17 686.15 109.17C687.49 108.16 688.70 107.33 688.83 107.33C689.26 107.33 701.00 118.73 701.00 119.14C701.00 119.36 700.06 120.47 698.92 121.60C692.95 127.51 685.86 130.86 676.51 132.20C673.08 132.69 665.72 133.04 663.67 132.81ZM240.78 131.06C240.45 130.74 240.33 129.43 240.33 126.17C240.33 121.84 240.36 121.69 241.21 120.67C242.04 119.68 249.98 112.27 258.17 104.84C272.93 91.44 275.01 88.86 274.99 83.91C274.97 77.80 269.83 74.51 262.08 75.66C258.05 76.25 255.61 77.48 252.34 80.56C250.79 82.02 249.49 82.98 249.25 82.87C249.02 82.75 248.38 82.39 247.83 82.05C247.28 81.72 245.63 80.80 244.17 80.00C242.70 79.20 240.75 78.14 239.83 77.63C238.92 77.13 238.12 76.49 238.06 76.21C237.91 75.49 240.28 72.46 242.39 70.65C246.60 67.06 250.63 65.07 257.00 63.46C259.00 62.96 260.70 62.83 265.50 62.84C272.56 62.85 274.35 63.18 280.50 65.60C281.23 65.89 282.07 66.32 282.36 66.56C282.65 66.80 282.99 67.00 283.12 67.00C283.63 67.00 286.93 69.72 287.92 70.95C289.21 72.56 290.76 75.61 291.46 77.95C292.94 82.85 291.51 89.78 287.90 95.31C286.21 97.90 275.46 108.35 266.03 116.57C265.36 117.15 264.99 117.72 265.13 117.95C265.31 118.23 269.17 118.33 279.69 118.33L294.00 118.33L294.00 124.79L294.00 131.26L280.58 131.46C259.78 131.78 241.32 131.60 240.78 131.06ZM327.42 131.41C327.09 131.19 326.98 121.88 326.92 87.48L326.83 43.83L310.02 43.75C297.07 43.68 293.14 43.57 292.94 43.25C292.58 42.68 292.60 25.75 292.96 25.52C293.16 25.40 378.36 25.21 383.59 25.32C383.92 25.33 383.99 27.27 383.92 34.42L383.83 43.50L367.36 43.59C356.37 43.64 350.75 43.79 350.47 44.03C350.12 44.31 350.06 52.80 350.15 87.49C350.20 111.19 350.16 130.75 350.04 130.94C349.78 131.36 328.03 131.81 327.42 131.41ZM389.12 131.41C388.83 131.23 388.71 121.01 388.62 91.94C388.56 70.36 388.61 52.61 388.73 52.49C388.95 52.27 408.71 52.26 408.93 52.48C409.00 52.55 409.14 54.95 409.24 57.81C409.35 60.66 409.53 63.00 409.64 63.00C409.76 63.00 410.64 62.11 411.60 61.01C413.86 58.45 416.91 56.12 419.83 54.73C424.31 52.61 428.86 51.46 434.17 51.11C436.62 50.95 437.25 51.00 437.59 51.41C437.91 51.79 437.99 54.22 437.92 61.54L437.83 71.17L433.50 71.23C429.30 71.30 425.73 71.82 423.33 72.73C417.93 74.77 413.57 79.68 411.57 86.00C410.91 88.07 410.87 89.08 410.75 109.50C410.68 121.23 410.52 130.93 410.39 131.06C410.08 131.37 389.59 131.71 389.12 131.41ZM485.83 116.45C490.63 114.91 494.26 112.42 496.12 109.36C497.63 106.88 498.03 105.04 497.93 100.98L497.83 97.17L488.00 97.07C474.74 96.95 471.83 97.55 468.42 101.12C466.74 102.88 466.00 104.80 466.00 107.42C466.01 112.32 469.99 116.34 475.50 117.03C478.34 117.39 483.87 117.08 485.83 116.45ZM179.17 111.34C186.18 109.83 190.89 107.37 195.60 102.75C199.29 99.13 201.90 94.76 203.41 89.67C203.71 88.66 204.13 87.23 204.35 86.50C204.57 85.77 204.82 82.59 204.91 79.43C205.08 73.36 204.78 70.97 203.29 66.51C200.04 56.87 192.56 49.11 183.33 45.85C180.47 44.84 175.34 44.00 172.01 44.00C159.25 44.00 148.01 50.81 142.57 61.83C139.86 67.31 139.19 69.50 138.63 74.58C138.30 77.57 138.30 79.10 138.64 82.08C139.04 85.68 140.10 90.15 140.71 90.82C140.87 90.99 141.00 91.34 141.00 91.59C141.00 92.42 143.36 96.79 145.04 99.05C147.37 102.20 150.71 105.22 154.09 107.25C155.70 108.21 157.20 109.00 157.44 109.00C157.67 109.00 158.01 109.13 158.18 109.29C158.58 109.64 162.19 110.83 164.83 111.47C167.89 112.21 175.45 112.14 179.17 111.34ZM684.32 83.85C684.60 83.51 684.62 83.19 684.36 82.71C684.16 82.34 684.00 81.74 684.00 81.37C684.00 80.99 683.76 80.12 683.46 79.43C681.14 74.03 677.69 70.58 672.83 68.79C667.72 66.90 661.54 66.89 656.50 68.77C652.51 70.25 648.61 73.53 646.46 77.21C645.35 79.09 643.90 83.26 644.13 83.87C644.41 84.57 683.73 84.56 684.32 83.85Z"/><path id="footprints" fill="currentColor" fill-rule="evenodd" d="M789.76 151.20C787.39 150.32 786.47 149.76 784.64 148.10C781.76 145.50 779.31 141.15 777.53 135.50C776.98 133.74 774.93 127.75 774.10 125.50C773.56 124.00 771.68 120.18 770.01 117.17C768.92 115.21 767.70 113.27 762.84 105.83C758.24 98.79 756.56 95.50 755.62 91.67C753.85 84.45 755.99 77.80 762.18 71.29C767.96 65.21 773.91 61.31 781.33 58.76C789.61 55.91 797.09 57.52 799.81 62.73C801.99 66.90 802.49 70.50 801.47 74.57C800.52 78.34 798.94 80.84 794.20 86.00C790.99 89.50 788.25 93.25 786.96 95.91C785.89 98.11 785.87 98.28 785.87 102.50C785.88 106.19 785.99 107.10 786.61 108.61C788.50 113.18 791.51 116.58 798.01 121.50C802.91 125.20 805.10 127.41 806.77 130.30C808.59 133.46 809.13 135.47 809.12 139.00C809.12 141.71 808.99 142.44 808.23 144.07C806.63 147.54 803.49 150.25 799.71 151.44C797.02 152.28 792.39 152.17 789.76 151.20ZM831.17 125.99C826.98 125.41 822.13 121.92 819.97 117.93C818.86 115.88 818.83 115.74 818.84 112.00C818.86 108.34 818.91 108.07 819.95 106.01C821.79 102.37 824.08 99.93 829.33 96.00C839.74 88.21 842.84 83.10 842.16 74.86C841.79 70.30 839.98 67.22 833.85 60.67C830.20 56.76 827.63 52.83 826.46 49.33C826.01 48.00 825.85 46.59 825.87 44.17C825.89 41.13 825.99 40.63 826.96 38.60C828.17 36.08 830.47 33.77 832.95 32.60C834.30 31.97 835.07 31.87 838.83 31.87C842.82 31.86 843.43 31.94 846.45 32.93C855.03 35.74 862.56 41.02 867.58 47.75C871.26 52.68 872.63 56.26 872.65 61.00C872.68 66.16 870.36 72.56 866.36 78.32C858.45 89.73 854.23 97.56 851.35 106.17C848.84 113.67 848.73 113.96 847.25 116.74C843.56 123.69 837.93 126.92 831.17 125.99ZM748.76 75.03C746.70 73.54 745.78 70.37 746.82 68.36C747.52 67.01 748.74 66.80 750.41 67.74C752.36 68.83 753.71 70.64 753.91 72.45C754.28 75.75 751.61 77.09 748.76 75.03ZM755.93 67.06C754.54 66.90 752.22 64.13 751.75 62.07C751.05 59.04 752.15 57.00 754.48 57.00C756.54 57.00 758.18 58.37 759.42 61.11C760.22 62.89 760.15 64.29 759.18 65.71C758.36 66.93 757.57 67.26 755.93 67.06ZM763.14 59.37C761.57 58.42 760.13 56.46 759.49 54.43C759.01 52.88 758.98 52.38 759.32 51.24C760.27 48.08 763.35 46.94 765.54 48.94C766.81 50.09 767.71 51.44 768.24 52.99C769.81 57.47 766.60 61.48 763.14 59.37ZM773.93 54.22C771.25 53.01 769.00 48.84 769.00 45.08C769.00 41.53 770.69 39.83 774.08 39.96C776.57 40.06 780.00 45.60 780.00 49.52C780.00 52.61 776.45 55.36 773.93 54.22ZM789.23 51.99C787.40 51.44 785.01 49.29 783.94 47.21C782.23 43.88 781.67 39.99 782.49 37.13C783.12 34.96 783.55 34.35 785.47 32.95C788.38 30.82 792.99 32.52 795.10 36.50C797.07 40.22 797.68 46.04 796.36 48.60C794.83 51.58 792.13 52.87 789.23 51.99ZM875.26 49.42C873.85 47.80 873.69 46.54 874.65 44.44C875.34 42.91 877.66 40.99 878.80 41.01C879.61 41.02 880.74 41.88 881.28 42.91C882.64 45.45 879.77 50.00 876.81 50.00C876.24 50.00 875.54 49.74 875.26 49.42ZM869.83 41.02C868.46 40.46 867.86 39.38 867.86 37.50C867.86 35.98 868.04 35.44 869.10 33.91C871.18 30.89 872.98 30.36 875.17 32.13C876.09 32.88 876.17 33.10 876.17 35.08C876.17 37.06 876.07 37.34 874.93 38.74C873.75 40.17 871.92 41.36 870.95 41.31C870.70 41.30 870.20 41.17 869.83 41.02ZM861.10 34.01C859.63 33.12 859.00 31.73 859.00 29.43C859.01 27.12 860.24 24.67 862.23 23.04C863.95 21.62 865.29 21.65 866.92 23.14L868.17 24.28L868.17 27.08C868.17 29.64 868.09 29.99 867.23 31.12C865.89 32.87 865.00 33.65 863.71 34.19C862.30 34.79 862.38 34.79 861.10 34.01ZM849.99 28.25C848.17 27.33 847.37 25.86 847.35 23.40C847.32 19.80 849.41 16.16 852.39 14.64C853.81 13.91 854.47 13.99 855.82 15.05C859.57 18.00 858.08 25.91 853.30 28.35C851.72 29.16 851.79 29.16 849.99 28.25ZM834.17 26.20C830.51 24.60 829.27 20.13 830.82 14.17C833.05 5.61 841.39 3.39 844.47 10.54C845.42 12.73 845.12 18.23 843.92 20.68C841.59 25.45 837.61 27.71 834.17 26.20Z"/></svg><button type="button" class="menu-btn" data-menu-close aria-label="Close menu">${ic('x')}</button></div>
+      <div class="grp-l">Current inventory · ${YEAR}</div>
+      ${a(['goal', 'inventory', 'impact', 'interpretation'].includes(cur) ? cur : 'inventory', 'inv', 'Current inventory').replace(/aria-current="page"/, ['goal', 'inventory', 'impact', 'interpretation'].includes(cur) ? 'data-parent' : '')}
+      <div class="sub">${ph('goal', 1, 'Goal & scope')}${ph('inventory', 2, 'Inventory')}${ph('impact', 3, 'Impact assessment')}${ph('interpretation', 4, 'Interpretation')}</div>
+      <div class="grp-l grp-sep">Data and history</div>
+      ${a('activity', 'act', 'Activity data')}${a('dashboards', 'dash', 'Historic dashboards')}${a('reports', 'rep', 'Historic reports')}
+      <div class="grp-l grp-sep">Reduce</div>
+      ${a('recommendations', 'rec', 'Recommendations')}${a('solutions', 'sol', 'Solutions')}
+      <div class="spacer"></div>
+      <a href="#" class="quiet" data-dsettings title="Settings">${ic('set')}<span class="lbl">Settings</span></a>
+      <a href="#" class="quiet" data-signout title="Sign out">${ic('out')}<span class="lbl">Sign out</span></a>
+      <a href="#" class="quiet" data-collapse title="${ui.collapsed ? 'Expand' : 'Collapse'} the bar">${ic('col')}<span class="lbl">Collapse</span></a>
+      <div class="me" title="${esc(s.email || '')}"><span class="avatar">${esc(ini)}</span><div><b>${esc(s.name || '')}</b><span>${esc(load().company)} · Admin</span></div></div>`;
+    document.querySelectorAll('#sb .drawer-head [id]').forEach(n => n.removeAttribute('id'));
+  }
+
+  // ---------- shared bits ----------
+  function phases() {
+    const t = tot(load().lines), g = goalDone();
+    const it = [['goal', 'Goal & scope', g ? 'Complete' : 'To complete', g], ['inventory', 'Inventory', t.n ? (t.cnt.needs ? `<span class="warn">${t.cnt.needs} line${t.cnt.needs > 1 ? 's' : ''} need data</span>` : 'All lines have data') : 'No lines yet', t.n && !t.cnt.needs], ['impact', 'Impact assessment', t.total ? `${t1(t.total)} t CO₂e · GWP100` : 'Nothing to assess', false], ['interpretation', 'Interpretation', 'Checks and uncertainty', false]];
+    return `<nav class="phases" aria-label="LCA phases">${it.map(([v, l, s, d], i) => `<a href="?view=${v}" data-view="${v}" class="${d ? 'done' : ''}" ${ui.view === v ? 'aria-current="step"' : ''}><span class="n">${d && ui.view !== v ? '✓' : i + 1}</span><b>${l}</b><span>${s}</span></a>`).join('')}</nav>`;
+  }
+  const goalDone = () => { const g = load().goal; return !!(g.app && g.reason && g.boundary && g.fu && g.period); };
+  const head = (eyebrow, title, sub, acts = '') => `<div class="page-head"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ''}</div>${acts ? `<div class="acts">${acts}</div>` : ''}</div>`;
+  const note = () => `<div class="draft-note" role="note"><span aria-hidden="true">●</span><span><b>Design draft, option D.</b> SimaPro-style process sheet inside the four LCA phases. No backend: data stays in this browser, files are not read. Factors: CO2Trace library (US, AR6), rounded. Sun City Print Shop and its 2023–2025 data are fictional samples.</span></div>`;
+  const kpis = t => `<div class="kpis">
+    <div class="kpi total"><span class="label">Total ${YEAR} · location-based</span><b>${t1(t.total)}<small>t CO₂e</small></b><span class="m">${t.counted} counted lines${t.cnt.needs ? ` · ${t.cnt.needs} not counted yet` : ''}</span></div>
+    ${[1, 2, 3].map(s => `<div class="kpi"><span class="label"><span class="sc s${s}">S${s}</span> ${['', 'Direct', 'Electricity', 'Value chain'][s]}</span><b>${t1(t.by[s])}<small>t · ${pct(t.by[s], t.total)}%</small></b><div class="bar-track"><i style="width:${pct(t.by[s], t.total)}%;background:var(--s${s})"></i></div></div>`).join('')}
+    <div class="kpi"><span class="label">Status</span><b>${t.cnt.checked}<small>checked · ${t.cnt.ready} ready</small></b><span class="m" style="color:var(--warn)">${t.cnt.needs} need data</span></div>
+    <div class="kpi"><span class="label">Evidence</span><b>${pct(t.withFile, t.n)}%<small>with a receipt</small></b><div class="bar-track"><i style="width:${pct(t.withFile, t.n)}%;background:var(--ok)"></i></div></div></div>`;
+  const scTag = t => t ? (t.scope ? `<span class="sc s${t.scope}" title="GHG Protocol Scope ${t.scope}${t.s3 ? ', ' + INV.S3[t.s3] : ''}">S${t.scope}${t.s3 ? '·' + t.s3 : ''}</span>` : '<span class="sc s0" title="Not a GHG emission">—</span>') : '';
+  const sampleDoc = r => {
+    const t = LIB[r.type];
+    if (r.file && !r.file.sample) { const u = blobs[r.file.fid]; if (!u) return `<div class="doc-missing"><b>${esc(r.file.name)}</b><span class="muted">The file stayed in the browser tab where it was added. Upload it again to see it here.</span></div>`; if (/^image\//.test(r.file.type)) return `<img class="doc-img" src="${u}" alt="${esc(r.file.name)}">`; return `<div class="doc-missing"><b>${esc(r.file.name)}</b><span class="muted">Kept in this tab. Nothing is read from it in this draft; enter the values on the left.</span><a href="${u}" target="_blank" rel="noopener">Open the file</a></div>`; }
+    if (!r.file) return `<div class="doc-missing"><b>No receipt attached</b><span class="muted">Entered by hand. Attach the bill, invoice or report so a reviewer can check the line.</span></div>`;
+    const m = monthOf(r), amt = r.qty ? `${nf(r.qty, 2)} ${esc(r.unit)}` : '<span class="hl">illegible</span>';
+    return `<div class="doc"><div class="wm"><span>SAMPLE · FICTIONAL</span></div><div class="dh"><div><b>${esc(r.supplier || 'Unknown supplier')}</b><br><span style="color:#5A6A74">${esc(t?.doc || 'Document')}</span></div><div style="text-align:right">No. ${esc(r.ref || '—')}<br>${INV.dfmt(r.date)}</div></div><div>Bill to: <b>${esc(load().company)}</b><br>1400 Mills Ave, El Paso, TX</div><table><tr><th>Description</th><th>Period</th><th class="r">Quantity</th></tr><tr><td>${esc(t ? t.name : 'Item')}</td><td>${m >= 0 ? MONTHS[m] + ' ' + (r.y || YEAR) : 'Period not shown'}</td><td class="r"><span class="hl">${amt}</span></td></tr><tr class="tot"><td>Total due</td><td></td><td class="r">see original</td></tr></table></div>`;
+  };
+
+  // ---------- phase 1: goal & scope ----------
+  function vGoal() {
+    const g = load().goal, f = (k, l, o = {}) => `<div class="field ${o.w2 ? 'w2' : ''}"><label for="g-${k}">${l}</label>${o.ta ? `<textarea id="g-${k}" data-g="${k}" placeholder="${o.ph || ''}">${esc(g[k])}</textarea>` : o.sel ? `<select id="g-${k}" data-g="${k}">${o.sel.map(v => `<option ${v === g[k] ? 'selected' : ''} ${o.dis?.includes(v) ? 'disabled' : ''}>${v}</option>`).join('')}</select>` : `<input id="g-${k}" data-g="${k}" value="${esc(g[k])}" placeholder="${o.ph || ''}">`}${o.hint ? `<span class="hint">${o.hint}</span>` : ''}</div>`;
+    return head(`Current inventory · ${YEAR} · Phase 1 of 4`, 'Goal and scope', 'What the study is for, what it covers and the rules it follows. The reference flow becomes the Products line of the process sheet.') + phases() + `
+      <div class="g2"><section class="card"><h3>Goal of the study</h3><div class="form-g">
+        ${f('app', 'Intended application', { sel: ['Annual corporate GHG inventory', 'Customer data request', 'Product carbon footprint (ISO 14067)'], dis: ['Product carbon footprint (ISO 14067)'] })}
+        ${f('audience', 'Intended audience')}
+        ${f('reason', 'Reasons for the study', { ta: 1, w2: 1, ph: 'e.g. know our footprint, answer customers, set a target' })}
+        ${f('standard', 'Standards followed', { w2: 1 })}</div></section>
+      <section class="card"><h3>Scope</h3><div class="form-g">
+        ${f('fu', 'Reference flow (the product output)', { hint: 'Shown as the Products line: amount 1, unit “p” (one year).' })}
+        ${f('period', 'Reporting period')}
+        ${f('boundary', 'Organisational boundary', { sel: ['Operational control', 'Financial control', 'Equity share'] })}
+        ${f('geo', 'Geography and grid')}
+        ${f('cutoff', 'Contribution cut-off (%)', { hint: 'Processes below it are grouped as “Remaining” in Impact assessment.' })}
+        <div class="field"><label>Impact method</label><input value="IPCC 2021 GWP100 (AR6)" disabled><span class="hint">Change it in Impact assessment.</span></div>
+        <div class="field w2"><label>Scope 3 categories included</label><div class="chips">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(c => `<label><input type="checkbox" data-s3="${c}" ${g.s3.includes(String(c)) ? 'checked' : ''}> ${c}</label>`).join('')}</div><span class="hint">Lines in the sheet cover categories 1 (paper), 4 (freight), 5 (waste) and 6 (travel).</span></div>
+        ${f('excl', 'Exclusions and assumptions', { ta: 1, w2: 1, ph: 'What is left out and why' })}</div></section></div>
+      <div class="ctl"><button class="btn primary" data-view="inventory">Continue to the inventory</button><span class="note">${goalDone() ? 'Goal and scope complete.' : 'Fill in the reasons for the study to complete this phase.'}</span></div>`;
+  }
+
+  // ---------- phase 2: inventory as a process sheet ----------
+  function rowHtml(r) {
+    const s = status(r), t = LIB[r.type], e = kg(r), sec = secOf(r), open = !!ui.open[r.id];
+    const opts = (sec === 'unsorted' ? Object.keys(LIB) : Object.keys(LIB).filter(k => LIB[k].sec === sec)).map(k => `<option value="${k}" ${k === r.type ? 'selected' : ''}>${esc(LIB[k].ds)}</option>`).join('');
+    const units = t ? [t.unit, ...Object.keys(t.alt)].map(u => `<option ${u === (r.unit || t.unit) ? 'selected' : ''}>${u}</option>`).join('') : '<option value="">—</option>';
+    const meta = metaOf(r);
+    return `<tr class="row ${s} ${r.fresh ? 'flash' : ''}" data-id="${r.id}">
+      <td class="w-st c-st"><span class="st ${s}">${STATUS[s]}</span></td>
+      <td class="w-nm nm"><input class="cell" data-k="name" value="${esc(r.name)}" placeholder="Name" aria-label="Name"><span class="meta">${esc(meta)}</span></td>
+      <td class="w-ds c-ds"><select class="cell ${r.type ? '' : 'empty'}" data-k="type" aria-label="Library dataset">${r.type ? '' : '<option value="">Choose a dataset…</option>'}${opts}</select><span class="libref">${t ? `<i>CO2T</i><span title="${esc(t.src)}">${esc(t.src)} · ${t.ef.toLocaleString('en-US')} kg CO₂e/${t.unit}</span>` : r.guessed === false && r.file ? '<span>Pick the dataset this receipt is for</span>' : '<span>Not linked to a dataset yet</span>'}</span></td>
+      <td class="w-qty c-qty"><input class="cell num ${r.qty > 0 ? '' : 'empty'}" type="number" min="0" step="any" inputmode="decimal" data-k="qty" value="${r.qty}" placeholder="Amount" aria-label="Amount"></td>
+      <td class="w-unit c-unit"><select class="cell" data-k="unit" aria-label="Unit">${units}</select></td>
+      <td class="w-dist c-dist"><select class="cell" data-k="dist" aria-label="Distribution"><option value="none" ${r.dist !== 'logn' ? 'selected' : ''}>Undefined</option><option value="logn" ${r.dist === 'logn' ? 'selected' : ''}>Lognormal</option></select></td>
+      <td class="w-sd c-sd"><input class="cell num" data-k="sd2" type="number" min="1" step="0.01" value="${esc(r.sd2)}" ${r.dist === 'logn' ? '' : 'disabled'} placeholder="SD²" aria-label="SD squared" title="Squared geometric standard deviation (95% range = amount ÷ SD² to amount × SD²)"></td>
+      <td class="w-cm c-cm"><input class="cell" data-k="comment" value="${esc(r.comment)}" placeholder="Comment" aria-label="Comment"></td>
+      <td class="w-sc c-sc">${scTag(t)}</td>
+      <td class="w-t t ${e ? '' : 'zero'}">${e ? tf(e) : t && t.ef === 0 && r.qty > 0 ? '0' : '—'}</td>
+      <td class="w-tools c-tools"><div class="tools"><span class="icon-btn ${r.file ? 'has' : 'no'}" title="${r.file ? 'Receipt: ' + esc(r.file.name) : 'No receipt: click to attach'}">${ic('clip', '')}${r.file ? '' : '<input type="file" data-attach aria-label="Attach receipt">'}</span>
+        <input type="checkbox" class="ok-box" data-k="checked" ${r.checked ? 'checked' : ''} ${s === 'needs' ? 'disabled' : ''} title="Checked against the receipt" aria-label="Checked">
+        <button type="button" class="icon-btn" data-exp aria-expanded="${open}" title="Details and receipt" aria-label="Details">${ic('down', '')}</button>
+        <button type="button" class="icon-btn" data-del title="Remove line" aria-label="Remove line">${ic('trash', '')}</button></div></td></tr>` + (open ? detHtml(r) : '');
+  }
+  const MQ = [matchMedia('(max-width: 1400px)'), matchMedia('(max-width: 1640px)')];
+  const NC = () => MQ[0].matches || (MQ[1].matches && !ui.collapsed) ? 10 : 11; // the comment column hides on narrower screens
+  MQ.forEach(m => m.addEventListener('change', () => ui.view === 'inventory' && INV.session() && render()));
+  const metaOf = r => [r.supplier, r.ref, r.date ? INV.dfmt(r.date) : ''].filter(Boolean).join(' · ') || (r.file ? 'from ' + r.file.name : 'entered by hand');
+  function detHtml(r) {
+    const t = LIB[r.type], e = kg(r), lo = r.dist === 'logn' && +r.sd2 > 1 && r.qty > 0 ? (e ? `95% range ${tf(e / r.sd2)}–${tf(e * r.sd2)} t CO₂e` : `95% range ${nf(r.qty / r.sd2, 1)}–${nf(r.qty * r.sd2, 1)} ${esc(r.unit)}`) + ` (lognormal, SD² ${esc(r.sd2)})` : r.dist === 'logn' ? 'Lognormal: enter the amount and SD².' : 'No uncertainty given (Undefined).';
+    return `<tr class="det" data-det="${r.id}"><td colspan="${NC()}"><div class="det-in" data-id="${r.id}"><div class="det-f">
+      <div class="field w2"><label>Supplier</label><input data-k="supplier" value="${esc(r.supplier)}" placeholder="e.g. El Paso Electric"></div>
+      <div class="field"><label>Reference</label><input data-k="ref" value="${esc(r.ref)}" placeholder="Invoice no."></div>
+      <div class="field"><label>Date</label><input data-k="date" type="date" value="${r.date}"></div>
+      <div class="field w4"><label>Comment</label><textarea data-k="comment" placeholder="Where the amount comes from, assumptions">${esc(r.comment)}</textarea></div>
+      <p class="calc">${t ? `${t.ef.toLocaleString('en-US')} kg CO₂e/${t.unit} · ${esc(t.src)} · ${t.scope ? `Scope ${t.scope}${t.s3 ? ', ' + INV.S3[t.s3] : ''}` : 'no GHG scope (elementary flow)'} · ${lo}` : 'Pick a dataset to see the factor.'}</p></div>
+      <div class="det-doc">${sampleDoc(r)}</div></div></td></tr>`;
+  }
+  function vInventory() {
+    const s = load(), t = tot(s.lines);
+    const acts = `<button class="btn" data-dsample>Load sample year</button><button class="btn" data-dcsv>Export CSV</button><button class="btn primary" data-view="impact">Impact assessment →</button>`;
+    let body;
+    if (!s.lines.length) body = `<div class="empty-ps"><div class="eyebrow">First visit</div><h2>The process sheet is empty</h2><p>Every receipt becomes one input or output line: electricity and gas bills go to the inputs, refrigerant service reports to emissions to air, hauler invoices to waste. Drop files above, add a line in any section, or start from a sample year.</p><div class="acts"><button class="btn primary" data-dsample>Load sample year</button><button class="btn" data-addsec="mat">+ Add a line</button></div></div>`;
+    else {
+      const match = r => (ui.filt === 'all' || status(r) === ui.filt) && (!ui.q || `${r.name} ${r.supplier} ${r.ref} ${LIB[r.type]?.ds || ''} ${r.comment} ${r.file?.name || ''}`.toLowerCase().includes(ui.q));
+      const rows = s.lines.filter(match), by = {}; rows.forEach(r => (by[secOf(r)] = by[secOf(r)] || []).push(r));
+      let h = '';
+      if (by.unsorted) h += `<tr class="sec"><td colspan="7"><div class="sec-t"><span class="io" style="background:var(--warn-bg);color:var(--warn)">To sort</span><b>Not linked to a section yet</b><span class="muted">· pick the dataset and the line moves to its section</span></div></td><td class="c-cm"></td><td></td><td class="t"></td><td></td></tr>` + by.unsorted.map(rowHtml).join('');
+      for (const sec of SECS) {
+        const L = by[sec.id] || [], sub = L.reduce((a, r) => a + kg(r), 0);
+        h += `<tr class="sec"><td colspan="7"><div class="sec-t"><span class="io">${sec.io}</span><b>${sec.t}</b><span class="muted">${sec.id === 'prod' ? sec.d : `${L.length} line${L.length === 1 ? '' : 's'} · ${sec.d}`}</span>${sec.add?.length ? `<button class="add" data-addsec="${sec.id}">+ Add</button>` : ''}</div></td><td class="c-cm"></td><td></td><td class="t">${sec.id === 'prod' || sec.id === 'nature' || sec.id === 'watersoil' ? '' : tf(sub)}</td><td></td></tr>`;
+        if (sec.id === 'prod') h += `<tr class="row ready prod"><td class="w-st c-st"><span class="st checked">Reference</span></td><td class="nm"><input class="cell" value="${esc(s.company)}, operations ${YEAR}" disabled aria-label="Product"><span class="meta">${esc(s.goal.fu)}</span></td><td class="c-ds"><span class="libref"><i>OUT</i><span>Allocation 100% · ${esc(s.goal.boundary)} · ${esc(s.goal.period)}</span></span></td><td class="c-qty"><input class="cell num" value="1" disabled aria-label="Amount"></td><td class="c-unit"><input class="cell" value="p" disabled aria-label="Unit"></td><td class="c-dist"></td><td class="c-sd"></td><td class="c-cm"><span class="meta">Edit in Goal & scope</span></td><td class="c-sc"></td><td class="t zero">${tf(t.total)}</td><td class="c-tools"><div class="tools"><button class="btn sm" data-view="goal">Goal & scope</button></div></td></tr>`;
+        else if (!L.length) h += `<tr class="none"><td colspan="${NC()}">${ui.filt !== 'all' || ui.q ? 'No lines match this filter.' : sec.ex}</td></tr>`;
+        else h += L.map(rowHtml).join('');
+        if (sec.id === 'air') { // combustion emissions are calculated from the fuel inputs, as a process shows them; counted there
+          const f = ['natgas', 'diesel', 'gasoline'].filter(k => t.type[k]); if (f.length) {
+            const co2 = f.reduce((a, k) => a + t.type[k] * LIB[k].gas.co2, 0), oth = f.reduce((a, k) => a + t.type[k] * (1 - LIB[k].gas.co2), 0);
+            const cr = (a, b, q, u, v) => `<tr class="calc"><td class="c-st"><span class="pill">Calculated</span></td><td class="nm" colspan="2">${a}<span class="meta">${b}</span></td><td class="r">${q}</td><td>${u}</td><td colspan="2"></td><td class="c-cm"></td><td></td><td class="t zero">(${v})</td><td></td></tr>`;
+            h += cr('Carbon dioxide, fossil', `from the fuel inputs above (${f.map(k => LIB[k].nm.toLowerCase()).join(', ')}) · already counted there`, nf(co2, 0), 'kg', tf(co2)) + cr('Methane and dinitrogen monoxide', 'from the fuel inputs · already counted there', nf(oth, 1), 'kg CO₂e', tf(oth, 3));
+          }
+        }
+      }
+      h += `<tr class="foot"><td colspan="7">Total · ${t.counted} of ${t.n} lines counted · IPCC 2021 GWP100</td><td class="c-cm"></td><td></td><td class="t">${tf(t.total)}</td><td class="muted" style="font-weight:400;font-size:12px">t CO₂e</td></tr>`;
+      body = `<div class="tbl-scroll"><table class="ps"><thead><tr><th class="w-st">Status</th><th class="w-nm">Name</th><th class="w-ds">Dataset (library process)</th><th class="w-qty r">Amount</th><th class="w-unit">Unit</th><th class="w-dist">Distribution</th><th class="w-sd r">SD²</th><th class="w-cm c-cm">Comment</th><th class="w-sc">Scope</th><th class="w-t r">t CO₂e</th><th class="w-tools r">Receipt · ✓ · more</th></tr></thead><tbody>${h}</tbody></table></div>`;
+    }
+    const g = s.goal;
+    return head(`Current inventory · ${YEAR} · Phase 2 of 4`, 'Inventory: process sheet', 'One process for the whole company year. Inputs and outputs are entered as in an LCA process; each line keeps its receipt, dataset, uncertainty and GHG Protocol scope.', acts) + phases() + kpis(t) + `
+      <div class="proc" aria-label="Process documentation"><div><span class="label">Process</span><span>${esc(s.company)} · operations ${YEAR}</span></div><div><span class="label">Category</span><span>Corporate inventory</span></div><div><span class="label">Time period</span><span>${esc(g.period)}</span></div><div><span class="label">Geography</span><span>${esc(g.geo)}</span></div><div><span class="label">Boundary</span><span>${esc(g.boundary)}</span></div><div><span class="label">Standards</span><span>${esc(g.standard)}</span></div></div>
+      <section class="card sheet" aria-label="Process sheet">
+        <label class="strip" id="strip"><input type="file" multiple accept="image/*,application/pdf,.xml,.csv,.xlsx">
+          <svg viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
+          <p><b>Drop receipts here</b> <span>or click to choose. Each file becomes a line in its section (guessed from the file name); files stay in this browser.</span></p></label>
+        <div class="lbar"><div class="seg seg-sm" role="group" aria-label="Status">${['all', 'needs', 'ready', 'checked'].map(f => `<button data-f="${f}" aria-pressed="${ui.filt === f}">${f === 'all' ? 'All' : STATUS[f]}${f === 'all' ? '' : ' · ' + t.cnt[f]}</button>`).join('')}</div><span class="grow"></span><input type="search" id="q" value="${esc(ui.q)}" placeholder="Search name, supplier, dataset…" aria-label="Search"></div>
+        <div id="sheet">${body}</div></section>`;
+  }
+
+  // ---------- phase 3: impact assessment ----------
+  function contrib(t, by) {
+    const rows = by === 'section' ? Object.entries(t.sec).map(([k, v]) => ({ k, n: SEC[k].t.replace(/^Inputs from technosphere: |^Outputs to technosphere: |^Outputs: /, ''), sub: SEC[k].io, v, c: { mat: 'mat', elec: 'elec', transport: 'transport', air: 'refrig', waste: 'waste' }[k] || 'custom' }))
+      : Object.entries(t.type).map(([k, v]) => ({ k, n: LIB[k].ds, sub: `${nf(t.qty[k], k === 'refrig' ? 1 : 0)} ${LIB[k].unit} · ${SEC[LIB[k].sec].t.replace(/^.*: /, '')}`, v, c: LIB[k].kind, sc: LIB[k] }));
+    return rows.sort((a, b) => b.v - a.v);
+  }
+  const cutVal = () => ui.cut ?? (+load().goal.cutoff || 1);
+  function netSvg(t, rows, cut) {
+    const show = rows.filter(r => r.v / t.total * 100 >= cut), rest = rows.filter(r => r.v / t.total * 100 < cut), restV = rest.reduce((a, r) => a + r.v, 0);
+    const kids = show.concat(rest.length ? [{ n: `Remaining processes (${rest.length})`, v: restV, c: 'custom', sub: `below ${cut}% cut-off` }] : []);
+    const W = Math.max(900, kids.length * 128), bw = Math.min(150, W / kids.length - 14), bh = 74, rw = 260, ry = 14, ky = 196, H = ky + bh + 12;
+    const rx = W / 2 - rw / 2, th = (v, x, y, h, c) => `<rect x="${x}" y="${y + 6}" width="8" height="${h - 12}" rx="2" fill="var(--surface-2)"/><rect x="${x}" y="${y + 6 + (h - 12) * (1 - v)}" width="8" height="${(h - 12) * v}" rx="2" fill="var(--c-${c})"/>`;
+    const wrap = (s, n) => { const w = s.split(' '), L = ['']; for (const x of w) { if ((L[L.length - 1] + ' ' + x).trim().length > n && L.length < 2) L.push(x); else L[L.length - 1] = (L[L.length - 1] + ' ' + x).trim(); } if (L[1] && L[1].length > n) L[1] = L[1].slice(0, n - 1) + '…'; return L; };
+    let g = `<rect class="box root" x="${rx}" y="${ry}" width="${rw}" height="${bh}" rx="10"/>${th(1, rx + rw - 16, ry, bh, 'elec').replace('var(--c-elec)', 'var(--brand)')}<text x="${rx + 14}" y="${ry + 24}" style="font-weight:600">${esc(load().company)}, operations ${YEAR}</text><text class="v" x="${rx + 14}" y="${ry + 44}">1 p · reference flow</text><text x="${rx + 14}" y="${ry + 62}" style="font-weight:600">${t1(t.total)} t CO₂e · 100%</text>`;
+    kids.forEach((k, i) => {
+      const cx = W / kids.length * (i + .5), x = cx - bw / 2, sw = Math.max(1.5, 22 * k.v / t.total), f = k.v / t.total;
+      g += `<path class="lk" d="M${cx} ${ky} C ${cx} ${ky - 50}, ${W / 2} ${ry + bh + 40}, ${W / 2} ${ry + bh}" stroke-width="${sw}"/>`;
+      const L = wrap(k.n.replace(/ \{.*\}$/, ''), Math.floor(bw / 6.6));
+      g += `<g><title>${esc(k.n)}: ${tf(k.v)} t CO₂e (${p1(k.v, t.total)}%)</title><rect class="box" x="${x}" y="${ky}" width="${bw}" height="${bh}" rx="10"/>${th(f, x + bw - 14, ky, bh, k.c)}${L.map((l, j) => `<text x="${x + 10}" y="${ky + 18 + j * 14}">${esc(l)}</text>`).join('')}<text x="${x + 10}" y="${ky + 62}" style="font-weight:600">${tf(k.v)} t · ${p1(k.v, t.total)}%</text></g>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Process network: contribution of each process to the total">${g}</svg>`;
+  }
+  function vImpact() {
+    const t = tot(load().lines), cut = cutVal();
+    const acts = `<button class="btn" data-view="inventory">← Inventory</button><button class="btn primary" data-view="interpretation">Interpretation →</button>`;
+    const intro = head(`Current inventory · ${YEAR} · Phase 3 of 4`, 'Impact assessment', 'Characterisation turns each substance into CO₂e with the chosen method; the contribution analysis shows which processes matter.', acts) + phases();
+    const method = `<div class="method"><div class="field"><label for="meth">Method</label><select id="meth"><option selected>IPCC 2021 GWP100 (AR6)</option><option disabled>IPCC 2021 GWP20 · coming soon</option><option disabled>IPCC 2013 GWP100 (AR5, RENE México) · coming soon</option><option disabled>ReCiPe 2016 Midpoint (H) · coming soon</option><option disabled>EF 3.1 · coming soon</option><option disabled>TRACI 2.1 · coming soon</option></select></div><div class="field"><label>Impact category</label><select disabled><option>Climate change · kg CO₂e</option></select></div><p>One category: global warming over 100 years. Biogenic CO₂ and land use change are not assessed in this draft. Scope 2 is location-based (eGRID AZNM).</p></div>`;
+    if (!t.total) return intro + method + `<div class="card empty-ps"><h2>Nothing to assess yet</h2><p>Lines with a dataset and an amount show up here.</p><div class="acts"><button class="btn primary" data-view="inventory">Go to the inventory</button></div></div>`;
+    const subs = Object.entries(t.sub).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+    const char = `<section class="card"><div class="card-head"><h3>Characterisation by substance</h3><span class="note">kg CO₂e = mass × GWP100</span></div>
+      <div class="bar-track" style="height:14px;border-radius:6px">${subs.map(([k, v]) => `<i style="width:${v / t.total * 100}%;background:var(--c-${SUB[k].c})" title="${SUB[k].n}"></i>`).join('')}</div>
+      <table class="t mob-hide-3"><thead><tr><th>Substance</th><th class="r">Mass, kg</th><th class="r">GWP100</th><th class="r">kg CO₂e</th><th class="r">%</th></tr></thead><tbody>
+      ${subs.map(([k, v]) => `<tr><td><i class="dot" style="background:var(--c-${SUB[k].c})"></i> ${SUB[k].n}<div class="note">${SUB[k].pre ? 'already CO₂e in the dataset' : 'to air'}</div></td><td class="r">${SUB[k].pre ? '—' : nf(v / SUB[k].gwp, v / SUB[k].gwp < 10 ? 2 : 0)}</td><td class="r">${SUB[k].pre ? '—' : SUB[k].gwp.toLocaleString('en-US')}</td><td class="r">${nf(v)}</td><td class="r">${p1(v, t.total)}</td></tr>`).join('')}
+      <tr class="sum"><td>Total</td><td></td><td></td><td class="r">${nf(t.total)}</td><td class="r">100.0</td></tr></tbody></table>
+      <p class="note">Electricity, paper, transport and waste factors come as CO₂e per unit (not split by gas). Fuel gas splits follow the EPA Hub per-gas values; R-410A is 50/50 HFC-32/HFC-125 by mass.</p></section>`;
+    const rows = contrib(t, ui.group), show = rows.filter(r => r.v / t.total * 100 >= cut), rest = rows.filter(r => r.v / t.total * 100 < cut);
+    let cum = 0;
+    const con = `<section class="card"><div class="card-head"><h3>Process contribution</h3><div class="ctl"><div class="seg seg-sm" role="group" aria-label="Group by"><button data-grp="process" aria-pressed="${ui.group === 'process'}">By process</button><button data-grp="section" aria-pressed="${ui.group === 'section'}">By section</button></div><label for="cut">Cut-off <input type="range" id="cut" min="0" max="10" step="0.5" value="${cut}"> <b id="cutv">${cut}%</b></label></div></div>
+      <table class="t"><thead><tr><th>#</th><th>${ui.group === 'process' ? 'Process (dataset)' : 'Section'}</th><th class="r">t CO₂e</th><th class="r">%</th><th class="r">Cum. %</th><th class="bar-cell"></th></tr></thead><tbody>
+      ${show.map((r, i) => { cum += r.v; return `<tr><td class="muted">${i + 1}</td><td><i class="dot" style="background:var(--c-${r.c})"></i> ${esc(r.n)} ${r.sc ? scTag(r.sc) : ''}<div class="note">${esc(r.sub)}</div></td><td class="r">${tf(r.v)}</td><td class="r"><b>${p1(r.v, t.total)}</b></td><td class="r muted">${p1(cum, t.total)}</td><td class="bar-cell"><div class="bar-track"><i style="width:${r.v / rows[0].v * 100}%;background:var(--c-${r.c})"></i></div></td></tr>`; }).join('')}
+      ${rest.length ? `<tr class="rest"><td></td><td>Remaining processes (${rest.length}) · below ${cut}%<div class="note">${rest.map(r => esc(r.n.replace(/ \{.*\}$/, ''))).join(', ')}</div></td><td class="r">${tf(rest.reduce((a, r) => a + r.v, 0))}</td><td class="r">${p1(rest.reduce((a, r) => a + r.v, 0), t.total)}</td><td></td><td class="bar-cell"></td></tr>` : ''}
+      <tr class="sum"><td></td><td>Total</td><td class="r">${tf(t.total)}</td><td class="r">100.0</td><td></td><td class="bar-cell"></td></tr></tbody></table></section>`;
+    const net = `<section class="card"><div class="card-head"><h3>Process network</h3><span class="note">Line width and the bar on each box show the share of the total · processes below ${cut}% are grouped</span></div><div class="net">${netSvg(t, contrib(t, 'process'), cut)}</div></section>`;
+    return intro + method + `<div class="g-imp">${char}${con}</div>` + net;
+  }
+
+  // ---------- phase 4: interpretation ----------
+  function monteCarlo(lines, n = 1000) {
+    let s = 20251104; const rnd = () => { s |= 0; s = s + 0x6D2B79F5 | 0; let x = Math.imul(s ^ s >>> 15, 1 | s); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; };
+    const L = lines.map(r => ({ e: kg(r), sg: r.dist === 'logn' && +r.sd2 > 1 ? Math.log(+r.sd2) / 2 : 0 })).filter(x => x.e);
+    const out = [];
+    for (let i = 0; i < n; i++) { let tot = 0; for (const x of L) { if (!x.sg) { tot += x.e; continue; } const z = Math.sqrt(-2 * Math.log(rnd() || 1e-9)) * Math.cos(2 * Math.PI * rnd()); tot += x.e * Math.exp(x.sg * z); } out.push(tot); }
+    out.sort((a, b) => a - b); return { lo: out[Math.floor(n * .025)], hi: out[Math.floor(n * .975)], med: out[n / 2], mean: out.reduce((a, b) => a + b, 0) / n, all: out, nL: L.filter(x => x.sg).length };
+  }
+  function histo(mc, total) {
+    const W = 520, H = 150, B = 22, bins = 28, a = mc.all[0], b = mc.all[mc.all.length - 1], w = (b - a) / bins || 1, c = Array(bins).fill(0);
+    mc.all.forEach(v => c[Math.min(bins - 1, Math.floor((v - a) / w))]++); const mx = Math.max(...c), X = v => (v - a) / (b - a || 1) * W;
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Monte Carlo distribution of the total">${c.map((n, i) => `<rect x="${i * W / bins + 1}" y="${H - B - (H - B - 24) * n / mx}" width="${W / bins - 2}" height="${(H - B - 24) * n / mx}" rx="2" fill="${(a + (i + .5) * w) >= mc.lo && (a + (i + .5) * w) <= mc.hi ? 'var(--s2)' : 'var(--s3)'}"/>`).join('')}<line class="grid" x1="0" x2="${W}" y1="${H - B}" y2="${H - B}"/><line x1="${X(total)}" x2="${X(total)}" y1="17" y2="${H - B}" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="0" y="${H - 6}">${t1(a)} t</text><text x="${W}" y="${H - 6}" text-anchor="end">${t1(b)} t</text><text x="${X(total)}" y="12" text-anchor="middle">sheet total ${t1(total)} t</text></svg>`;
+  }
+  function checks(t, lines) {
+    const C = [], noFile = lines.filter(r => !r.file).length, needs = lines.filter(r => status(r) === 'needs');
+    if (needs.length) C.push(['warn', `${needs.length} line${needs.length > 1 ? 's' : ''} without an amount or dataset`, needs.map(r => esc(r.name || r.file?.name || 'Unnamed')).join(' · '), '<button class="btn sm" data-fix="needs">Fix in the sheet</button>']);
+    else if (lines.length) C.push(['ok', 'Every line has a dataset and an amount', 'Completeness check passed for the lines entered.', '']);
+    if (noFile) C.push(['warn', `${noFile} line${noFile > 1 ? 's' : ''} without a receipt`, 'Attach the document so a reviewer can check the amount (ISO 14064-3 evidence).', '']);
+    const top = contrib(t, 'process')[0]; if (top) C.push(['info', `Most significant issue: ${top.n.replace(/ \{.*\}$/, '').toLowerCase()} (${p1(top.v, t.total)}%)`, 'Check its amount and factor first; it drives the total and the uncertainty.', '']);
+    C.push(['info', 'Factor years differ from the data year', 'eGRID2023 and the 2024–2025 factor editions are applied to 2025 activity; acceptable when newer editions are not out yet. Say so in the report.', '']);
+    const g = load().goal, inc = g.s3.length; C.push([inc >= 15 ? 'ok' : 'info', `Scope 3: ${inc} of 15 categories marked included`, g.excl ? esc(g.excl) : 'Give a reason for each excluded category in Goal & scope.', '<button class="btn sm" data-view="goal">Goal & scope</button>']);
+    C.push(['info', 'Water withdrawn has no GWP100 factor', 'Kept as an elementary flow (inputs from nature); it adds nothing to t CO₂e.', '']);
+    return C;
+  }
+  function vInterp() {
+    const L = load().lines, t = tot(L);
+    const intro = head(`Current inventory · ${YEAR} · Phase 4 of 4`, 'Interpretation', 'Significant issues, completeness and uncertainty, before the numbers go into a report.', `<button class="btn" data-view="impact">← Impact assessment</button><button class="btn primary" data-view="reports">Reports</button>`) + phases();
+    if (!t.total) return intro + `<div class="card empty-ps"><h2>Nothing to interpret yet</h2><div class="acts"><button class="btn primary" data-view="inventory">Go to the inventory</button></div></div>`;
+    const mc = monteCarlo(L), rows = contrib(t, 'process'); let cum = 0; const pareto = rows.filter(r => { const keep = cum < t.total * .8; cum += r.v; return keep; });
+    return intro + `<div class="g2">
+      <section class="card"><h3>Significant issues</h3><p class="note">The ${pareto.length} processes that make up 80% of the total (Pareto):</p>
+        <table class="t"><tbody>${pareto.map(r => `<tr><td><i class="dot" style="background:var(--c-${r.c})"></i> ${esc(r.n)}</td><td class="r">${tf(r.v)} t</td><td class="r"><b>${p1(r.v, t.total)}%</b></td></tr>`).join('')}</tbody></table>
+        <div class="callout"><b>Draft conclusion.</b> ${t1(t.total)} t CO₂e for ${YEAR} (location-based). Purchased electricity is ${pct(t.by[2], t.total)}% of the total, so a renewable contract or on-site solar is the largest lever; paper stock is the largest value-chain item. <button class="linkish" data-view="recommendations">See recommendations</button></div></section>
+      <section class="card"><div class="card-head"><h3>Uncertainty</h3><span class="pill est">Monte Carlo · 1,000 runs</span></div>
+        ${histo(mc, t.total)}
+        <div class="g3" style="gap:10px"><div class="kpi"><span class="label">Median</span><b>${t1(mc.med)}<small>t</small></b></div><div class="kpi"><span class="label">95% interval</span><b>${t1(mc.lo)}–${t1(mc.hi)}<small>t</small></b></div><div class="kpi"><span class="label">Lines varied</span><b>${mc.nL}<small>of ${t.counted}</small></b></div></div>
+        <p class="note">Only lines with a lognormal distribution vary (amount × e<sup>σz</sup>, σ = ln(SD²)/2); factor uncertainty is not included yet. Sample SD² values are illustrative.</p></section></div>
+      <section class="card"><h3>Completeness and consistency checks</h3><div class="checks">${checks(t, L).map(([k, h, p, a]) => `<div class="ck ${k}"><i class="dot"></i><div><b>${h}</b><p>${p}</p></div><div>${a}</div></div>`).join('')}</div></section>`;
+  }
+
+  // ---------- activity data (all years) ----------
+  function vActivity() {
+    const f = ui.af, Y = years(), all = Y.slice().reverse().flatMap(y => linesOf(y).map(r => ({ r, y })));
+    const rows = all.filter(({ r, y }) => (f.year === 'all' || +f.year === y) && (f.sec === 'all' || secOf(r) === f.sec) && (f.scope === 'all' || String(LIB[r.type]?.scope ?? '') === f.scope) && (f.status === 'all' || status(r) === f.status) && (!f.q || `${r.name} ${r.supplier} ${r.ref} ${LIB[r.type]?.ds || ''}`.toLowerCase().includes(f.q)));
+    const sum = rows.reduce((a, { r }) => a + kg(r), 0);
+    const sel = (k, opts) => `<select data-af="${k}" aria-label="${k}">${opts.map(([v, l]) => `<option value="${v}" ${String(f[k]) === v ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
+    const tb = rows.length ? rows.slice(0, 400).map(({ r, y }) => { const t = LIB[r.type], s = status(r), e = kg(r); return `<tr><td>${y}</td><td class="muted">${r.date ? INV.dfmt(r.date) : '—'}</td><td>${esc(r.name || '—')}<div class="note">${esc([r.supplier, r.ref].filter(Boolean).join(' · '))}</div></td><td class="muted" style="font-size:12.5px">${esc(SEC[secOf(r)]?.t.replace(/^.*: /, '') || 'To sort')}</td><td class="r">${r.qty !== '' ? nf(r.qty, 2) : '—'} ${esc(r.unit)}</td><td>${scTag(t)}</td><td><span class="st ${s}">${STATUS[s]}</span></td><td>${r.file ? '<span class="pill ok">Receipt</span>' : '<span class="pill est">None</span>'}</td><td class="r"><b>${e ? tf(e) : '—'}</b></td><td class="r">${r.hist ? '<span class="pill">Closed year</span>' : `<button class="btn sm" data-goline="${r.id}">Open</button>`}</td></tr>`; }).join('') : `<tr><td colspan="10" class="muted" style="padding:24px 6px">${all.length ? 'No lines match these filters.' : 'No activity data yet. Load the sample years to see how it works.'}</td></tr>`;
+    return head('Activity data · all reporting years', 'Activity data', 'Every input and output line from every reporting year, with its section, GHG scope, status and receipt. Closed years are read-only.', `<button class="btn" data-dsample>Load sample years</button><button class="btn" data-dcsv>Export CSV (${YEAR})</button>`) + `
+      <section class="card sheet"><div class="lbar">
+        ${sel('year', [['all', 'All years'], ...Y.map(y => [String(y), y === YEAR ? `${y} (current)` : String(y)])])}
+        ${sel('sec', [['all', 'All sections'], ...SECS.filter(s => s.id !== 'prod').map(s => [s.id, s.t.replace(/^Inputs from technosphere: /, 'Technosphere: ').replace(/^Outputs to technosphere: /, '')]), ['unsorted', 'To sort']])}
+        ${sel('scope', [['all', 'All scopes'], ['1', 'Scope 1'], ['2', 'Scope 2'], ['3', 'Scope 3'], ['0', 'No scope (water)']])}
+        ${sel('status', [['all', 'Any status'], ['needs', 'Needs data'], ['ready', 'Ready'], ['checked', 'Checked']])}
+        <span class="grow"></span><input type="search" data-af="q" value="${esc(f.q)}" placeholder="Search…" aria-label="Search"></div>
+        <div class="lbar" style="font-size:13.5px"><span><b>${rows.length}</b> lines · <b>${tf(sum)}</b> t CO₂e${f.year === 'all' && Y.length > 1 ? ' <span class="muted">(sum across years)</span>' : ''}${rows.length > 400 ? ' · first 400 shown' : ''}</span></div>
+        <div class="tbl-scroll"><table class="t"><thead><tr><th>Year</th><th>Date</th><th>Name</th><th>Section</th><th class="r">Amount</th><th>Scope</th><th>Status</th><th>Receipt</th><th class="r">t CO₂e</th><th></th></tr></thead><tbody>${tb}</tbody></table></div></section>`;
+  }
+
+  // ---------- historic dashboards ----------
+  function yoySvg(T) {
+    const Y = Object.keys(T), W = 460, H = 220, B = 26, L = 36, mx = Math.ceil(Math.max(...Y.map(y => T[y].total)) / 20000) * 20, cw = (W - L) / Y.length;
+    let g = ''; for (let i = 0; i <= 4; i++) { const y = H - B - (H - B - 10) * i / 4; g += `<line class="grid" x1="${L}" x2="${W}" y1="${y}" y2="${y}"/><text x="${L - 6}" y="${y + 4}" text-anchor="end">${mx * i / 4}</text>`; }
+    Y.forEach((y, i) => { let yy = H - B; const x = L + i * cw + cw * .25, bw = cw * .5; [1, 2, 3].forEach(s => { const h = (H - B - 10) * T[y].by[s] / 1000 / mx; yy -= h; g += `<rect x="${x}" y="${yy}" width="${bw}" height="${Math.max(h - 1, 0)}" rx="2" fill="var(--s${s})"><title>${y} · Scope ${s}: ${t1(T[y].by[s])} t</title></rect>`; }); g += `<text x="${x + bw / 2}" y="${yy - 6}" text-anchor="middle" style="fill:var(--ink);font-weight:600">${t1(T[y].total)}</text><text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${y}${+y === YEAR ? ' (draft)' : ''}</text>`; });
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Total by year and scope, t CO₂e">${g}</svg>`;
+  }
+  function vDash() {
+    const Y = years(); if (!Y.includes(ui.hy)) ui.hy = YEAR;
+    const T = Object.fromEntries(Y.map(y => [y, tot(linesOf(y))])), t = T[ui.hy], prev = T[ui.hy - 1];
+    const d = (a, b) => { if (!b) return '<span class="muted" style="font-size:12.5px">first year</span>'; const v = (a - b) / b * 100; return `<span class="delta ${v <= 0 ? 'dn' : 'up'}">${v <= 0 ? '▼' : '▲'} ${Math.abs(v).toFixed(1)}% vs ${ui.hy - 1}</span>`; };
+    const intro = head('Historic dashboards', `Reporting year ${ui.hy}`, ui.hy === YEAR ? 'The current inventory, live from the process sheet (draft until every line is checked).' : `Closed year, sample data. Factors held at the draft’s ${YEAR} values so years compare like for like.`, `<div class="seg seg-sm" role="group" aria-label="Year">${Y.map(y => `<button data-hy="${y}" aria-pressed="${y === ui.hy}">${y}${y === YEAR ? ' · current' : ''}</button>`).join('')}</div>`);
+    if (!t.total && Y.length === 1) return intro + `<div class="card empty-ps"><h2>No reporting years yet</h2><p>Closed years appear here with their totals and monthly profile. Load the sample years to see 2023–2025 for the fictional print shop.</p><div class="acts"><button class="btn primary" data-dsample>Load sample years</button></div></div>`;
+    const cats = CAT_ORDER.filter(k => Y.some(y => T[y].cat[k]));
+    return intro + `<div class="yr-kpis">
+      <div class="kpi total"><span class="label">Total ${ui.hy}</span><b>${t1(t.total)}<small>t CO₂e</small></b><span class="m">${prev ? d(t.total, prev.total).replace('delta dn', 'delta').replace('delta up', 'delta') : 'base year'}</span></div>
+      ${[1, 2, 3].map(s => `<div class="kpi"><span class="label"><span class="sc s${s}">S${s}</span> Scope ${s}</span><b>${t1(t.by[s])}<small>t</small></b>${d(t.by[s], prev?.by[s])}</div>`).join('')}
+      <div class="kpi"><span class="label">Per employee</span><b>${(t.total / 1000 / 12).toFixed(1)}<small>t · 12 staff</small></b>${d(t.total, prev?.total)}</div></div>
+      <div class="g-imp" style="grid-template-columns:minmax(0,7fr) minmax(0,5fr)"><section class="card"><div class="card-head"><h3>Emissions by month, ${ui.hy}</h3><span class="note">t CO₂e</span></div>${INV.months(t)}${INV.legend(t, true)}</section>
+      <section class="card"><div class="card-head"><h3>Year over year</h3><span class="note">t CO₂e by scope</span></div>${yoySvg(T)}<div class="legend">${[1, 2, 3].map(s => `<span><i class="dot" style="background:var(--s${s})"></i>Scope ${s}</span>`).join('')}</div></section></div>
+      <section class="card"><h3>Comparison by category</h3><div class="tbl-scroll"><table class="t"><thead><tr><th>Category</th>${Y.map(y => `<th class="r">${y}</th>`).join('')}<th class="r">Δ vs previous</th>${Y.length > 2 ? `<th class="r">Δ vs ${Y[0]} (base)</th>` : ''}</tr></thead><tbody>
+      ${cats.map(k => { const v = Y.map(y => T[y].cat[k] || 0), a = v[v.length - 1], b = v[v.length - 2], c = v[0]; return `<tr><td><i class="dot" style="background:var(--c-${k})"></i> ${CATS[k]}</td>${v.map(x => `<td class="r">${tf(x)}</td>`).join('')}<td class="r">${b ? `<span class="delta ${a <= b ? 'dn' : 'up'}">${((a - b) / b * 100).toFixed(1)}%</span>` : '—'}</td>${Y.length > 2 ? `<td class="r">${c ? `<span class="delta ${a <= c ? 'dn' : 'up'}">${((a - c) / c * 100).toFixed(1)}%</span>` : '—'}</td>` : ''}</tr>`; }).join('')}
+      <tr class="sum"><td>Total</td>${Y.map(y => `<td class="r">${tf(T[y].total)}</td>`).join('')}<td class="r">${Y.length > 1 ? ((T[Y[Y.length - 1]].total / T[Y[Y.length - 2]].total - 1) * 100).toFixed(1) + '%' : '—'}</td>${Y.length > 2 ? `<td class="r">${((T[Y[Y.length - 1]].total / T[Y[0]].total - 1) * 100).toFixed(1)}%</td>` : ''}</tr></tbody></table></div>
+      <p class="note">Sample years are fictional (Sun City Print Shop). ${YEAR} still has ${T[YEAR].cnt.needs} line${T[YEAR].cnt.needs === 1 ? '' : 's'} without data, so its total will rise slightly once they are filled in.</p></section>`;
+  }
+
+  // ---------- historic reports ----------
+  function repList() {
+    const s = load(), Y = years(), T = Object.fromEntries(Y.map(y => [y, tot(linesOf(y))])), R = [];
+    R.push({ y: YEAR, n: 'GHG inventory report (ISO 14064-1)', d: TODAY, st: 'Draft', f: 'PDF', id: 'inv' }, { y: YEAR, n: 'LCA process sheet: inventory and impact assessment', d: TODAY, st: 'Draft', f: 'PDF', id: 'lca' }, { y: YEAR, n: 'Activity data', d: TODAY, st: 'Live', f: 'CSV', id: 'csv', live: 1 });
+    if (s.hist) R.push({ y: 2024, n: 'Customer data sheet · Desert Mutual Insurance', d: '2025-05-12', st: 'Sent', f: 'PDF' }, { y: 2024, n: 'Evidence pack (ISO 14064-3)', d: '2025-03-28', st: 'Internally reviewed', f: 'ZIP' }, { y: 2024, n: 'GHG inventory report (ISO 14064-1)', d: '2025-03-21', st: 'Final', f: 'PDF' }, { y: 2024, n: 'Activity data', d: '2025-03-21', st: 'Final', f: 'CSV' }, { y: 2023, n: 'GHG inventory report, base year (ISO 14064-1)', d: '2024-03-18', st: 'Final', f: 'PDF' }, { y: 2023, n: 'Activity data', d: '2024-03-18', st: 'Final', f: 'CSV' });
+    return R.map(r => ({ ...r, t: T[r.y]?.total || 0 }));
+  }
+  function vReports() {
+    const Y = years(), R = repList().filter(r => ui.rf === 'all' || r.y === +ui.rf);
+    const pill = s => `<span class="pill ${s === 'Final' || s === 'Sent' ? 'ok' : s === 'Draft' ? 'est' : 'blue'}">${s}</span>`;
+    return head('Historic reports', 'Reports by year', 'Every report and export generated for each reporting year. Closed-year files are samples; opening them is a stub in this draft.', `<div class="seg seg-sm" role="group" aria-label="Year"><button data-rf="all" aria-pressed="${ui.rf === 'all'}">All</button>${Y.map(y => `<button data-rf="${y}" aria-pressed="${String(ui.rf) === String(y)}">${y}</button>`).join('')}</div>`) + `
+      <section class="card sheet"><div class="tbl-scroll"><table class="t rep"><thead><tr><th style="padding-left:20px">Year</th><th>Report</th><th>Generated</th><th>Status</th><th class="r">Total, t CO₂e</th><th>Format</th><th class="r" style="padding-right:20px">Actions</th></tr></thead><tbody>
+      ${R.map(r => `<tr><td style="padding-left:20px"><b>${r.y}</b></td><td>${esc(r.n)}</td><td class="muted">${INV.dfmt(r.d)}</td><td>${pill(r.st)}</td><td class="r">${r.t ? t1(r.t) : '—'}</td><td><span class="ext">${r.f}</span></td><td style="padding-right:20px"><div class="acts">${r.live ? `<button class="btn sm" data-dcsv>Download</button>` : `<button class="btn sm" data-soon="Stub: the ${esc(r.n)} for ${r.y} would open in the report viewer.">Open</button><button class="btn sm" data-soon="Stub: download of the ${r.y} ${r.f} is not wired in this draft.">Download</button>`}</div></td></tr>`).join('')}</tbody></table></div></section>
+      <div class="callout">Generating a new report for ${YEAR} uses the homepage report builder (ISO 14064-1 inventory, ISO 14044 study, evidence pack). <a href="index.html#reports">Open Reports on the homepage</a></div>`;
+  }
+
+  // ---------- recommendations (screening estimates from the largest lines) ----------
+  function recList(t) {
+    const T = t.type, v = k => T[k] || 0, R = [
+      { id: 'ppa', t: 'Renewable electricity contract', s: v('elec'), mb: 1, k: 'elec', on: 'Electricity (12 bills)', how: 'Covers 100% of grid kWh with a contract or certificates that meet the GHG Protocol Scope 2 quality criteria.', note: 'Market-based saving only: the location-based total does not change.', sol: 'elec' },
+      { id: 'eff', t: 'Lighting and HVAC efficiency', s: v('elec') * .1, k: 'elec', on: 'Electricity', how: '−10% grid kWh (screening assumption, as in the homepage savings plan).', sol: 'elec' },
+      { id: 'paper', t: 'Paper with recycled content', s: v('paper') * .1, k: 'mat', on: 'Paper stock (4 orders)', how: 'Assumes a 10% lower factor per kg. Replace it with the supplier’s product footprint before relying on it.', sol: 'mat' },
+      { id: 'leak', t: 'Refrigerant leak checks', s: v('refrig') * .5, k: 'refrig', on: 'Refrigerant leakage, R-410A', how: 'Halves the yearly top-up through quarterly leak checks (homepage savings plan: leaks −50%).', sol: 'refrig' },
+      { id: 'gas', t: 'Heating controls and tune-up', s: v('natgas') * .1, k: 'fuel', on: 'Natural gas (5 bills)', how: '−10% gas through controls and a boiler tune-up.', sol: 'heat' },
+      { id: 'waste', t: 'Divert 30% of landfill waste to recycling', s: v('waste') * .3, k: 'waste', on: 'Landfill waste', how: '30% of the landfill tonnage goes to recycling, counted as near zero here (screening).', sol: 'waste' },
+      { id: 'fleet', t: 'Fleet efficiency: routing and eco-driving', s: v('diesel') * .1, k: 'fuel', on: 'Diesel, delivery van', how: '−10% litres (homepage savings plan: fuel −10%).', sol: 'fleet' },
+      { id: 'travel', t: 'Travel policy: virtual first', s: (v('flight') + v('car')) * .2, k: 'transport', on: 'Flights and car rental', how: '−20% passenger km.', sol: 'travel' },
+      { id: 'freight', t: 'Consolidate inbound freight', s: v('freight') * .1, k: 'transport', on: 'Road freight', how: '−10% t·km by ordering in fewer, fuller loads.', sol: 'travel' },
+    ];
+    return R.filter(r => r.s > 0).sort((a, b) => b.s - a.s);
+  }
+  function vRecs() {
+    const t = tot(load().lines), R = recList(t);
+    const intro = head(`Recommendations · ${YEAR} inventory`, 'Reduction actions', 'Ranked by the t CO₂e each could save a year, computed from the largest lines in the current sheet. Every figure is a screening estimate, not a quote or a guarantee.');
+    if (!R.length) return intro + `<div class="card empty-ps"><h2>No recommendations yet</h2><p>They are worked out from the lines in the inventory.</p><div class="acts"><button class="btn primary" data-dsample>Load sample year</button></div></div>`;
+    const loc = R.filter(r => !r.mb).reduce((a, r) => a + r.s, 0), elecLeft = (t.type.elec || 0) * .9, mb = loc + elecLeft;
+    return intro + `<div class="rec-sum"><div class="kpi"><span class="label">Location-based potential</span><b>−${t1(loc)}<small>t CO₂e/yr · ${pct(loc, t.total)}%</small></b><span class="m">All measures except the contract</span></div><div class="kpi"><span class="label">With a renewable contract (market-based)</span><b>−${t1(mb)}<small>t CO₂e/yr · ${pct(mb, t.total)}%</small></b><span class="m">Contract applied to the kWh left after efficiency</span></div><div class="kpi"><span class="label">Basis</span><b style="font-size:18px">${t1(t.total)} t · ${YEAR}</b><span class="m">${t.cnt.needs} lines still need data</span></div></div>
+      <div class="recs">${R.map((r, i) => `<article class="rec"><span class="rk">${i + 1}</span><div class="body"><h3>${r.t}</h3><div class="tags"><span class="pill est">Screening estimate</span>${r.mb ? '<span class="pill blue">Market-based</span>' : ''}<span class="pill"><i class="dot" style="background:var(--c-${r.k})"></i> ${esc(r.on)}</span></div><p>${r.how}${r.note ? ' ' + r.note : ''}</p><div><button class="linkish" data-sol="${r.sol}">See matching solutions</button></div></div>
+        <div class="sv"><b>−${tf(r.s)} t</b><span>CO₂e a year · ${p1(r.s, t.total)}% of the total</span><div class="bar-track"><i style="width:${r.s / R[0].s * 100}%"></i></div></div></article>`).join('')}</div>
+      <p class="note">Savings are not additive across measures on the same line (efficiency first, then the contract on what is left). Money savings and payback need prices; the homepage savings plan has the price grid.</p>`;
+  }
+
+  // ---------- solutions catalogue (illustrative, no vendors) ----------
+  const SOLS = [
+    { c: 'elec', i: 'sun', t: 'Rooftop solar PV', d: 'Panels on the shop roof feed part of the daytime load; the rest still comes from the grid.', k: 'elec', eff: 'Cuts grid kWh (location- and market-based)', cost: '$$$', time: '3–6 months' },
+    { c: 'elec', i: 'plug', t: 'Solar PPA or green tariff', d: 'A contract with a generator or the utility’s renewable tariff, with certificates retired for you.', k: 'elec', eff: 'Market-based Scope 2 towards zero', cost: '$', time: '1–3 months' },
+    { c: 'elec', i: 'sun', t: 'LED and HVAC controls', d: 'LED fixtures, occupancy sensors and a smart thermostat schedule for the press room.', k: 'elec', eff: 'Fewer kWh, lower bills', cost: '$$', time: 'Weeks' },
+    { c: 'fleet', i: 'van', t: 'Electric delivery van', d: 'Replace the diesel van at end of life; charge it at the shop, ideally on the solar or green tariff.', k: 'fuel', eff: 'Moves diesel (S1) to electricity (S2)', cost: '$$$', time: 'At replacement' },
+    { c: 'fleet', i: 'van', t: 'Telematics and eco-driving', d: 'Route planning, idle alerts and driver feedback for the van.', k: 'fuel', eff: 'Fewer litres per delivery', cost: '$', time: 'Weeks' },
+    { c: 'refrig', i: 'snow', t: 'Leak detection and low-GWP refrigerant', d: 'Quarterly leak checks now; a unit on a lower-GWP refrigerant when the rooftop unit is replaced.', k: 'refrig', eff: 'Smaller top-ups, lower GWP', cost: '$–$$$', time: 'Now / at replacement' },
+    { c: 'mat', i: 'leaf', t: 'Recycled-content and certified paper', d: 'Stock with recycled fibre and a supplier product footprint you can use instead of the average factor.', k: 'mat', eff: 'Lower kg CO₂e per kg of paper', cost: '$', time: 'Next order' },
+    { c: 'waste', i: 'recyc', t: 'Sorting and a recycling hauler', d: 'Separate paper offcuts and cardboard; a hauler that weighs and reports each stream.', k: 'waste', eff: 'Less to landfill, better data', cost: '$', time: 'Weeks' },
+    { c: 'heat', i: 'heat', t: 'Heat pump for space heating', d: 'An air-source heat pump instead of the gas heater; El Paso winters are mild.', k: 'fuel', eff: 'Moves gas (S1) to electricity (S2)', cost: '$$$', time: 'At replacement' },
+    { c: 'travel', i: 'train', t: 'Travel and freight policy', d: 'Virtual meetings first, one trade show a year, fewer and fuller inbound paper loads.', k: 'transport', eff: 'Fewer p·km and t·km', cost: '$', time: 'Now' },
+  ];
+  const SOLC = { all: 'All', elec: 'Electricity', fleet: 'Fleet', refrig: 'Refrigerants', mat: 'Materials', waste: 'Waste', heat: 'Heating', travel: 'Travel & freight' };
+  function vSolutions() {
+    const t = tot(load().lines), plan = load().plan, S = SOLS.filter(s => ui.sf === 'all' || s.c === ui.sf);
+    const line = k => k === 'fuel' ? (t.cat.fuel || 0) : (t.cat[k] || 0);
+    return head('Solutions', 'Measures catalogue', 'Ways to act on the recommendations. Illustrative types of measure only: no vendors are listed or endorsed, and costs are rough relative levels.', `<span class="pill">${plan.length} in your plan</span>`) + `
+      <div class="seg seg-sm" role="group" aria-label="Category" style="justify-self:start;flex-wrap:wrap">${Object.entries(SOLC).map(([k, l]) => `<button data-sf="${k}" aria-pressed="${ui.sf === k}">${l}</button>`).join('')}</div>
+      <div class="sols">${S.map(s => { const on = plan.includes(s.t); return `<article class="card sol ${on ? 'in-plan' : ''}"><div class="top"><span class="ico" style="background:var(--c-${s.k})">${ic(s.i, '')}</span><div><span class="eyebrow" style="font-size:10.5px">${SOLC[s.c]}</span><h3>${s.t}</h3></div></div><p>${s.d}</p>
+        <dl><dt>Addresses</dt><dd>${CATS[s.k]} · ${tf(line(s.k))} t in ${YEAR}</dd><dt>Effect</dt><dd>${s.eff}</dd><dt>Cost level</dt><dd>${s.cost} <span class="muted">(illustrative)</span></dd><dt>Lead time</dt><dd>${s.time}</dd></dl>
+        <div class="acts"><button class="btn sm ${on ? 'primary' : 'go'}" data-plan="${esc(s.t)}">${on ? '✓ In your plan' : '+ Add to plan'}</button><button class="btn sm" data-soon="Coming soon: quotes from providers in your area.">Find providers</button></div></article>`; }).join('')}</div>
+      <p class="note">Illustrative catalogue for the draft. A real version would list vetted providers by region with their own claims, kept separate from CO2Trace’s estimates.</p>`;
+  }
+
+  // ---------- render ----------
+  const V = { goal: vGoal, inventory: vInventory, impact: vImpact, interpretation: vInterp, activity: vActivity, dashboards: vDash, reports: vReports, recommendations: vRecs, solutions: vSolutions };
+  function render() {
+    const s = INV.shell(); if (!s) { document.documentElement.classList.remove('drawer'); return; }
+    const d = load(); if (!d.company) { d.company = s.company || 'Your company'; save(); }
+    document.documentElement.classList.toggle('sb-min', !!ui.collapsed);
+    document.querySelectorAll('[data-dco]').forEach(el => el.textContent = d.company);
+    document.querySelectorAll('[data-dyear]').forEach(el => el.textContent = YEAR);
+    sidebar();
+    const v = document.getElementById('view');
+    v.innerHTML = note() + V[ui.view]();
+    d.lines.forEach(r => delete r.fresh);
+    const strip = document.getElementById('strip'); if (strip) INV.bindDrop(strip, onFiles);
+  }
+  function onFiles(files) {
+    const n = addFiles(files); ui.filt = 'all'; ui.q = ''; render();
+    const secs = [...new Set(n.map(r => SEC[secOf(r)]?.t || 'To sort'))];
+    toast(`${n.length} receipt${n.length > 1 ? 's' : ''} added to ${secs.join(', ')}. Fill in the amount.`);
+    document.querySelector(`tr.row[data-id="${n[0].id}"] [data-k="qty"]`)?.focus({ preventScroll: true });
+    document.querySelector(`tr.row[data-id="${n[0].id}"]`)?.scrollIntoView({ block: 'center' });
+  }
+  function go(v, push = true) {
+    ui.view = v; saveUi();
+    const q = new URLSearchParams(location.search); q.set('view', v); if (push) history.replaceState(null, '', '?' + q.toString());
+    document.documentElement.classList.remove('drawer'); render(); window.scrollTo(0, 0);
+  }
+  function patchRow(tr, r) {
+    const tmp = document.createElement('tbody'); tmp.innerHTML = rowHtml(r); const n = tmp.firstElementChild;
+    ['c-st', 't', 'c-sc'].forEach(c => { const o = tr.querySelector('td.' + c), nn = n.querySelector('td.' + c); if (o && nn) o.replaceWith(nn); });
+    tr.className = n.className.replace('flash', '');
+    const sd = tr.querySelector('[data-k="sd2"]'); sd.disabled = r.dist !== 'logn'; sd.value = r.sd2;
+    tr.querySelector('[data-k="qty"]').classList.toggle('empty', !(r.qty > 0));
+    const ck = tr.querySelector('[data-k="checked"]'); ck.disabled = status(r) === 'needs'; ck.checked = !!r.checked;
+  }
+  function refreshAround() { // KPIs, phases, sidebar count and section subtotals without re-rendering the inputs
+    const t = tot(load().lines), v = document.getElementById('view');
+    const k = v.querySelector('.kpis'); if (k) k.outerHTML = kpis(t);
+    const p = v.querySelector('.phases'); if (p) p.outerHTML = phases();
+    sidebar();
+    v.querySelectorAll('tr.foot td.t').forEach(td => td.textContent = tf(t.total));
+    v.querySelectorAll('tr.sec').forEach(tr => { let n = tr.nextElementSibling, s = 0; while (n && !n.classList.contains('sec') && !n.classList.contains('foot')) { if (n.classList.contains('row') && n.dataset.id) s += kg(get(n.dataset.id) || {}); n = n.nextElementSibling; } const td = tr.querySelector('td.t'); if (td && td.textContent !== '') td.textContent = tf(s); });
+  }
+  function csv() {
+    const s = load(), rows = [['year', 'section', 'name', 'dataset', 'factor_source', 'amount', 'unit', 'distribution', 'sd2', 'comment', 'scope', 'scope3_category', 'status', 'receipt', 'supplier', 'reference', 'date', 'kgCO2e_per_unit', 't_CO2e']];
+    for (const r of s.lines) { const t = LIB[r.type]; rows.push([YEAR, SEC[secOf(r)]?.t || 'To sort', r.name, t?.ds || '', t?.src || '', r.qty, r.unit, r.dist === 'logn' ? 'lognormal' : 'undefined', r.sd2, r.comment, t?.scope || '', t?.s3 || '', STATUS[status(r)], r.file?.name || '', r.supplier, r.ref, r.date, t?.ef ?? '', (kg(r) / 1000).toFixed(3)]); }
+    const b = new Blob(['﻿' + rows.map(x => x.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')], { type: 'text/csv' });
+    Object.assign(document.createElement('a'), { href: URL.createObjectURL(b), download: `${(s.company || 'inventory').replace(/\W+/g, '-')}-${YEAR}-process-sheet-draft.csv` }).click();
+  }
+  function settingsD() {
+    let d = document.getElementById('setDlgD'); if (!d) { d = document.createElement('dialog'); d.id = 'setDlgD'; d.className = 'sheet'; document.body.append(d); }
+    const s = load();
+    d.innerHTML = `<form method="dialog"><div class="eyebrow">Settings</div><h2>Company and account</h2><div class="rform"><div class="field w4"><label for="dCo">Company</label><input id="dCo" value="${esc(s.company)}"></div><div class="field w2"><label>Reporting year</label><input value="${YEAR}" disabled></div>
+      <p class="w6 muted" style="font-size:13px">Draft: country fixed to the US (GHG Protocol, IPCC 2021 GWP100, location-based Scope 2) and the current year to ${YEAR}. Team members, roles and billing would live here once accounts exist.</p></div>
+      <div class="acts"><button type="button" class="btn danger" id="dReset">Delete all lines</button><button class="btn" value="cancel">Cancel</button><button class="btn primary" value="ok" id="dOk">Save</button></div></form>`;
+    d.querySelector('#dReset').onclick = () => { s.lines = []; s.hist = false; save(); d.close(); render(); toast('All lines and sample years deleted from this browser.'); };
+    d.querySelector('#dOk').onclick = () => { s.company = d.querySelector('#dCo').value.trim() || s.company; save(); setTimeout(render); };
+    d.showModal();
+  }
+
+  // ---------- events ----------
+  const view = document.getElementById('view');
+  view.addEventListener('input', e => {
+    const el = e.target;
+    if (el.id === 'q') { ui.q = el.value.trim().toLowerCase(); const pos = el.selectionStart; render(); const n = document.getElementById('q'); n.focus(); n.setSelectionRange(pos, pos); return; }
+    if (el.id === 'cut') { document.getElementById('cutv').textContent = el.value + '%'; return; }
+    if (el.dataset.g) { load().goal[el.dataset.g] = el.value; save(); sidebar(); const p = view.querySelector('.phases'); if (p) p.outerHTML = phases(); return; }
+    if (el.dataset.s3) { const g = load().goal; g.s3 = [...view.querySelectorAll('[data-s3]:checked')].map(x => x.dataset.s3); save(); return; }
+    if (el.dataset.af === 'q') { ui.af.q = el.value.trim().toLowerCase(); const pos = el.selectionStart; render(); const n = view.querySelector('[data-af="q"]'); n.focus(); n.setSelectionRange(pos, pos); return; }
+    const k = el.dataset.k, box = el.closest('[data-id]'); if (!k || !box || el.type === 'file') return;
+    const r = setK(box.dataset.id, k, el.type === 'checkbox' ? el.checked : el.value); if (!r) return;
+    if (k === 'type') return render();
+    const tr = view.querySelector(`tr.row[data-id="${r.id}"]`); if (tr && !box.classList.contains('det-in')) patchRow(tr, r);
+    if (tr && box.classList.contains('det-in')) { const c = tr.querySelector('[data-k="comment"]'); if (c && k === 'comment') c.value = r.comment; tr.querySelector('.meta').textContent = metaOf(r); }
+    refreshAround();
+  });
+  view.addEventListener('change', e => {
+    const el = e.target;
+    if (el.id === 'cut') { ui.cut = +el.value; render(); document.getElementById('cut')?.focus(); return; }
+    if (el.matches('[data-attach]')) { const id = el.closest('tr.row').dataset.id, f = el.files[0], fid = uid(); blobs[fid] = URL.createObjectURL(f); get(id).file = { fid, name: f.name, size: f.size, type: f.type }; save(); render(); toast('Receipt attached to the line (kept in this tab only).'); }
+    if (el.dataset.af && el.dataset.af !== 'q') { ui.af[el.dataset.af] = el.value; render(); }
+  });
+  document.addEventListener('click', e => {
+    const T = e.target;
+    const vEl = T.closest('[data-view]'); if (vEl) { e.preventDefault(); return go(vEl.dataset.view); }
+    if (T.closest('[data-menu]')) { if (matchMedia('(max-width: 900px)').matches) document.documentElement.classList.toggle('drawer'); else { ui.collapsed = !ui.collapsed; saveUi(); render(); } return; }
+    if (T.closest('[data-menu-close]')) { document.documentElement.classList.remove('drawer'); return; }
+    if (T.closest('[data-collapse]')) { e.preventDefault(); ui.collapsed = !ui.collapsed; saveUi(); render(); return; }
+    if (T.closest('[data-dsettings]')) { e.preventDefault(); settingsD(); return; }
+    if (T.closest('[data-signout]')) { e.preventDefault(); document.documentElement.classList.remove('drawer'); return; }
+    if (T.closest('[data-try]')) { const s = load(); if (!s.lines.length) { fillSample(s); save(); } render(); return; }
+    if (T.closest('[data-dsample]')) { fillSample(load()); save(); render(); toast('Sample years loaded: fictional company, illustrative quantities.'); return; }
+    if (T.closest('[data-dcsv]')) return csv();
+    const f = T.closest('[data-f]'); if (f) { ui.filt = f.dataset.f; return render(); }
+    const fx = T.closest('[data-fix]'); if (fx) { ui.filt = fx.dataset.fix; return go('inventory'); }
+    const gr = T.closest('[data-grp]'); if (gr) { ui.group = gr.dataset.grp; return render(); }
+    const hy = T.closest('[data-hy]'); if (hy) { ui.hy = +hy.dataset.hy; return render(); }
+    const rf = T.closest('[data-rf]'); if (rf) { ui.rf = rf.dataset.rf; return render(); }
+    const sf = T.closest('[data-sf]'); if (sf) { ui.sf = sf.dataset.sf; return render(); }
+    const so = T.closest('[data-sol]'); if (so) { ui.sf = so.dataset.sol; return go('solutions'); }
+    const pl = T.closest('[data-plan]'); if (pl) { const p = load().plan, n = pl.dataset.plan; load().plan = p.includes(n) ? p.filter(x => x !== n) : p.concat(n); save(); render(); return; }
+    const ad = T.closest('[data-addsec]'); if (ad) { const sec = SEC[ad.dataset.addsec]; const r = addLine(sec.add[0]); ui.filt = 'all'; ui.q = ''; render(); document.querySelector(`tr.row[data-id="${r.id}"] [data-k="name"]`)?.focus(); return; }
+    const gl = T.closest('[data-goline]'); if (gl) { ui.open[gl.dataset.goline] = true; ui.filt = 'all'; ui.q = ''; go('inventory'); document.querySelector(`tr.row[data-id="${gl.dataset.goline}"]`)?.scrollIntoView({ block: 'center' }); return; }
+    const ex = T.closest('[data-exp]'); if (ex) { const id = ex.closest('tr.row').dataset.id; ui.open[id] = !ui.open[id]; return render(); }
+    const del = T.closest('[data-del]'); if (del) { const id = del.closest('tr.row').dataset.id; load().lines = load().lines.filter(r => r.id !== id); save(); return render(); }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.documentElement.classList.remove('drawer'); });
+  INV.wire(render);
+  render();
+  window.D = { go, render, state: load, ui, tot, onFiles }; // for scripted tests
+})();
+</script>
+</body>
+</html>
