@@ -9,5 +9,5 @@ Please report security problems privately through GitHub: open the repository's 
 ## What the page does to protect visitors
 
 - A Content Security Policy (meta tag in `index.html`) only lets the page run its own inline scripts, pinned by SHA-256 hash, and Lenis from jsDelivr, which is also pinned with Subresource Integrity. Injected scripts, inline event handlers and scripts from other sites are refused.
-- Everything a visitor types is escaped before it is drawn, and sample and report documents open in sandboxed frames or separate tabs.
+- Everything a visitor types is escaped before it is drawn. Images preview as images, PDFs open in a sandboxed frame, and any other attached file is offered as a download. Sample documents and reports open in sandboxed frames. CSV exports neutralise cells that a spreadsheet would treat as formulas.
 - No analytics, trackers or third-party cookies.
