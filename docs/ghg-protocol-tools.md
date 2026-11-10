@@ -76,7 +76,7 @@ Scope 3 minimum boundaries: Cat 1 and Cat 2 cover all cradle-to-gate emissions. 
 | Freight (truck 0.107, rail 0.028, sea 0.016, air 0.60 kg/t·km) | In DESNZ/EPA range | OK for Scope 3; owned trucks need fuel-based Scope 1 lines |
 | Single CO2e factor per line | — | No per-gas split (CO2/CH4/N2O/HFC) as the Corporate Standard requires |
 | Scope 2 | One figure; "renewable with certificates = 0" mixed in | Needs **location- and market-based** totals |
-| Scope 3 Cat 3 | Missing | Add WTT for fuels and electricity, plus T&D losses |
+| Scope 3 Cat 3 | Screening estimate from the ledger (2026-11-10): DESNZ 2025 WTT fuels, upstream electricity ratio, T&D losses (eGRID2023 4.2 % / World Bank 11.3 % MX); added as lines on request | Country-specific upstream factors for US and MX fuels and grids |
 | Biogenic CO2 | No field | Report outside the scopes |
 | Data quality | Evidence status only | Add a DQI score per line; % primary data per category |
 | Disclosure | — | GWP set, consolidation approach, base year, excluded categories with reasons |

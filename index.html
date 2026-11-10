@@ -2,7 +2,7 @@
 <html lang="en" class="no-plans">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-M+V+4hctEfben33L9W9+XAi6SRpUvWhJJmP9hKGdrFo=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-C6c3vxXFgTUwKfidrwgin4/cn3iFGmmD6IVL/fOLveQ=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>CO2Trace</title>
@@ -802,6 +802,11 @@ svg.traj .tj-bau { stroke: var(--muted); }
 .sens-bar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
 .sens-bar i.up { background: var(--s1); } .sens-bar i.dn { background: var(--s3); }
 .sens-row[data-tip]:hover .sens-bar i { filter: brightness(1.12); }
+/* Scope 3 category 3 estimate inside the screening card */
+.c3 { display: grid; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.c3 h4 { margin: 0; font-size: 14px; font-weight: 600; }
+.c3 td .note { margin: 2px 0 0; font-size: 11.5px; }
+.c3 p { margin: 0; }
 /* uncertainty: histogram of Monte Carlo totals with the 95 % band */
 .unc-plot { overflow-x: auto; }
 svg.unc-svg { width: 100%; height: auto; display: block; }
@@ -2773,6 +2778,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   const S3N = i => (isEs() ? S3_ES : S3_EN)[i - 1];
   // the category a Scope 3 line falls in, from its stage and kind of activity
   const s3Cat = r => {
+    if (r.s3c) return +r.s3c;
     const k = kindOf(r);
     if (r.stage === 'use') return 11;
     if (r.stage === 'eol') return 12;
@@ -4861,6 +4867,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     }
     const direct = t.lines.filter(r => (+r.scope || 3) < 3 && evStatus(r) === 'miss'), dT = direct.reduce((a, r) => a + emis(r), 0);
     if (direct.length) out.push(['warn', L(`${direct.length} Scope 1 or 2 line${direct.length === 1 ? '' : 's'} (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'has' : 'have'} no documents. Verifiers will ask for them.`, `${direct.length} ${direct.length === 1 ? 'línea' : 'líneas'} de alcance 1 o 2 (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'no tiene' : 'no tienen'} documentos. Los verificadores los pedirán.`)]);
+    const c3 = cat3Est(t), c3d = s3Of(3).d;
+    if (c3.total >= t.total * 0.01 && !c3.auto.length && !((t.byS3[3] || 0) > 0) && c3d !== 'in') out.push(['info', L(`Scope 3 category 3 (upstream of fuels and electricity, grid losses) is about ${fmtT(c3.total)} t CO₂e, ${pct(c3.total, t.total)} of the total, from the lines already in the ledger. Add it from the Scope 3 screening card${c3d === 'out' ? ', or keep the exclusion and its reason' : ''}.`, `La categoría 3 del alcance 3 (emisiones previas de combustibles y electricidad, pérdidas de la red) es de unas ${fmtT(c3.total)} t CO₂e, ${pct(c3.total, t.total)} del total, con las líneas que ya están en el registro. Agrégala desde la tarjeta de relevancia del alcance 3${c3d === 'out' ? ', o mantén la exclusión y su razón' : ''}.`)]);
     const unc = uncertainty(t);
     if (unc && unc.half > 25) out.push(['info', L(`The 95 % range of the total is ±${nf1.format(unc.half)} %. ${lineName(unc.top[0].r)} adds the most to it; better data there narrows it most. See Uncertainty.`, `El rango de 95 % del total es ±${nf1.format(unc.half)} %. ${lineName(unc.top[0].r)} es lo que más lo amplía; mejores datos ahí lo reducen más. Ver Incertidumbre.`), unc.top[0].r.id]);
     if (state.region === 'mx') {
@@ -5017,6 +5025,75 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     </div>`;
   }
 
+  // ---------- Scope 3 category 3 (fuel- and energy-related activities), screening estimate from the ledger ----------
+  // 3a upstream of fuels burned in Scope 1 (well-to-tank, DESNZ 2025 "WTT- fuels", kg CO2e per L or m³, UK supply chain, AR5);
+  // 3b upstream of the fuels that generate purchased electricity (ratio of DESNZ 2025 WTT of UK generation 0.0459 to UK generation
+  // 0.177 kg CO2e/kWh, applied to the location-based Scope 2 figure); 3c transmission and distribution losses (grid gross loss:
+  // eGRID2023 4.2 % US; World Bank WDI EG.ELC.LOSS.ZS 11.3 % México) times the location-based factor, plus their own upstream.
+  const WTT = { diesel: 0.62409, diesel_veh: 0.62409, gasoline: 0.60664, gasoline_veh: 0.60664, natgas: 0.3366, lpg: 0.18551 };
+  const UP_GEN = 0.0459 / 0.177;
+  const TD_LOSS = { us: 0.042, mx: 0.113 };
+  const CAT3_SRC = () => ({
+    a: L('DESNZ 2025 well-to-tank factors (UK supply chain, screening proxy)', 'Factores “well-to-tank” DESNZ 2025 (cadena de suministro del Reino Unido, valor genérico de referencia)'),
+    b: L('DESNZ 2025 ratio of upstream to generation emissions (0.0459 ÷ 0.177), on the location-based factor', 'Proporción DESNZ 2025 de emisiones previas a la generación (0.0459 ÷ 0.177), sobre el factor basado en ubicación'),
+    c: state.region === 'mx' ? 'Pérdidas de transmisión y distribución de 11.3 % (Banco Mundial, WDI EG.ELC.LOSS.ZS), con sus emisiones previas' : 'Grid gross loss of 4.2 % (EPA eGRID2023), with their upstream emissions',
+  });
+  function cat3Est(t) {
+    const loss = TD_LOSS[state.region] || 0.05, groups = {}, missing = new Set();
+    let a = 0, b = 0, c = 0;
+    t.lines.forEach(r => {
+      if (r.auto === 'cat3') return;
+      const sc = +r.scope || 3, k = kindOf(r), q = qtyOf(r), f = F[r.key];
+      if (sc === 1 && k === 'fuel') {
+        const ef = WTT[r.key];
+        if (ef == null || f.unit !== r.unit) { missing.add(lineName(r)); return; }
+        const g = groups[`a|${r.stage}|${r.key}`] ||= { part: 'a', stage: r.stage, key: r.key, unit: f.unit, qty: 0, ef, t: 0 };
+        g.qty += q; g.t += q * ef / 1000; a += q * ef / 1000;
+      } else if (sc === 2 && k === 'elec' && f.unit === 'kWh' && q > 0) {
+        const loc = s2Location(r), efLoc = loc * 1000 / q;
+        const gb = groups[`b|${r.stage}|${r.key}`] ||= { part: 'b', stage: r.stage, key: r.key, unit: 'kWh', qty: 0, ef: efLoc * UP_GEN, t: 0 };
+        const gc = groups[`c|${r.stage}|${r.key}`] ||= { part: 'c', stage: r.stage, key: r.key, unit: 'kWh', qty: 0, ef: efLoc * loss * (1 + UP_GEN), t: 0 };
+        gb.qty += q; gb.t += loc * UP_GEN; b += loc * UP_GEN;
+        gc.qty += q; gc.t += loc * loss * (1 + UP_GEN); c += loc * loss * (1 + UP_GEN);
+      }
+    });
+    const auto = state.rows.filter(r => r.auto === 'cat3');
+    return { a, b, c, total: a + b + c, loss, groups: Object.values(groups).filter(g => g.t > 0), missing: [...missing], auto, autoT: auto.reduce((s, r) => s + (included(r.stage) ? emis(r) : 0), 0), other: (t.byS3[3] || 0) - auto.reduce((s, r) => s + (included(r.stage) && emis(r) > 0 ? emis(r) : 0), 0) };
+  }
+  function cat3Rows(est) {
+    const nm = g => {
+      const src = F[g.key] ? F[g.key].name : g.key;
+      return g.part === 'a' ? L(`Well-to-tank upstream of fuel · ${src}`, `Emisiones previas del combustible (del pozo al tanque) · ${src}`)
+        : g.part === 'b' ? L(`Upstream of purchased electricity · ${src}`, `Emisiones previas de la electricidad comprada · ${src}`)
+        : L(`Transmission and distribution losses · ${src}`, `Pérdidas de transmisión y distribución · ${src}`);
+    };
+    const S = CAT3_SRC();
+    return est.groups.map(g => {
+      const ln = row(g.stage, 'custom', String(+g.qty.toPrecision(10)), nm(g), '', { doc: 'estimate', ref: S[g.part] });
+      ln.unit = g.unit; ln.ef = +g.ef.toPrecision(6); ln.efEdit = true; ln.scope = 3; ln.auto = 'cat3'; ln.s3c = 3;
+      ln.dq = { type: 'estimate', geo: g.part === 'c' ? 'same' : 'global', tech: 'similar' };
+      return ln;
+    });
+  }
+  function cat3Html(t) {
+    const e = cat3Est(t);
+    if (!(e.total > 0) && !e.auto.length) return '';
+    const S = CAT3_SRC(), own = !state.isExample;
+    const part = (k, nmEn, nmEs, v) => `<tr><td>${L(nmEn, nmEs)}<div class="note">${esc(S[k])}</div></td><td class="r num">${fmtT(v)}</td><td class="r num">${pct(v, t.total)}</td></tr>`;
+    const same = e.auto.length && Math.abs(e.autoT - e.total) < Math.max(0.001, e.total * 1e-6);
+    return `<div class="c3">
+      <div class="card-head"><h4>${L('Category 3 estimate: fuel- and energy-related activities', 'Estimación de la categoría 3: actividades relacionadas con combustibles y energía')}</h4><span class="pill">${fmtT(e.total)} t CO₂e · ${pct(e.total, t.total)}</span></div>
+      <p class="cap">${L('Worked out from the Scope 1 fuels and Scope 2 electricity already in the ledger, so it never needs separate data.', 'Se calcula con los combustibles del alcance 1 y la electricidad del alcance 2 que ya están en el registro, así que no necesita datos aparte.')} ${e.auto.length ? L(`It is in the total as ${e.auto.length} estimate line${e.auto.length === 1 ? '' : 's'} (${fmtT(e.autoT)} t CO₂e); update them after changing fuels or electricity.`, `Está en el total como ${e.auto.length} línea${e.auto.length === 1 ? '' : 's'} de estimación (${fmtT(e.autoT)} t CO₂e); actualízalas después de cambiar combustibles o electricidad.`) : L('It is not in the total until it is added as lines.', 'No entra en el total hasta agregarla como líneas.')}</p>
+      <div class="table-scroll"><table style="min-width:0;font-size:12.5px"><thead><tr><th>${L('Part', 'Parte')}</th><th class="r">t CO₂e</th><th class="r">${L('of total', 'del total')}</th></tr></thead><tbody>
+        ${part('a', '3a · Upstream of fuels burned on site', '3a · Emisiones previas de combustibles quemados en sitio', e.a)}${part('b', '3b · Upstream of purchased electricity', '3b · Emisiones previas de la electricidad comprada', e.b)}${part('c', '3c · Grid transmission and distribution losses', '3c · Pérdidas de transmisión y distribución', e.c)}
+      </tbody></table></div>
+      ${e.missing.length ? `<p class="note">${L('No upstream factor yet for', 'Aún sin factor previo para')}: ${esc(e.missing.join(', '))}.</p>` : ''}
+      ${e.other > 0.0005 ? `<p class="note">${L(`The ledger already has ${fmtT(e.other)} t CO₂e of other category 3 lines; adding the estimate on top may count the same emissions twice.`, `El registro ya tiene ${fmtT(e.other)} t CO₂e de otras líneas de categoría 3; agregar la estimación encima puede contar dos veces las mismas emisiones.`)}</p>` : ''}
+      ${own ? `<p><button type="button" class="btn" data-cat3-add>${e.auto.length ? (same ? L('Lines are up to date', 'Líneas al día') : L('Update the category 3 lines', 'Actualizar las líneas de categoría 3')) : L('Add as category 3 lines', 'Agregar como líneas de categoría 3')}</button>${e.auto.length ? ` <button type="button" class="linkish" data-cat3-rm>${L('Remove them', 'Quitarlas')}</button>` : ''}</p>`
+        : `<p class="note">${L('Examples are fixed, so the estimate is shown but not added.', 'Los ejemplos son fijos: la estimación se muestra pero no se agrega.')}</p>`}
+    </div>`;
+  }
+
   function s3Card(t) {
     const st = Array.from({ length: 15 }, (_, k) => s3State(k + 1, t));
     const screened = st.filter(Boolean).length, inc = st.filter(x => x === 'in').length;
@@ -5027,6 +5104,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       <div class="meter"><i style="--c: var(--ok); width:${screened / 15 * 100}%"></i></div>
       <ol class="s3g">${st.map((x, k) => `<li class="s3-${x || 'none'}"${tip(`${k + 1}. ${S3N(k + 1)}`, `${W[x]}${t.byS3[k + 1] ? ` · ${fmtT(t.byS3[k + 1])} t CO₂e` : ''}${s3Of(k + 1).why ? ' · ' + s3Of(k + 1).why : ''}`)}><b>${k + 1}</b><span>${esc(S3N(k + 1))}</span></li>`).join('')}</ol>
       <div class="legend"><span style="--c: var(--ok)"><i class="sw"></i>${W.in}</span><span style="--c: var(--muted)"><i class="sw"></i>${W.out} / ${W.na}</span><span style="--c: var(--miss)"><i class="sw"></i>${W['']}</span></div>
+      ${cat3Html(t)}
     </div>`;
   }
 
@@ -6095,6 +6173,18 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       off.has(id) ? off.delete(id) : off.add(id); ui.tgtOff = [...off]; saveUi();
       renderCharts(totals());
       const again = document.querySelector(`[data-tgt-m="${id}"]`); if (again) again.focus();
+      return;
+    }
+    if (e.target.closest('[data-cat3-add], [data-cat3-rm]')) {
+      if (state.isExample) return;
+      const add = !!e.target.closest('[data-cat3-add]'), est = add ? cat3Est(totals()) : null;
+      state.rows = state.rows.filter(r => r.auto !== 'cat3');
+      const fresh = add ? cat3Rows(est) : [];
+      state.rows.push(...fresh);
+      // lines in category 3 make it included; an earlier exclusion would contradict them
+      if (fresh.length && s3Of(3).d === 'out') { state.goal.s3 = state.goal.s3 || {}; state.goal.s3[3] = { d: 'in', why: '' }; }
+      renderStages(); renderSetup(); touched(); updateTotals();
+      toast(add ? L(`Category 3: ${fresh.length} line${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`, `Categoría 3: ${fresh.length} línea${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`) : L('Category 3 lines removed', 'Se quitaron las líneas de categoría 3'));
       return;
     }
     const os = e.target.closest('[data-open-setup]');
