@@ -7,4 +7,4 @@
 - Verify P-2 part 1: CSP OK; scripts OK; Playwright 360/390/430 × `/` + `/?demo` — no H-scroll, menu Esc/button, stacks, ≥44 px taps, 16 px inputs, manifest/icons, no console errors.
 - Phone use part 2 (P-20261117-2): app at 360–430 — ledger cards, contained table/traj/unc scroll, full-screen dialogs/viewer, chart tip + traj on tap, help pad, ≥44 px taps; fixed `.acct.db` width specificity.
 - Verify P-2 part 2: CSP OK; scripts OK; Playwright 360/390/430 × `/?demo` — acceptance pass, no console errors.
-- Next: bug sweep.
+- Bug sweep: Playwright 1280+390 × `/`, `/?demo`, `/inventory.html` — no console errors / failed requests; all `href="#…"` resolve; US↔MX (menu sheet on phone) OK. Fixes: sheet `.nav-tools` pills ≥44 px; region `data-es-title`; `#clearAll` `data-es`; method notes “Gantt” → Emissions by month. Left as-is: US-only goal labels (EN), social brand names, `inventory.html` draft (load-only, no rewrite).

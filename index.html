@@ -191,8 +191,9 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 }
 @media (max-width: 560px) {
   .topbar .nav-tools { display: none; }
-  .topbar.sheet .nav-tools { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; justify-content: space-between; padding: 12px max(16px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--hero); border-top: 1px solid var(--hero-line); }
-  .topbar.sheet .menu { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .topbar.sheet .nav-tools { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; justify-content: space-between; align-items: center; gap: 8px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--hero); border-top: 1px solid var(--hero-line); }
+  .topbar.sheet .nav-tools .seg.pill button { min-height: 44px; min-width: 44px; box-sizing: border-box; }
+  .topbar.sheet .menu { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
 }
 .seg.pill { border-radius: 999px; border-color: var(--hero-line); background: transparent; }
 .seg.pill button { flex: none; padding: 7px 14px; font-family: var(--f-label); font-size: 11.5px; letter-spacing: .08em; color: var(--hero-muted); }
@@ -1516,8 +1517,8 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </nav>
     <div class="nav-tools">
       <div class="seg pill" role="group" aria-label="Operations in" data-es-aria-label="Operaciones en">
-        <button type="button" data-region="us" title="Operations in the United States: GHG Protocol, EPA factors">US</button>
-        <button type="button" data-region="mx" title="Operaciones en México: RENE, factores SEMARNAT">MX</button>
+        <button type="button" data-region="us" title="Operations in the United States: GHG Protocol, EPA factors" data-es-title="Operaciones en Estados Unidos: GHG Protocol, factores EPA">US</button>
+        <button type="button" data-region="mx" title="Operations in México: RENE, SEMARNAT factors" data-es-title="Operaciones en México: RENE, factores SEMARNAT">MX</button>
       </div>
       <div class="seg pill icons" role="group" aria-label="Color theme" data-es-aria-label="Tema de color">
         <button type="button" data-theme-choice="auto" title="Automatic: follows your device (light by day, dark by night if your system does)" aria-label="Automatic theme" data-es-title="Automático: sigue a tu dispositivo (claro de día y oscuro de noche si tu sistema lo hace)" data-es-aria-label="Tema automático"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
@@ -1745,7 +1746,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="actions">
       <button type="button" class="btn primary" id="copyCsv" data-es="Copiar resultados en CSV&lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;▶&lt;/span&gt;">Copy results as CSV<span class="arr" aria-hidden="true">▶</span></button>
       <button type="button" class="btn" id="copyCoa" hidden data-es="Copiar resumen RENE (COA)">Copy RENE (COA) summary</button>
-      <span id="clearWrap"><button type="button" class="btn" id="clearAll">Start blank</button></span>
+      <span id="clearWrap"><button type="button" class="btn" id="clearAll" data-es="Empezar en blanco">Start blank</button></span>
       <span class="toast" id="toast" role="status" aria-live="polite"></span>
     </div>
     <textarea id="csvFallback" hidden readonly aria-label="CSV output" data-es-aria-label="Salida CSV"></textarea>
@@ -1880,7 +1881,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <summary><span data-es="Notas completas de la metodología">Full methodology notes</span><span class="m-plus" aria-hidden="true"></span></summary>
         <div class="m-more-body">
           <div id="methodText"></div>
-          <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual del diagrama de Gantt, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
+          <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual de la gráfica Emisiones por mes, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Emissions by month chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
           <p data-es="Los archivos adjuntos se guardan solo en este navegador y en este dispositivo, no se suben a ningún lado; conserva los originales en tu sistema de documentos.">Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
         </div>
       </details>
