@@ -5,4 +5,6 @@
 - Restored Plans (P-20261117-1): removed `no-plans` from `<html>`; section, nav/footer links and help-chat prices show again; amounts unchanged.
 - Verify P-1: CSP OK; scripts `node --check` OK; Playwright `?demo` — 3 cards, US/MX prices, yearly = 10/12, stack at 390 px, help “precios” → three plans, no console errors.
 - Verify P-2 part 1: CSP OK; scripts OK; Playwright 360/390/430 × `/` + `/?demo` — no H-scroll, menu Esc/button, stacks, ≥44 px taps, 16 px inputs, manifest/icons, no console errors.
-- Next: phone use part 2 (P-20261117-2).
+- Phone use part 2 (P-20261117-2): app at 360–430 — ledger cards, contained table/traj/unc scroll, full-screen dialogs/viewer, chart tip + traj on tap, help pad, ≥44 px taps; fixed `.acct.db` width specificity.
+- Verify P-2 part 2: CSP OK; scripts OK; Playwright 360/390/430 × `/?demo` — acceptance pass, no console errors.
+- Next: bug sweep.
