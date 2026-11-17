@@ -13,3 +13,4 @@
 - Missing pages part 1 (P-20261117-3): `#faq` (12 static Q&As), expanded `#support` (reply time + what to include), root `404.html` EN/ES; menu 04 + footer links. Privacy/terms left for part 2.
 - Verify P-3 part 1: CSP OK; scripts OK; Playwright `/?demo` + `/404.html` + 390 px — FAQ 12 opens, support mailto/EN↔ES, menu/footer links, no H-scroll, no console errors.
 - Missing pages part 2 (P-20261117-3): root `privacy.html` + `terms.html` drafts (EN/ES, draft banner, `noindex`, browser-local storage / no tracking / support@; unlinked). Linking stays AWAITING.
+- Verify P-3 part 2: CSP OK; scripts OK; Playwright `/privacy.html` + `/terms.html` at 390 px — draft banner, noindex, EN+ES, home ≥44 px, no H-scroll, no console errors; index has zero privacy/terms links.
