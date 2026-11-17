@@ -11,3 +11,4 @@
 
 - Verify bug sweep: CSP OK; scripts OK; Playwright 1280+390 × `/`, `/?demo`, `/inventory.html` — acceptance pass (nav-tools ≥44 px, region titles, Start blank ES, no Gantt); mp4 abort ignored (media absent).
 - Missing pages part 1 (P-20261117-3): `#faq` (12 static Q&As), expanded `#support` (reply time + what to include), root `404.html` EN/ES; menu 04 + footer links. Privacy/terms left for part 2.
+- Verify P-3 part 1: CSP OK; scripts OK; Playwright `/?demo` + `/404.html` + 390 px — FAQ 12 opens, support mailto/EN↔ES, menu/footer links, no H-scroll, no console errors.
