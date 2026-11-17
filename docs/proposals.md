@@ -16,7 +16,7 @@ Major changes waiting for or holding Jorge's decision. Format: `## P-YYYYMMDD-n:
 - What: FAQ, Contact/Support, 404 page; Privacy and Terms as unlinked, noindex drafts.
 - Why: Jorge asked to develop the pages that need to be added. Legal wording stays draft until Jorge approves it separately.
 - Decision: approved by Jorge on 2026-11-17 (request to OpenClaw); legal text still needs his OK before linking.
-- Status 2026-11-17: part 1 done (FAQ, Support, 404). Part 2 (privacy/terms drafts, unlinked) next. Linking stays AWAITING until Jorge OKs wording.
+- Status 2026-11-17: part 1 done (FAQ, Support, 404). Part 2 drafts built (`privacy.html`, `terms.html`, unlinked, noindex). Linking stays AWAITING until Jorge OKs wording.
 
 ## P-20261117-4: User ideas list and the first two small ones
 - What: `docs/user-ideas.md` with ideas per user type; build the top two page-only minor ideas; propose the major ones.

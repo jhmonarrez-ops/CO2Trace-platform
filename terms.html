@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072AC8">
+<meta name="robots" content="noindex">
+<title>Terms (draft) · CO2Trace</title>
+<link rel="icon" type="image/svg+xml" href="brand/co2trace-icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+:root {
+  --brand: #072AC8; --forest: #252422; --forest-accent: #CCD5AE;
+  --bg: #EEF0EB; --surface: #FFFFFF; --ink: #1D2B35; --muted: #5A6A74; --line: #DADFD5;
+  --f: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --warn: #8A5A00; --warn-bg: #F7E8C8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11141C; --surface: #191E2A; --ink: #E9ECF3; --muted: #A0A8BA; --line: #2F3748;
+    --brand: #A9B9F5; --warn: #F0C674; --warn-bg: #2A2418;
+  }
+}
+* { box-sizing: border-box; }
+html { overflow-x: clip; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--f); color: var(--ink); background: var(--bg);
+  padding: max(24px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(32px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+}
+.wrap { width: min(100%, 720px); margin: 0 auto; display: grid; gap: 16px; }
+.card {
+  padding: clamp(28px, 5vw, 48px);
+  background: var(--surface); border-radius: 18px; border: 1px solid var(--line);
+  display: grid; gap: 18px; text-align: left;
+}
+.brand {
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand); text-decoration: none;
+}
+.draft {
+  margin: 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--warn-bg); color: var(--warn);
+  font-size: 14px; font-weight: 500; line-height: 1.4;
+}
+.eyebrow {
+  margin: 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+h1 {
+  margin: 0; font-size: clamp(28px, 6vw, 40px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; color: var(--brand);
+}
+.sub {
+  margin: 0; font-size: clamp(22px, 4.5vw, 28px); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; color: var(--forest);
+}
+@media (prefers-color-scheme: dark) { .sub { color: var(--ink); } }
+h2 {
+  margin: 8px 0 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--ink);
+}
+p, li { margin: 0; font-size: 15.5px; font-weight: 300; color: var(--muted); line-height: 1.55; max-width: 62ch; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92em; font-weight: 400; color: var(--ink);
+}
+.es { padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
+.acts { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 12px 20px; border-radius: 999px; text-decoration: none;
+  font-family: var(--f); font-size: 15px; font-weight: 500; box-sizing: border-box;
+}
+.btn.solid { background: var(--brand); color: #FFFFFF; }
+.btn.line { border: 1.5px solid var(--line); color: var(--ink); background: transparent; }
+a.inline { color: var(--brand); }
+@media (max-width: 640px) {
+  .acts { flex-direction: column; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <a class="brand" href="index.html">CO2Trace</a>
+      <p class="draft" role="status">Draft – pending review · Borrador – pendiente de revisión</p>
+      <p class="eyebrow">Terms</p>
+      <h1>Terms of use (draft)</h1>
+      <p>These draft terms describe how you may use co2trace.io today. They are pending review and are not linked from the site menu.</p>
+
+      <h2>The tool</h2>
+      <p>CO2Trace is a browser tool for screening greenhouse-gas inventories and product studies (US GHG Protocol / Mexican RENE context). You use it at your own judgment. Results depend on the activity data and factors you enter.</p>
+
+      <h2>Not legal or accounting advice</h2>
+      <p>Text on the site — including help answers, FAQ, compliance cards and reports — is general information. It is not legal, tax, accounting or assurance advice. For filings, contracts or verification, use a qualified professional.</p>
+
+      <h2>Examples are fictional</h2>
+      <p>Worked examples (companies, suppliers, evidence samples) are fictional and fixed for demonstration. They are not real organisations and must not be treated as audited figures.</p>
+
+      <h2>Data stays in this browser</h2>
+      <p>Until company accounts with cloud storage are live, your project is saved only in this browser (localStorage keys <code>lca-ledger-v1</code> / <code>lca-ledger-own</code>, UI <code>lca-ui-v1</code>; evidence in IndexedDB <code>lca-evidence</code>). Nothing is sent to a CO2Trace server yet. The account box does not transmit. Clearing site data deletes what you entered here.</p>
+
+      <h2>Third-party assets</h2>
+      <p>The site loads Google Fonts (Hanken Grotesk). The home page also loads Lenis from jsDelivr. Those are ordinary asset requests; they do not receive your ledger.</p>
+
+      <h2>Contact and drafts</h2>
+      <p>Write to <a class="inline" href="mailto:support@co2trace.io">support@co2trace.io</a>. This page and the privacy draft remain drafts until reviewed; wording may change before they are linked from the site.</p>
+
+      <div class="es" lang="es-MX">
+        <p class="sub">Términos de uso (borrador)</p>
+        <p>Estos términos en borrador describen cómo puedes usar co2trace.io hoy. Están pendientes de revisión y no están enlazados en el menú del sitio.</p>
+
+        <h2>La herramienta</h2>
+        <p>CO2Trace es una herramienta en el navegador para estimar inventarios de gases de efecto invernadero y estudios de producto (contexto GHG Protocol en EE. UU. / RENE en México). La usas bajo tu propio criterio. Los resultados dependen de los datos de actividad y factores que introduzcas.</p>
+
+        <h2>No es asesoría legal ni contable</h2>
+        <p>El texto del sitio — incluidas las respuestas de ayuda, las preguntas frecuentes, las tarjetas de cumplimiento y los reportes — es información general. No es asesoría legal, fiscal, contable ni de aseguramiento. Para trámites, contratos o verificación, acude a un profesional calificado.</p>
+
+        <h2>Los ejemplos son ficticios</h2>
+        <p>Los ejemplos trabajados (empresas, proveedores, muestras de evidencia) son ficticios y fijos para demostración. No son organizaciones reales y no deben tomarse como cifras auditadas.</p>
+
+        <h2>Los datos se quedan en este navegador</h2>
+        <p>Hasta que existan cuentas de empresa con nube, tu proyecto se guarda solo en este navegador (claves de localStorage <code>lca-ledger-v1</code> / <code>lca-ledger-own</code>, UI <code>lca-ui-v1</code>; evidencia en IndexedDB <code>lca-evidence</code>). Todavía no se envía nada a un servidor de CO2Trace. La caja de cuenta no transmite. Borrar los datos del sitio elimina lo que ingresaste aquí.</p>
+
+        <h2>Recursos de terceros</h2>
+        <p>El sitio carga Google Fonts (Hanken Grotesk). La página de inicio también carga Lenis desde jsDelivr. Son peticiones normales de recursos; no reciben tu inventario.</p>
+
+        <h2>Contacto y borradores</h2>
+        <p>Escribe a <a class="inline" href="mailto:support@co2trace.io">support@co2trace.io</a>. Esta página y el borrador de privacidad siguen en revisión; el texto puede cambiar antes de enlazarse desde el sitio.</p>
+      </div>
+
+      <div class="acts">
+        <a class="btn solid" href="index.html">Go to CO2Trace home <span aria-hidden="true">↗</span></a>
+        <a class="btn line" href="index.html" lang="es-MX">Ir al inicio de CO2Trace</a>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
