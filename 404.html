@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072AC8">
+<meta name="robots" content="noindex">
+<title>Page not found · CO2Trace</title>
+<link rel="icon" type="image/svg+xml" href="brand/co2trace-icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+:root {
+  --brand: #072AC8; --forest: #252422; --forest-accent: #CCD5AE;
+  --bg: #EEF0EB; --surface: #FFFFFF; --ink: #1D2B35; --muted: #5A6A74; --line: #DADFD5;
+  --f: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11141C; --surface: #191E2A; --ink: #E9ECF3; --muted: #A0A8BA; --line: #2F3748;
+    --brand: #A9B9F5;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--f); color: var(--ink); background: var(--bg);
+  display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+}
+.card {
+  width: min(100%, 520px); padding: clamp(28px, 5vw, 48px);
+  background: var(--surface); border-radius: 18px; border: 1px solid var(--line);
+  display: grid; gap: 18px; text-align: left;
+}
+.brand {
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand); text-decoration: none;
+}
+.eyebrow {
+  margin: 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+h1 {
+  margin: 0; font-size: clamp(28px, 6vw, 40px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; color: var(--brand);
+}
+.sub {
+  margin: 0; font-size: clamp(22px, 4.5vw, 28px); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; color: var(--forest);
+}
+@media (prefers-color-scheme: dark) { .sub { color: var(--ink); } }
+p { margin: 0; font-size: 15.5px; font-weight: 300; color: var(--muted); line-height: 1.5; max-width: 42ch; }
+.es { padding-top: 8px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.acts { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 12px 20px; border-radius: 999px; text-decoration: none;
+  font-family: var(--f); font-size: 15px; font-weight: 500; box-sizing: border-box;
+}
+.btn.solid { background: var(--brand); color: #FFFFFF; }
+.btn.line { border: 1.5px solid var(--line); color: var(--ink); background: transparent; }
+@media (max-width: 640px) {
+  .acts { flex-direction: column; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+  <main class="card">
+    <a class="brand" href="index.html">CO2Trace</a>
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p>That address is not on co2trace.io. The inventory, examples and reports live on the home page.</p>
+    <div class="es" lang="es-MX">
+      <p class="sub">Página no encontrada</p>
+      <p>Esa dirección no está en co2trace.io. El inventario, los ejemplos y los reportes están en la página de inicio.</p>
+    </div>
+    <div class="acts">
+      <a class="btn solid" href="index.html">Go to CO2Trace home <span aria-hidden="true">↗</span></a>
+      <a class="btn line" href="index.html" lang="es-MX">Ir al inicio de CO2Trace</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -492,6 +492,19 @@ html.rep-open .help-fab, html.rep-open .help-chat { display: none; }
 .plan-badge { transition: background-color .45s ease, color .45s ease; }
 .plans-foot { margin: 0; font-size: 12.5px; color: var(--slate); text-align: center; }
 @media (max-width: 900px) { .plans-grid { grid-template-columns: minmax(0, 1fr); } }
+/* FAQ (#faq): visitor Q&As paraphrased from the help chat, static details list */
+.faq { display: grid; gap: 28px; }
+.faq-lede { margin: 0; max-width: 58ch; font-size: 16px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.faq-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.faq-list details { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--line); overflow: hidden; }
+.faq-list summary { display: flex; align-items: center; gap: 14px; padding: 18px 22px; min-height: 44px; cursor: pointer; list-style: none; font-family: var(--f-display); font-size: 17px; font-weight: 500; letter-spacing: -.01em; color: var(--ink); box-sizing: border-box; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; margin-left: auto; flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; background: var(--surface-2); color: var(--brand); font-size: 18px; font-weight: 500; line-height: 1; }
+.faq-list details[open] summary::after { content: "–"; }
+.faq-list .faq-a { margin: 0; padding: 0 22px 20px; max-width: 72ch; font-size: 15px; font-weight: 300; color: var(--muted); line-height: 1.55; display: grid; gap: 10px; }
+.faq-list .faq-a p { margin: 0; }
+.faq-list .faq-a ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.faq-note { margin: 0; font-size: 13px; color: var(--slate); }
 /* Example gallery (#examples) and view mode (html.viewing: an untouched example is loaded) */
 .examples { display: grid; gap: 22px; }
 .ex-open { margin-top: 18px; }
@@ -1191,11 +1204,16 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 .pillar:hover { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .2); }
 .pillar h3 { margin: 0; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; font-weight: 500; color: #FFFFFF; }
 .pillar p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .74); }
-.support { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-bottom: 28px; padding: 26px 28px; border-radius: 18px; border: 1px solid rgb(255 255 255 / .16); background: rgb(255 255 255 / .05); }
+.support { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 18px 32px; margin-bottom: 28px; padding: 26px 28px; border-radius: 18px; border: 1px solid rgb(255 255 255 / .16); background: rgb(255 255 255 / .05); }
 .support > div { flex: 1 1 380px; display: grid; gap: 8px; }
 .support h3 { margin: 0; font-family: var(--f-display); font-size: 26px; font-weight: 500; letter-spacing: -.02em; color: #FFFFFF; }
 .support p { margin: 0; color: rgb(255 255 255 / .75); line-height: 1.5; }
-.support-mail { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #FFFFFF; color: var(--forest); font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
+.support-need { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; color: rgb(255 255 255 / .75); font-size: 14.5px; line-height: 1.45; }
+.support-need li { display: flex; gap: 10px; align-items: flex-start; }
+.support-need li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px; border-radius: 50%; background: var(--forest-accent); }
+.support-side { display: grid; gap: 12px; justify-items: start; flex: 0 1 auto; }
+.support-time { margin: 0; font-size: 13px; color: rgb(255 255 255 / .65); max-width: 28ch; line-height: 1.4; }
+.support-mail { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 14px 22px; border-radius: 999px; background: #FFFFFF; color: var(--forest); font-weight: 600; font-size: 16px; text-decoration: none; box-sizing: border-box; transition: transform .25s ease, box-shadow .25s ease; }
 .support-mail:hover, .support-mail:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 26px rgb(0 0 0 / .3); }
 @media (prefers-reduced-motion: reduce) { .support-mail { transition: none; } }
 .socials { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / .16); }
@@ -1333,8 +1351,13 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   .tree-cap { font-size: 9.5px; }
   /* public sections stack one column */
   .how-head, .how-body, .plans-grid, .lca-head, .lca-mid, .demo-head { grid-template-columns: minmax(0, 1fr); }
-  .how, .lca, .how .mock, .about, .plans, .examples, .ex-grid { min-width: 0; max-width: 100%; }
+  .how, .lca, .how .mock, .about, .plans, .faq, .examples, .ex-grid { min-width: 0; max-width: 100%; }
   .pillars { grid-template-columns: minmax(0, 1fr); }
+  .faq-list summary { min-height: 44px; padding: 16px 18px; font-size: 16px; }
+  .faq-list .faq-a { padding: 0 18px 18px; }
+  .support { flex-direction: column; align-items: stretch; }
+  .support-side { width: 100%; }
+  .support-mail { width: 100%; justify-content: center; }
   .plan-go, .foot-btn { min-height: 44px; box-sizing: border-box; }
   .foot-cols { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
   .foot-cols > div { border-left: 0; border-right: 0; border-top: 1px solid var(--line); padding: 20px 0; }
@@ -1508,9 +1531,11 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#mission" data-es="Misión">Mission</a></li>
             <li><a href="#purpose" data-es="Propósito">Purpose</a></li>
             <li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li>
+            <li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li>
+            <li><a href="#support" data-es="Contacto y soporte">Contact and support</a></li>
             <li><a href="#socials" data-es="Redes sociales">Socials</a></li>
           </ul>
-          <p class="drop-foot" data-es="Por qué existe CO2Trace y dónde seguirnos.">Why CO2Trace exists and where to follow us.</p>
+          <p class="drop-foot" data-es="Por qué existe CO2Trace, preguntas frecuentes y dónde seguirnos.">Why CO2Trace exists, FAQ, and where to follow us.</p>
         </div>
       </div>
       <a class="cta" href="#examples"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
@@ -1901,6 +1926,94 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <p class="plans-foot" data-es="Precios en pesos mexicanos más IVA. Las cuentas y la facturación abren pronto; crea tu cuenta para apartar tu lugar.">Prices in US dollars before tax. Accounts and billing open soon; create your account to save your place.</p>
   </section>
 
+  <section class="faq" id="faq" aria-labelledby="faqTitle">
+    <div class="kicker rv">
+      <div class="eyebrow" data-es="Preguntas">FAQ</div>
+      <h2 id="faqTitle" class="rv-h" data-es="Preguntas frecuentes">Frequently asked questions</h2>
+      <p class="faq-lede" data-es="Respuestas cortas para visitantes. Para el total de tu registro o ayuda en vivo, abre el chat de ayuda o escribe a soporte.">Short answers for visitors. For live totals from your ledger or a guided walkthrough, open the help chat or write to support.</p>
+    </div>
+    <ul class="faq-list">
+      <li><details class="rv">
+        <summary data-es="¿Cómo empiezo?">How do I get started?</summary>
+        <div class="faq-a">
+          <p data-es="Explora un ejemplo muestra cuatro empresas ficticias; elige una para ver su tablero. Para tus datos, crea una cuenta (cuando abran) o continúa en este navegador: configura el proyecto, captura líneas en el registro y el tablero se llena solo. La sección Cómo usar CO2Trace y el video completo muestran los pasos.">See examples shows four fictional companies; pick one to open its dashboard. For your own data, create an account when they open, or continue in this browser: set up the project, enter ledger lines, and the dashboard fills as you go. How to use CO2Trace and the full video walk through the steps.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué son los alcances 1, 2 y 3?">What are Scopes 1, 2 and 3?</summary>
+        <div class="faq-a">
+          <p data-es="El GHG Protocol ordena las emisiones en tres alcances para no contar nada dos veces:">The GHG Protocol sorts emissions into three scopes so nothing is counted twice:</p>
+          <ul>
+            <li data-es="Alcance 1 — directas: combustibles, vehículos, refrigerantes y procesos que controlas.">Scope 1 — direct: fuels, vehicles, refrigerants and processes you control.</li>
+            <li data-es="Alcance 2 — energía comprada: electricidad, vapor, calor o frío.">Scope 2 — purchased energy: electricity, steam, heat or cooling.</li>
+            <li data-es="Alcance 3 — el resto de la cadena de valor, en 15 categorías.">Scope 3 — the rest of the value chain, in 15 categories.</li>
+          </ul>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué datos debo reunir?">What data should I collect?</summary>
+        <div class="faq-a">
+          <p data-es="Por cada actividad del año: cantidad y unidad (kWh, litros, kg, t·km…), proveedor, meses en que ocurrió y el documento que la respalda. Combustibles y refrigerante para el alcance 1; recibos de electricidad para el 2; compras, fletes, viajes, residuos y uso del producto para el 3.">For each activity in the year: quantity and unit (kWh, litres, kg, t·km…), supplier, the months it happened, and the document that proves it. Fuels and refrigerant for Scope 1; electricity bills for Scope 2; purchases, freight, travel, waste and product use for Scope 3.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cómo se calcula el CO₂e?">How is CO₂e calculated?</summary>
+        <div class="faq-a">
+          <p data-es="Actividad × factor de emisión × potencial de calentamiento (PCG100) = kg CO₂e, luego a toneladas. Los factores guardan cada gas por separado; el método de impacto (IPCC AR6, AR5 o AR4) los caracteriza. Cita ISO 14064-1 / 14067 solo por número y cláusula.">Activity × emission factor × global warming potential (GWP100) = kg CO₂e, then tonnes. Factors store each gas separately; the impact method (IPCC AR6, AR5 or AR4) characterises them. Cite ISO 14064-1 / 14067 by number and clause only.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué evidencia necesito?">What evidence do I need?</summary>
+        <div class="faq-a">
+          <p data-es="Un documento por línea que muestre la cantidad, el periodo y el proveedor: facturas, recibos de CFE o de la empresa eléctrica, bitácoras de combustible, guías de embarque. Márcalo como revisado cuando lo hayas comprobado. La guía de evidencia en la página muestra qué debe verse en cada tipo.">One document per line that shows the quantity, period and supplier: invoices, utility bills, fuel logs, shipping notes. Mark it reviewed when you have checked it. The evidence guide on this page shows what each document type must show.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿De dónde salen los factores?">Where do the emission factors come from?</summary>
+        <div class="faq-a">
+          <p data-es="De bibliotecas citadas: EPA, eGRID, IPCC y bases ICV para EE. UU.; SEMARNAT y FESEN para México. Con + Desde base de datos puedes buscar EPA supply chain, EXIOBASE 3.8.2, USLCI, AGRIBALYSE 3.2 y WEEE LCI. Cada línea guarda su fuente; puedes editar un factor o capturar uno personalizado.">From cited libraries: EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México. + From database searches EPA supply chain, EXIOBASE 3.8.2, USLCI, AGRIBALYSE 3.2 and WEEE LCI. Each line keeps its source; you can edit a factor or enter a custom one.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿En qué se diferencian EE. UU. y México?">How do the US and México differ?</summary>
+        <div class="faq-a">
+          <p data-es="El selector US / MX de la barra define biblioteca, método, reglas e idioma: EE. UU. usa GHG Protocol y factores EPA en inglés; México usa RENE (PCG AR5, FESEN) y SEMARNAT en español. Esta es información general, no asesoría legal.">The US / MX switch in the top bar sets the library, method, reporting rules and language: the US uses the GHG Protocol and EPA factors in English; México uses RENE (AR5 GWPs, FESEN) and SEMARNAT in Spanish. This is general information, not legal advice.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Dónde se guardan mis datos?">Where is my data stored?</summary>
+        <div class="faq-a">
+          <p data-es="Todo se guarda en este navegador y este dispositivo; nada se envía a un servidor. Si borras los datos del sitio o cambias de dispositivo empiezas de cero, así que exporta un CSV como respaldo. Las cuentas con nube llegan pronto.">Everything is saved in this browser on this device; nothing is sent to a server. Clearing site data or switching device starts fresh, so export a CSV as a backup. Company accounts with cloud storage are coming.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Necesito una cuenta?">Do I need an account?</summary>
+        <div class="faq-a">
+          <p data-es="Las cuentas de empresa abren pronto: un perfil con varios miembros, el registro y la evidencia cifrados en la nube, e historial de cambios. Mientras tanto la app funciona en el navegador; en el sitio público, captura de datos propios pide una cuenta y puedes explorar los ejemplos.">Company accounts are opening soon: one company profile with several members, the ledger and evidence encrypted in the cloud, and a change history. Until then the app works in the browser; on the public site, entering your own data needs an account, and you can explore the examples.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cuánto cuestan los planes?">What do the plans cost?</summary>
+        <div class="faq-a">
+          <p data-es="Tres planes mensuales por tamaño: Pequeña desde $2,490 MXN, Mediana $7,490 y Grande desde $19,900 (más IVA). El pago anual da dos meses gratis. Todos incluyen revisiones programadas con expertos (dos al mes en Pequeña y Mediana, tres en Grande). Ver Planes.">Three monthly plans by company size: Small from $149 USD, Medium $449 and Large from $1,190, before tax. Paying yearly gives two months free. Every plan includes scheduled expert reviews (two a month on Small and Medium, three on Large). See Plans.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué reportes puedo generar?">What reports can I generate?</summary>
+        <div class="faq-a">
+          <p data-es="Generar el reporte ahora arma un documento listo para imprimir siguiendo ISO 14044, 5.2 (meta, inventario, evaluación e interpretación), con gráficas, evidencia y revisiones. También hay exportaciones de marco (CDP, SB 253, CSRD, IFRS S2), CSV y, en México, el resumen RENE (COA).">Generate the report now builds a print-ready document laid out as ISO 14044, 5.2 (goal, inventory, impact and interpretation), with charts, evidence and checks. Framework exports (CDP, SB 253, CSRD, IFRS S2), CSV and, in México, the RENE (COA) summary are also available.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cómo contacto a soporte?">How do I contact support?</summary>
+        <div class="faq-a">
+          <p data-es="Escribe a support@co2trace.io en español o en inglés. Incluye empresa, país (US o MX), año de reporte y tu pregunta. Respondemos en un día hábil. Ver Soporte.">Write to support@co2trace.io in English or Spanish. Include company, country (US or MX), reporting year and your question. We reply within one business day. See Support.</p>
+        </div>
+      </details></li>
+    </ul>
+    <p class="faq-note" data-es="Las respuestas sobre regulación son información general, no asesoría legal.">Regulatory answers are general information, not legal advice.</p>
+  </section>
+
   <section class="about" id="about" aria-labelledby="aboutTitle">
     <div class="kicker rv">
       <div class="eyebrow" data-es="04 · Nosotros">04 · About us</div>
@@ -1926,11 +2039,21 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </div>
     <div class="support rv" id="support">
       <div>
-        <div class="eyebrow" data-es="Soporte">Support</div>
+        <div class="eyebrow" data-es="Contacto · Soporte">Contact · Support</div>
         <h3 data-es="¿Necesitas ayuda detallada?">Need detailed help?</h3>
         <p data-es="Escríbenos para dudas sobre tu inventario, tus documentos de evidencia, los requisitos ISO, el RENE o el GHG Protocol. Respondemos en español o en inglés.">Write to us about your inventory, your evidence documents, ISO requirements, the GHG Protocol or the RENE. We answer in English or Spanish.</p>
+        <p data-es="Incluye en el correo:">Please include in your email:</p>
+        <ul class="support-need">
+          <li data-es="Nombre de la empresa">Company name</li>
+          <li data-es="País de operaciones (US o MX)">Country of operations (US or MX)</li>
+          <li data-es="Año de reporte">Reporting year</li>
+          <li data-es="Tu pregunta o lo que necesitas revisar">Your question or what you need reviewed</li>
+        </ul>
       </div>
-      <a class="support-mail" href="mailto:support@co2trace.io?subject=CO2Trace%20support"><span class="vh" data-es="Escribir a soporte:">Email support:</span>support@co2trace.io<span aria-hidden="true">↗</span></a>
+      <div class="support-side">
+        <a class="support-mail" href="mailto:support@co2trace.io?subject=CO2Trace%20support"><span class="vh" data-es="Escribir a soporte:">Email support:</span>support@co2trace.io<span aria-hidden="true">↗</span></a>
+        <p class="support-time" data-es="Respondemos en un día hábil, de lunes a viernes.">We reply within one business day, Monday to Friday.</p>
+      </div>
     </div>
     <div class="socials" id="socials">
       <span class="eyebrow" data-es="Síguenos">Follow us</span>
@@ -1967,9 +2090,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div><h3 data-es="Plataforma">Platform</h3><ul>
       <li><a href="#examples" data-es="Ejemplos">Examples</a></li><li><a href="#ledgerTitle" data-es="Registro de actividades">Activity ledger</a></li><li><a href="#kpis" data-es="Tablero">Dashboard</a></li><li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li><li><a href="#evidence" data-es="Guía de evidencia">Evidence guide</a></li></ul></div>
     <div><h3 data-es="Aprende">Learn</h3><ul>
-      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
+      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
     <div><h3 data-es="Empresa">Company</h3><ul>
-      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
+      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="#support" data-es="Contacto y soporte">Contact and support</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
     <div><h3 data-es="Conecta">Connect</h3><ul>
       <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li><li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" data-es="Seguridad">Security</a></li></ul></div>
   </nav>

@@ -10,3 +10,4 @@
 - Bug sweep: Playwright 1280+390 × `/`, `/?demo`, `/inventory.html` — no console errors / failed requests; all `href="#…"` resolve; US↔MX (menu sheet on phone) OK. Fixes: sheet `.nav-tools` pills ≥44 px; region `data-es-title`; `#clearAll` `data-es`; method notes “Gantt” → Emissions by month. Left as-is: US-only goal labels (EN), social brand names, `inventory.html` draft (load-only, no rewrite).
 
 - Verify bug sweep: CSP OK; scripts OK; Playwright 1280+390 × `/`, `/?demo`, `/inventory.html` — acceptance pass (nav-tools ≥44 px, region titles, Start blank ES, no Gantt); mp4 abort ignored (media absent).
+- Missing pages part 1 (P-20261117-3): `#faq` (12 static Q&As), expanded `#support` (reply time + what to include), root `404.html` EN/ES; menu 04 + footer links. Privacy/terms left for part 2.
