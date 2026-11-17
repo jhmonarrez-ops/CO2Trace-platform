@@ -1,0 +1,17 @@
+---
+description: CO2Trace working rules and context budget (keep this file short)
+alwaysApply: true
+---
+
+# Context budget
+- `index.html` is ~850 KB (~210k tokens). Never read it whole and never open line 1369 (one 12 KB data line). Use `docs/code-map.md` (line numbers of sections, CSS blocks, constants, functions) or `grep -n`, then read at most ~150 lines around the target. Run `python3 tools/dev/code_map.py` after editing index.html.
+- `CLAUDE.md` (~45 KB) is the full project notes. Don't read it top to bottom: `grep -n` it for the feature or function you touch and read those bullets only.
+- Never read `data/libraries/*.json`, `media/`, `node_modules/`, `cdk.out/`, or lock files. Read `docs/dev-log.md` only from the tail (last ~40 lines).
+- Prefer small, targeted edits over rewriting large blocks. One feature per session.
+
+# Hard rules
+- Work only on branch `cursor-dev`. Never checkout, merge into or push `main` (it deploys co2trace.io). No force-push, no deploys, no paid cloud actions, no secrets in the repo.
+- After editing any inline `<script>` in index.html: `python3 tools/security/csp.py`, then `--check` must pass. Escape user values with `esc()`; no inline event handlers, no `eval`.
+- Keep English and Spanish in step (`data-es`, `L(en, es)`). Examples stay fixed and fictional; no new edit paths into examples.
+- Cite ISO standards only by number and clause; never paste standard text.
+- Record what you build as a short dated bullet in `CLAUDE.md` (same terse style).
