@@ -15,3 +15,9 @@ alwaysApply: true
 - Keep English and Spanish in step (`data-es`, `L(en, es)`). Examples stay fixed and fictional; no new edit paths into examples.
 - Cite ISO standards only by number and clause; never paste standard text.
 - Record what you build as a short dated bullet in `CLAUDE.md` (same terse style).
+
+# Major changes need Jorge's approval
+A change is MAJOR if it does any of: changes calculation results, emission factors, GWPs, country rules or example figures; removes or rewrites an existing feature, section or report; redesigns look, layout, branding or navigation; changes the saved data format (`state` shape/version, localStorage/IndexedDB keys); touches `api/`, `infra/`, `co2trace.config.js`, `CNAME`, auth, billing, plans or prices; adds a dependency, outside host (CSP `BASE`) or paid/cloud service; changes legal, compliance or regulatory wording; or is likely to change more than ~300 lines.
+- Never build a major change unless `.dev/approvals.txt` has `approve <id>` for its proposal. Instead write a proposal in `docs/proposals.md` (`## P-YYYYMMDD-n: title`, what, why, what Jorge will see, risk, size, alternatives), mark the backlog item `AWAITING APPROVAL (P-…)`, and work on a minor item.
+- `reject <id>: reason` in `.dev/approvals.txt` means drop or rework the item as the reason says.
+- If a minor item turns out major while building, stop, revert your uncommitted edits, and propose it.
