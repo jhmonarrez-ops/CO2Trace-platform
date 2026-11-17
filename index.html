@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-C6c3vxXFgTUwKfidrwgin4/cn3iFGmmD6IVL/fOLveQ=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-FABGtKya14voS4p9QU+F4qkPEuSW+JJ5/tXNETZ35mM=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -1371,12 +1371,65 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   table.ledger td.c-act, table.ledger td.c-per { grid-column: 1 / -1; }
   table.ledger td.c-act { padding-right: 36px; }
   table.ledger td.c-x { position: absolute; top: 10px; right: 8px; }
-  table.ledger td.c-x .icon-btn { min-width: 36px; height: 36px; }
+  table.ledger td.c-x .icon-btn { min-width: 44px; height: 44px; }
   table.ledger td.em { text-align: left; font-size: 20px; align-self: end; }
   table.ledger td .unit { display: block; padding: 9px 0; }
-  table.ledger .mm select { padding-inline: 8px; flex: 1; }
+  table.ledger .mm select { padding-inline: 8px; flex: 1; min-height: 44px; }
   table.ledger tr.ev-row { display: block; }
   table.ledger tr.ev-row > td { display: block; padding: 0 16px 16px; }
+  table.ledger .chip { min-height: 44px; box-sizing: border-box; }
+  table.ledger .add, .stage-foot .add, .stage-foot .adds .add { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; }
+  /* wide tables scroll inside their own box, not the page */
+  .table-scroll, .imp-tbl, .tj-plot, .unc-plot { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .workspace, .stages, .side, .charts, .card, #setup, #projectSetup { min-width: 0; max-width: 100%; }
+  .charts { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 16px; }
+  .card-head .seg.seg-sm button, .ctl .seg button, .tj-ms button { min-height: 44px; box-sizing: border-box; }
+  .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); }
+  .tm { height: 280px; }
+  .tj-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tj-tip { min-width: 0; max-width: min(260px, calc(100% - 12px)); left: 6px; right: auto; }
+  .rc-list { grid-template-columns: minmax(0, 1fr); }
+  .price-grid { grid-template-columns: minmax(0, 1fr); }
+  /* project setup + goal and scope: one-handed taps */
+  .meta .seg button, .panel-grid .seg button, .actions .btn, #exampleBanner .btn { min-height: 44px; box-sizing: border-box; }
+  .panel-grid { grid-template-columns: minmax(0, 1fr); }
+  .panel-grid .field input, .panel-grid .field select, .panel-grid .field textarea,
+  .meta .field input, .meta .field select { min-height: 44px; box-sizing: border-box; }
+  table.s3t select, table.s3t input { min-height: 44px; box-sizing: border-box; font-size: 16px; }
+  /* dialogs + evidence viewer: full-screen sheet, close reachable, safe-area */
+  dialog.acct {
+    width: 100%; max-width: 100%; height: 100%; max-height: 100dvh;
+    margin: 0; border-radius: 0; overflow: hidden;
+  }
+  dialog.acct form {
+    height: 100%; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain;
+    padding: 20px 16px; padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+  }
+  .acct .acts {
+    position: sticky; bottom: 0; z-index: 1; margin-top: 12px;
+    background: var(--surface); padding-top: 12px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom, 0px));
+  }
+  .acct .acts .btn, .acct .acct-go, .acct .acct-skip, .acct .acct-tabs button { min-height: 44px; box-sizing: border-box; }
+  .db .db-list { max-height: none; }
+  .db-list button { min-height: 44px; box-sizing: border-box; }
+  .imp-map { grid-template-columns: minmax(0, 1fr); }
+  #impMode button { min-height: 44px; box-sizing: border-box; }
+  .overlay { padding: 0; place-items: stretch; align-items: stretch; }
+  .viewer {
+    width: 100%; height: 100%; max-height: 100dvh; border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box;
+  }
+  .viewer header { padding: 10px 14px; padding-top: max(10px, env(safe-area-inset-top, 0px)); gap: 10px; }
+  .viewer header .btn { min-height: 44px; min-width: 44px; box-sizing: border-box; flex: none; }
+  .viewer iframe { height: calc(100dvh - 56px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); }
+  /* help chat open: pad page so primary content can scroll above the sheet */
+  body:has(#helpChat:not([hidden])) .wrap { padding-bottom: calc(min(78dvh, 640px) + 28px); }
+  body:has(#helpChat:not([hidden])) .site-foot { padding-bottom: calc(min(78dvh, 640px) + 12px); }
+  .hc-x, .hc-send { width: 44px; height: 44px; min-width: 44px; min-height: 44px; box-sizing: border-box; }
+  .hc-go, .hc-chip { min-height: 44px; box-sizing: border-box; }
 }
 </style>
 </head>
@@ -5242,9 +5295,11 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   // pointer → year, through the SVG's own coordinate system
   const tjYear = (svg, e) => { const g = JSON.parse(svg.dataset.geo), m = svg.getScreenCTM(); if (!m) return g.by; const x = (e.clientX - m.e) / m.a; return g.by + (x - g.x0) / (g.x1 - g.x0) * (g.end - g.by); };
-  $('charts').addEventListener('pointermove', e => { const plot = e.target.closest('.tj-plot'); if (plot && e.target.closest('svg.traj')) tjShow(plot, tjYear(plot.querySelector('svg.traj'), e)); });
-  $('charts').addEventListener('pointerleave', e => { const plot = e.target.closest && e.target.closest('.tj-plot'); if (plot) tjHide(plot); }, true);
-  $('charts').addEventListener('pointerout', e => { const plot = e.target.closest('.tj-plot'); if (plot && !plot.contains(e.relatedTarget)) tjHide(plot); });
+  const onTrajPoint = e => { const plot = e.target.closest('.tj-plot'); if (plot && e.target.closest('svg.traj')) tjShow(plot, tjYear(plot.querySelector('svg.traj'), e)); };
+  $('charts').addEventListener('pointermove', onTrajPoint);
+  $('charts').addEventListener('pointerdown', onTrajPoint);   // phones: tap shows the year readout (no hover move)
+  $('charts').addEventListener('pointerleave', e => { if (e.pointerType === 'touch') return; const plot = e.target.closest && e.target.closest('.tj-plot'); if (plot) tjHide(plot); }, true);
+  $('charts').addEventListener('pointerout', e => { if (e.pointerType === 'touch') return; const plot = e.target.closest('.tj-plot'); if (plot && !plot.contains(e.relatedTarget)) tjHide(plot); });
   $('charts').addEventListener('focusin', e => { const plot = e.target.closest('.tj-plot'); if (plot && tjTr) tjShow(plot, plot.dataset.year ? +plot.dataset.year : tjTr.cy); });
   $('charts').addEventListener('focusout', e => { const plot = e.target.closest('.tj-plot'); if (plot) tjHide(plot); });
   $('charts').addEventListener('keydown', e => {
@@ -6238,11 +6293,23 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     moveTip(e.clientX, e.clientY);
   }
   const chartsEl = $('charts');
+  const hideChartTips = () => {
+    hideTip();
+    chartsEl.querySelectorAll('.tj-plot').forEach(p => { const t = p.querySelector('.tj-tip'); if (t && !t.hidden) tjHide(p); });
+  };
   chartsEl.addEventListener('pointermove', onTipMove);
-  chartsEl.addEventListener('pointerdown', onTipMove);
-  chartsEl.addEventListener('pointerleave', hideTip);
-  window.addEventListener('scroll', hideTip, { passive: true });
-  chartsEl.closest('.side').addEventListener('scroll', hideTip, { passive: true });
+  chartsEl.addEventListener('pointerdown', onTipMove);   // phones: tap keeps the tip (leave would clear it at once)
+  chartsEl.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') hideTip(); });
+  window.addEventListener('scroll', hideChartTips, { passive: true });
+  chartsEl.closest('.side').addEventListener('scroll', hideChartTips, { passive: true });
+  // tap outside a mark / traj plot clears a stuck touch tip
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    if (!(e.target.closest && e.target.closest('#charts [data-tip]'))) hideTip();
+    if (!(e.target.closest && e.target.closest('#charts .tj-plot'))) {
+      chartsEl.querySelectorAll('.tj-plot').forEach(p => { const t = p.querySelector('.tj-tip'); if (t && !t.hidden) tjHide(p); });
+    }
+  }, true);
 
   // ---------- sample evidence documents (example companies only) ----------
   // A fictional document drawn from the line itself, so its total always matches the ledger. Every page is watermarked
