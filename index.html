@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-RTkdIpo5rlnPSCPWXbi14F1fCDQiVt7TFuyspiCVNW8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-ppJ+K6kQ2XMPTZnEfeiKErNGlbfjvuzrTKzJB2YNJhM=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -598,6 +598,9 @@ html.viewing:not(.ledger-open) .side { position: static; max-height: none; overf
 @media (prefers-reduced-motion: reduce) { .kpi.dual, .kpi.dual .face { transition: none; } }
 .kpi.total .k, .kpi.total .sub, .kpi.total .v small { color: rgb(255 255 255 / .7); }
 .kpi.total .v { font-size: clamp(34px, 2.8vw, 44px); }
+.kpi.total .pill { margin-left: auto; background: rgb(255 255 255 / .16); color: #FFFFFF; }
+.kpi.total .pill.ok { background: rgb(108 196 149 / .28); color: #B8E6CE; }
+.kpi.total .pill.warn { background: rgb(232 180 90 / .3); color: #F5D48A; }
 .kpi .v small { white-space: nowrap; }
 .meter { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: flex; }
 .kpi.total .meter { background: rgb(255 255 255 / .12); }
@@ -4685,6 +4688,9 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     const perAfter = fuQty > 0 ? ((t.total - sv.t) * 1000) / fuQty : null;
     const rev = +state.goal.revenue / 1e6, cur = PRICE_DEF[state.region].cur;
     const perRev = rev > 0 ? t.total / rev : null, revAfter = rev > 0 ? (t.total - sv.t) / rev : null, n2 = v => (v >= 100 ? nf0.format(v) : nf2.format(v));
+    const by = parseInt(state.goal.baseYear, 10), bt = parseFloat(state.goal.baseTotal);
+    const baseVs = (by && bt > 0);
+    const basePill = baseVs ? `<span class="pill ${t.total <= bt ? 'ok' : 'warn'}">${chg(t.total, bt)}</span>` : '';
     const intensity = isCorp()
       ? dualKpi('fu', `<div class="k">${L('Intensity per revenue', 'Intensidad por ingresos')}</div>
         <div class="v">${perRev === null ? '–' : n2(perRev)}<small>t CO₂e / M ${cur}</small></div>
@@ -4698,9 +4704,9 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       : `FESEN, en el total · memoria basada en mercado ${fmtT(t.s2mb)} t`;
     $('kpis').innerHTML = `
       <div class="kpi total">
-        <div class="k">Total · ${bnd()}</div>
+        <div class="k">Total · ${bnd()}${basePill}</div>
         <div class="v">${fmtT(t.total)}<small>t CO₂e</small></div>
-        <div class="sub">${esc(state.company || L('Company', 'Empresa'))}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} ${L('lines', 'líneas')} · ${REGIONS[state.region].name} · ${state.method}</div>
+        <div class="sub">${esc(state.company || L('Company', 'Empresa'))}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} ${L('lines', 'líneas')} · ${REGIONS[state.region].name} · ${state.method}${baseVs ? ' · ' + L(`vs base year ${by}`, `frente al año base ${by}`) : ''}</div>
       </div>
       ${[1, 2, 3].map(s => `<div class="kpi" style="--c: var(--s${s})">
         <div class="k"><span class="sw"></span>${SC(s)} · ${SN(s)}</div>

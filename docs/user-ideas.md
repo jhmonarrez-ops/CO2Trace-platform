@@ -9,7 +9,7 @@ Features people in each role would want. Size is a rough build estimate. Ranked 
 4. **Guided first-inventory wizard** `[major]` — Step through company → fuels → electricity → materials with defaults, then land on the ledger; needs new flow and saved state.
 
 ## Sustainability / EHS manager
-5. **Base-year vs current badge on KPIs** `[minor]` — Show % change vs base year on the total tile so progress is visible without opening the base-year card.
+5. **Base-year vs current badge on KPIs** `[minor]` — Show % change vs base year on the total tile so progress is visible without opening the base-year card. Done 2026-11-19.
 6. **Board-pack uncertainty blurb** `[minor]` — One-paragraph plain-language note under the uncertainty card for copying into a board deck.
 7. **Supplier chase list from Scope 3 hotspots** `[major]` — Turn largest Scope 3 lines into a chaseable supplier list with mailto drafts; touches workflow and possibly accounts.
 
