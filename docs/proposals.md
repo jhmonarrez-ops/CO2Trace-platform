@@ -24,3 +24,4 @@ Major changes waiting for or holding Jorge's decision. Format: `## P-YYYYMMDD-n:
 - What: `docs/user-ideas.md` with ideas per user type; build the top two page-only minor ideas; propose the major ones.
 - Why: Jorge asked for "different user ideas they might want to use".
 - Decision: approved by Jorge on 2026-11-17 (request to OpenClaw).
+- Status 2026-11-19: selected for daily build (plan phase); `docs/user-ideas.md` not started yet.
