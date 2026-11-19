@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
-<meta name="robots" content="noindex">
-<title>Privacy (draft) · CO2Trace</title>
+<title>Privacy · CO2Trace</title>
 <link rel="icon" type="image/svg+xml" href="brand/co2trace-icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +14,11 @@
   --brand: #072AC8; --forest: #252422; --forest-accent: #CCD5AE;
   --bg: #EEF0EB; --surface: #FFFFFF; --ink: #1D2B35; --muted: #5A6A74; --line: #DADFD5;
   --f: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --warn: #8A5A00; --warn-bg: #F7E8C8;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #11141C; --surface: #191E2A; --ink: #E9ECF3; --muted: #A0A8BA; --line: #2F3748;
-    --brand: #A9B9F5; --warn: #F0C674; --warn-bg: #2A2418;
+    --brand: #A9B9F5;
   }
 }
 * { box-sizing: border-box; }
@@ -39,11 +37,6 @@ body {
 .brand {
   font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
   color: var(--brand); text-decoration: none;
-}
-.draft {
-  margin: 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line);
-  background: var(--warn-bg); color: var(--warn);
-  font-size: 14px; font-weight: 500; line-height: 1.4;
 }
 .eyebrow {
   margin: 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
@@ -84,10 +77,9 @@ a.inline { color: var(--brand); }
   <main class="wrap">
     <article class="card">
       <a class="brand" href="index.html">CO2Trace</a>
-      <p class="draft" role="status">Draft – pending review · Borrador – pendiente de revisión</p>
       <p class="eyebrow">Privacy</p>
-      <h1>Privacy (draft)</h1>
-      <p>This page describes how co2trace.io works today. It is a draft pending review and is not linked from the site menu.</p>
+      <h1>Privacy</h1>
+      <p>This page describes how co2trace.io works today: what stays on your device, what we do not collect, and how to reach us.</p>
 
       <h2>What stays in your browser</h2>
       <p>Your ledger is saved on this device in the browser. Nothing is sent to a CO2Trace server yet.</p>
@@ -113,8 +105,8 @@ a.inline { color: var(--brand); }
       <p>Pages load Hanken Grotesk from Google Fonts. The home page also loads Lenis (smooth scrolling) from a pinned jsDelivr copy. Those hosts may see a normal request for the font or script file; they do not receive your ledger.</p>
 
       <div class="es" lang="es-MX">
-        <p class="sub">Privacidad (borrador)</p>
-        <p>Esta página describe cómo funciona co2trace.io hoy. Es un borrador pendiente de revisión y no está enlazada en el menú del sitio.</p>
+        <p class="sub">Privacidad</p>
+        <p>Esta página describe cómo funciona co2trace.io hoy: qué se queda en tu dispositivo, qué no recopilamos y cómo contactarnos.</p>
 
         <h2>Qué se queda en tu navegador</h2>
         <p>Tu inventario se guarda en este dispositivo, en el navegador. Todavía no se envía nada a un servidor de CO2Trace.</p>
