@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-FABGtKya14voS4p9QU+F4qkPEuSW+JJ5/tXNETZ35mM=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-hkmE3k07CiIpWU3AxhPk4TkhEqomHxcSalx/hXpU+1M=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -1090,6 +1090,28 @@ html.lenis { scroll-behavior: auto !important; }
 }
 @media (prefers-reduced-motion: reduce) { .mock *, .mock-screen, .how-steps li { transition: none !important; } }
 
+/* Getting started (#start): checklist + monthly .ics */
+.start { display: grid; gap: 22px; padding: clamp(28px, 5vw, 72px); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.start-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 14px 32px; align-items: end; }
+.start h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1; color: var(--title); margin-top: 8px; }
+.start-lede { margin: 0; font-size: 16px; line-height: 1.5; color: var(--slate); max-width: 48ch; }
+.start-prog { display: grid; gap: 8px; }
+.start-prog-lab { font-family: var(--f-label); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
+.start-bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.start-bar > i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--brand); transition: width .4s cubic-bezier(.2, .7, .2, 1); }
+.start-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.start-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); border: 1px solid transparent; transition: border-color .25s, background .25s; }
+.start-list li.done { border-color: color-mix(in srgb, var(--ok) 35%, transparent); background: color-mix(in srgb, var(--ok) 8%, var(--surface-2)); }
+.start-tick { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line); font-size: 13px; font-weight: 700; color: var(--muted); }
+.start-list li.done .start-tick { border-color: var(--ok); background: var(--ok); color: #fff; }
+.start-list h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.start-list p { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--slate); }
+.start-list .btn { justify-self: end; padding: 8px 14px; font-size: 13.5px; min-height: 40px; }
+.start-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 4px; border-top: 1px solid var(--line); }
+.start-tools .note { margin: 0; font-size: 13px; color: var(--slate); max-width: 56ch; }
+@media (max-width: 760px) { .start-head { grid-template-columns: minmax(0, 1fr); } .start-list li { grid-template-columns: 28px minmax(0, 1fr); } .start-list .btn { grid-column: 2; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { .start-bar > i { transition: none; } }
+
 /* Full video at the end of the page */
 .demo { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: clamp(28px, 5vw, 72px); display: grid; gap: clamp(24px, 3vw, 40px); }
 .demo-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px clamp(24px, 6vw, 96px); align-items: end; }
@@ -1350,8 +1372,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   .tree-panel { min-height: 300px; min-width: 0; max-width: 100%; }
   .tree-cap { font-size: 9.5px; }
   /* public sections stack one column */
-  .how-head, .how-body, .plans-grid, .lca-head, .lca-mid, .demo-head { grid-template-columns: minmax(0, 1fr); }
-  .how, .lca, .how .mock, .about, .plans, .faq, .examples, .ex-grid { min-width: 0; max-width: 100%; }
+  .how-head, .how-body, .plans-grid, .lca-head, .lca-mid, .demo-head, .start-head { grid-template-columns: minmax(0, 1fr); }
+  .how, .lca, .how .mock, .about, .plans, .faq, .examples, .ex-grid, .start { min-width: 0; max-width: 100%; }
+  .start-list .btn, #icsDl { min-height: 44px; box-sizing: border-box; }
   .pillars { grid-template-columns: minmax(0, 1fr); }
   .faq-list summary { min-height: 44px; padding: 16px 18px; font-size: 16px; }
   .faq-list .faq-a { padding: 0 18px 18px; }
@@ -1512,6 +1535,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
           <ul>
             <li><a href="#lca" data-es="Qué es un análisis de ciclo de vida">What is a life cycle assessment</a></li>
             <li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li>
+            <li><a href="#start" data-es="Lista para empezar">Getting-started checklist</a></li>
             <li><a href="#demo" data-es="Video completo">Full video</a></li>
             <li><a href="#method" data-es="Método, evidencia y fuentes">Method, evidence and sources</a></li>
             <li><a href="#libList" data-es="Bibliotecas y método de impacto">Libraries and impact method</a></li>
@@ -1717,6 +1741,22 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <li data-step="4"><span class="how-no">04</span><h3 data-es="Lee el tablero">Read the dashboard</h3><p data-es="Los totales por alcance, etapa, proveedor y mes se actualizan mientras escribes. Aquí los tres alcances están parejos: 33% directas (lavadora de botellas, calderas, camiones de reparto), 33% electricidad y 35% cadena de valor (vidrio, cajas y fletes).">Totals by scope, stage, supplier and month update as you type. Here the three scopes are close: 33% direct (bottle washer, boilers, route trucks), 32% electricity and 35% value chain (glass, cases and freight).</p><a href="#kpis" data-es="Ir al tablero →">Go to the dashboard →</a></li>
         <li data-step="5"><span class="how-no">05</span><h3 data-es="Revisa y exporta">Check and export</h3><p data-es="Las Revisiones marcan lo que un verificador preguntaría. Copia los resultados en CSV para Excel o, en México, el resumen RENE para la COA. Al final de la página está el video completo.">The Checks list flags what a verifier would ask about. Copy the results as CSV for Excel, or in México the RENE summary for the COA. The full video is at the end of the page.</p><a href="#demo" data-es="Ver el video completo →">Watch the full video →</a></li>
       </ol>
+    </div>
+  </section>
+
+  <section class="start rv" id="start" aria-labelledby="startTitle">
+    <div class="start-head">
+      <div class="kicker"><div class="eyebrow" data-es="Empieza">Get started</div><h2 id="startTitle" class="rv-h" data-es="Tu lista para el primer inventario">Your checklist for a first inventory</h2></div>
+      <p class="start-lede" data-es="Cinco pasos en esta página. Marca el avance mientras exploras un ejemplo; con una cuenta, capturas tus propios datos. Nada de esto edita los ejemplos.">Five steps on this page. Progress updates as you explore an example; with an account, you enter your own data. None of this edits the examples.</p>
+    </div>
+    <div class="start-prog" aria-live="polite">
+      <div class="start-prog-lab" id="startProgLab"></div>
+      <div class="start-bar" aria-hidden="true"><i id="startBar"></i></div>
+    </div>
+    <ol class="start-list" id="startList"></ol>
+    <div class="start-tools">
+      <button type="button" class="btn" id="icsDl" data-es="Descargar recordatorios mensuales (.ics)">Download monthly reminders (.ics)</button>
+      <p class="note" data-es="Un evento el día 5 de cada mes del año de reporte (o el año actual). Ábrelo en tu calendario para reunir recibos a tiempo.">One event on the 5th of each month of the reporting year (or the current year). Add it to your calendar so bills are gathered on time.</p>
     </div>
   </section>
 
@@ -2090,7 +2130,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div><h3 data-es="Plataforma">Platform</h3><ul>
       <li><a href="#examples" data-es="Ejemplos">Examples</a></li><li><a href="#ledgerTitle" data-es="Registro de actividades">Activity ledger</a></li><li><a href="#kpis" data-es="Tablero">Dashboard</a></li><li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li><li><a href="#evidence" data-es="Guía de evidencia">Evidence guide</a></li></ul></div>
     <div><h3 data-es="Aprende">Learn</h3><ul>
-      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
+      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#start" data-es="Lista para empezar">Getting started</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
     <div><h3 data-es="Empresa">Company</h3><ul>
       <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="#support" data-es="Contacto y soporte">Contact and support</a></li><li><a href="privacy.html" data-es="Privacidad">Privacy</a></li><li><a href="terms.html" data-es="Términos">Terms</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
     <div><h3 data-es="Conecta">Connect</h3><ul>
@@ -4152,6 +4192,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     document.documentElement.classList.add('rep-open');
     if (!(history.state && history.state.report)) history.pushState({ report: true }, '', '#report');
     $('repBack').focus({ preventScroll: true });
+    markStart('rep');
   }
   function closeReport(fromHistory) {
     if (!repOpen) return;
@@ -4249,6 +4290,72 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   const OWN_STORE = 'lca-ledger-own';
   // exOpen: the gallery is open; exShown: the chosen example is shown in full (goal and scope, KPIs, ledger, dashboard)
   let exOpen = !!DEMO, exShown = !!DEMO;
+  // Getting-started checklist (#start) + monthly .ics: progress in this browser only; public-safe (scroll / examples / account)
+  const START_STORE = 'lca-start-v1';
+  const START_IDS = ['how', 'ex', 'ev', 'rep', 'acct'];
+  let startDone = {};
+  try { startDone = JSON.parse(localStorage.getItem(START_STORE) || '{}') || {}; } catch (e) { startDone = {}; }
+  const saveStart = () => { try { localStorage.setItem(START_STORE, JSON.stringify(startDone)); } catch (e) {} };
+  function markStart(id) {
+    if (!START_IDS.includes(id) || startDone[id]) return;
+    startDone[id] = true; saveStart(); renderStart();
+  }
+  function startSteps() {
+    return [
+      { id: 'how', t: L('See how CO2Trace works', 'Mira cómo funciona CO2Trace'), d: L('Scroll the five steps with the fictional bottler.', 'Recorre los cinco pasos con la embotelladora ficticia.'), go: L('Open How to use', 'Abrir Cómo usar') },
+      { id: 'ex', t: L('Explore an example', 'Explora un ejemplo'), d: L('Open a fictional company and read its dashboard (read-only).', 'Abre una empresa ficticia y lee su tablero (solo lectura).'), go: L('See examples', 'Ver ejemplos') },
+      { id: 'ev', t: L('Check what evidence you need', 'Revisa qué evidencia necesitas'), d: L('Open the evidence guide and a sample document.', 'Abre la guía de evidencia y un documento de muestra.'), go: L('Open evidence guide', 'Abrir guía de evidencia') },
+      { id: 'rep', t: L('Open a sample report', 'Abre un reporte de muestra'), d: L('Generate a print-ready report from the example in view.', 'Genera un reporte listo para imprimir con el ejemplo en vista.'), go: L('Go to Reports', 'Ir a Reportes') },
+      { id: 'acct', t: L('Create an account for your data', 'Crea una cuenta para tus datos'), d: PUBLIC ? L('Own ledger entry needs a company account on the public site.', 'Capturar tu propio registro requiere una cuenta de empresa en el sitio público.') : L('Sign in or continue so your ledger stays yours.', 'Inicia sesión o continúa para que el registro sea tuyo.'), go: PUBLIC ? L('Create account', 'Crear cuenta') : L('Open account', 'Abrir cuenta') },
+    ];
+  }
+  function renderStart() {
+    const list = $('startList'), lab = $('startProgLab'), bar = $('startBar');
+    if (!list) return;
+    if (exShown && !startDone.ex) { startDone.ex = true; saveStart(); }
+    const steps = startSteps(), n = START_IDS.filter(id => startDone[id]).length;
+    if (lab) lab.textContent = L(`${n} of ${START_IDS.length} done`, `${n} de ${START_IDS.length} listos`);
+    if (bar) bar.style.width = `${(100 * n / START_IDS.length).toFixed(1)}%`;
+    list.innerHTML = steps.map(s => {
+      const ok = !!startDone[s.id];
+      return `<li class="${ok ? 'done' : ''}" data-start="${s.id}">
+        <span class="start-tick" aria-hidden="true">${ok ? '✓' : ''}</span>
+        <div><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></div>
+        <button type="button" class="btn${ok ? '' : ' primary'}" data-start-go="${s.id}">${esc(ok ? L('Done', 'Listo') : s.go)}</button>
+      </li>`;
+    }).join('');
+  }
+  function runStart(id) {
+    markStart(id);
+    if (id === 'how') goTo($('how'));
+    else if (id === 'ex') { exOpen = true; renderView(); goTo($('examples')); }
+    else if (id === 'ev') goTo($('evidence'));
+    else if (id === 'rep') { goTo($('reports')); setTimeout(() => openReport({ html: () => REP_DOCS.inv(), title: () => `${bare(state.company || 'CO2Trace')} · ${L('GHG inventory report', 'Reporte del inventario de GEI')} ${state.year || ''}` }), 400); }
+    else if (id === 'acct') account('create');
+  }
+  function monthIcs() {
+    const y = parseInt(state.year, 10) || new Date().getFullYear();
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const stamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
+    const escI = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//CO2Trace//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    for (let m = 0; m < 12; m++) {
+      const monEn = MONTHS_EN[m], mon = MONTHS[m];
+      const sum = L(`CO2Trace: enter ${monEn} ${y} activity data`, `CO2Trace: capturar datos de ${mon} ${y}`);
+      const desc = L('Gather this month’s bills and invoices and update the ledger at https://co2trace.io', 'Reúne los recibos y facturas del mes y actualiza el registro en https://co2trace.io');
+      lines.push('BEGIN:VEVENT', `UID:co2trace-${y}-${pad(m + 1)}@co2trace.io`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${y}${pad(m + 1)}05`, `SUMMARY:${escI(sum)}`, `DESCRIPTION:${escI(desc)}`, 'END:VEVENT');
+    }
+    lines.push('END:VCALENDAR');
+    const a = document.createElement('a'), u = URL.createObjectURL(new Blob([lines.join('\r\n')], { type: 'text/calendar' }));
+    a.href = u; a.download = `co2trace-reminders-${y}.ics`; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(u), 1000);
+  }
+  $('startList') && $('startList').addEventListener('click', e => {
+    const b = e.target.closest('[data-start-go]'); if (!b) return;
+    runStart(b.dataset.startGo);
+  });
+  $('icsDl') && $('icsDl').addEventListener('click', monthIcs);
   const SIZES = { small: ['Small', 'Pequeña'], medium: ['Medium', 'Mediana'], large: ['Large', 'Grande'] };
   const exCache = {};
   function exSummary(id) {
@@ -4305,6 +4412,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     renderGuide();
     renderReports();
     renderPlans();
+    renderStart();
   }
   function loadExample(id) {
     if (id === 'own') {
@@ -5767,6 +5875,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   // the account box, or the real sign-in when there is a backend
   function account(mode, onDone) {
+    markStart('acct');
     if (CFG) { if (cloud.signedIn()) { if (onDone) onDone({ company: '' }); } else cloud.signIn(mode, onDone ? 'own' : null); return; }
     if (window.openAccount) window.openAccount(mode, onDone);
   }
@@ -7052,7 +7161,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       { k: 'plan plans price prices pricing cost costs fee monthly subscription expert review reviews plan planes precio precios costo cuota mensual suscripcion experto revision revisiones', a: () => document.documentElement.classList.contains('no-plans') ? ({ html: L('<p>Pricing is shared on request. Write to <a href="mailto:support@co2trace.io">support@co2trace.io</a> and we will send it.</p>', '<p>Los precios se comparten a solicitud. Escribe a <a href="mailto:support@co2trace.io">support@co2trace.io</a> y te los enviamos.</p>') }) : ({ html: L(`<p>Three monthly plans by company size: <b>Small</b> (1–50 people) from $149 USD, <b>Medium</b> (51–250) $449 and <b>Large</b> (251+) from $1,190, before tax. Paying yearly gives two months free.</p><p>Every plan includes <b>scheduled expert reviews</b>: two a month on Small and Medium, three on Large. An LCA and GHG specialist goes through your data and evidence with you on a video call.</p>`, `<p>Tres planes mensuales según el tamaño de la empresa: <b>Pequeña</b> (1 a 50 personas) $2,490 MXN, <b>Mediana</b> (51 a 250) $7,490 y <b>Grande</b> (más de 250) desde $19,900, más IVA. El pago anual da dos meses gratis.</p><p>Todos los planes incluyen <b>revisiones programadas con expertos</b>: dos al mes en Pequeña y Mediana, tres en Grande. Un especialista en ACV y GEI revisa tus datos y tu evidencia contigo por videollamada.</p>`), acts: [go('See the plans', 'Ver los planes', 'plans')] }) },
       { k: 'evidence document documents receipt invoice bill attach file files verify verified missing coverage evidencia documento factura recibo adjuntar archivo verificar verificada faltante cobertura', a: live.evidence },
       { k: 'rene coa threshold umbral mexico semarnat cedula 25000 25 000 obligatorio obligatory', a: live.rene },
-      { k: 'start started begin getting use how first blank example tutorial video demo walkthrough watch empezar empiezo comenzar inicio iniciar usar como funciona ejemplo blanco video demostracion ver', a: () => ({ html: L(`<p><b>Explore an example</b> lists four fictional companies of different sizes and industries; pick one to see its dashboard. To use your own data, pick <b>Your own data</b>, then three steps:</p><ul><li><b>Project setup</b>: company, year, functional unit, country (US or MX) and boundary.</li><li><b>Activity ledger</b>: one line per activity in each life-cycle stage, with quantity, unit, supplier and months.</li><li><b>Dashboard</b> fills in as you type: totals by scope, category, stage, supplier and month.</li></ul><p>The <b>How to use CO2Trace</b> section plays the steps as you scroll, and the full video is at the end of the page.</p>`, `<p><b>Explora un ejemplo</b> muestra cuatro empresas ficticias de distinto tamaño e industria; elige una para ver su tablero. Para usar tus datos, elige <b>Tus propios datos</b> y sigue tres pasos:</p><ul><li><b>Configuración del proyecto</b>: empresa, año, unidad funcional, país (US o MX) y límite del sistema.</li><li><b>Registro de actividades</b>: una línea por actividad en cada etapa del ciclo de vida, con cantidad, unidad, proveedor y meses.</li><li>El <b>tablero</b> se llena mientras capturas: totales por alcance, categoría, etapa, proveedor y mes.</li></ul><p>La sección <b>Cómo usar CO2Trace</b> muestra los pasos al desplazarte, y el video completo está al final de la página.</p>`), acts: [go('How to use', 'Cómo usar', 'how'), go('Watch the video', 'Ver el video', 'demo'), go('Examples', 'Ejemplos', 'examples')] }) },
+      { k: 'start started begin getting use how first blank example tutorial video demo walkthrough watch checklist reminder reminders calendar ics monthly empezar empiezo comenzar inicio iniciar usar como funciona ejemplo blanco video demostracion ver lista recordatorio recordatorios calendario mensual', a: () => ({ html: L(`<p>Use the <b>Getting-started checklist</b> (after How to use): five steps with a progress bar — how it works, an example, evidence, a sample report, then an account. Progress is saved in this browser. Download <b>monthly reminders (.ics)</b> from the same section to put a calendar event on the 5th of each month of the reporting year.</p><p><b>Explore an example</b> lists four fictional companies; pick one to see its dashboard. Own data needs a company account on the public site. The <b>How to use CO2Trace</b> section plays the steps as you scroll, and the full video is at the end of the page.</p>`, `<p>Usa la <b>lista para empezar</b> (después de Cómo usar): cinco pasos con barra de avance — cómo funciona, un ejemplo, evidencia, un reporte de muestra y luego una cuenta. El avance se guarda en este navegador. Descarga los <b>recordatorios mensuales (.ics)</b> en la misma sección para un evento el día 5 de cada mes del año de reporte.</p><p><b>Explora un ejemplo</b> muestra cuatro empresas ficticias; elige una para ver su tablero. En el sitio público, tus propios datos requieren una cuenta de empresa. La sección <b>Cómo usar CO2Trace</b> muestra los pasos al desplazarte, y el video completo está al final de la página.</p>`), acts: [go('Getting started', 'Empezar', 'start'), go('How to use', 'Cómo usar', 'how'), go('Watch the video', 'Ver el video', 'demo'), go('Examples', 'Ejemplos', 'examples')] }) },
       { k: 'add line row activity enter quantity unit delete remove agregar linea fila actividad capturar cantidad unidad borrar eliminar quitar', a: () => ({ html: L(`<p>In each stage of the ledger press <b>+ Add line</b>, pick the activity (fuel, electricity, material, transport…), then enter the quantity, unit, supplier and the months it happened. The kg CO₂e/unit comes from the factor library. The <b>×</b> on a line removes it.</p>`, `<p>En cada etapa del registro presiona <b>+ Agregar línea</b>, elige la actividad (combustible, electricidad, material, transporte…) y captura cantidad, unidad, proveedor y los meses en que ocurrió. Los kg CO₂e/unidad vienen de la biblioteca de factores. La <b>×</b> de una línea la elimina.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },
       { k: 'factor factors emission ef library source custom edit change own epa defra ecoinvent factores biblioteca fuente editar cambiar propio', a: () => ({ html: L(`<p>Each activity uses a cited factor from the library (EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México). Factors are stored as kg of each gas per unit and characterised with the chosen GWPs. You can edit a line’s factor or pick <b>Custom</b> to enter your own; edited lines are marked.</p>`, `<p>Cada actividad usa un factor citado de la biblioteca (SEMARNAT y FESEN para México; EPA, eGRID, IPCC y bases ICV para EE. UU.). Los factores se guardan como kg de cada gas por unidad y se caracterizan con los PCG elegidos. Puedes editar el factor de una línea o elegir <b>Personalizado</b> para capturar el tuyo; las líneas editadas quedan marcadas.</p>`), acts: [go('Libraries and method', 'Bibliotecas y método', 'libList')] }) },
       { k: 'database databases library libraries uslci epa supply chain useeio exiobase agribalyse weee spend naics search base bases datos buscar gasto', a: () => ({ html: L(`<p>Press <b>+ From database</b> in any stage to search the factor databases and add a line: <b>EPA supply chain</b> factors (US, per USD spent, by NAICS), <b>EXIOBASE 3.8.2</b> (per EUR spent, 49 regions including México), <b>USLCI</b> (US process data: materials, energy, transport, grid mixes), <b>AGRIBALYSE 3.2</b> (food, per kg) and <b>WEEE LCI</b> (end of life of electrical equipment). Each value is kg of each gas per unit, so it follows the GWP method you choose. The line keeps its source and licence.</p>`, `<p>Presiona <b>+ Desde base de datos</b> en cualquier etapa para buscar en las bases de factores y agregar una línea: factores de <b>cadena de suministro de la EPA</b> (EE. UU., por USD gastado, por NAICS), <b>EXIOBASE 3.8.2</b> (por EUR gastado, 49 regiones incluida México), <b>USLCI</b> (procesos de EE. UU.: materiales, energía, transporte, mezclas de red), <b>AGRIBALYSE 3.2</b> (alimentos, por kg) y <b>WEEE LCI</b> (fin de vida de aparatos eléctricos). Cada valor es kg de cada gas por unidad, así que sigue el método de PCG que elijas. La línea guarda su fuente y licencia.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },

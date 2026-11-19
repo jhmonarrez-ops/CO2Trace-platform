@@ -24,4 +24,20 @@ Major changes waiting for or holding Jorge's decision. Format: `## P-YYYYMMDD-n:
 - What: `docs/user-ideas.md` with ideas per user type; build the top two page-only minor ideas; propose the major ones.
 - Why: Jorge asked for "different user ideas they might want to use".
 - Decision: approved by Jorge on 2026-11-17 (request to OpenClaw).
-- Status 2026-11-19: selected for daily build (plan phase); `docs/user-ideas.md` not started yet.
+- Status 2026-11-19: done — `docs/user-ideas.md` (15 ideas / 5 groups); shipped checklist + monthly `.ics`; remaining ideas under backlog Later; two majors proposed below.
+
+## P-20261119-1: Multi-client workspace for consultants
+- What: under one signed-in account, switch between several client ledgers (list + create/rename/archive), each with its own company, year, rows and evidence; keep the current single-ledger UX when only one client exists.
+- Why: consultants managing several clients (user-ideas #8) need this before any comparison dashboard; it changes the saved data shape and needs the cloud account backend.
+- What Jorge will see: a client switcher near Project setup; switching reloads that client’s dashboard and reports; public site unchanged.
+- Risk: medium–high — new persistence keys / cloud company model; must not break `lca-ledger-v1` for single-company users.
+- Size: large (~several sessions; depends on Cognito/API).
+- Alternatives: export/import JSON per client only (minor, weaker); wait until accounts ship, then add switcher.
+
+## P-20261119-2: Evidence completeness trail for auditors
+- What: an export (HTML/CSV) listing every evidence attach, verify and period check in chronological order for the ledger in view, with line id, document type, reference and cumulative coverage — for an engagement file.
+- Why: auditors/verifiers (user-ideas #13) need a trail beyond the evidence pack annex; full change history (#14) is larger and needs storage.
+- What Jorge will see: a new button under Reports / Evidence pack that opens or downloads the trail; examples stay read-only.
+- Risk: medium — may need IndexedDB file metadata timestamps; wording must stay non-assurance.
+- Size: medium (about one focused session if limited to current evidence fields; larger if true history).
+- Alternatives: strengthen the existing Evidence pack annex only (minor); defer until cloud change-log exists.

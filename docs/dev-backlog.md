@@ -13,7 +13,20 @@ Build these in order. Today the runner repeats plan → build → verify up to 6
 - [x] [minor] Bug sweep: serve the site, load `index.html` and `index.html?demo` and `inventory.html` with Playwright at 1280 px and 390 px, collect console errors and failed requests; check every `href="#…"` has a matching `id`; check visible strings missing a Spanish `data-es`/`L()`; check switching EN↔ES and back; fix what you find with small edits (calculation results must not change). List anything not fixed in `docs/dev-log.md`.
 - [x] APPROVED (P-20261117-3) [major] Missing pages, part 1: FAQ section built from the help-chat answers (index.html ~6600–6900), a Contact/Support block (support@co2trace.io, response time, what to include), and `404.html` in the site style (EN/ES, link home). Add them to the nav/footer.
 - [x] APPROVED (P-20261117-3) [major] Missing pages, part 2: `privacy.html` and `terms.html` drafts in the site style (EN/ES) describing what the site really does today (data saved only in this browser, no tracking, contact address). Mark both visibly "Draft – pending review" and add `<meta name="robots" content="noindex">`; do NOT link them from the nav until Jorge approves the wording.
-- [ ] APPROVED (P-20261117-4) [major] User ideas: write `docs/user-ideas.md` – 12–15 features users would want, grouped by user (SME owner, sustainability/EHS manager, consultant managing several clients, supplier answering a customer request, auditor/verifier), each with one line of why, size, and `[minor]`/`[major]`. Then build the top two `[minor]` ideas that are page-only (examples: first-run "getting started" checklist with progress, downloadable CSV import template per category, monthly data-entry reminder via .ics file, print-friendly one-page summary). Add the rest to this backlog under "Later"; for majors write proposals (max 2 today).
+- [x] APPROVED (P-20261117-4) [major] User ideas: write `docs/user-ideas.md` – 12–15 features users would want, grouped by user (SME owner, sustainability/EHS manager, consultant managing several clients, supplier answering a customer request, auditor/verifier), each with one line of why, size, and `[minor]`/`[major]`. Then build the top two `[minor]` ideas that are page-only (examples: first-run "getting started" checklist with progress, downloadable CSV import template per category, monthly data-entry reminder via .ics file, print-friendly one-page summary). Add the rest to this backlog under "Later"; for majors write proposals (max 2 today).
 
 ## Later
-<!-- Planner: once the Day 1 items are done or blocked, generate the gap items here as described in step 3 of the plan prompt (P1 calculation/compliance, P2 account/backend, P3 UX). -->
+<!-- From docs/user-ideas.md (2026-11-19); ~45 min each where possible. Shipped: checklist + monthly .ics. -->
+- [ ] [minor] Print-friendly one-page summary (A4: total, scopes, top lines, evidence %) without the full ISO report.
+- [ ] [minor] Base-year vs current % badge on the total KPI tile.
+- [ ] [minor] Board-pack uncertainty blurb (plain-language paragraph under `#c-unc` for copy).
+- [ ] [minor] Consultant-branded report cover (optional local name/logo on print cover).
+- [ ] [minor] One-click customer-request reply pack (sheet + CSV + cover note as browser zip).
+- [ ] [minor] Portal-ready CDP Supply Chain CSV columns from existing `crAlloc()`.
+- [ ] [minor] Materiality filter on the Checks card (hide items under materiality %).
+- [ ] AWAITING APPROVAL (P-20261119-1) [major] Multi-client workspace switcher for consultants (cloud + data shape).
+- [ ] AWAITING APPROVAL (P-20261119-2) [major] Evidence completeness trail export for auditors/verifiers.
+- [ ] [major] Guided first-inventory wizard (company → fuels → electricity → materials).
+- [ ] [major] Supplier chase list from Scope 3 hotspots (mailto drafts).
+- [ ] [major] Side-by-side client comparison (depends on P-20261119-1).
+- [ ] [major] Line-level change log since last review (needs history storage).
