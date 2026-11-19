@@ -1,5 +1,9 @@
 # Dev log
 
+## 2026-11-19
+- Publish privacy/terms (P-20261117-3 legal wording): footer Company → Privacy / Terms (Privacidad / Términos); dropped `noindex` + draft banner; live EN+ES titles; Contact (not drafts) on terms.
+- Verify: CSP OK; scripts `node --check` OK; Playwright `/?demo` + `/privacy.html` + `/terms.html` at 1280+390 — footer hrefs, no banner/noindex, titles clean, no H-scroll, no console errors.
+
 ## 2026-11-17
 - Phone use part 1 (P-20261117-2): public pages at 360/390/430 — no sideways scroll, menu sheet, 44 px taps, safe-area, one-column stacks; `site.webmanifest` + theme-color; icons in `brand/`.
 - Restored Plans (P-20261117-1): removed `no-plans` from `<html>`; section, nav/footer links and help-chat prices show again; amounts unchanged.
