@@ -8,6 +8,7 @@
 - One-page summary: `#repTypes` card `sum` + `sumHtml` (total, scopes, top 10, evidence %); print via `#repView`.
 - Verify one-page: CSP OK; scripts OK; Playwright `/?demo` 1280+390 US/MX — card, A4 content, Print, EN↔ES, examples locked, no H-scroll, no console errors.
 - Base-year % badge on Total KPI: `renderKpis` pill + “vs base year” subline via `chg`/`baseYear`/`baseTotal` (same as `#c-base`).
+- Verify base-year badge: CSP OK; scripts OK; Playwright `/?demo` 1280+390 US/MX — `−4.3 %` pill matches `#c-base`, EN↔ES subline, examples locked, no H-scroll, no console errors.
 
 ## 2026-11-17
 - Phone use part 1 (P-20261117-2): public pages at 360/390/430 — no sideways scroll, menu sheet, 44 px taps, safe-area, one-column stacks; `site.webmanifest` + theme-color; icons in `brand/`.
