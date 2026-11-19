@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-hkmE3k07CiIpWU3AxhPk4TkhEqomHxcSalx/hXpU+1M=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-RTkdIpo5rlnPSCPWXbi14F1fCDQiVt7TFuyspiCVNW8=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -3327,6 +3327,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     pcf: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
     disc: '<path d="M5 21V4h11l-1.5 4H20l-2 6H5"/>',
     pack: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/>',
+    sum: '<path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
   });
   function renderReports() {
     const mx = state.region === 'mx';
@@ -3335,6 +3336,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       ['pcf', L('Product carbon footprint study', 'Estudio de huella de carbono de producto'), 'ISO 14067 · ISO 14044', L('kg CO₂e per functional unit by life-cycle stage, with the full ISO 14044 study report.', 'kg CO₂e por unidad funcional por etapa del ciclo de vida, con el reporte completo del estudio ISO 14044.')],
       ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
       ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
+      ['sum', L('One-page summary', 'Resumen de una página'), L('A4 · board or bank meeting', 'A4 · junta o banco'), L('Total, scopes, largest lines and evidence coverage on a single print-ready page.', 'Total, alcances, líneas mayores y cobertura de evidencia en una sola página lista para imprimir.')],
     ];
     // every report is a working example: built from the example company in view (with an account, from the visitor's ledger)
     $('repEx').innerHTML = state.isExample ? `<label for="repExSel">${L('Every report and export below is built from', 'Cada reporte y exportación de abajo se arma con')}</label>
@@ -3857,7 +3859,41 @@ ${body}
   ${kv([[L('Prepared by', 'Preparó'), g.practitioner], [L('Reviewed by', 'Revisó'), ''], [L('Date', 'Fecha'), '']])}`;
     return docPage(L('Evidence pack for the verifier', 'Paquete de evidencia para el verificador'), `${state.company || ''} · ${state.year || ''}`, [[L('Standard', 'Norma'), 'ISO 14064-3:2019'], [L('Lines', 'Líneas'), String(lines.length)], [L('Documented', 'Documentado'), pct(t.byEv.ok + t.byEv.att, t.total)]], '', body);
   }
-  const REP_DOCS = { inv: invHtml, pcf: () => reportHtml(true), disc: discHtml, pack: packHtml };
+
+  // one A4 sheet: total, scopes, top lines, evidence % (not the full ISO study)
+  function sumHtml() {
+    const t = totals(), mx = state.region === 'mx', N = 10;
+    const lines = t.lines.slice().sort((a, b) => emis(b) - emis(a)).slice(0, N);
+    const documented = t.byEv.ok + t.byEv.att;
+    const evLbl = { ok: L('Reviewed', 'Revisada'), att: L('Attached', 'Adjunta'), miss: L('Missing', 'Falta') };
+    const s2lbl = mx ? L('Scope 2 · electricity', 'Alcance 2 · electricidad') : L('Scope 2 · market-based', 'Alcance 2 · basado en mercado');
+    const totLbl = mx ? L('Total', 'Total') : L('Total (Scope 2 market-based)', 'Total (alcance 2 basado en mercado)');
+    const body = `
+  <div class="kpis">
+    <div class="k main"><span>${L('Total emissions', 'Emisiones totales')}</span><b>${fmtT(t.total)}</b><i>t CO₂e</i><small>${periodTxt()}</small></div>
+    <div class="k"><span>${L('Documented', 'Documentado')}</span><b>${pct(documented, t.total)}</b><small>${fmtT(documented)} t · ${L('attached or reviewed', 'adjunto o revisado')}</small></div>
+    <div class="k"><span>${L('Reviewed', 'Revisado')}</span><b>${pct(t.byEv.ok, t.total)}</b><small>${fmtT(t.byEv.ok)} t</small></div>
+  </div>
+  <h2 style="margin-top:18px">${L('Scopes', 'Alcances')}</h2>
+  ${tbl([L('Scope', 'Alcance'), 't CO₂e', L('Share', 'Parte')], [
+    [L('Scope 1 · direct', 'Alcance 1 · directas'), t.byScope[1], pct(t.byScope[1], t.total)],
+    [s2lbl, t.byScope[2], pct(t.byScope[2], t.total)],
+    [L('Scope 3 · value chain', 'Alcance 3 · cadena de valor'), t.byScope[3], pct(t.byScope[3], t.total)],
+  ], [totLbl, t.total, '100 %'])}
+  ${!mx && t.byScope[2] ? `<p class="note">${L(`Scope 2 location-based: ${fmtT(t.s2lb)} t CO₂e (not used in the total).`, `Alcance 2 basado en ubicación: ${fmtT(t.s2lb)} t CO₂e (no entra en el total).`)}</p>` : ''}
+  <h2 style="margin-top:18px">${L('Largest lines', 'Líneas mayores')} <small>${L(`top ${lines.length} by t CO₂e`, `las ${lines.length} mayores en t CO₂e`)}</small></h2>
+  ${tbl([L('Activity', 'Actividad'), L('Scope', 'Alcance'), 't CO₂e', L('Share', 'Parte'), L('Evidence', 'Evidencia')],
+    lines.map(r => [lineName(r) + (r.note && r.key !== 'custom' ? ' · ' + r.note : ''), SA(+r.scope || 3), emis(r), pct(emis(r), t.total), evLbl[evStatus(r)]]))}
+  <h2 style="margin-top:18px">${L('Evidence coverage', 'Cobertura de evidencia')}</h2>
+  ${tbl([L('Status', 'Estado'), 't CO₂e', L('Share', 'Parte')], [
+    [L('Reviewed', 'Revisada'), t.byEv.ok, pct(t.byEv.ok, t.total)],
+    [L('Attached, not reviewed', 'Adjunta, sin revisar'), t.byEv.att, pct(t.byEv.att, t.total)],
+    [L('Missing', 'Falta'), t.byEv.miss, pct(t.byEv.miss, t.total)],
+  ], [L('Total', 'Total'), t.total, '100 %'])}`;
+    return docPage(L('One-page emissions summary', 'Resumen de emisiones en una página'), `${state.company || ''} · ${state.year || ''}`,
+      [[L('Method', 'Método'), `IPCC ${state.method} GWP100`], [L('Boundary', 'Límite'), bnd()], [L('Total', 'Total'), `${fmtT(t.total)} t CO₂e`]], '', body);
+  }
+  const REP_DOCS = { inv: invHtml, pcf: () => reportHtml(true), disc: discHtml, pack: packHtml, sum: sumHtml };
 
   // ---------- framework exports: CDP, California SB 253, CSRD ESRS E1, IFRS S2 ----------
   // Each framework is a list of datapoints [ref, datapoint, value, status, note] filled from totals() and the goal fields.

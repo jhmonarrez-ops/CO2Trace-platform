@@ -17,7 +17,7 @@ Build these in order. Today the runner repeats plan → build → verify up to 6
 
 ## Later
 <!-- From docs/user-ideas.md (2026-11-19); ~45 min each where possible. Shipped: checklist + monthly .ics. -->
-- [ ] [minor] Print-friendly one-page summary (A4: total, scopes, top lines, evidence %) without the full ISO report.
+- [x] [minor] Print-friendly one-page summary (A4: total, scopes, top lines, evidence %) without the full ISO report.
 - [ ] [minor] Base-year vs current % badge on the total KPI tile.
 - [ ] [minor] Board-pack uncertainty blurb (plain-language paragraph under `#c-unc` for copy).
 - [ ] [minor] Consultant-branded report cover (optional local name/logo on print cover).
