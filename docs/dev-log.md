@@ -3,6 +3,8 @@
 ## 2026-11-19
 - Publish privacy/terms (P-20261117-3 legal wording): footer Company → Privacy / Terms (Privacidad / Términos); dropped `noindex` + draft banner; live EN+ES titles; Contact (not drafts) on terms.
 - Verify: CSP OK; scripts `node --check` OK; Playwright `/?demo` + `/privacy.html` + `/terms.html` at 1280+390 — footer hrefs, no banner/noindex, titles clean, no H-scroll, no console errors.
+- P-20261117-4 user ideas: `docs/user-ideas.md` (15 ideas); `#start` checklist + monthly `.ics`; Later backlog + P-20261119-1/2 proposals.
+- Verify P-4: CSP OK; scripts `node --check` OK; Playwright `/?demo` 1280+390 US/MX — checklist + `.ics` EN↔ES, 12 events, progress persists, examples locked, no H-scroll, no console errors.
 
 ## 2026-11-17
 - Phone use part 1 (P-20261117-2): public pages at 360/390/430 — no sideways scroll, menu sheet, 44 px taps, safe-area, one-column stacks; `site.webmanifest` + theme-color; icons in `brand/`.
