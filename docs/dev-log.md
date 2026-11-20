@@ -1,5 +1,10 @@
 # Dev log
 
+## 2026-11-20
+- Board-pack uncertainty blurb under `#c-unc`: `uncBlurb` + Copy (`data-unc-copy` → `copyText`).
+- Verify: CSP OK; scripts `node --check` OK; Playwright `/?demo` 1280+390 US/MX — blurb figures match KPIs, Copy toast EN↔ES, ≥44 px, examples locked, no H-scroll, no console errors.
+
+
 ## 2026-11-19
 - Publish privacy/terms (P-20261117-3 legal wording): footer Company → Privacy / Terms (Privacidad / Términos); dropped `noindex` + draft banner; live EN+ES titles; Contact (not drafts) on terms.
 - Verify: CSP OK; scripts `node --check` OK; Playwright `/?demo` + `/privacy.html` + `/terms.html` at 1280+390 — footer hrefs, no banner/noindex, titles clean, no H-scroll, no console errors.
