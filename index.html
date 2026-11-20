@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-ppJ+K6kQ2XMPTZnEfeiKErNGlbfjvuzrTKzJB2YNJhM=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-tiwyJwPSRXqeYtk2n3hOQjuIsAQlueF3kbPd75xHSI4=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -836,6 +836,9 @@ svg.unc-svg .u-bar { fill: var(--s2); } svg.unc-svg .u-band { fill: color-mix(in
 svg.unc-svg .u-axis { stroke: var(--line); } svg.unc-svg .u-base { stroke: var(--ink); } svg.unc-svg .u-lim { stroke: var(--muted); }
 svg.unc-svg .u-tk { fill: var(--muted); font-family: var(--f-mono); } svg.unc-svg .u-tk-b { fill: var(--ink); }
 @media (max-width: 640px) { svg.unc-svg { min-width: 520px; } }
+.unc-blurb { display: flex; gap: 12px; align-items: flex-start; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.unc-blurb p { flex: 1; margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--ink); min-width: 0; }
+.unc-blurb .btn { flex: none; padding: 8px 14px; font-size: 13.5px; }
 /* Scope 3 screening: 15 tiles on the dashboard, a table under Goal and scope */
 #c-s3 { container-type: inline-size; }
 .s3g { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -1434,7 +1437,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   .workspace, .stages, .side, .charts, .card, #setup, #projectSetup { min-width: 0; max-width: 100%; }
   .charts { grid-template-columns: minmax(0, 1fr); }
   .card { padding: 16px; }
-  .card-head .seg.seg-sm button, .ctl .seg button, .tj-ms button { min-height: 44px; box-sizing: border-box; }
+  .card-head .seg.seg-sm button, .ctl .seg button, .tj-ms button, .unc-blurb .btn { min-height: 44px; box-sizing: border-box; }
   .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); }
   .tm { height: 280px; }
   .tj-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -5336,6 +5339,13 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       ${ticks.map((v, i) => `<text x="${X(v).toFixed(1)}" y="${H - 10}" text-anchor="${i === 0 ? 'end' : i === 2 ? 'start' : 'middle'}" font-size="12" ${at(i === 1 ? 'u-tk u-tk-b' : 'u-tk', i === 1 ? 'ink' : 'mute')}${i === 1 ? ' font-weight="600"' : ''}>${fmtT(v)}</text>`).join('')}
     </svg>`;
   }
+  function uncBlurb(u) {
+    if (!u) return '';
+    return L(
+      `The inventory total is ${fmtT(u.base)} t CO₂e. At a 95 % interval the total sits between ${fmtT(u.lo)} and ${fmtT(u.hi)} t (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %). These spreads are typical screening values, not measured ones.`,
+      `El total del inventario es ${fmtT(u.base)} t CO₂e. En un intervalo de 95 % el total queda entre ${fmtT(u.lo)} y ${fmtT(u.hi)} t (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %). Estas dispersiones son valores típicos de una estimación preliminar, no medidos.`
+    );
+  }
   function uncCard(t) {
     const u = uncertainty(t);
     return `<div class="card full" id="c-unc">
@@ -5351,7 +5361,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       <div class="legend"><span style="--c: var(--s2)"><i class="sw"></i>${L('Simulated totals', 'Totales simulados')}</span><span style="--c: color-mix(in srgb, var(--s2) 22%, var(--surface))"><i class="sw"></i>${L('95 % of runs', '95 % de las corridas')}</span><span style="--c: var(--ink)"><i class="sw"></i>${L('Inventory total', 'Total del inventario')}</span></div>
       <div><div class="label" style="margin:10px 0 6px">${L('Better data here narrows the range most', 'Mejores datos aquí reducen más el rango')}</div>
       <ul class="gaps">${u.top.map(p => `<li>${esc(lineName(p.r))}${p.r.note && p.r.key !== 'custom' ? ' · ' + esc(p.r.note) : ''} <span>${pct(p.share, 1)} ${L('of the variance', 'de la varianza')} · ×/÷ ${nf2.format(p.gsd)}</span> <button type="button" class="linkish" data-goto="${p.r.id}">${L('Open line', 'Abrir línea')}</button></li>`).join('')}</ul></div>
-      <p class="note">${L(`Screening estimate: the spreads are typical values, not measured ones. ${u.spend > 0 ? `Spend-based lines (${pct(u.spend, t.total)} of the total) carry the widest spread. ` : ''}Set data type, year, geography and technology in each line’s evidence panel to sharpen it. The report repeats this in section 6.3.`, `Estimación preliminar: las dispersiones son valores típicos, no medidos. ${u.spend > 0 ? `Las líneas por gasto (${pct(u.spend, t.total)} del total) tienen la mayor dispersión. ` : ''}Ajusta tipo de dato, año, geografía y tecnología en el panel de evidencia de cada línea para afinarla. El reporte la repite en la sección 6.3.`)}</p>` : emptyMsg()}
+      <p class="note">${L(`Screening estimate: the spreads are typical values, not measured ones. ${u.spend > 0 ? `Spend-based lines (${pct(u.spend, t.total)} of the total) carry the widest spread. ` : ''}Set data type, year, geography and technology in each line’s evidence panel to sharpen it. The report repeats this in section 6.3.`, `Estimación preliminar: las dispersiones son valores típicos, no medidos. ${u.spend > 0 ? `Las líneas por gasto (${pct(u.spend, t.total)} del total) tienen la mayor dispersión. ` : ''}Ajusta tipo de dato, año, geografía y tecnología en el panel de evidencia de cada línea para afinarla. El reporte la repite en la sección 6.3.`)}</p>
+      <div class="unc-blurb"><p>${uncBlurb(u)}</p><button type="button" class="btn" data-unc-copy>${L('Copy', 'Copiar')}</button></div>` : emptyMsg()}
     </div>`;
   }
 
@@ -6534,6 +6545,12 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       if (fresh.length && s3Of(3).d === 'out') { state.goal.s3 = state.goal.s3 || {}; state.goal.s3[3] = { d: 'in', why: '' }; }
       renderStages(); renderSetup(); touched(); updateTotals();
       toast(add ? L(`Category 3: ${fresh.length} line${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`, `Categoría 3: ${fresh.length} línea${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`) : L('Category 3 lines removed', 'Se quitaron las líneas de categoría 3'));
+      return;
+    }
+    if (e.target.closest('[data-unc-copy]')) {
+      const u = uncertainty(totals());
+      if (!u) return;
+      copyText(uncBlurb(u), L('Copied for the board pack', 'Copiado para la junta'));
       return;
     }
     const os = e.target.closest('[data-open-setup]');
