@@ -19,7 +19,7 @@ Build these in order. Today the runner repeats plan → build → verify up to 6
 <!-- From docs/user-ideas.md (2026-11-19); ~45 min each where possible. Shipped: checklist + monthly .ics. -->
 - [x] [minor] Print-friendly one-page summary (A4: total, scopes, top lines, evidence %) without the full ISO report.
 - [x] [minor] Base-year vs current % badge on the total KPI tile.
-- [ ] [minor] Board-pack uncertainty blurb (plain-language paragraph under `#c-unc` for copy).
+- [ ] [minor] Board-pack uncertainty blurb (plain-language paragraph under `#c-unc` for copy). <!-- 2026-11-20 plan pick -->
 - [ ] [minor] Consultant-branded report cover (optional local name/logo on print cover).
 - [ ] [minor] One-click customer-request reply pack (sheet + CSV + cover note as browser zip).
 - [ ] [minor] Portal-ready CDP Supply Chain CSV columns from existing `crAlloc()`.

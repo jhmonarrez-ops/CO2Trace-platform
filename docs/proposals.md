@@ -33,6 +33,7 @@ Major changes waiting for or holding Jorge's decision. Format: `## P-YYYYMMDD-n:
 - Risk: medium–high — new persistence keys / cloud company model; must not break `lca-ledger-v1` for single-company users.
 - Size: large (~several sessions; depends on Cognito/API).
 - Alternatives: export/import JSON per client only (minor, weaker); wait until accounts ship, then add switcher.
+- Decision 2026-11-20: still AWAITING (no approve/reject line in `.dev/approvals.txt`).
 
 ## P-20261119-2: Evidence completeness trail for auditors
 - What: an export (HTML/CSV) listing every evidence attach, verify and period check in chronological order for the ledger in view, with line id, document type, reference and cumulative coverage — for an engagement file.
@@ -41,3 +42,4 @@ Major changes waiting for or holding Jorge's decision. Format: `## P-YYYYMMDD-n:
 - Risk: medium — may need IndexedDB file metadata timestamps; wording must stay non-assurance.
 - Size: medium (about one focused session if limited to current evidence fields; larger if true history).
 - Alternatives: strengthen the existing Evidence pack annex only (minor); defer until cloud change-log exists.
+- Decision 2026-11-20: still AWAITING (no approve/reject line in `.dev/approvals.txt`).
