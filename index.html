@@ -1,12 +1,16 @@
 <!doctype html>
-<html lang="en" class="no-plans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-JRPRtESd4Pjx1KDX5M8vKnSV3P2aUqiBXfygQUV2OIE=' 'sha256-BxCVo2MszQK40kQnUeOOJXrcfyGA34Y4O+W0IoU/OSo=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com https://*.s3.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js 'sha256-ovpxBqiVQ3bur4j7zTV9b2mcJzwcufK/yRSpdO1ln/Y=' 'sha256-tiwyJwPSRXqeYtk2n3hOQjuIsAQlueF3kbPd75xHSI4=' 'sha256-E22bAIXvQ5UAy/Zkg7qYcYo1VW1g3KB37JZQXB/C99Q=' 'sha256-mSbeciAJpQUU5HSLTW/qFz81LR5vAHL0vhH2XqxbENU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; frame-src blob:; connect-src 'self' https://*.execute-api.us-east-2.amazonaws.com https://*.auth.us-east-2.amazoncognito.com https://s3.us-east-2.amazonaws.com https://*.s3.us-east-2.amazonaws.com; object-src 'none'; base-uri 'none'; form-action 'self'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072AC8">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="brand/co2trace-icon-192.png">
 <title>CO2Trace</title>
-<script>try { const t = localStorage.getItem('co2trace-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script>try { const t = localStorage.getItem('co2trace-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+if (window.top !== window.self) { document.documentElement.style.display = 'none'; try { window.top.location.replace(window.location.href); } catch (e) {} }</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22735.8%20-0.6%20156.9%20156.9%22%3E%3Cstyle%3Epath%7Bfill%3A%2316201E%7D%40media%20%28prefers-color-scheme%3Adark%29%7Bpath%7Bfill%3A%23E3EBE8%7D%7D%3C/style%3E%3Cpath%20d%3D%22M789.76%20151.20C787.39%20150.32%20786.47%20149.76%20784.64%20148.10C781.76%20145.50%20779.31%20141.15%20777.53%20135.50C776.98%20133.74%20774.93%20127.75%20774.10%20125.50C773.56%20124.00%20771.68%20120.18%20770.01%20117.17C768.92%20115.21%20767.70%20113.27%20762.84%20105.83C758.24%2098.79%20756.56%2095.50%20755.62%2091.67C753.85%2084.45%20755.99%2077.80%20762.18%2071.29C767.96%2065.21%20773.91%2061.31%20781.33%2058.76C789.61%2055.91%20797.09%2057.52%20799.81%2062.73C801.99%2066.90%20802.49%2070.50%20801.47%2074.57C800.52%2078.34%20798.94%2080.84%20794.20%2086.00C790.99%2089.50%20788.25%2093.25%20786.96%2095.91C785.89%2098.11%20785.87%2098.28%20785.87%20102.50C785.88%20106.19%20785.99%20107.10%20786.61%20108.61C788.50%20113.18%20791.51%20116.58%20798.01%20121.50C802.91%20125.20%20805.10%20127.41%20806.77%20130.30C808.59%20133.46%20809.13%20135.47%20809.12%20139.00C809.12%20141.71%20808.99%20142.44%20808.23%20144.07C806.63%20147.54%20803.49%20150.25%20799.71%20151.44C797.02%20152.28%20792.39%20152.17%20789.76%20151.20ZM831.17%20125.99C826.98%20125.41%20822.13%20121.92%20819.97%20117.93C818.86%20115.88%20818.83%20115.74%20818.84%20112.00C818.86%20108.34%20818.91%20108.07%20819.95%20106.01C821.79%20102.37%20824.08%2099.93%20829.33%2096.00C839.74%2088.21%20842.84%2083.10%20842.16%2074.86C841.79%2070.30%20839.98%2067.22%20833.85%2060.67C830.20%2056.76%20827.63%2052.83%20826.46%2049.33C826.01%2048.00%20825.85%2046.59%20825.87%2044.17C825.89%2041.13%20825.99%2040.63%20826.96%2038.60C828.17%2036.08%20830.47%2033.77%20832.95%2032.60C834.30%2031.97%20835.07%2031.87%20838.83%2031.87C842.82%2031.86%20843.43%2031.94%20846.45%2032.93C855.03%2035.74%20862.56%2041.02%20867.58%2047.75C871.26%2052.68%20872.63%2056.26%20872.65%2061.00C872.68%2066.16%20870.36%2072.56%20866.36%2078.32C858.45%2089.73%20854.23%2097.56%20851.35%20106.17C848.84%20113.67%20848.73%20113.96%20847.25%20116.74C843.56%20123.69%20837.93%20126.92%20831.17%20125.99ZM748.76%2075.03C746.70%2073.54%20745.78%2070.37%20746.82%2068.36C747.52%2067.01%20748.74%2066.80%20750.41%2067.74C752.36%2068.83%20753.71%2070.64%20753.91%2072.45C754.28%2075.75%20751.61%2077.09%20748.76%2075.03ZM755.93%2067.06C754.54%2066.90%20752.22%2064.13%20751.75%2062.07C751.05%2059.04%20752.15%2057.00%20754.48%2057.00C756.54%2057.00%20758.18%2058.37%20759.42%2061.11C760.22%2062.89%20760.15%2064.29%20759.18%2065.71C758.36%2066.93%20757.57%2067.26%20755.93%2067.06ZM763.14%2059.37C761.57%2058.42%20760.13%2056.46%20759.49%2054.43C759.01%2052.88%20758.98%2052.38%20759.32%2051.24C760.27%2048.08%20763.35%2046.94%20765.54%2048.94C766.81%2050.09%20767.71%2051.44%20768.24%2052.99C769.81%2057.47%20766.60%2061.48%20763.14%2059.37ZM773.93%2054.22C771.25%2053.01%20769.00%2048.84%20769.00%2045.08C769.00%2041.53%20770.69%2039.83%20774.08%2039.96C776.57%2040.06%20780.00%2045.60%20780.00%2049.52C780.00%2052.61%20776.45%2055.36%20773.93%2054.22ZM789.23%2051.99C787.40%2051.44%20785.01%2049.29%20783.94%2047.21C782.23%2043.88%20781.67%2039.99%20782.49%2037.13C783.12%2034.96%20783.55%2034.35%20785.47%2032.95C788.38%2030.82%20792.99%2032.52%20795.10%2036.50C797.07%2040.22%20797.68%2046.04%20796.36%2048.60C794.83%2051.58%20792.13%2052.87%20789.23%2051.99ZM875.26%2049.42C873.85%2047.80%20873.69%2046.54%20874.65%2044.44C875.34%2042.91%20877.66%2040.99%20878.80%2041.01C879.61%2041.02%20880.74%2041.88%20881.28%2042.91C882.64%2045.45%20879.77%2050.00%20876.81%2050.00C876.24%2050.00%20875.54%2049.74%20875.26%2049.42ZM869.83%2041.02C868.46%2040.46%20867.86%2039.38%20867.86%2037.50C867.86%2035.98%20868.04%2035.44%20869.10%2033.91C871.18%2030.89%20872.98%2030.36%20875.17%2032.13C876.09%2032.88%20876.17%2033.10%20876.17%2035.08C876.17%2037.06%20876.07%2037.34%20874.93%2038.74C873.75%2040.17%20871.92%2041.36%20870.95%2041.31C870.70%2041.30%20870.20%2041.17%20869.83%2041.02ZM861.10%2034.01C859.63%2033.12%20859.00%2031.73%20859.00%2029.43C859.01%2027.12%20860.24%2024.67%20862.23%2023.04C863.95%2021.62%20865.29%2021.65%20866.92%2023.14L868.17%2024.28L868.17%2027.08C868.17%2029.64%20868.09%2029.99%20867.23%2031.12C865.89%2032.87%20865.00%2033.65%20863.71%2034.19C862.30%2034.79%20862.38%2034.79%20861.10%2034.01ZM849.99%2028.25C848.17%2027.33%20847.37%2025.86%20847.35%2023.40C847.32%2019.80%20849.41%2016.16%20852.39%2014.64C853.81%2013.91%20854.47%2013.99%20855.82%2015.05C859.57%2018.00%20858.08%2025.91%20853.30%2028.35C851.72%2029.16%20851.79%2029.16%20849.99%2028.25ZM834.17%2026.20C830.51%2024.60%20829.27%2020.13%20830.82%2014.17C833.05%205.61%20841.39%203.39%20844.47%2010.54C845.42%2012.73%20845.12%2018.23%20843.92%2020.68C841.59%2025.45%20837.61%2027.71%20834.17%2026.20Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -171,9 +175,10 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
 .scrim.on { visibility: visible; opacity: 1; transition: opacity .3s ease; }
 @media (max-width: 1180px) { .tagline { display: none; } }
 @media (max-width: 920px) {
-  .menu-btn { display: block; }
+  .menu-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 10px 16px; }
   .topbar .brand { margin-right: auto; }
-  .menu { display: none; position: fixed; top: var(--bar-h, 60px); left: 0; right: 0; bottom: 0; flex-direction: column; gap: 6px; padding: 16px; overflow-y: auto; background: var(--hero); }
+  .topbar .bar-in { padding-top: max(12px, env(safe-area-inset-top, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .menu { display: none; position: fixed; top: var(--bar-h, 60px); left: 0; right: 0; bottom: 0; flex-direction: column; gap: 6px; padding: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); overflow-y: auto; background: var(--hero); }
   .topbar.sheet .menu { display: flex; }
   .topbar.sheet .bar-in > :not(.menu), .topbar.sheet .grp:not(.open), .topbar.sheet .cta { opacity: 1; filter: none; }
   .grp { flex: none; padding: 0; border: 0; border-top: 1px solid var(--hero-line); padding-top: 6px; }
@@ -181,12 +186,14 @@ html { scroll-padding-top: calc(var(--bar-full, 92px) + 16px); }
   .tile .eyebrow { max-height: 18px !important; opacity: 1 !important; }
   .drop { position: static; width: auto; margin-top: 8px; display: none; transform: none; }
   .grp.open .drop { display: block; }
+  .drop a { min-height: 44px; }
   .cta { min-height: 64px; margin-top: 6px; }
 }
 @media (max-width: 560px) {
   .topbar .nav-tools { display: none; }
-  .topbar.sheet .nav-tools { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; justify-content: space-between; padding: 12px 16px; background: var(--hero); border-top: 1px solid var(--hero-line); }
-  .topbar.sheet .menu { padding-bottom: 80px; }
+  .topbar.sheet .nav-tools { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 61; justify-content: space-between; align-items: center; gap: 8px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--hero); border-top: 1px solid var(--hero-line); }
+  .topbar.sheet .nav-tools .seg.pill button { min-height: 44px; min-width: 44px; box-sizing: border-box; }
+  .topbar.sheet .menu { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
 }
 .seg.pill { border-radius: 999px; border-color: var(--hero-line); background: transparent; }
 .seg.pill button { flex: none; padding: 7px 14px; font-family: var(--f-label); font-size: 11.5px; letter-spacing: .08em; color: var(--hero-muted); }
@@ -485,6 +492,19 @@ html.rep-open .help-fab, html.rep-open .help-chat { display: none; }
 .plan-badge { transition: background-color .45s ease, color .45s ease; }
 .plans-foot { margin: 0; font-size: 12.5px; color: var(--slate); text-align: center; }
 @media (max-width: 900px) { .plans-grid { grid-template-columns: minmax(0, 1fr); } }
+/* FAQ (#faq): visitor Q&As paraphrased from the help chat, static details list */
+.faq { display: grid; gap: 28px; }
+.faq-lede { margin: 0; max-width: 58ch; font-size: 16px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.faq-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.faq-list details { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--line); overflow: hidden; }
+.faq-list summary { display: flex; align-items: center; gap: 14px; padding: 18px 22px; min-height: 44px; cursor: pointer; list-style: none; font-family: var(--f-display); font-size: 17px; font-weight: 500; letter-spacing: -.01em; color: var(--ink); box-sizing: border-box; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; margin-left: auto; flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; background: var(--surface-2); color: var(--brand); font-size: 18px; font-weight: 500; line-height: 1; }
+.faq-list details[open] summary::after { content: "–"; }
+.faq-list .faq-a { margin: 0; padding: 0 22px 20px; max-width: 72ch; font-size: 15px; font-weight: 300; color: var(--muted); line-height: 1.55; display: grid; gap: 10px; }
+.faq-list .faq-a p { margin: 0; }
+.faq-list .faq-a ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.faq-note { margin: 0; font-size: 13px; color: var(--slate); }
 /* Example gallery (#examples) and view mode (html.viewing: an untouched example is loaded) */
 .examples { display: grid; gap: 22px; }
 .ex-open { margin-top: 18px; }
@@ -578,6 +598,9 @@ html.viewing:not(.ledger-open) .side { position: static; max-height: none; overf
 @media (prefers-reduced-motion: reduce) { .kpi.dual, .kpi.dual .face { transition: none; } }
 .kpi.total .k, .kpi.total .sub, .kpi.total .v small { color: rgb(255 255 255 / .7); }
 .kpi.total .v { font-size: clamp(34px, 2.8vw, 44px); }
+.kpi.total .pill { margin-left: auto; background: rgb(255 255 255 / .16); color: #FFFFFF; }
+.kpi.total .pill.ok { background: rgb(108 196 149 / .28); color: #B8E6CE; }
+.kpi.total .pill.warn { background: rgb(232 180 90 / .3); color: #F5D48A; }
 .kpi .v small { white-space: nowrap; }
 .meter { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: flex; }
 .kpi.total .meter { background: rgb(255 255 255 / .12); }
@@ -801,6 +824,21 @@ svg.traj .tj-bau { stroke: var(--muted); }
 .sens-bar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
 .sens-bar i.up { background: var(--s1); } .sens-bar i.dn { background: var(--s3); }
 .sens-row[data-tip]:hover .sens-bar i { filter: brightness(1.12); }
+/* Scope 3 category 3 estimate inside the screening card */
+.c3 { display: grid; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.c3 h4 { margin: 0; font-size: 14px; font-weight: 600; }
+.c3 td .note { margin: 2px 0 0; font-size: 11.5px; }
+.c3 p { margin: 0; }
+/* uncertainty: histogram of Monte Carlo totals with the 95 % band */
+.unc-plot { overflow-x: auto; }
+svg.unc-svg { width: 100%; height: auto; display: block; }
+svg.unc-svg .u-bar { fill: var(--s2); } svg.unc-svg .u-band { fill: color-mix(in srgb, var(--s2) 14%, transparent); }
+svg.unc-svg .u-axis { stroke: var(--line); } svg.unc-svg .u-base { stroke: var(--ink); } svg.unc-svg .u-lim { stroke: var(--muted); }
+svg.unc-svg .u-tk { fill: var(--muted); font-family: var(--f-mono); } svg.unc-svg .u-tk-b { fill: var(--ink); }
+@media (max-width: 640px) { svg.unc-svg { min-width: 520px; } }
+.unc-blurb { display: flex; gap: 12px; align-items: flex-start; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.unc-blurb p { flex: 1; margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--ink); min-width: 0; }
+.unc-blurb .btn { flex: none; padding: 8px 14px; font-size: 13.5px; }
 /* Scope 3 screening: 15 tiles on the dashboard, a table under Goal and scope */
 #c-s3 { container-type: inline-size; }
 .s3g { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -1058,6 +1096,28 @@ html.lenis { scroll-behavior: auto !important; }
 }
 @media (prefers-reduced-motion: reduce) { .mock *, .mock-screen, .how-steps li { transition: none !important; } }
 
+/* Getting started (#start): checklist + monthly .ics */
+.start { display: grid; gap: 22px; padding: clamp(28px, 5vw, 72px); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.start-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 14px 32px; align-items: end; }
+.start h2 { font-size: clamp(28px, 3.6vw, 48px); line-height: 1; color: var(--title); margin-top: 8px; }
+.start-lede { margin: 0; font-size: 16px; line-height: 1.5; color: var(--slate); max-width: 48ch; }
+.start-prog { display: grid; gap: 8px; }
+.start-prog-lab { font-family: var(--f-label); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--kick); }
+.start-bar { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.start-bar > i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--brand); transition: width .4s cubic-bezier(.2, .7, .2, 1); }
+.start-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.start-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px 16px; align-items: center; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); border: 1px solid transparent; transition: border-color .25s, background .25s; }
+.start-list li.done { border-color: color-mix(in srgb, var(--ok) 35%, transparent); background: color-mix(in srgb, var(--ok) 8%, var(--surface-2)); }
+.start-tick { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line); font-size: 13px; font-weight: 700; color: var(--muted); }
+.start-list li.done .start-tick { border-color: var(--ok); background: var(--ok); color: #fff; }
+.start-list h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+.start-list p { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--slate); }
+.start-list .btn { justify-self: end; padding: 8px 14px; font-size: 13.5px; min-height: 40px; }
+.start-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-top: 4px; border-top: 1px solid var(--line); }
+.start-tools .note { margin: 0; font-size: 13px; color: var(--slate); max-width: 56ch; }
+@media (max-width: 760px) { .start-head { grid-template-columns: minmax(0, 1fr); } .start-list li { grid-template-columns: 28px minmax(0, 1fr); } .start-list .btn { grid-column: 2; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { .start-bar > i { transition: none; } }
+
 /* Full video at the end of the page */
 .demo { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: clamp(28px, 5vw, 72px); display: grid; gap: clamp(24px, 3vw, 40px); }
 .demo-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px clamp(24px, 6vw, 96px); align-items: end; }
@@ -1172,11 +1232,16 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 .pillar:hover { background: rgb(255 255 255 / .08); border-color: rgb(255 255 255 / .2); }
 .pillar h3 { margin: 0; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; font-weight: 500; color: #FFFFFF; }
 .pillar p { margin: 0; font-size: 15px; font-weight: 300; color: rgb(255 255 255 / .74); }
-.support { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-bottom: 28px; padding: 26px 28px; border-radius: 18px; border: 1px solid rgb(255 255 255 / .16); background: rgb(255 255 255 / .05); }
+.support { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 18px 32px; margin-bottom: 28px; padding: 26px 28px; border-radius: 18px; border: 1px solid rgb(255 255 255 / .16); background: rgb(255 255 255 / .05); }
 .support > div { flex: 1 1 380px; display: grid; gap: 8px; }
 .support h3 { margin: 0; font-family: var(--f-display); font-size: 26px; font-weight: 500; letter-spacing: -.02em; color: #FFFFFF; }
 .support p { margin: 0; color: rgb(255 255 255 / .75); line-height: 1.5; }
-.support-mail { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; background: #FFFFFF; color: var(--forest); font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
+.support-need { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; color: rgb(255 255 255 / .75); font-size: 14.5px; line-height: 1.45; }
+.support-need li { display: flex; gap: 10px; align-items: flex-start; }
+.support-need li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px; border-radius: 50%; background: var(--forest-accent); }
+.support-side { display: grid; gap: 12px; justify-items: start; flex: 0 1 auto; }
+.support-time { margin: 0; font-size: 13px; color: rgb(255 255 255 / .65); max-width: 28ch; line-height: 1.4; }
+.support-mail { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 14px 22px; border-radius: 999px; background: #FFFFFF; color: var(--forest); font-weight: 600; font-size: 16px; text-decoration: none; box-sizing: border-box; transition: transform .25s ease, box-shadow .25s ease; }
 .support-mail:hover, .support-mail:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 26px rgb(0 0 0 / .3); }
 @media (prefers-reduced-motion: reduce) { .support-mail { transition: none; } }
 .socials { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / .16); }
@@ -1276,9 +1341,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 .hc-form input { flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: inherit; font-size: 16px; }
 .hc-send { width: 42px; height: 42px; flex: none; border: 0; border-radius: 50%; background: var(--brand); color: #FFFFFF; font-size: 18px; cursor: pointer; }
 @media (max-width: 640px) {
-  .help-fab { right: 14px; bottom: 14px; padding: 12px; }
+  .help-fab { right: max(14px, env(safe-area-inset-right, 0px)); bottom: max(14px, env(safe-area-inset-bottom, 0px)); padding: 12px; min-width: 44px; min-height: 44px; box-sizing: border-box; }
   .help-fab .lbl { display: none; }
-  .help-chat { right: 0; left: 0; bottom: 0; width: 100%; height: min(78dvh, 640px); border-radius: 18px 18px 0 0; border-bottom: 0; }
+  .help-chat { right: 0; left: 0; bottom: 0; width: 100%; height: min(78dvh, 640px); border-radius: 18px 18px 0 0; border-bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .help-chat:not([hidden]) ~ .help-fab, body:has(.help-chat:not([hidden])) .help-fab { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .hc-typing i { animation: none; } }
@@ -1298,18 +1363,37 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
 
 /* Phones */
 @media (max-width: 640px) {
+  html, body { overflow-x: clip; }
   input, select, textarea { font-size: 16px !important; }   /* below 16px iOS zooms in on focus */
-  .hero-in { padding-top: 28px; gap: 32px; }
-  .hero-copy { gap: 20px; }
-  .hero-text { gap: 18px; }
+  .wrap { padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .hero-in { padding-top: 28px; gap: 32px; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .hero-copy { gap: 20px; grid-template-columns: minmax(0, 1fr); }
+  .hero-text { gap: 18px; min-width: 0; }
   .hero-text .eyebrow { font-size: 10.5px; letter-spacing: .08em; }
   .lede { font-size: 15.5px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; }
   .lede.open { display: block; -webkit-line-clamp: none; line-clamp: none; }
-  .more-btn { display: inline-block; margin-top: -8px; padding: 0; border: 0; background: none; color: var(--hero-accent); font-family: var(--f-label); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .more-btn { display: inline-block; margin-top: -8px; min-height: 44px; padding: 12px 0; border: 0; background: none; color: var(--hero-accent); font-family: var(--f-label); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .hero-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
-  .hero-actions .btn { padding-inline: 10px; text-align: center; }
-  .tree-panel { min-height: 300px; }
+  .hero-actions .btn { padding-inline: 10px; text-align: center; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; }
+  .tree-panel { min-height: 300px; min-width: 0; max-width: 100%; }
   .tree-cap { font-size: 9.5px; }
+  /* public sections stack one column */
+  .how-head, .how-body, .plans-grid, .lca-head, .lca-mid, .demo-head, .start-head { grid-template-columns: minmax(0, 1fr); }
+  .how, .lca, .how .mock, .about, .plans, .faq, .examples, .ex-grid, .start { min-width: 0; max-width: 100%; }
+  .start-list .btn, #icsDl { min-height: 44px; box-sizing: border-box; }
+  .pillars { grid-template-columns: minmax(0, 1fr); }
+  .faq-list summary { min-height: 44px; padding: 16px 18px; font-size: 16px; }
+  .faq-list .faq-a { padding: 0 18px 18px; }
+  .support { flex-direction: column; align-items: stretch; }
+  .support-side { width: 100%; }
+  .support-mail { width: 100%; justify-content: center; }
+  .plan-go, .foot-btn { min-height: 44px; box-sizing: border-box; }
+  .foot-cols { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .foot-cols > div { border-left: 0; border-right: 0; border-top: 1px solid var(--line); padding: 20px 0; }
+  .foot-cols > div:nth-child(2) { border-right: 0; }
+  .foot-cta, .foot-cols { margin-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .foot-mark { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)); }
+  .site-foot { overflow-x: clip; }
   /* project setup: short fields side by side */
   .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .meta > .field { grid-column: 1 / -1; }
@@ -1340,12 +1424,66 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   table.ledger td.c-act, table.ledger td.c-per { grid-column: 1 / -1; }
   table.ledger td.c-act { padding-right: 36px; }
   table.ledger td.c-x { position: absolute; top: 10px; right: 8px; }
-  table.ledger td.c-x .icon-btn { min-width: 36px; height: 36px; }
+  table.ledger td.c-x .icon-btn { min-width: 44px; height: 44px; }
   table.ledger td.em { text-align: left; font-size: 20px; align-self: end; }
   table.ledger td .unit { display: block; padding: 9px 0; }
-  table.ledger .mm select { padding-inline: 8px; flex: 1; }
+  table.ledger .mm select { padding-inline: 8px; flex: 1; min-height: 44px; }
   table.ledger tr.ev-row { display: block; }
   table.ledger tr.ev-row > td { display: block; padding: 0 16px 16px; }
+  table.ledger .chip { min-height: 44px; box-sizing: border-box; }
+  table.ledger .add, .stage-foot .add, .stage-foot .adds .add { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; }
+  /* wide tables scroll inside their own box, not the page */
+  .table-scroll, .imp-tbl, .tj-plot, .unc-plot { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .workspace, .stages, .side, .charts, .card, #setup, #projectSetup { min-width: 0; max-width: 100%; }
+  .charts { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 16px; }
+  .card-head .seg.seg-sm button, .ctl .seg button, .tj-ms button, .unc-blurb .btn { min-height: 44px; box-sizing: border-box; }
+  .radial-wrap, .radial-wrap.tm-mode { grid-template-columns: minmax(0, 1fr); }
+  .tm { height: 280px; }
+  .tj-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tj-tip { min-width: 0; max-width: min(260px, calc(100% - 12px)); left: 6px; right: auto; }
+  .rc-list { grid-template-columns: minmax(0, 1fr); }
+  .price-grid { grid-template-columns: minmax(0, 1fr); }
+  /* project setup + goal and scope: one-handed taps */
+  .meta .seg button, .panel-grid .seg button, .actions .btn, #exampleBanner .btn { min-height: 44px; box-sizing: border-box; }
+  .panel-grid { grid-template-columns: minmax(0, 1fr); }
+  .panel-grid .field input, .panel-grid .field select, .panel-grid .field textarea,
+  .meta .field input, .meta .field select { min-height: 44px; box-sizing: border-box; }
+  table.s3t select, table.s3t input { min-height: 44px; box-sizing: border-box; font-size: 16px; }
+  /* dialogs + evidence viewer: full-screen sheet, close reachable, safe-area */
+  /* .acct.db is two classes and beat dialog.acct alone (left a 32px side gap) */
+  dialog.acct, dialog.acct.db {
+    width: 100%; max-width: 100%; height: 100%; max-height: 100dvh;
+    margin: 0; border-radius: 0; overflow: hidden;
+  }
+  dialog.acct form {
+    height: 100%; max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain;
+    padding: 20px 16px; padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+  }
+  .acct .acts {
+    position: sticky; bottom: 0; z-index: 1; margin-top: 12px;
+    background: var(--surface); padding-top: 12px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom, 0px));
+  }
+  .acct .acts .btn, .acct .acct-go, .acct .acct-skip, .acct .acct-tabs button { min-height: 44px; box-sizing: border-box; }
+  .db .db-list { max-height: none; }
+  .db-list button { min-height: 44px; box-sizing: border-box; }
+  .imp-map { grid-template-columns: minmax(0, 1fr); }
+  #impMode button { min-height: 44px; box-sizing: border-box; }
+  .overlay { padding: 0; place-items: stretch; align-items: stretch; }
+  .viewer {
+    width: 100%; height: 100%; max-height: 100dvh; border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box;
+  }
+  .viewer header { padding: 10px 14px; padding-top: max(10px, env(safe-area-inset-top, 0px)); gap: 10px; }
+  .viewer header .btn { min-height: 44px; min-width: 44px; box-sizing: border-box; flex: none; }
+  .viewer iframe { height: calc(100dvh - 56px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); }
+  /* help chat open: pad page so primary content can scroll above the sheet */
+  body:has(#helpChat:not([hidden])) .wrap { padding-bottom: calc(min(78dvh, 640px) + 28px); }
+  body:has(#helpChat:not([hidden])) .site-foot { padding-bottom: calc(min(78dvh, 640px) + 12px); }
+  .hc-x, .hc-send { width: 44px; height: 44px; min-width: 44px; min-height: 44px; box-sizing: border-box; }
+  .hc-go, .hc-chip { min-height: 44px; box-sizing: border-box; }
 }
 </style>
 </head>
@@ -1386,6 +1524,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#c-sup" data-es="Proveedores">Suppliers</a></li>
             <li><a href="#c-hot" data-es="Puntos críticos">Hotspots</a></li>
             <li><a href="#c-tgt" data-es="Meta y trayectoria">Target and trajectory</a></li>
+            <li><a href="#c-unc" data-es="Incertidumbre">Uncertainty</a></li>
             <li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li>
             <li><a href="#fw" data-es="Exportaciones por marco">Framework exports</a></li>
             <li><a href="#cust" data-es="Solicitudes de clientes">Customer requests</a></li>
@@ -1402,6 +1541,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
           <ul>
             <li><a href="#lca" data-es="Qué es un análisis de ciclo de vida">What is a life cycle assessment</a></li>
             <li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li>
+            <li><a href="#start" data-es="Lista para empezar">Getting-started checklist</a></li>
             <li><a href="#demo" data-es="Video completo">Full video</a></li>
             <li><a href="#method" data-es="Método, evidencia y fuentes">Method, evidence and sources</a></li>
             <li><a href="#libList" data-es="Bibliotecas y método de impacto">Libraries and impact method</a></li>
@@ -1421,17 +1561,19 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
             <li><a href="#mission" data-es="Misión">Mission</a></li>
             <li><a href="#purpose" data-es="Propósito">Purpose</a></li>
             <li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li>
+            <li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li>
+            <li><a href="#support" data-es="Contacto y soporte">Contact and support</a></li>
             <li><a href="#socials" data-es="Redes sociales">Socials</a></li>
           </ul>
-          <p class="drop-foot" data-es="Por qué existe CO2Trace y dónde seguirnos.">Why CO2Trace exists and where to follow us.</p>
+          <p class="drop-foot" data-es="Por qué existe CO2Trace, preguntas frecuentes y dónde seguirnos.">Why CO2Trace exists, FAQ, and where to follow us.</p>
         </div>
       </div>
       <a class="cta" href="#examples"><span class="arr" aria-hidden="true">↗</span><span class="lbl" data-es="Empezar inventario">Start inventory</span></a>
     </nav>
     <div class="nav-tools">
       <div class="seg pill" role="group" aria-label="Operations in" data-es-aria-label="Operaciones en">
-        <button type="button" data-region="us" title="Operations in the United States: GHG Protocol, EPA factors">US</button>
-        <button type="button" data-region="mx" title="Operaciones en México: RENE, factores SEMARNAT">MX</button>
+        <button type="button" data-region="us" title="Operations in the United States: GHG Protocol, EPA factors" data-es-title="Operaciones en Estados Unidos: GHG Protocol, factores EPA">US</button>
+        <button type="button" data-region="mx" title="Operations in México: RENE, SEMARNAT factors" data-es-title="Operaciones en México: RENE, factores SEMARNAT">MX</button>
       </div>
       <div class="seg pill icons" role="group" aria-label="Color theme" data-es-aria-label="Tema de color">
         <button type="button" data-theme-choice="auto" title="Automatic: follows your device (light by day, dark by night if your system does)" aria-label="Automatic theme" data-es-title="Automático: sigue a tu dispositivo (claro de día y oscuro de noche si tu sistema lo hace)" data-es-aria-label="Tema automático"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
@@ -1608,6 +1750,22 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </div>
   </section>
 
+  <section class="start rv" id="start" aria-labelledby="startTitle">
+    <div class="start-head">
+      <div class="kicker"><div class="eyebrow" data-es="Empieza">Get started</div><h2 id="startTitle" class="rv-h" data-es="Tu lista para el primer inventario">Your checklist for a first inventory</h2></div>
+      <p class="start-lede" data-es="Cinco pasos en esta página. Marca el avance mientras exploras un ejemplo; con una cuenta, capturas tus propios datos. Nada de esto edita los ejemplos.">Five steps on this page. Progress updates as you explore an example; with an account, you enter your own data. None of this edits the examples.</p>
+    </div>
+    <div class="start-prog" aria-live="polite">
+      <div class="start-prog-lab" id="startProgLab"></div>
+      <div class="start-bar" aria-hidden="true"><i id="startBar"></i></div>
+    </div>
+    <ol class="start-list" id="startList"></ol>
+    <div class="start-tools">
+      <button type="button" class="btn" id="icsDl" data-es="Descargar recordatorios mensuales (.ics)">Download monthly reminders (.ics)</button>
+      <p class="note" data-es="Un evento el día 5 de cada mes del año de reporte (o el año actual). Ábrelo en tu calendario para reunir recibos a tiempo.">One event on the 5th of each month of the reporting year (or the current year). Add it to your calendar so bills are gathered on time.</p>
+    </div>
+  </section>
+
   <section class="evguide" id="evidence" aria-labelledby="evgTitle">
     <div class="ex-head">
       <div class="kicker rv"><div class="eyebrow" data-es="Evidencia">Evidence</div><h2 id="evgTitle" class="rv-h" data-es="¿Qué evidencia necesito?">What evidence do I need?</h2></div>
@@ -1659,7 +1817,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div class="actions">
       <button type="button" class="btn primary" id="copyCsv" data-es="Copiar resultados en CSV&lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;▶&lt;/span&gt;">Copy results as CSV<span class="arr" aria-hidden="true">▶</span></button>
       <button type="button" class="btn" id="copyCoa" hidden data-es="Copiar resumen RENE (COA)">Copy RENE (COA) summary</button>
-      <span id="clearWrap"><button type="button" class="btn" id="clearAll">Start blank</button></span>
+      <span id="clearWrap"><button type="button" class="btn" id="clearAll" data-es="Empezar en blanco">Start blank</button></span>
       <span class="toast" id="toast" role="status" aria-live="polite"></span>
     </div>
     <textarea id="csvFallback" hidden readonly aria-label="CSV output" data-es-aria-label="Salida CSV"></textarea>
@@ -1794,7 +1952,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
         <summary><span data-es="Notas completas de la metodología">Full methodology notes</span><span class="m-plus" aria-hidden="true"></span></summary>
         <div class="m-more-body">
           <div id="methodText"></div>
-          <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual del diagrama de Gantt, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Gantt chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
+          <p data-es="Las categorías de emisión agrupan las líneas por tipo de fuente (materiales, combustibles, electricidad, refrigerantes, transporte, residuos y agua), así que una misma categoría puede aparecer en más de un alcance. Cada línea registra también los meses en que ocurrió su actividad; sus emisiones se reparten por igual entre esos meses para construir el perfil mensual de la gráfica Emisiones por mes, así que captura líneas separadas para recibos estacionales si necesitas precisión mensual.">Emission categories group lines by source type (materials, fuels, electricity, refrigerants, transport, waste and water), so the same category can appear in more than one scope. Each line also records the months its activity took place; its emissions are spread evenly across those months to build the monthly profile in the Emissions by month chart, so enter separate lines for seasonal bills if you need month-level accuracy.</p>
           <p data-es="Los archivos adjuntos se guardan solo en este navegador y en este dispositivo, no se suben a ningún lado; conserva los originales en tu sistema de documentos.">Attached files are stored only in this browser on this device and are not uploaded anywhere, so keep the originals in your document system.</p>
         </div>
       </details>
@@ -1812,6 +1970,94 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </div>
     <div class="plans-grid" id="plansGrid"></div>
     <p class="plans-foot" data-es="Precios en pesos mexicanos más IVA. Las cuentas y la facturación abren pronto; crea tu cuenta para apartar tu lugar.">Prices in US dollars before tax. Accounts and billing open soon; create your account to save your place.</p>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faqTitle">
+    <div class="kicker rv">
+      <div class="eyebrow" data-es="Preguntas">FAQ</div>
+      <h2 id="faqTitle" class="rv-h" data-es="Preguntas frecuentes">Frequently asked questions</h2>
+      <p class="faq-lede" data-es="Respuestas cortas para visitantes. Para el total de tu registro o ayuda en vivo, abre el chat de ayuda o escribe a soporte.">Short answers for visitors. For live totals from your ledger or a guided walkthrough, open the help chat or write to support.</p>
+    </div>
+    <ul class="faq-list">
+      <li><details class="rv">
+        <summary data-es="¿Cómo empiezo?">How do I get started?</summary>
+        <div class="faq-a">
+          <p data-es="Explora un ejemplo muestra cuatro empresas ficticias; elige una para ver su tablero. Para tus datos, crea una cuenta (cuando abran) o continúa en este navegador: configura el proyecto, captura líneas en el registro y el tablero se llena solo. La sección Cómo usar CO2Trace y el video completo muestran los pasos.">See examples shows four fictional companies; pick one to open its dashboard. For your own data, create an account when they open, or continue in this browser: set up the project, enter ledger lines, and the dashboard fills as you go. How to use CO2Trace and the full video walk through the steps.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué son los alcances 1, 2 y 3?">What are Scopes 1, 2 and 3?</summary>
+        <div class="faq-a">
+          <p data-es="El GHG Protocol ordena las emisiones en tres alcances para no contar nada dos veces:">The GHG Protocol sorts emissions into three scopes so nothing is counted twice:</p>
+          <ul>
+            <li data-es="Alcance 1 — directas: combustibles, vehículos, refrigerantes y procesos que controlas.">Scope 1 — direct: fuels, vehicles, refrigerants and processes you control.</li>
+            <li data-es="Alcance 2 — energía comprada: electricidad, vapor, calor o frío.">Scope 2 — purchased energy: electricity, steam, heat or cooling.</li>
+            <li data-es="Alcance 3 — el resto de la cadena de valor, en 15 categorías.">Scope 3 — the rest of the value chain, in 15 categories.</li>
+          </ul>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué datos debo reunir?">What data should I collect?</summary>
+        <div class="faq-a">
+          <p data-es="Por cada actividad del año: cantidad y unidad (kWh, litros, kg, t·km…), proveedor, meses en que ocurrió y el documento que la respalda. Combustibles y refrigerante para el alcance 1; recibos de electricidad para el 2; compras, fletes, viajes, residuos y uso del producto para el 3.">For each activity in the year: quantity and unit (kWh, litres, kg, t·km…), supplier, the months it happened, and the document that proves it. Fuels and refrigerant for Scope 1; electricity bills for Scope 2; purchases, freight, travel, waste and product use for Scope 3.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cómo se calcula el CO₂e?">How is CO₂e calculated?</summary>
+        <div class="faq-a">
+          <p data-es="Actividad × factor de emisión × potencial de calentamiento (PCG100) = kg CO₂e, luego a toneladas. Los factores guardan cada gas por separado; el método de impacto (IPCC AR6, AR5 o AR4) los caracteriza. Cita ISO 14064-1 / 14067 solo por número y cláusula.">Activity × emission factor × global warming potential (GWP100) = kg CO₂e, then tonnes. Factors store each gas separately; the impact method (IPCC AR6, AR5 or AR4) characterises them. Cite ISO 14064-1 / 14067 by number and clause only.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué evidencia necesito?">What evidence do I need?</summary>
+        <div class="faq-a">
+          <p data-es="Un documento por línea que muestre la cantidad, el periodo y el proveedor: facturas, recibos de CFE o de la empresa eléctrica, bitácoras de combustible, guías de embarque. Márcalo como revisado cuando lo hayas comprobado. La guía de evidencia en la página muestra qué debe verse en cada tipo.">One document per line that shows the quantity, period and supplier: invoices, utility bills, fuel logs, shipping notes. Mark it reviewed when you have checked it. The evidence guide on this page shows what each document type must show.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿De dónde salen los factores?">Where do the emission factors come from?</summary>
+        <div class="faq-a">
+          <p data-es="De bibliotecas citadas: EPA, eGRID, IPCC y bases ICV para EE. UU.; SEMARNAT y FESEN para México. Con + Desde base de datos puedes buscar EPA supply chain, EXIOBASE 3.8.2, USLCI, AGRIBALYSE 3.2 y WEEE LCI. Cada línea guarda su fuente; puedes editar un factor o capturar uno personalizado.">From cited libraries: EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México. + From database searches EPA supply chain, EXIOBASE 3.8.2, USLCI, AGRIBALYSE 3.2 and WEEE LCI. Each line keeps its source; you can edit a factor or enter a custom one.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿En qué se diferencian EE. UU. y México?">How do the US and México differ?</summary>
+        <div class="faq-a">
+          <p data-es="El selector US / MX de la barra define biblioteca, método, reglas e idioma: EE. UU. usa GHG Protocol y factores EPA en inglés; México usa RENE (PCG AR5, FESEN) y SEMARNAT en español. Esta es información general, no asesoría legal.">The US / MX switch in the top bar sets the library, method, reporting rules and language: the US uses the GHG Protocol and EPA factors in English; México uses RENE (AR5 GWPs, FESEN) and SEMARNAT in Spanish. This is general information, not legal advice.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Dónde se guardan mis datos?">Where is my data stored?</summary>
+        <div class="faq-a">
+          <p data-es="Todo se guarda en este navegador y este dispositivo; nada se envía a un servidor. Si borras los datos del sitio o cambias de dispositivo empiezas de cero, así que exporta un CSV como respaldo. Las cuentas con nube llegan pronto.">Everything is saved in this browser on this device; nothing is sent to a server. Clearing site data or switching device starts fresh, so export a CSV as a backup. Company accounts with cloud storage are coming.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Necesito una cuenta?">Do I need an account?</summary>
+        <div class="faq-a">
+          <p data-es="Las cuentas de empresa abren pronto: un perfil con varios miembros, el registro y la evidencia cifrados en la nube, e historial de cambios. Mientras tanto la app funciona en el navegador; en el sitio público, captura de datos propios pide una cuenta y puedes explorar los ejemplos.">Company accounts are opening soon: one company profile with several members, the ledger and evidence encrypted in the cloud, and a change history. Until then the app works in the browser; on the public site, entering your own data needs an account, and you can explore the examples.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cuánto cuestan los planes?">What do the plans cost?</summary>
+        <div class="faq-a">
+          <p data-es="Tres planes mensuales por tamaño: Pequeña desde $2,490 MXN, Mediana $7,490 y Grande desde $19,900 (más IVA). El pago anual da dos meses gratis. Todos incluyen revisiones programadas con expertos (dos al mes en Pequeña y Mediana, tres en Grande). Ver Planes.">Three monthly plans by company size: Small from $149 USD, Medium $449 and Large from $1,190, before tax. Paying yearly gives two months free. Every plan includes scheduled expert reviews (two a month on Small and Medium, three on Large). See Plans.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Qué reportes puedo generar?">What reports can I generate?</summary>
+        <div class="faq-a">
+          <p data-es="Generar el reporte ahora arma un documento listo para imprimir siguiendo ISO 14044, 5.2 (meta, inventario, evaluación e interpretación), con gráficas, evidencia y revisiones. También hay exportaciones de marco (CDP, SB 253, CSRD, IFRS S2), CSV y, en México, el resumen RENE (COA).">Generate the report now builds a print-ready document laid out as ISO 14044, 5.2 (goal, inventory, impact and interpretation), with charts, evidence and checks. Framework exports (CDP, SB 253, CSRD, IFRS S2), CSV and, in México, the RENE (COA) summary are also available.</p>
+        </div>
+      </details></li>
+      <li><details>
+        <summary data-es="¿Cómo contacto a soporte?">How do I contact support?</summary>
+        <div class="faq-a">
+          <p data-es="Escribe a support@co2trace.io en español o en inglés. Incluye empresa, país (US o MX), año de reporte y tu pregunta. Respondemos en un día hábil. Ver Soporte.">Write to support@co2trace.io in English or Spanish. Include company, country (US or MX), reporting year and your question. We reply within one business day. See Support.</p>
+        </div>
+      </details></li>
+    </ul>
+    <p class="faq-note" data-es="Las respuestas sobre regulación son información general, no asesoría legal.">Regulatory answers are general information, not legal advice.</p>
   </section>
 
   <section class="about" id="about" aria-labelledby="aboutTitle">
@@ -1839,11 +2085,21 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     </div>
     <div class="support rv" id="support">
       <div>
-        <div class="eyebrow" data-es="Soporte">Support</div>
+        <div class="eyebrow" data-es="Contacto · Soporte">Contact · Support</div>
         <h3 data-es="¿Necesitas ayuda detallada?">Need detailed help?</h3>
         <p data-es="Escríbenos para dudas sobre tu inventario, tus documentos de evidencia, los requisitos ISO, el RENE o el GHG Protocol. Respondemos en español o en inglés.">Write to us about your inventory, your evidence documents, ISO requirements, the GHG Protocol or the RENE. We answer in English or Spanish.</p>
+        <p data-es="Incluye en el correo:">Please include in your email:</p>
+        <ul class="support-need">
+          <li data-es="Nombre de la empresa">Company name</li>
+          <li data-es="País de operaciones (US o MX)">Country of operations (US or MX)</li>
+          <li data-es="Año de reporte">Reporting year</li>
+          <li data-es="Tu pregunta o lo que necesitas revisar">Your question or what you need reviewed</li>
+        </ul>
       </div>
-      <a class="support-mail" href="mailto:support@co2trace.io?subject=CO2Trace%20support"><span class="vh" data-es="Escribir a soporte:">Email support:</span>support@co2trace.io<span aria-hidden="true">↗</span></a>
+      <div class="support-side">
+        <a class="support-mail" href="mailto:support@co2trace.io?subject=CO2Trace%20support"><span class="vh" data-es="Escribir a soporte:">Email support:</span>support@co2trace.io<span aria-hidden="true">↗</span></a>
+        <p class="support-time" data-es="Respondemos en un día hábil, de lunes a viernes.">We reply within one business day, Monday to Friday.</p>
+      </div>
     </div>
     <div class="socials" id="socials">
       <span class="eyebrow" data-es="Síguenos">Follow us</span>
@@ -1880,9 +2136,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     <div><h3 data-es="Plataforma">Platform</h3><ul>
       <li><a href="#examples" data-es="Ejemplos">Examples</a></li><li><a href="#ledgerTitle" data-es="Registro de actividades">Activity ledger</a></li><li><a href="#kpis" data-es="Tablero">Dashboard</a></li><li><a href="#reports" data-es="Reportes automáticos">Automatic reports</a></li><li><a href="#evidence" data-es="Guía de evidencia">Evidence guide</a></li></ul></div>
     <div><h3 data-es="Aprende">Learn</h3><ul>
-      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
+      <li><a href="#lca" data-es="Qué es un ACV">What is an LCA</a></li><li><a href="#how" data-es="Cómo usar CO2Trace">How to use CO2Trace</a></li><li><a href="#start" data-es="Lista para empezar">Getting started</a></li><li><a href="#method" data-es="Metodología">Method</a></li><li><a href="#faq" data-es="Preguntas frecuentes">FAQ</a></li><li><a href="#demo" data-es="Video completo">Full video</a></li></ul></div>
     <div><h3 data-es="Empresa">Company</h3><ul>
-      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
+      <li><a href="#about" data-es="Nosotros">About us</a></li><li><a href="#vision" data-es="Visión">Vision</a></li><li><a href="#mission" data-es="Misión">Mission</a></li><li><a href="#plans" data-es="Planes y precios">Plans and pricing</a></li><li><a href="#support" data-es="Contacto y soporte">Contact and support</a></li><li><a href="privacy.html" data-es="Privacidad">Privacy</a></li><li><a href="terms.html" data-es="Términos">Terms</a></li><li><a href="mailto:support@co2trace.io" data-es="Soporte: support@co2trace.io">Support: support@co2trace.io</a></li></ul></div>
     <div><h3 data-es="Conecta">Connect</h3><ul>
       <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li><li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href="https://github.com/jhmonarrez-ops/lca-carbon-ledger/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" data-es="Seguridad">Security</a></li></ul></div>
   </nav>
@@ -2619,7 +2875,9 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   const startRegion = state && REGIONS[state.region] ? state.region : 'mx';
   // The public site (no signed-in account) never holds the visitor's own data: it always has a fixed example in state, shown
   // in full only after See examples. Own ledgers exist only for signed-in accounts (needs the backend, see Cloud).
-  const PUBLIC = !(window.CO2TRACE_CONFIG && window.CO2TRACE_CONFIG.apiUrl && (() => { try { return !!JSON.parse(sessionStorage.getItem('co2trace-auth') || 'null'); } catch (e) { return false; } })());
+  // A signed-in session is an unexpired Cognito ID token. A refresh token is never stored (see Cloud).
+  const sessionLive = () => { try { const t = JSON.parse(sessionStorage.getItem('co2trace-auth') || 'null'); return !!(t && typeof t.id === 'string' && t.id.split('.').length === 3 && t.exp > Date.now() / 1000); } catch (e) { return false; } };
+  const PUBLIC = !(window.CO2TRACE_CONFIG && window.CO2TRACE_CONFIG.apiUrl && sessionLive());
   document.documentElement.classList.toggle('public', PUBLIC);
   const ownSaved = () => { try { const o = JSON.parse(localStorage.getItem('lca-ledger-own')); return o && Array.isArray(o.rows) ? o : null; } catch (e) { return null; } };
   if (DEMO) state = example(startRegion, DEMO);
@@ -2762,6 +3020,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
   const S3N = i => (isEs() ? S3_ES : S3_EN)[i - 1];
   // the category a Scope 3 line falls in, from its stage and kind of activity
   const s3Cat = r => {
+    if (r.s3c) return +r.s3c;
     const k = kindOf(r);
     if (r.stage === 'use') return 11;
     if (r.stage === 'eol') return 12;
@@ -3074,6 +3333,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
     pcf: '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
     disc: '<path d="M5 21V4h11l-1.5 4H20l-2 6H5"/>',
     pack: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8"/>',
+    sum: '<path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
   });
   function renderReports() {
     const mx = state.region === 'mx';
@@ -3082,6 +3342,7 @@ html.rv-on .m-eq.in > * { opacity: 1; transform: none; }
       ['pcf', L('Product carbon footprint study', 'Estudio de huella de carbono de producto'), 'ISO 14067 · ISO 14044', L('kg CO₂e per functional unit by life-cycle stage, with the full ISO 14044 study report.', 'kg CO₂e por unidad funcional por etapa del ciclo de vida, con el reporte completo del estudio ISO 14044.')],
       ['disc', mx ? 'Resumen RENE para la COA' : 'Disclosure summary', mx ? 'LGCC · Reglamento del RENE' : 'California SB 253 · EPA GHGRP', mx ? 'Directas e indirectas por fuente, con AR5 y FESEN, listas para capturar en la COA.' : 'What each rule asks of you, with your figures filled in.'],
       ['pack', L('Evidence pack', 'Paquete de evidencia'), L('For your verifier · ISO 14064-3', 'Para tu verificador · ISO 14064-3'), L('Every document behind every number, with reference, period and review status.', 'Cada documento detrás de cada cifra, con referencia, periodo y estado de revisión.')],
+      ['sum', L('One-page summary', 'Resumen de una página'), L('A4 · board or bank meeting', 'A4 · junta o banco'), L('Total, scopes, largest lines and evidence coverage on a single print-ready page.', 'Total, alcances, líneas mayores y cobertura de evidencia en una sola página lista para imprimir.')],
     ];
     // every report is a working example: built from the example company in view (with an account, from the visitor's ledger)
     $('repEx').innerHTML = state.isExample ? `<label for="repExSel">${L('Every report and export below is built from', 'Cada reporte y exportación de abajo se arma con')}</label>
@@ -3368,7 +3629,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
     <tr><td>${T('Completeness', 'Integridad')}</td><td>${T(`${t.lines.length} lines across ${STAGES.filter(s => included(s.id) && t.byStage[s.id] > 0).length} of ${STAGES.filter(s => included(s.id)).length} stages in the boundary.`, `${t.lines.length} líneas en ${STAGES.filter(s => included(s.id) && t.byStage[s.id] > 0).length} de ${STAGES.filter(s => included(s.id)).length} etapas del límite.`)}</td></tr>
     <tr><td>${T('Consistency and reproducibility', 'Consistencia y reproducibilidad')}</td><td>${T(`One GWP set (IPCC ${state.method}) for every line; every factor and its source is listed, so the result can be reproduced.`, `Un solo juego de PCG (IPCC ${state.method}) para todas las líneas; cada factor y su fuente están listados, así que el resultado puede reproducirse.`)}</td></tr>
     <tr><td>${T('Pedigree score (1 best to 5)', 'Puntaje de calidad (1 mejor a 5)')}</td><td>${t.total ? `<b>${nf1.format(t.dq)}</b> (${dqWord(t.dq)}), ${T('weighted by emissions over data type, age against the reporting year, geography and technology of each line. Section 4.2 gives the score per line.', 'ponderado por emisiones sobre tipo de dato, antigüedad frente al año de reporte, geografía y tecnología de cada línea. La sección 4.2 da el puntaje por línea.')}` : '–'}</td></tr>
-    <tr><td>${T('Uncertainty', 'Incertidumbre')}</td><td>${T('Not quantified. Section 6.3 shows how the result moves under changed assumptions.', 'No cuantificada. La sección 6.3 muestra cómo cambia el resultado con otros supuestos.')}</td></tr>
+    <tr><td>${T('Uncertainty', 'Incertidumbre')}</td><td>${(() => { const u = uncertainty(t); return u ? T(`95 % interval ${fmtT(u.lo)}–${fmtT(u.hi)} t CO₂e (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %), from a Monte Carlo simulation over the pedigree scores. Section 6.3 gives the method and the largest contributors.`, `Intervalo de 95 % ${fmtT(u.lo)}–${fmtT(u.hi)} t CO₂e (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %), de una simulación Monte Carlo sobre los puntajes de calidad. La sección 6.3 da el método y los mayores contribuyentes.`) : '–'; })()}</td></tr>
   </tbody></table>
   <h3>4.5 ${T('Missing data', 'Datos faltantes')} <small>ISO 14044, 4.2.3.6.3</small></h3>
   <p>${missEv.length || noQty.length ? T(`${missEv.length} line(s) have no supporting document yet (${fmtT(missEv.reduce((a, r) => a + emis(r), 0))} t CO₂e): ${missEv.map(r => esc(ln(r))).join('; ') || '–'}. ${noQty.length} line(s) have no quantity and count as zero.`, `${missEv.length} línea(s) aún no tienen documento (${fmtT(missEv.reduce((a, r) => a + emis(r), 0))} t CO₂e): ${missEv.map(r => esc(ln(r))).join('; ') || '–'}. ${noQty.length} línea(s) no tienen cantidad y cuentan como cero.`) : T('Every line has a quantity and a supporting document.', 'Cada línea tiene cantidad y documento de respaldo.')}</p>
@@ -3417,6 +3678,12 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <table><thead><tr><th>${T('Assumption changed', 'Supuesto modificado')}</th><th class="n">${T('Total', 'Total')} (t CO₂e)</th><th class="n">${T('Change', 'Cambio')}</th></tr></thead><tbody>
     <tr><td>${T('Base case', 'Caso base')}</td><td class="n">${fmtT(t.total)}</td><td class="n">–</td></tr>
     ${sens.map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${fmtT(v)}</td><td class="n">${t.total ? (v >= t.total ? '+' : '') + nf1.format((v - t.total) / t.total * 100) + ' %' : '–'}</td></tr>`).join('')}</tbody></table>
+  ${(() => { const u = uncertainty(t); if (!u) return '';
+    return `<h4>${T('Uncertainty analysis', 'Análisis de incertidumbre')} <small>ISO 14044, 4.4.5 · ISO 14067, 6.4.6.2</small></h4>
+  <p>${T(`A Monte Carlo simulation of ${nf0.format(u.n)} runs. Each line is log-normal around its inventory value; the variance combines a basic term for the source type (fuels and electricity narrow, materials, transport, refrigerants and waste wider, spend-based factors widest) with terms for data type, data age, geography and technology from section 4.2 (pedigree-matrix approach). Lines sharing a factor are drawn together. The spreads are typical values, so the range is a screening estimate.`, `Simulación Monte Carlo de ${nf0.format(u.n)} corridas. Cada línea es log-normal alrededor de su valor del inventario; la varianza combina un término básico por tipo de fuente (combustibles y electricidad estrechos; materiales, transporte, refrigerantes y residuos más amplios; factores por gasto los más amplios) con términos por tipo de dato, antigüedad, geografía y tecnología de la sección 4.2 (enfoque de matriz de pedigrí). Las líneas que comparten un factor se muestrean juntas. Las dispersiones son valores típicos, así que el rango es una estimación preliminar.`)}</p>
+  <div class="fig">${uncSvg(u, T, true)}</div>
+  <table><tbody><tr><td>${T('Inventory total', 'Total del inventario')}</td><td class="n">${fmtT(u.base)} t CO₂e</td></tr><tr><td>${T('Median / mean of the runs', 'Mediana / media de las corridas')}</td><td class="n">${fmtT(u.med)} / ${fmtT(u.mean)} t CO₂e</td></tr><tr><td>${T('95 % interval', 'Intervalo de 95 %')}</td><td class="n">${fmtT(u.lo)} – ${fmtT(u.hi)} t CO₂e</td></tr><tr><td>${T('Range around the total', 'Rango alrededor del total')}</td><td class="n">−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %</td></tr></tbody></table>
+  <table><thead><tr><th>${T('Largest contributors to the variance', 'Mayores contribuyentes a la varianza')}</th><th class="n">${T('Share', 'Parte')}</th><th class="n">${T('Spread (GSD)', 'Dispersión (DEG)')}</th></tr></thead><tbody>${u.top.map(p => `<tr><td>${esc(p.r.note || lineName(p.r))}</td><td class="n">${pct(p.share, 1)}</td><td class="n">×/÷ ${nf2.format(p.gsd)}</td></tr>`).join('')}</tbody></table>`; })()}
   <h3>6.4 ${T('Conclusions and recommendations', 'Conclusiones y recomendaciones')}</h3>
   <p>${T(`The carbon footprint is ${fmtT(t.total)} t CO₂e for ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e per ${esc(state.fuName)}` : ''}. Reductions should start with ${esc(hot[0] ? ln(hot[0]) : '–')}, the largest contributor.${missEv.length ? ' Supporting documents should be added for the lines listed in 4.5 before release.' : ''}`, `La huella de carbono es de ${fmtT(t.total)} t CO₂e en ${esc(state.year)}${per ? `, ${nf1.format(per)} kg CO₂e por ${esc(state.fuName)}` : ''}. Las reducciones deben empezar por ${esc(hot[0] ? ln(hot[0]) : '–')}, el mayor contribuyente.${missEv.length ? ' Antes de publicar, deben agregarse documentos para las líneas listadas en 4.5.' : ''}`)}</p>
   <h4>${T('Reduction options and savings', 'Opciones de reducción y ahorro')}</h4>
@@ -3430,7 +3697,7 @@ ${embed ? '' : `<div class="bar"><span>${T('Generated by CO2Trace from the ledge
   <p class="note">${T('Screening forecast for planning; SBTi validates targets itself.', 'Pronóstico preliminar para planear; SBTi valida las metas por su cuenta.')}</p>`; })()}
   <h3>6.5 ${T('Assumptions and limitations', 'Supuestos y limitaciones')}</h3>
   <p>${g.assumptions ? esc(g.assumptions) : `<span class="miss">${T('Not stated: complete before release', 'Sin dato: complétalo antes de publicar')}</span>`}</p>
-  <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic CO₂ is reported as a memo item; biogenic removals and land-use change are not assessed. Uncertainty is not quantified; section 6.3 and the pedigree scores in 4.4 stand in for it.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El CO₂ biogénico se reporta como partida de memoria; las remociones biogénicas y el cambio de uso de suelo no se evalúan. La incertidumbre no se cuantifica; la sección 6.3 y los puntajes de calidad de 4.4 la sustituyen.')}</p>
+  <p class="note">${T('Climate change only: other environmental impacts are not assessed, so this is not a full LCA. Biogenic CO₂ is reported as a memo item; biogenic removals and land-use change are not assessed. Uncertainty is a screening estimate from typical spreads (section 6.3), not from measured variability.', 'Solo cambio climático: no se evalúan otros impactos ambientales, así que no es un ACV completo. El CO₂ biogénico se reporta como partida de memoria; las remociones biogénicas y el cambio de uso de suelo no se evalúan. La incertidumbre es una estimación preliminar con dispersiones típicas (sección 6.3), no con variabilidad medida.')}</p>
 
   <h2>7. ${T('Critical review', 'Revisión crítica')} <small>ISO 14044, 6 · 5.2 g</small></h2>
   ${review === 'none' ? `<p>${T('No critical review has been carried out.', 'No se ha realizado revisión crítica.')} ${comparative ? `<span class="miss">${T('A comparative assertion disclosed to the public requires a panel review (ISO 14044, 5.3 and 6.3).', 'Una afirmación comparativa divulgada al público requiere revisión por panel (ISO 14044, 5.3 y 6.3).')}</span>` : T('The results must not be used for comparative assertions disclosed to the public.', 'Los resultados no deben usarse para afirmaciones comparativas divulgadas al público.')}</p>`
@@ -3530,7 +3797,8 @@ ${body}
   <ul>${srcs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
   ${kv([[L('Assumptions and limitations', 'Supuestos y limitaciones'), g.assumptions], [L('Data quality (pedigree score, 1 best to 5)', 'Calidad de datos (puntaje, 1 mejor a 5)'), t.total ? `${nf1.format(t.dq)} · ${dqWord(t.dq)}` : '']])}
   <h2>${n + 2}. ${L('Uncertainty', 'Incertidumbre')} <small>ISO 14064-1:2018, 8.3</small></h2>
-  <p>${L('Uncertainty is assessed qualitatively from the data-quality score of each line and the sensitivity of the total to its largest lines:', 'La incertidumbre se evalúa de forma cualitativa con el puntaje de calidad de cada línea y la sensibilidad del total a sus líneas más grandes:')}</p>
+  ${(() => { const u = uncertainty(t); return u ? `<p>${L(`Quantified by a Monte Carlo simulation (${nf0.format(u.n)} runs) over each line’s source type and data-quality score: 95 % of runs fall between <b>${fmtT(u.lo)}</b> and <b>${fmtT(u.hi)} t CO₂e</b> (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} % around the reported ${fmtT(u.base)} t). Largest contributors: ${u.top.slice(0, 3).map(p => `${esc(p.r.note || lineName(p.r))} (${pct(p.share, 1)})`).join(', ')}. The spreads are typical values, so this is a screening estimate.`, `Cuantificada con una simulación Monte Carlo (${nf0.format(u.n)} corridas) sobre el tipo de fuente y el puntaje de calidad de cada línea: 95 % de las corridas caen entre <b>${fmtT(u.lo)}</b> y <b>${fmtT(u.hi)} t CO₂e</b> (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} % alrededor de las ${fmtT(u.base)} t reportadas). Mayores contribuyentes: ${u.top.slice(0, 3).map(p => `${esc(p.r.note || lineName(p.r))} (${pct(p.share, 1)})`).join(', ')}. Las dispersiones son valores típicos, así que es una estimación preliminar.`)}</p>` : ''; })()}
+  <p>${L('The sensitivity of the total to single assumptions:', 'La sensibilidad del total a supuestos individuales:')}</p>
   ${tbl([L('Assumption changed', 'Supuesto modificado'), 't CO₂e', L('Change', 'Cambio')], sensitivity(t, 10, 3).rows.slice(0, 7).map(([k, v]) => [k, v, chg(v, t.total)]))}
   <h2>${n + 3}. ${L('Targets and reduction actions', 'Metas y acciones de reducción')} <small>ISO 14064-1:2018, 7 · 9.3.2</small></h2>
   ${kv([[L('Target', 'Meta'), tr ? `${tgtName(tr)}: −${nf1.format(tr.cut)} % ${L('from', 'desde')} ${tr.by} ${L('by', 'para')} ${tr.ty} (${fmtT(tr.goal)} t CO₂e)` : ''], [L('Progress this year', 'Avance este año'), tr ? `${fmtT(tr.cur)} t · ${tr.onTrack ? L('on the path', 'en la trayectoria') : L('above the path', 'por encima de la trayectoria')}` : ''], [L('Planned measures (savings plan)', 'Medidas planeadas (plan de ahorro)'), sv.t > 0 ? `${fmtT(sv.t)} t CO₂e ${L('a year', 'al año')} · ${money(sv.m)}` : '']])}
@@ -3597,7 +3865,41 @@ ${body}
   ${kv([[L('Prepared by', 'Preparó'), g.practitioner], [L('Reviewed by', 'Revisó'), ''], [L('Date', 'Fecha'), '']])}`;
     return docPage(L('Evidence pack for the verifier', 'Paquete de evidencia para el verificador'), `${state.company || ''} · ${state.year || ''}`, [[L('Standard', 'Norma'), 'ISO 14064-3:2019'], [L('Lines', 'Líneas'), String(lines.length)], [L('Documented', 'Documentado'), pct(t.byEv.ok + t.byEv.att, t.total)]], '', body);
   }
-  const REP_DOCS = { inv: invHtml, pcf: () => reportHtml(true), disc: discHtml, pack: packHtml };
+
+  // one A4 sheet: total, scopes, top lines, evidence % (not the full ISO study)
+  function sumHtml() {
+    const t = totals(), mx = state.region === 'mx', N = 10;
+    const lines = t.lines.slice().sort((a, b) => emis(b) - emis(a)).slice(0, N);
+    const documented = t.byEv.ok + t.byEv.att;
+    const evLbl = { ok: L('Reviewed', 'Revisada'), att: L('Attached', 'Adjunta'), miss: L('Missing', 'Falta') };
+    const s2lbl = mx ? L('Scope 2 · electricity', 'Alcance 2 · electricidad') : L('Scope 2 · market-based', 'Alcance 2 · basado en mercado');
+    const totLbl = mx ? L('Total', 'Total') : L('Total (Scope 2 market-based)', 'Total (alcance 2 basado en mercado)');
+    const body = `
+  <div class="kpis">
+    <div class="k main"><span>${L('Total emissions', 'Emisiones totales')}</span><b>${fmtT(t.total)}</b><i>t CO₂e</i><small>${periodTxt()}</small></div>
+    <div class="k"><span>${L('Documented', 'Documentado')}</span><b>${pct(documented, t.total)}</b><small>${fmtT(documented)} t · ${L('attached or reviewed', 'adjunto o revisado')}</small></div>
+    <div class="k"><span>${L('Reviewed', 'Revisado')}</span><b>${pct(t.byEv.ok, t.total)}</b><small>${fmtT(t.byEv.ok)} t</small></div>
+  </div>
+  <h2 style="margin-top:18px">${L('Scopes', 'Alcances')}</h2>
+  ${tbl([L('Scope', 'Alcance'), 't CO₂e', L('Share', 'Parte')], [
+    [L('Scope 1 · direct', 'Alcance 1 · directas'), t.byScope[1], pct(t.byScope[1], t.total)],
+    [s2lbl, t.byScope[2], pct(t.byScope[2], t.total)],
+    [L('Scope 3 · value chain', 'Alcance 3 · cadena de valor'), t.byScope[3], pct(t.byScope[3], t.total)],
+  ], [totLbl, t.total, '100 %'])}
+  ${!mx && t.byScope[2] ? `<p class="note">${L(`Scope 2 location-based: ${fmtT(t.s2lb)} t CO₂e (not used in the total).`, `Alcance 2 basado en ubicación: ${fmtT(t.s2lb)} t CO₂e (no entra en el total).`)}</p>` : ''}
+  <h2 style="margin-top:18px">${L('Largest lines', 'Líneas mayores')} <small>${L(`top ${lines.length} by t CO₂e`, `las ${lines.length} mayores en t CO₂e`)}</small></h2>
+  ${tbl([L('Activity', 'Actividad'), L('Scope', 'Alcance'), 't CO₂e', L('Share', 'Parte'), L('Evidence', 'Evidencia')],
+    lines.map(r => [lineName(r) + (r.note && r.key !== 'custom' ? ' · ' + r.note : ''), SA(+r.scope || 3), emis(r), pct(emis(r), t.total), evLbl[evStatus(r)]]))}
+  <h2 style="margin-top:18px">${L('Evidence coverage', 'Cobertura de evidencia')}</h2>
+  ${tbl([L('Status', 'Estado'), 't CO₂e', L('Share', 'Parte')], [
+    [L('Reviewed', 'Revisada'), t.byEv.ok, pct(t.byEv.ok, t.total)],
+    [L('Attached, not reviewed', 'Adjunta, sin revisar'), t.byEv.att, pct(t.byEv.att, t.total)],
+    [L('Missing', 'Falta'), t.byEv.miss, pct(t.byEv.miss, t.total)],
+  ], [L('Total', 'Total'), t.total, '100 %'])}`;
+    return docPage(L('One-page emissions summary', 'Resumen de emisiones en una página'), `${state.company || ''} · ${state.year || ''}`,
+      [[L('Method', 'Método'), `IPCC ${state.method} GWP100`], [L('Boundary', 'Límite'), bnd()], [L('Total', 'Total'), `${fmtT(t.total)} t CO₂e`]], '', body);
+  }
+  const REP_DOCS = { inv: invHtml, pcf: () => reportHtml(true), disc: discHtml, pack: packHtml, sum: sumHtml };
 
   // ---------- framework exports: CDP, California SB 253, CSRD ESRS E1, IFRS S2 ----------
   // Each framework is a list of datapoints [ref, datapoint, value, status, note] filled from totals() and the goal fields.
@@ -3743,8 +4045,8 @@ ${REP_CSS}  .dp td:first-child{width:11%;color:#6b6b6b;white-space:nowrap} .dp t
 </div>`;
   }
   function fwCsv(id) {
-    const fw = fwData(id), q = v => `"${String(v ?? '').replace(/"/g, '""')}"`, ST = { ok: 'filled', todo: 'to complete', nt: 'outside CO2Trace', na: 'not applicable' };
-    return '﻿' + [[L('Section', 'Sección'), L('Ref.', 'Ref.'), L('Datapoint', 'Dato'), L('Value', 'Valor'), L('Status', 'Estado'), L('Note', 'Nota')], ...fw.secs.flatMap(sec => sec.rows.map(([ref, k, v, st, n]) => [sec.h, ref, k, v, ST[st], n]))].map(r => r.map(q).join(',')).join('\r\n');
+    const fw = fwData(id), ST = { ok: 'filled', todo: 'to complete', nt: 'outside CO2Trace', na: 'not applicable' };
+    return '﻿' + [[L('Section', 'Sección'), L('Ref.', 'Ref.'), L('Datapoint', 'Dato'), L('Value', 'Valor'), L('Status', 'Estado'), L('Note', 'Nota')], ...fw.secs.flatMap(sec => sec.rows.map(([ref, k, v, st, n]) => [sec.h, ref, k, v, ST[st], n]))].map(r => r.map(csvQ).join(',')).join('\r\n');
   }
   function renderFw() {
     const el = $('fwGrid'); if (!el) return;
@@ -3821,8 +4123,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
 </div>`;
   }
   function crCsv(q) {
-    const d = crData(q), c = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    return '﻿' + [[L('Section', 'Sección'), L('Item', 'Concepto'), L('Value', 'Valor')], ...d.secs.flatMap(([h, rows]) => rows.map(([k, v]) => [h, k, v]))].map(r => r.map(c).join(',')).join('\r\n');
+    const d = crData(q);
+    return '﻿' + [[L('Section', 'Sección'), L('Item', 'Concepto'), L('Value', 'Valor')], ...d.secs.flatMap(([h, rows]) => rows.map(([k, v]) => [h, k, v]))].map(r => r.map(csvQ).join(',')).join('\r\n');
   }
   function renderCust() {
     const el = $('crList'); if (!el) return;
@@ -3923,7 +4225,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     if (repUrl) URL.revokeObjectURL(repUrl);
     repUrl = URL.createObjectURL(new Blob([repDoc.html()], { type: 'text/html' }));
     const f = document.createElement('iframe');
-    f.title = L('Report', 'Reporte'); f.src = repUrl;
+    f.title = L('Report', 'Reporte'); f.setAttribute('sandbox', 'allow-same-origin allow-modals'); f.src = repUrl;
     $('repBody').replaceChildren(f);
     $('repvTitle').textContent = repDoc.title();
     if (!repOpen) repY = window.scrollY;
@@ -3932,6 +4234,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     document.documentElement.classList.add('rep-open');
     if (!(history.state && history.state.report)) history.pushState({ report: true }, '', '#report');
     $('repBack').focus({ preventScroll: true });
+    markStart('rep');
   }
   function closeReport(fromHistory) {
     if (!repOpen) return;
@@ -4029,6 +4332,72 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   const OWN_STORE = 'lca-ledger-own';
   // exOpen: the gallery is open; exShown: the chosen example is shown in full (goal and scope, KPIs, ledger, dashboard)
   let exOpen = !!DEMO, exShown = !!DEMO;
+  // Getting-started checklist (#start) + monthly .ics: progress in this browser only; public-safe (scroll / examples / account)
+  const START_STORE = 'lca-start-v1';
+  const START_IDS = ['how', 'ex', 'ev', 'rep', 'acct'];
+  let startDone = {};
+  try { startDone = JSON.parse(localStorage.getItem(START_STORE) || '{}') || {}; } catch (e) { startDone = {}; }
+  const saveStart = () => { try { localStorage.setItem(START_STORE, JSON.stringify(startDone)); } catch (e) {} };
+  function markStart(id) {
+    if (!START_IDS.includes(id) || startDone[id]) return;
+    startDone[id] = true; saveStart(); renderStart();
+  }
+  function startSteps() {
+    return [
+      { id: 'how', t: L('See how CO2Trace works', 'Mira cómo funciona CO2Trace'), d: L('Scroll the five steps with the fictional bottler.', 'Recorre los cinco pasos con la embotelladora ficticia.'), go: L('Open How to use', 'Abrir Cómo usar') },
+      { id: 'ex', t: L('Explore an example', 'Explora un ejemplo'), d: L('Open a fictional company and read its dashboard (read-only).', 'Abre una empresa ficticia y lee su tablero (solo lectura).'), go: L('See examples', 'Ver ejemplos') },
+      { id: 'ev', t: L('Check what evidence you need', 'Revisa qué evidencia necesitas'), d: L('Open the evidence guide and a sample document.', 'Abre la guía de evidencia y un documento de muestra.'), go: L('Open evidence guide', 'Abrir guía de evidencia') },
+      { id: 'rep', t: L('Open a sample report', 'Abre un reporte de muestra'), d: L('Generate a print-ready report from the example in view.', 'Genera un reporte listo para imprimir con el ejemplo en vista.'), go: L('Go to Reports', 'Ir a Reportes') },
+      { id: 'acct', t: L('Create an account for your data', 'Crea una cuenta para tus datos'), d: PUBLIC ? L('Own ledger entry needs a company account on the public site.', 'Capturar tu propio registro requiere una cuenta de empresa en el sitio público.') : L('Sign in or continue so your ledger stays yours.', 'Inicia sesión o continúa para que el registro sea tuyo.'), go: PUBLIC ? L('Create account', 'Crear cuenta') : L('Open account', 'Abrir cuenta') },
+    ];
+  }
+  function renderStart() {
+    const list = $('startList'), lab = $('startProgLab'), bar = $('startBar');
+    if (!list) return;
+    if (exShown && !startDone.ex) { startDone.ex = true; saveStart(); }
+    const steps = startSteps(), n = START_IDS.filter(id => startDone[id]).length;
+    if (lab) lab.textContent = L(`${n} of ${START_IDS.length} done`, `${n} de ${START_IDS.length} listos`);
+    if (bar) bar.style.width = `${(100 * n / START_IDS.length).toFixed(1)}%`;
+    list.innerHTML = steps.map(s => {
+      const ok = !!startDone[s.id];
+      return `<li class="${ok ? 'done' : ''}" data-start="${s.id}">
+        <span class="start-tick" aria-hidden="true">${ok ? '✓' : ''}</span>
+        <div><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></div>
+        <button type="button" class="btn${ok ? '' : ' primary'}" data-start-go="${s.id}">${esc(ok ? L('Done', 'Listo') : s.go)}</button>
+      </li>`;
+    }).join('');
+  }
+  function runStart(id) {
+    markStart(id);
+    if (id === 'how') goTo($('how'));
+    else if (id === 'ex') { exOpen = true; renderView(); goTo($('examples')); }
+    else if (id === 'ev') goTo($('evidence'));
+    else if (id === 'rep') { goTo($('reports')); setTimeout(() => openReport({ html: () => REP_DOCS.inv(), title: () => `${bare(state.company || 'CO2Trace')} · ${L('GHG inventory report', 'Reporte del inventario de GEI')} ${state.year || ''}` }), 400); }
+    else if (id === 'acct') account('create');
+  }
+  function monthIcs() {
+    const y = parseInt(state.year, 10) || new Date().getFullYear();
+    const pad = n => String(n).padStart(2, '0');
+    const now = new Date();
+    const stamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
+    const escI = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//CO2Trace//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    for (let m = 0; m < 12; m++) {
+      const monEn = MONTHS_EN[m], mon = MONTHS[m];
+      const sum = L(`CO2Trace: enter ${monEn} ${y} activity data`, `CO2Trace: capturar datos de ${mon} ${y}`);
+      const desc = L('Gather this month’s bills and invoices and update the ledger at https://co2trace.io', 'Reúne los recibos y facturas del mes y actualiza el registro en https://co2trace.io');
+      lines.push('BEGIN:VEVENT', `UID:co2trace-${y}-${pad(m + 1)}@co2trace.io`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${y}${pad(m + 1)}05`, `SUMMARY:${escI(sum)}`, `DESCRIPTION:${escI(desc)}`, 'END:VEVENT');
+    }
+    lines.push('END:VCALENDAR');
+    const a = document.createElement('a'), u = URL.createObjectURL(new Blob([lines.join('\r\n')], { type: 'text/calendar' }));
+    a.href = u; a.download = `co2trace-reminders-${y}.ics`; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(u), 1000);
+  }
+  $('startList') && $('startList').addEventListener('click', e => {
+    const b = e.target.closest('[data-start-go]'); if (!b) return;
+    runStart(b.dataset.startGo);
+  });
+  $('icsDl') && $('icsDl').addEventListener('click', monthIcs);
   const SIZES = { small: ['Small', 'Pequeña'], medium: ['Medium', 'Mediana'], large: ['Large', 'Grande'] };
   const exCache = {};
   function exSummary(id) {
@@ -4085,6 +4454,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     renderGuide();
     renderReports();
     renderPlans();
+    renderStart();
   }
   function loadExample(id) {
     if (id === 'own') {
@@ -4321,6 +4691,9 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     const perAfter = fuQty > 0 ? ((t.total - sv.t) * 1000) / fuQty : null;
     const rev = +state.goal.revenue / 1e6, cur = PRICE_DEF[state.region].cur;
     const perRev = rev > 0 ? t.total / rev : null, revAfter = rev > 0 ? (t.total - sv.t) / rev : null, n2 = v => (v >= 100 ? nf0.format(v) : nf2.format(v));
+    const by = parseInt(state.goal.baseYear, 10), bt = parseFloat(state.goal.baseTotal);
+    const baseVs = (by && bt > 0);
+    const basePill = baseVs ? `<span class="pill ${t.total <= bt ? 'ok' : 'warn'}">${chg(t.total, bt)}</span>` : '';
     const intensity = isCorp()
       ? dualKpi('fu', `<div class="k">${L('Intensity per revenue', 'Intensidad por ingresos')}</div>
         <div class="v">${perRev === null ? '–' : n2(perRev)}<small>t CO₂e / M ${cur}</small></div>
@@ -4334,9 +4707,9 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       : `FESEN, en el total · memoria basada en mercado ${fmtT(t.s2mb)} t`;
     $('kpis').innerHTML = `
       <div class="kpi total">
-        <div class="k">Total · ${bnd()}</div>
+        <div class="k">Total · ${bnd()}${basePill}</div>
         <div class="v">${fmtT(t.total)}<small>t CO₂e</small></div>
-        <div class="sub">${esc(state.company || L('Company', 'Empresa'))}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} ${L('lines', 'líneas')} · ${REGIONS[state.region].name} · ${state.method}</div>
+        <div class="sub">${esc(state.company || L('Company', 'Empresa'))}${state.year ? ' · ' + esc(state.year) : ''} · ${t.lines.length} ${L('lines', 'líneas')} · ${REGIONS[state.region].name} · ${state.method}${baseVs ? ' · ' + L(`vs base year ${by}`, `frente al año base ${by}`) : ''}</div>
       </div>
       ${[1, 2, 3].map(s => `<div class="kpi" style="--c: var(--s${s})">
         <div class="k"><span class="sw"></span>${SC(s)} · ${SN(s)}</div>
@@ -4843,6 +5216,10 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     }
     const direct = t.lines.filter(r => (+r.scope || 3) < 3 && evStatus(r) === 'miss'), dT = direct.reduce((a, r) => a + emis(r), 0);
     if (direct.length) out.push(['warn', L(`${direct.length} Scope 1 or 2 line${direct.length === 1 ? '' : 's'} (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'has' : 'have'} no documents. Verifiers will ask for them.`, `${direct.length} ${direct.length === 1 ? 'línea' : 'líneas'} de alcance 1 o 2 (${fmtT(dT)} t CO₂e) ${direct.length === 1 ? 'no tiene' : 'no tienen'} documentos. Los verificadores los pedirán.`)]);
+    const c3 = cat3Est(t), c3d = s3Of(3).d;
+    if (c3.total >= t.total * 0.01 && !c3.auto.length && !((t.byS3[3] || 0) > 0) && c3d !== 'in') out.push(['info', L(`Scope 3 category 3 (upstream of fuels and electricity, grid losses) is about ${fmtT(c3.total)} t CO₂e, ${pct(c3.total, t.total)} of the total, from the lines already in the ledger. Add it from the Scope 3 screening card${c3d === 'out' ? ', or keep the exclusion and its reason' : ''}.`, `La categoría 3 del alcance 3 (emisiones previas de combustibles y electricidad, pérdidas de la red) es de unas ${fmtT(c3.total)} t CO₂e, ${pct(c3.total, t.total)} del total, con las líneas que ya están en el registro. Agrégala desde la tarjeta de relevancia del alcance 3${c3d === 'out' ? ', o mantén la exclusión y su razón' : ''}.`)]);
+    const unc = uncertainty(t);
+    if (unc && unc.half > 25) out.push(['info', L(`The 95 % range of the total is ±${nf1.format(unc.half)} %. ${lineName(unc.top[0].r)} adds the most to it; better data there narrows it most. See Uncertainty.`, `El rango de 95 % del total es ±${nf1.format(unc.half)} %. ${lineName(unc.top[0].r)} es lo que más lo amplía; mejores datos ahí lo reducen más. Ver Incertidumbre.`), unc.top[0].r.id]);
     if (state.region === 'mx') {
       if (state.method !== 'AR5') out.push(['err', `El RENE exige los PCG de IPCC AR5; la página está en ${state.method}. Cambia el método de impacto antes de reportar.`]);
       if (all.some(r => r.key === 'elec_ren' && qtyOf(r) > 0)) out.push(['info', 'El RENE no reconoce los certificados de energía renovable: esos kWh cuentan con el FESEN de 0.444. La cifra basada en mercado solo se muestra como memoria del GHG Protocol.']);
@@ -4896,6 +5273,99 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     </div>`;
   }
 
+  // ---------- uncertainty (ISO 14044, 4.4.5 · ISO 14064-1, 8.3 · GHG Protocol uncertainty guidance): Monte Carlo ----------
+  // Pedigree-matrix approach (as in the ecoinvent data-quality guideline): every line's emissions are log-normal around the
+  // inventory value (its median). The variance of ln is a basic term for the source type plus one term per pedigree field.
+  // Activity terms (data type, data age) are drawn per line; factor terms (basic, geography, technology) once per factor,
+  // so lines sharing a factor move together. Seeded, so the same ledger always gives the same range.
+  const UNC_BASIC = { fuel: 0.0006, elec: 0.0025, transport: 0.12, mat: 0.04, refrig: 0.12, waste: 0.12, custom: 0.04 };
+  const UNC_SPEND = 0.25;   // spend-based (environmentally extended input-output) factors
+  const UNC_PED = { type: { primary: 0, secondary: 0.002, estimate: 0.008 }, year: [0, 0, 0.0002, 0.002, 0.008, 0.04], geo: { same: 0, region: 0.0001, global: 0.0006 }, tech: { same: 0, similar: 0.008, proxy: 0.12 } };
+  const UNC_N = 4000;
+  const uncVar = r => {
+    const v = dqVals(r), basic = /^(epa|exio):/.test(r.key) ? UNC_SPEND : (UNC_BASIC[kindOf(r)] ?? 0.04);
+    return { act: (UNC_PED.type[v.type] || 0) + UNC_PED.year[yrScore(v.year, state.year)], fac: basic + (UNC_PED.geo[v.geo] || 0) + (UNC_PED.tech[v.tech] || 0) };
+  };
+  const lnVar = s2 => (Math.exp(s2) - 1) * Math.exp(s2);   // variance of a log-normal multiplier with median 1
+  let uncMemo = { key: '', val: null };
+  function uncertainty(t) {
+    if (!(t.total > 0)) return null;
+    const ls = t.lines.map(r => ({ r, e: emis(r), fk: isEdited(r) ? 'line:' + r.id : r.key, ...uncVar(r) }));
+    const key = state.year + '|' + ls.map(l => `${l.fk}:${l.e.toPrecision(8)}:${l.act}:${l.fac}`).join(';');
+    if (uncMemo.key === key) return uncMemo.val;
+    // mulberry32 seeded from the ledger, Box–Muller normals
+    let h = 2166136261; for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619);
+    let s = h >>> 0;
+    const rnd = () => { s = (s + 0x6D2B79F5) >>> 0; let x = Math.imul(s ^ (s >>> 15), 1 | s); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
+    let spare = null;
+    const z = () => { if (spare !== null) { const v = spare; spare = null; return v; } let u = 0; while (u === 0) u = rnd(); const v = rnd(), m = Math.sqrt(-2 * Math.log(u)); spare = m * Math.sin(2 * Math.PI * v); return m * Math.cos(2 * Math.PI * v); };
+    const facs = [...new Set(ls.map(l => l.fk))], fs = {};
+    ls.forEach(l => (fs[l.fk] = Math.sqrt(l.fac)));
+    const sims = new Float64Array(UNC_N), fm = {};
+    for (let i = 0; i < UNC_N; i++) {
+      facs.forEach(k => (fm[k] = Math.exp(fs[k] * z())));
+      let sum = 0;
+      for (const l of ls) sum += l.e * fm[l.fk] * Math.exp(Math.sqrt(l.act) * z());
+      sims[i] = sum;
+    }
+    sims.sort();
+    const q = p => { const x = p * (UNC_N - 1), a = Math.floor(x), b = Math.min(a + 1, UNC_N - 1); return sims[a] + (sims[b] - sims[a]) * (x - a); };
+    const mean = sims.reduce((a, v) => a + v, 0) / UNC_N;
+    // contribution to the variance: a line's own activity term, plus its share of its factor's term
+    const byF = {}; ls.forEach(l => (byF[l.fk] = (byF[l.fk] || 0) + l.e));
+    const parts = ls.map(l => ({ r: l.r, e: l.e, v: l.e * l.e * lnVar(l.act) + l.e * byF[l.fk] * lnVar(l.fac), gsd: Math.exp(Math.sqrt(l.act + l.fac)) }));
+    const vt = parts.reduce((a, p) => a + p.v, 0) || 1;
+    parts.forEach(p => (p.share = p.v / vt));
+    const lo = q(0.025), hi = q(0.975), lo1 = q(0.005), hi1 = q(0.995), B = 28, w = (hi1 - lo1) / B || 1;
+    const bins = Array(B).fill(0);
+    sims.forEach(v => { if (v >= lo1 && v <= hi1) bins[Math.min(B - 1, Math.floor((v - lo1) / w))]++; });
+    const val = { n: UNC_N, base: t.total, mean, med: q(0.5), lo, hi, half: (hi - lo) / 2 / t.total * 100, plus: (hi - t.total) / t.total * 100, minus: (t.total - lo) / t.total * 100, bins, x0: lo1, w, top: parts.sort((a, b) => b.v - a.v).slice(0, 5), spend: ls.filter(l => /^(epa|exio):/.test(l.r.key)).reduce((a, l) => a + l.e, 0) };
+    uncMemo = { key, val };
+    return val;
+  }
+  // histogram of the simulated totals: band = 95 % interval, solid line = inventory total. page = report colours as attributes
+  function uncSvg(u, T = L, page = false) {
+    const W = page ? 640 : 1000, H = 170, pl = 8, pr = 8, pt = 12, pb = 30, iw = W - pl - pr, ih = H - pt - pb, B = u.bins.length, mx = Math.max(...u.bins) || 1;
+    const X = v => pl + (v - u.x0) / (u.w * B) * iw, bw = iw / B;
+    const c = page ? { bar: RC.s[2], band: '#E9EDFB', ink: RC.ink, mute: RC.mute, line: RC.line } : null;
+    const at = (cls, k) => (page ? `fill="${c[k]}"` : `class="${cls}"`), st = (cls, k) => (page ? `stroke="${c[k]}"` : `class="${cls}"`);
+    const ticks = [u.lo, u.base, u.hi];
+    return `<svg class="unc-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(T(`Simulated totals: 95 % of runs between ${fmtT(u.lo)} and ${fmtT(u.hi)} t CO₂e; inventory total ${fmtT(u.base)} t CO₂e`, `Totales simulados: 95 % de las corridas entre ${fmtT(u.lo)} y ${fmtT(u.hi)} t CO₂e; total del inventario ${fmtT(u.base)} t CO₂e`))}">
+      <rect x="${X(u.lo).toFixed(1)}" y="${pt}" width="${(X(u.hi) - X(u.lo)).toFixed(1)}" height="${ih}" ${at('u-band', 'band')}/>
+      ${u.bins.map((n, i) => { const h = n / mx * ih; return `<rect x="${(pl + i * bw + 1).toFixed(1)}" y="${(pt + ih - h).toFixed(1)}" width="${(bw - 2).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" ${at('u-bar', 'bar')}/>`; }).join('')}
+      <line x1="${pl}" x2="${W - pr}" y1="${pt + ih}" y2="${pt + ih}" ${st('u-axis', 'line')} stroke-width="1"/>
+      <line x1="${X(u.base).toFixed(1)}" x2="${X(u.base).toFixed(1)}" y1="${pt - 4}" y2="${pt + ih}" ${st('u-base', 'ink')} stroke-width="2"/>
+      ${[u.lo, u.hi].map(v => `<line x1="${X(v).toFixed(1)}" x2="${X(v).toFixed(1)}" y1="${pt}" y2="${pt + ih}" ${st('u-lim', 'mute')} stroke-width="1" stroke-dasharray="3 3"/>`).join('')}
+      ${ticks.map((v, i) => `<text x="${X(v).toFixed(1)}" y="${H - 10}" text-anchor="${i === 0 ? 'end' : i === 2 ? 'start' : 'middle'}" font-size="12" ${at(i === 1 ? 'u-tk u-tk-b' : 'u-tk', i === 1 ? 'ink' : 'mute')}${i === 1 ? ' font-weight="600"' : ''}>${fmtT(v)}</text>`).join('')}
+    </svg>`;
+  }
+  function uncBlurb(u) {
+    if (!u) return '';
+    return L(
+      `The inventory total is ${fmtT(u.base)} t CO₂e. At a 95 % interval the total sits between ${fmtT(u.lo)} and ${fmtT(u.hi)} t (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %). These spreads are typical screening values, not measured ones.`,
+      `El total del inventario es ${fmtT(u.base)} t CO₂e. En un intervalo de 95 % el total queda entre ${fmtT(u.lo)} y ${fmtT(u.hi)} t (−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %). Estas dispersiones son valores típicos de una estimación preliminar, no medidos.`
+    );
+  }
+  function uncCard(t) {
+    const u = uncertainty(t);
+    return `<div class="card full" id="c-unc">
+      <div class="card-head"><h3>${L('Uncertainty', 'Incertidumbre')}</h3>${u ? `<span class="pill ${u.half <= 10 ? 'ok' : u.half <= 25 ? '' : 'warn'}">±${nf1.format(u.half)} %</span>` : ''}</div>
+      <p class="cap">${L(`A Monte Carlo simulation (${nf0.format(UNC_N)} runs) of the total, with each line spread by its source type and data-quality fields (pedigree-matrix approach; ISO 14044, 4.4.5; ISO 14064-1, 8.3). Lines that share a factor move together.`, `Simulación Monte Carlo (${nf0.format(UNC_N)} corridas) del total, con cada línea dispersa según su tipo de fuente y su calidad de datos (enfoque de matriz de pedigrí; ISO 14044, 4.4.5; ISO 14064-1, 8.3). Las líneas que comparten un factor se mueven juntas.`)}</p>
+      ${u ? `<div class="tj-kpis">
+        <div><span>${L('Inventory total', 'Total del inventario')}</span><b>${fmtT(u.base)} t</b></div>
+        <div><span>${L('95 % interval', 'Intervalo de 95 %')}</span><b>${fmtT(u.lo)} – ${fmtT(u.hi)} t</b></div>
+        <div><span>${L('Range around the total', 'Rango alrededor del total')}</span><b>−${nf1.format(u.minus)} / +${nf1.format(u.plus)} %</b></div>
+        <div><span>${L('Mean of the runs', 'Media de las corridas')}</span><b>${fmtT(u.mean)} t</b></div>
+      </div>
+      <div class="unc-plot">${uncSvg(u)}</div>
+      <div class="legend"><span style="--c: var(--s2)"><i class="sw"></i>${L('Simulated totals', 'Totales simulados')}</span><span style="--c: color-mix(in srgb, var(--s2) 22%, var(--surface))"><i class="sw"></i>${L('95 % of runs', '95 % de las corridas')}</span><span style="--c: var(--ink)"><i class="sw"></i>${L('Inventory total', 'Total del inventario')}</span></div>
+      <div><div class="label" style="margin:10px 0 6px">${L('Better data here narrows the range most', 'Mejores datos aquí reducen más el rango')}</div>
+      <ul class="gaps">${u.top.map(p => `<li>${esc(lineName(p.r))}${p.r.note && p.r.key !== 'custom' ? ' · ' + esc(p.r.note) : ''} <span>${pct(p.share, 1)} ${L('of the variance', 'de la varianza')} · ×/÷ ${nf2.format(p.gsd)}</span> <button type="button" class="linkish" data-goto="${p.r.id}">${L('Open line', 'Abrir línea')}</button></li>`).join('')}</ul></div>
+      <p class="note">${L(`Screening estimate: the spreads are typical values, not measured ones. ${u.spend > 0 ? `Spend-based lines (${pct(u.spend, t.total)} of the total) carry the widest spread. ` : ''}Set data type, year, geography and technology in each line’s evidence panel to sharpen it. The report repeats this in section 6.3.`, `Estimación preliminar: las dispersiones son valores típicos, no medidos. ${u.spend > 0 ? `Las líneas por gasto (${pct(u.spend, t.total)} del total) tienen la mayor dispersión. ` : ''}Ajusta tipo de dato, año, geografía y tecnología en el panel de evidencia de cada línea para afinarla. El reporte la repite en la sección 6.3.`)}</p>
+      <div class="unc-blurb"><p>${uncBlurb(u)}</p><button type="button" class="btn" data-unc-copy>${L('Copy', 'Copiar')}</button></div>` : emptyMsg()}
+    </div>`;
+  }
+
   function dqCard(t) {
     const bands = { ok: 0, att: 0, miss: 0 };
     t.lines.forEach(r => (bands[dqClass(dqScore(r))] += emis(r)));
@@ -4912,6 +5382,75 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     </div>`;
   }
 
+  // ---------- Scope 3 category 3 (fuel- and energy-related activities), screening estimate from the ledger ----------
+  // 3a upstream of fuels burned in Scope 1 (well-to-tank, DESNZ 2025 "WTT- fuels", kg CO2e per L or m³, UK supply chain, AR5);
+  // 3b upstream of the fuels that generate purchased electricity (ratio of DESNZ 2025 WTT of UK generation 0.0459 to UK generation
+  // 0.177 kg CO2e/kWh, applied to the location-based Scope 2 figure); 3c transmission and distribution losses (grid gross loss:
+  // eGRID2023 4.2 % US; World Bank WDI EG.ELC.LOSS.ZS 11.3 % México) times the location-based factor, plus their own upstream.
+  const WTT = { diesel: 0.62409, diesel_veh: 0.62409, gasoline: 0.60664, gasoline_veh: 0.60664, natgas: 0.3366, lpg: 0.18551 };
+  const UP_GEN = 0.0459 / 0.177;
+  const TD_LOSS = { us: 0.042, mx: 0.113 };
+  const CAT3_SRC = () => ({
+    a: L('DESNZ 2025 well-to-tank factors (UK supply chain, screening proxy)', 'Factores “well-to-tank” DESNZ 2025 (cadena de suministro del Reino Unido, valor genérico de referencia)'),
+    b: L('DESNZ 2025 ratio of upstream to generation emissions (0.0459 ÷ 0.177), on the location-based factor', 'Proporción DESNZ 2025 de emisiones previas a la generación (0.0459 ÷ 0.177), sobre el factor basado en ubicación'),
+    c: state.region === 'mx' ? 'Pérdidas de transmisión y distribución de 11.3 % (Banco Mundial, WDI EG.ELC.LOSS.ZS), con sus emisiones previas' : 'Grid gross loss of 4.2 % (EPA eGRID2023), with their upstream emissions',
+  });
+  function cat3Est(t) {
+    const loss = TD_LOSS[state.region] || 0.05, groups = {}, missing = new Set();
+    let a = 0, b = 0, c = 0;
+    t.lines.forEach(r => {
+      if (r.auto === 'cat3') return;
+      const sc = +r.scope || 3, k = kindOf(r), q = qtyOf(r), f = F[r.key];
+      if (sc === 1 && k === 'fuel') {
+        const ef = WTT[r.key];
+        if (ef == null || f.unit !== r.unit) { missing.add(lineName(r)); return; }
+        const g = groups[`a|${r.stage}|${r.key}`] ||= { part: 'a', stage: r.stage, key: r.key, unit: f.unit, qty: 0, ef, t: 0 };
+        g.qty += q; g.t += q * ef / 1000; a += q * ef / 1000;
+      } else if (sc === 2 && k === 'elec' && f.unit === 'kWh' && q > 0) {
+        const loc = s2Location(r), efLoc = loc * 1000 / q;
+        const gb = groups[`b|${r.stage}|${r.key}`] ||= { part: 'b', stage: r.stage, key: r.key, unit: 'kWh', qty: 0, ef: efLoc * UP_GEN, t: 0 };
+        const gc = groups[`c|${r.stage}|${r.key}`] ||= { part: 'c', stage: r.stage, key: r.key, unit: 'kWh', qty: 0, ef: efLoc * loss * (1 + UP_GEN), t: 0 };
+        gb.qty += q; gb.t += loc * UP_GEN; b += loc * UP_GEN;
+        gc.qty += q; gc.t += loc * loss * (1 + UP_GEN); c += loc * loss * (1 + UP_GEN);
+      }
+    });
+    const auto = state.rows.filter(r => r.auto === 'cat3');
+    return { a, b, c, total: a + b + c, loss, groups: Object.values(groups).filter(g => g.t > 0), missing: [...missing], auto, autoT: auto.reduce((s, r) => s + (included(r.stage) ? emis(r) : 0), 0), other: (t.byS3[3] || 0) - auto.reduce((s, r) => s + (included(r.stage) && emis(r) > 0 ? emis(r) : 0), 0) };
+  }
+  function cat3Rows(est) {
+    const nm = g => {
+      const src = F[g.key] ? F[g.key].name : g.key;
+      return g.part === 'a' ? L(`Well-to-tank upstream of fuel · ${src}`, `Emisiones previas del combustible (del pozo al tanque) · ${src}`)
+        : g.part === 'b' ? L(`Upstream of purchased electricity · ${src}`, `Emisiones previas de la electricidad comprada · ${src}`)
+        : L(`Transmission and distribution losses · ${src}`, `Pérdidas de transmisión y distribución · ${src}`);
+    };
+    const S = CAT3_SRC();
+    return est.groups.map(g => {
+      const ln = row(g.stage, 'custom', String(+g.qty.toPrecision(10)), nm(g), '', { doc: 'estimate', ref: S[g.part] });
+      ln.unit = g.unit; ln.ef = +g.ef.toPrecision(6); ln.efEdit = true; ln.scope = 3; ln.auto = 'cat3'; ln.s3c = 3;
+      ln.dq = { type: 'estimate', geo: g.part === 'c' ? 'same' : 'global', tech: 'similar' };
+      return ln;
+    });
+  }
+  function cat3Html(t) {
+    const e = cat3Est(t);
+    if (!(e.total > 0) && !e.auto.length) return '';
+    const S = CAT3_SRC(), own = !state.isExample;
+    const part = (k, nmEn, nmEs, v) => `<tr><td>${L(nmEn, nmEs)}<div class="note">${esc(S[k])}</div></td><td class="r num">${fmtT(v)}</td><td class="r num">${pct(v, t.total)}</td></tr>`;
+    const same = e.auto.length && Math.abs(e.autoT - e.total) < Math.max(0.001, e.total * 1e-6);
+    return `<div class="c3">
+      <div class="card-head"><h4>${L('Category 3 estimate: fuel- and energy-related activities', 'Estimación de la categoría 3: actividades relacionadas con combustibles y energía')}</h4><span class="pill">${fmtT(e.total)} t CO₂e · ${pct(e.total, t.total)}</span></div>
+      <p class="cap">${L('Worked out from the Scope 1 fuels and Scope 2 electricity already in the ledger, so it never needs separate data.', 'Se calcula con los combustibles del alcance 1 y la electricidad del alcance 2 que ya están en el registro, así que no necesita datos aparte.')} ${e.auto.length ? L(`It is in the total as ${e.auto.length} estimate line${e.auto.length === 1 ? '' : 's'} (${fmtT(e.autoT)} t CO₂e); update them after changing fuels or electricity.`, `Está en el total como ${e.auto.length} línea${e.auto.length === 1 ? '' : 's'} de estimación (${fmtT(e.autoT)} t CO₂e); actualízalas después de cambiar combustibles o electricidad.`) : L('It is not in the total until it is added as lines.', 'No entra en el total hasta agregarla como líneas.')}</p>
+      <div class="table-scroll"><table style="min-width:0;font-size:12.5px"><thead><tr><th>${L('Part', 'Parte')}</th><th class="r">t CO₂e</th><th class="r">${L('of total', 'del total')}</th></tr></thead><tbody>
+        ${part('a', '3a · Upstream of fuels burned on site', '3a · Emisiones previas de combustibles quemados en sitio', e.a)}${part('b', '3b · Upstream of purchased electricity', '3b · Emisiones previas de la electricidad comprada', e.b)}${part('c', '3c · Grid transmission and distribution losses', '3c · Pérdidas de transmisión y distribución', e.c)}
+      </tbody></table></div>
+      ${e.missing.length ? `<p class="note">${L('No upstream factor yet for', 'Aún sin factor previo para')}: ${esc(e.missing.join(', '))}.</p>` : ''}
+      ${e.other > 0.0005 ? `<p class="note">${L(`The ledger already has ${fmtT(e.other)} t CO₂e of other category 3 lines; adding the estimate on top may count the same emissions twice.`, `El registro ya tiene ${fmtT(e.other)} t CO₂e de otras líneas de categoría 3; agregar la estimación encima puede contar dos veces las mismas emisiones.`)}</p>` : ''}
+      ${own ? `<p><button type="button" class="btn" data-cat3-add>${e.auto.length ? (same ? L('Lines are up to date', 'Líneas al día') : L('Update the category 3 lines', 'Actualizar las líneas de categoría 3')) : L('Add as category 3 lines', 'Agregar como líneas de categoría 3')}</button>${e.auto.length ? ` <button type="button" class="linkish" data-cat3-rm>${L('Remove them', 'Quitarlas')}</button>` : ''}</p>`
+        : `<p class="note">${L('Examples are fixed, so the estimate is shown but not added.', 'Los ejemplos son fijos: la estimación se muestra pero no se agrega.')}</p>`}
+    </div>`;
+  }
+
   function s3Card(t) {
     const st = Array.from({ length: 15 }, (_, k) => s3State(k + 1, t));
     const screened = st.filter(Boolean).length, inc = st.filter(x => x === 'in').length;
@@ -4922,6 +5461,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       <div class="meter"><i style="--c: var(--ok); width:${screened / 15 * 100}%"></i></div>
       <ol class="s3g">${st.map((x, k) => `<li class="s3-${x || 'none'}"${tip(`${k + 1}. ${S3N(k + 1)}`, `${W[x]}${t.byS3[k + 1] ? ` · ${fmtT(t.byS3[k + 1])} t CO₂e` : ''}${s3Of(k + 1).why ? ' · ' + s3Of(k + 1).why : ''}`)}><b>${k + 1}</b><span>${esc(S3N(k + 1))}</span></li>`).join('')}</ol>
       <div class="legend"><span style="--c: var(--ok)"><i class="sw"></i>${W.in}</span><span style="--c: var(--muted)"><i class="sw"></i>${W.out} / ${W.na}</span><span style="--c: var(--miss)"><i class="sw"></i>${W['']}</span></div>
+      ${cat3Html(t)}
     </div>`;
   }
 
@@ -5041,9 +5581,11 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   // pointer → year, through the SVG's own coordinate system
   const tjYear = (svg, e) => { const g = JSON.parse(svg.dataset.geo), m = svg.getScreenCTM(); if (!m) return g.by; const x = (e.clientX - m.e) / m.a; return g.by + (x - g.x0) / (g.x1 - g.x0) * (g.end - g.by); };
-  $('charts').addEventListener('pointermove', e => { const plot = e.target.closest('.tj-plot'); if (plot && e.target.closest('svg.traj')) tjShow(plot, tjYear(plot.querySelector('svg.traj'), e)); });
-  $('charts').addEventListener('pointerleave', e => { const plot = e.target.closest && e.target.closest('.tj-plot'); if (plot) tjHide(plot); }, true);
-  $('charts').addEventListener('pointerout', e => { const plot = e.target.closest('.tj-plot'); if (plot && !plot.contains(e.relatedTarget)) tjHide(plot); });
+  const onTrajPoint = e => { const plot = e.target.closest('.tj-plot'); if (plot && e.target.closest('svg.traj')) tjShow(plot, tjYear(plot.querySelector('svg.traj'), e)); };
+  $('charts').addEventListener('pointermove', onTrajPoint);
+  $('charts').addEventListener('pointerdown', onTrajPoint);   // phones: tap shows the year readout (no hover move)
+  $('charts').addEventListener('pointerleave', e => { if (e.pointerType === 'touch') return; const plot = e.target.closest && e.target.closest('.tj-plot'); if (plot) tjHide(plot); }, true);
+  $('charts').addEventListener('pointerout', e => { if (e.pointerType === 'touch') return; const plot = e.target.closest('.tj-plot'); if (plot && !plot.contains(e.relatedTarget)) tjHide(plot); });
   $('charts').addEventListener('focusin', e => { const plot = e.target.closest('.tj-plot'); if (plot && tjTr) tjShow(plot, plot.dataset.year ? +plot.dataset.year : tjTr.cy); });
   $('charts').addEventListener('focusout', e => { const plot = e.target.closest('.tj-plot'); if (plot) tjHide(plot); });
   $('charts').addEventListener('keydown', e => {
@@ -5170,7 +5712,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     </div>`;
 
     if (typeof hideTip === 'function') hideTip();
-    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + tgtCard(t) + s3Card(t) + sensCard(t);
+    $('charts').innerHTML = complianceCard(t) + donutCard(t) + catCard + checksCard(t) + inventoryCard(t) + catViewCard(t, catOrder) + csCard + supCard + monthCard(t) + evCard + dqCard(t) + stageCard + hotCard + baseCard(t) + tgtCard(t) + s3Card(t) + sensCard(t) + uncCard(t);
     animateCharts();
     drawTreemap();
   }
@@ -5235,11 +5777,14 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     updateTotals(); touched();
   });
 
+  // Pages a browser would run (HTML, SVG, script). Stored files are never opened as pages; these are refused at the door.
+  const activeFile = file => /\.(html?|xhtml|svg|js|mjs|hta|shtml)$/i.test(file.name || '') || /^(text\/html|image\/svg\+xml|application\/xhtml|text\/javascript|application\/javascript)/i.test(file.type || '');
   async function addFiles(r, list) {
     const files = [...(list || [])];
     if (!files.length) return;
-    let ok = 0;
+    let ok = 0, skipped = 0;
     for (const file of files) {
+      if (activeFile(file)) { skipped++; continue; }
       const fid = 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
       try {
         await fileStore.put(fid, file);
@@ -5253,8 +5798,10 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       expanded.add(r.id);
       rerenderRow(r, r.id + '-upload');
       updateTotals(); touched();
-      toast(L(`Attached ${ok} document${ok === 1 ? '' : 's'}`, ok === 1 ? 'Se adjuntó 1 documento' : `Se adjuntaron ${ok} documentos`));
     }
+    const attached = ok ? (ok === 1 ? L('Attached 1 document', 'Se adjuntó 1 documento') : L(`Attached ${ok} documents`, `Se adjuntaron ${ok} documentos`)) : '';
+    const skippedMsg = skipped ? (skipped === 1 ? L('Skipped a file the browser could open as a page.', 'Se omitió un archivo que el navegador podría abrir como página.') : L(`Skipped ${skipped} files the browser could open as a page.`, `Se omitieron ${skipped} archivos que el navegador podría abrir como página.`)) : '';
+    if (attached || skippedMsg) toast([attached, skippedMsg].filter(Boolean).join(' '));
   }
 
   stagesEl.addEventListener('dragover', e => {
@@ -5279,9 +5826,16 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const rnd = () => b64u(crypto.getRandomValues(new Uint8Array(32)));
     const ss = { get: k => { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
-    let tok = ss.get(KEY), cid = null;
+    let tok = ss.get(KEY);
+    // Drop a refresh token left by an older version of the page. Only a still-valid ID token is kept.
+    if (tok && tok.refresh) tok = typeof tok.id === 'string' && tok.id.split('.').length === 3 && tok.exp > Date.now() / 1000 ? { id: tok.id, exp: tok.exp } : null;
+    if (tok && !(typeof tok.id === 'string' && tok.id.split('.').length === 3 && tok.exp > Date.now() / 1000)) tok = null;
+    ss.set(KEY, tok);
+    let cid = null;
     const back = () => location.origin + '/';   // the Cognito app client allows the site root as its callback
     const claims = t => { try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (e) { return {}; } };
+    // Presigned uploads stay on this region's S3. Any other host is refused before the file leaves the browser.
+    const s3Post = url => { try { const u = new URL(url); return u.protocol === 'https:' && !u.username && !u.password && (u.hostname === 's3.us-east-2.amazonaws.com' || u.hostname.endsWith('.s3.us-east-2.amazonaws.com')); } catch (e) { return false; } };
     const keep = t => { tok = t; ss.set(KEY, t); renderAcct(); };
     async function token(body) {
       const r = await fetch(`${CFG.authDomain}/oauth2/token`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(Object.assign({ client_id: CFG.clientId }, body)) });
@@ -5289,11 +5843,8 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       return r.json();
     }
     async function idToken() {
-      if (!tok) return null;
-      if (tok.exp - 60 > Date.now() / 1000) return tok.id;
-      if (!tok.refresh) { keep(null); return null; }
-      try { const t = await token({ grant_type: 'refresh_token', refresh_token: tok.refresh }); keep({ id: t.id_token, refresh: tok.refresh, exp: claims(t.id_token).exp }); return tok.id; }
-      catch (e) { keep(null); return null; }
+      if (!tok || !(tok.exp - 60 > Date.now() / 1000)) { keep(null); return null; }
+      return tok.id;
     }
     async function signIn(mode, after) {
       const verifier = rnd(), st = rnd(), challenge = b64u(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));
@@ -5308,7 +5859,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       ss.set(PK, null); history.replaceState(null, '', u.pathname + u.hash);
       try {
         const t = await token({ grant_type: 'authorization_code', code, redirect_uri: back(), code_verifier: pk.verifier });
-        keep({ id: t.id_token, refresh: t.refresh_token, exp: claims(t.id_token).exp });
+        keep({ id: t.id_token, exp: claims(t.id_token).exp });
         return pk.after;
       } catch (e) { toast(L('Sign-in did not finish. Try again.', 'El inicio de sesión no terminó. Inténtalo de nuevo.')); return null; }
     }
@@ -5340,6 +5891,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       const c = await company();
       const j = await api(`/companies/${c}/extract`, { method: 'POST', body: { name: file.name, size: file.size, contentType: file.type || (/\.xml$/i.test(file.name) ? 'application/xml' : /\.csv$/i.test(file.name) ? 'text/csv' : ''), lang: isEs() ? 'es' : 'en', region: state.region } });
       onStep && onStep('upload');
+      if (!s3Post(j.upload.url)) throw new Error(L('The upload address was not recognised.', 'No se reconoció la dirección de carga.'));
       const fd = new FormData(); Object.entries(j.upload.fields).forEach(([k, v]) => fd.append(k, v)); fd.append('file', file);
       const up = await fetch(j.upload.url, { method: 'POST', body: fd });
       if (!up.ok) throw new Error(L('The upload failed.', 'La carga falló.'));
@@ -5352,7 +5904,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       }
       throw new Error(L('Reading took too long. Try again.', 'La lectura tardó demasiado. Inténtalo de nuevo.'));
     }
-    const signedIn = () => !!(tok && (tok.refresh || tok.exp > Date.now() / 1000));
+    const signedIn = () => !!(tok && tok.exp > Date.now() / 1000);
     const email = () => (tok ? claims(tok.id).email || '' : '');
     return { on: !!CFG, signIn, signOut, finish, help, read, signedIn, email };
   })();
@@ -5376,6 +5928,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   }
   // the account box, or the real sign-in when there is a backend
   function account(mode, onDone) {
+    markStart('acct');
     if (CFG) { if (cloud.signedIn()) { if (onDone) onDone({ company: '' }); } else cloud.signIn(mode, onDone ? 'own' : null); return; }
     if (window.openAccount) window.openAccount(mode, onDone);
   }
@@ -5416,28 +5969,54 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     return rows.filter(r => r.some(v => v.trim() !== ''));
   }
   const colIdx = ref => { const m = /^([A-Z]+)/.exec(ref); return m ? [...m[1]].reduce((a, ch) => a * 26 + ch.charCodeAt(0) - 64, 0) - 1 : -1; };
+  const ZIP_MAX = 32 * 1024 * 1024;   // a workbook, compressed or inflated, may not grow past this
   async function readXlsx(buf) {
+    if (buf.byteLength > ZIP_MAX) { const e = new Error('too large'); e.code = 'big'; throw e; }
     const u8 = new Uint8Array(buf), dv = new DataView(buf), dec = new TextDecoder();
     let e = u8.length - 22; while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
     if (e < 0) throw new Error('not a zip');
+    const n = dv.getUint16(e + 10, true);
+    if (n > 2000) { const err = new Error('too large'); err.code = 'big'; throw err; }
     const files = {}; let p = dv.getUint32(e + 16, true);
-    for (let i = 0, n = dv.getUint16(e + 10, true); i < n; i++) {
+    for (let i = 0; i < n; i++) {
+      if (p + 46 > u8.length) throw new Error('bad zip');
       const nl = dv.getUint16(p + 28, true);
       files[dec.decode(u8.subarray(p + 46, p + 46 + nl))] = { method: dv.getUint16(p + 10, true), size: dv.getUint32(p + 20, true), off: dv.getUint32(p + 42, true) };
       p += 46 + nl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
     }
+    const inflate = async data => {
+      const reader = new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+      const chunks = []; let got = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        got += value.length;
+        if (got > ZIP_MAX) { reader.cancel(); const err = new Error('too large'); err.code = 'big'; throw err; }
+        chunks.push(value);
+      }
+      const all = new Uint8Array(got); let o = 0;
+      chunks.forEach(c => { all.set(c, o); o += c.length; });
+      return dec.decode(all);
+    };
     const get = async name => {
       const f = files[name]; if (!f) return null;
-      const at = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true), data = u8.subarray(at, at + f.size);
-      if (f.method === 0) return dec.decode(data);
-      return new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+      if (f.size > ZIP_MAX || f.off > u8.length) { const err = new Error('too large'); err.code = 'big'; throw err; }
+      const at = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true);
+      if (at + f.size > u8.length) throw new Error('bad zip');
+      const data = u8.subarray(at, at + f.size);
+      if (f.method === 0) { if (data.length > ZIP_MAX) { const err = new Error('too large'); err.code = 'big'; throw err; } return dec.decode(data); }
+      if (f.method !== 8) throw new Error('bad zip');
+      return inflate(data);
     };
     const X = s => new DOMParser().parseFromString(s || '<x/>', 'application/xml'), tags = (d, t) => [...d.getElementsByTagName(t)];
     const ss = await get('xl/sharedStrings.xml'), strings = ss ? tags(X(ss), 'si').map(si => tags(si, 't').map(t => t.textContent).join('')) : [];
+    if (strings.length > 200000) { const err = new Error('too large'); err.code = 'big'; throw err; }
     const s0 = tags(X(await get('xl/workbook.xml')), 'sheet')[0], rid = s0 && s0.getAttribute('r:id');
     const rel = tags(X(await get('xl/_rels/workbook.xml.rels')), 'Relationship').find(r => r.getAttribute('Id') === rid);
-    const sheet = X(await get('xl/' + (rel ? rel.getAttribute('Target').replace(/^\/?(xl\/)?/, '') : 'worksheets/sheet1.xml')));
-    return tags(sheet, 'row').map(r => {
+    let sheetPath = rel ? String(rel.getAttribute('Target') || '').replace(/^\/?(xl\/)?/, '') : 'worksheets/sheet1.xml';
+    if (!/^[\w./-]+$/.test(sheetPath) || sheetPath.includes('..')) sheetPath = 'worksheets/sheet1.xml';
+    const sheet = X(await get('xl/' + sheetPath));
+    return tags(sheet, 'row').slice(0, 1002).map(r => {
       const out = [];
       tags(r, 'c').forEach(c => {
         const t = c.getAttribute('t'), v = c.getElementsByTagName('v')[0], col = colIdx(c.getAttribute('r') || '');
@@ -5613,6 +6192,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     if (imp.mode === 'ai') { readDocs(all || [file]); return; }
     imp.name = file.name; $('impMsg').textContent = L('Reading…', 'Leyendo…');
     try {
+      if (file.size > ZIP_MAX) { $('impMsg').textContent = L('That file is too large to read here (32 MB).', 'Ese archivo es demasiado grande para leerlo aquí (32 MB).'); return; }
       const xml = [...(all || [file])].filter(f => /\.xml$/i.test(f.name));
       if (xml.length) imp.name = xml.length === 1 ? xml[0].name : L(`${xml.length} XML invoices`, `${xml.length} facturas XML`);
       const rows = xml.length ? await readCfdi(xml) : /\.xlsx$/i.test(file.name) ? await readXlsx(await file.arrayBuffer()) : /\.(csv|tsv|txt)$/i.test(file.name) || /text/.test(file.type) ? parseCsv(await file.text()) : null;
@@ -5620,7 +6200,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       if (rows.length < 2) { $('impMsg').textContent = L('The file needs a header row and at least one data row.', 'El archivo necesita una fila de encabezados y al menos una fila de datos.'); return; }
       imp.head = rows[0].map(h => String(h).trim()); imp.body = rows.slice(1, 1001);
       guessMap(); await buildImp();
-    } catch (err) { $('impMsg').textContent = L('The file could not be read. Save it as CSV (UTF-8) and try again.', 'No se pudo leer el archivo. Guárdalo como CSV (UTF-8) e inténtalo de nuevo.'); }
+    } catch (err) { $('impMsg').textContent = err && err.code === 'big' ? L('That file is too large to read here (32 MB).', 'Ese archivo es demasiado grande para leerlo aquí (32 MB).') : L('The file could not be read. Save it as CSV (UTF-8) and try again.', 'No se pudo leer el archivo. Guárdalo como CSV (UTF-8) e inténtalo de nuevo.'); }
   }
   function guessMap() {
     const used = new Set(); imp.map = {};
@@ -5955,6 +6535,24 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       const again = document.querySelector(`[data-tgt-m="${id}"]`); if (again) again.focus();
       return;
     }
+    if (e.target.closest('[data-cat3-add], [data-cat3-rm]')) {
+      if (state.isExample) return;
+      const add = !!e.target.closest('[data-cat3-add]'), est = add ? cat3Est(totals()) : null;
+      state.rows = state.rows.filter(r => r.auto !== 'cat3');
+      const fresh = add ? cat3Rows(est) : [];
+      state.rows.push(...fresh);
+      // lines in category 3 make it included; an earlier exclusion would contradict them
+      if (fresh.length && s3Of(3).d === 'out') { state.goal.s3 = state.goal.s3 || {}; state.goal.s3[3] = { d: 'in', why: '' }; }
+      renderStages(); renderSetup(); touched(); updateTotals();
+      toast(add ? L(`Category 3: ${fresh.length} line${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`, `Categoría 3: ${fresh.length} línea${fresh.length === 1 ? '' : 's'}, ${fmtT(est.total)} t CO₂e`) : L('Category 3 lines removed', 'Se quitaron las líneas de categoría 3'));
+      return;
+    }
+    if (e.target.closest('[data-unc-copy]')) {
+      const u = uncertainty(totals());
+      if (!u) return;
+      copyText(uncBlurb(u), L('Copied for the board pack', 'Copiado para la junta'));
+      return;
+    }
     const os = e.target.closest('[data-open-setup]');
     if (os) { const f = $(os.dataset.openSetup || 'g-baseYear'); $('setup').open = true; goTo(f); setTimeout(() => f.focus({ preventScroll: true }), 400); return; }
     const go = e.target.closest('[data-goto]'); if (!go) return;
@@ -5988,11 +6586,23 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     moveTip(e.clientX, e.clientY);
   }
   const chartsEl = $('charts');
+  const hideChartTips = () => {
+    hideTip();
+    chartsEl.querySelectorAll('.tj-plot').forEach(p => { const t = p.querySelector('.tj-tip'); if (t && !t.hidden) tjHide(p); });
+  };
   chartsEl.addEventListener('pointermove', onTipMove);
-  chartsEl.addEventListener('pointerdown', onTipMove);
-  chartsEl.addEventListener('pointerleave', hideTip);
-  window.addEventListener('scroll', hideTip, { passive: true });
-  chartsEl.closest('.side').addEventListener('scroll', hideTip, { passive: true });
+  chartsEl.addEventListener('pointerdown', onTipMove);   // phones: tap keeps the tip (leave would clear it at once)
+  chartsEl.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') hideTip(); });
+  window.addEventListener('scroll', hideChartTips, { passive: true });
+  chartsEl.closest('.side').addEventListener('scroll', hideChartTips, { passive: true });
+  // tap outside a mark / traj plot clears a stuck touch tip
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    if (!(e.target.closest && e.target.closest('#charts [data-tip]'))) hideTip();
+    if (!(e.target.closest && e.target.closest('#charts .tj-plot'))) {
+      chartsEl.querySelectorAll('.tj-plot').forEach(p => { const t = p.querySelector('.tj-tip'); if (t && !t.hidden) tjHide(p); });
+    }
+  }, true);
 
   // ---------- sample evidence documents (example companies only) ----------
   // A fictional document drawn from the line itself, so its total always matches the ledger. Every page is watermarked
@@ -6088,7 +6698,10 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     return rr ? sampleDoc(rr, f, st) : '';
   }
 
-  // preview overlay
+  // preview overlay. Images stay images. A PDF (checked by its header, not only its name) opens in a frame
+  // with no access to this page. Anything else is a download, never a page on this origin.
+  const RASTER = /^image\/(png|jpe?g|gif|webp|bmp|avif)$/i;
+  const pdfBytes = async blob => { try { const b = new Uint8Array(await blob.slice(0, 5).arrayBuffer()); return b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46; } catch (e) { return false; } };
   let previewUrl = null;
   async function preview(f) {
     let blob;
@@ -6101,12 +6714,22 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     if (!blob) {
       body.innerHTML = `<div class="nopreview">${L('This file is not stored in this browser. It may have been attached on another device or the browser data was cleared.', 'Este archivo no está guardado en este navegador. Quizá se adjuntó en otro dispositivo o se borraron los datos del navegador.')}</div>`;
     } else {
-      previewUrl = URL.createObjectURL(blob);
       const type = blob.type || f.type || '';
-      if (type.startsWith('image/')) body.innerHTML = `<img src="${previewUrl}" alt="${esc(f.name)}">`;
-      else if (type === 'application/pdf') body.innerHTML = `<iframe src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
-      else if (f.sample) body.innerHTML = `<iframe sandbox src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
-      else body.innerHTML = `<div class="nopreview">${L(`Preview is available for PDFs and images. This ${esc(type || 'file')} is stored and listed as evidence.`, `La vista previa está disponible para PDF e imágenes. Este archivo (${esc(type || 'sin tipo')}) está guardado y registrado como evidencia.`)} <br><a href="${previewUrl}" target="_blank" rel="noopener">${L('Open in a new tab', 'Abrir en una pestaña nueva')}</a></div>`;
+      const pdf = !f.sample && (type === 'application/pdf' || /\.pdf$/i.test(f.name || '')) && await pdfBytes(blob);
+      if (RASTER.test(type)) {
+        previewUrl = URL.createObjectURL(blob);
+        body.innerHTML = `<img src="${previewUrl}" alt="${esc(f.name)}">`;
+      } else if (pdf) {
+        previewUrl = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+        body.innerHTML = `<iframe sandbox="allow-scripts allow-popups" src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
+      } else if (f.sample) {
+        previewUrl = URL.createObjectURL(blob);
+        body.innerHTML = `<iframe sandbox src="${previewUrl}" title="${esc(f.name)}"></iframe>`;
+      } else {
+        previewUrl = URL.createObjectURL(new Blob([blob], { type: 'application/octet-stream' }));
+        const name = esc(String(f.name || 'evidence').replace(/[\r\n]/g, ''));
+        body.innerHTML = `<div class="nopreview">${L(`Preview is available for PDFs and images. This ${esc(type || 'file')} is stored and listed as evidence.`, `La vista previa está disponible para PDF e imágenes. Este archivo (${esc(type || 'sin tipo')}) está guardado y registrado como evidencia.`)} <br><a href="${previewUrl}" download="${name}" rel="noopener">${L('Download the file', 'Descargar el archivo')}</a></div>`;
+      }
     }
     $('overlay').hidden = false;
     $('viewerClose').focus();
@@ -6254,7 +6877,12 @@ ${REP_CSS}  .gs td:first-child{width:42%}
     }
   });
 
-  const csvQ = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const csvQ = v => {
+    let s = String(v ?? '');
+    // A leading apostrophe makes Excel keep the cell as text (=CMD, +cmd, @SUM, and the rest). Plain numbers stay numbers.
+    if (/^[=+\-@\t\r]/.test(s) && !/^-?(?:\d+\.?\d*|\.\d+)(?:[eE][+\-]?\d+)?$/.test(s)) s = "'" + s;
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
   const toCsv = rows => rows.map(l => l.map(csvQ).join(',')).join('\n');
   const tNum = (v, d) => (v ? v.toFixed(d) : '0');
   const BASE_GASES = ['CO2', 'CH4', 'N2O', 'HFC-32', 'HFC-125', 'HFC-134a', 'HFC-143a', 'HCFC-22'];
@@ -6580,7 +7208,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       { k: 'quality pedigree primary secondary estimate data year geography technology calidad dato datos primario secundario estimacion geografia tecnologia', a: () => ({ html: L(`<p>Each line has a <b>data quality</b> score from 1 (best) to 5: the average of data type (metered, supplier or estimate), the data year against the reporting year, the geography and the technology of the factor. Set them in the line's evidence panel; the <b>Data quality</b> card shows the emission-weighted score and which lines to improve first.</p>`, `<p>Cada línea tiene un puntaje de <b>calidad de datos</b> de 1 (mejor) a 5: el promedio del tipo de dato (medido, del proveedor o estimado), el año del dato frente al año de reporte, la geografía y la tecnología del factor. Se ajustan en el panel de evidencia de la línea; la tarjeta <b>Calidad de los datos</b> muestra el puntaje ponderado por emisiones y qué líneas mejorar primero.</p>`), acts: [go('Data quality', 'Calidad de los datos', 'c-dq')] }) },
       { k: 'biogenic biomass wood biofuel biogas biogenico biogenica biomasa madera biocombustible biogas', a: () => ({ html: L(`<p>Enter <b>biogenic CO₂</b> (kg per unit) in a line's evidence panel, for example for wood, biofuels or biogas. It is reported as a memo item in the inventory and the report, never added to the total.</p>`, `<p>Captura el <b>CO₂ biogénico</b> (kg por unidad) en el panel de evidencia de la línea, por ejemplo para madera, biocombustibles o biogás. Se reporta como partida de memoria en el inventario y en el reporte, nunca se suma al total.</p>`) }) },
       { k: 'scope3 screening categories category coverage fifteen relevance relevancia tamizaje categorias categoria cobertura quince', a: () => ({ html: L(`<p><b>Scope 3 screening</b> (under Goal and scope) lists the 15 GHG Protocol categories with the emissions found in the ledger. Mark each one included, excluded (with a reason) or not relevant; the dashboard card shows how many are screened.</p>`, `<p>La <b>evaluación de relevancia del alcance 3</b> (en Objetivo y alcance) lista las 15 categorías del GHG Protocol con las emisiones que hay en el registro. Marca cada una como incluida, excluida (con motivo) o no aplica; la tarjeta del tablero muestra cuántas están revisadas.</p>`), acts: [go('Scope 3 screening', 'Evaluación de relevancia del alcance 3', 'c-s3')] }) },
-      { k: 'sensitivity uncertainty scenario assumption sensibilidad incertidumbre escenario supuesto', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The report repeats it in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. El reporte la repite en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens')] }) },
+      { k: 'sensitivity uncertainty scenario assumption range monte carlo interval confidence sensibilidad incertidumbre escenario supuesto rango intervalo confianza', a: () => ({ html: L(`<p>The <b>Sensitivity analysis</b> card shows how the total moves with other GWP sets, ±5, 10 or 25 % on the five largest lines, leaving out small lines and poor-quality data. The <b>Uncertainty</b> card runs a Monte Carlo simulation over each line's source type and data-quality fields and gives a 95 % range for the total, with the lines that widen it most. The report repeats both in section 6.3.</p>`, `<p>La tarjeta <b>Análisis de sensibilidad</b> muestra cómo cambia el total con otros juegos de PCG, ±5, 10 o 25 % en las cinco líneas más grandes, excluyendo líneas pequeñas y datos de baja calidad. La tarjeta <b>Incertidumbre</b> corre una simulación Monte Carlo sobre el tipo de fuente y la calidad de datos de cada línea y da un rango de 95 % para el total, con las líneas que más lo amplían. El reporte repite ambas en la sección 6.3.</p>`), acts: [go('Sensitivity', 'Sensibilidad', 'c-sens'), go('Uncertainty', 'Incertidumbre', 'c-unc')] }) },
       { k: 'customer customers client clients buyer request requests supplier questionnaire allocate allocation allocated cliente clientes comprador solicitud solicitudes cuestionario asignar asignacion asignado', p: ['customer request', 'solicitud de cliente', 'my customer asks', 'mi cliente pide', 'customer wants my emissions', 'cliente quiere mis emisiones', 'cdp supply chain', 'supplier questionnaire', 'cuestionario de proveedores', 'allocate emissions', 'asignar emisiones'], a: () => { const q = state.requests || []; return { html: L(`<p>Under <b>Customer data requests</b> (Reports), add each customer that asks for your emissions: what you sell them and how to allocate (units sold to them is best; revenue from them otherwise; or an agreed share). CO2Trace allocates Scope 1, Scope 2 (both methods) and, if you tick it, upstream Scope 3 (categories 1–8), adds the footprint per unit, data quality, verification, your target and planned reductions, and builds a sheet to send or a CSV to copy into their questionnaire (GHG Protocol Scope 3 Standard, chapter 8).${q.length ? ` You have ${q.length} request${q.length === 1 ? '' : 's'}, ${q.filter(x => !x.sent).length} still open.` : ''}</p>`, `<p>En <b>Solicitudes de tus clientes</b> (Reportes), agrega cada cliente que te pide tus emisiones: qué le vendes y cómo asignar (mejor por unidades que le vendes; si no, por ingresos de ese cliente; o un porcentaje acordado). CO2Trace asigna el alcance 1, el alcance 2 (ambos métodos) y, si lo marcas, el alcance 3 aguas arriba (categorías 1–8), agrega la huella por unidad, la calidad de los datos, la verificación, tu meta y las reducciones planeadas, y arma una hoja para enviar o un CSV para copiar a su cuestionario (Estándar de Alcance 3 del GHG Protocol, capítulo 8).${q.length ? ` Tienes ${q.length} solicitud${q.length === 1 ? '' : 'es'}, ${q.filter(x => !x.sent).length} pendiente${q.filter(x => !x.sent).length === 1 ? '' : 's'}.` : ''}</p>`), acts: [go('Customer requests', 'Solicitudes de clientes', 'cust')] }; } },
       { k: 'import upload file csv xlsx excel spreadsheet accounting spend bulk template importar subir archivo hoja calculo contable gasto plantilla masivo', p: ['import file', 'importar archivo', 'import data', 'importar datos', 'upload a file', 'subir un archivo', 'import from excel', 'importar desde excel', 'accounting export', 'exportacion contable', 'spend data', 'datos de gasto'], a: () => ({ html: L('<p>Press <b>+ Import file</b> in any stage to add many lines at once from a CSV or Excel (.xlsx) file. Choose <b>Activity</b> for quantities (kWh, litres, gallons, therms, kg, t·km…: units are converted to each factor’s unit) or <b>Accounting spend</b> for an export of purchases (amount before tax, description, supplier, date): spend lines are matched to the EPA supply-chain factors in the US or EXIOBASE México in México and go to Scope 3, category 1. Columns are guessed from the headers; check the match of each row in the preview before adding. Download a template from the same box. The file is read in the browser and not uploaded.</p>', '<p>Pulsa <b>+ Importar archivo</b> en cualquier etapa para agregar muchas líneas a la vez desde un archivo CSV o Excel (.xlsx). Elige <b>Actividad</b> para cantidades (kWh, litros, galones, kg, t·km…: las unidades se convierten a la del factor) o <b>Gasto contable</b> para una exportación de compras (importe sin IVA, descripción, proveedor, fecha): las líneas de gasto se asocian con EXIOBASE México y van al alcance 3, categoría 1. Las columnas se adivinan por los encabezados; revisa la asociación de cada fila en la vista previa antes de agregarlas. Descarga una plantilla desde la misma ventana. El archivo se lee en el navegador y no se sube.</p>') }) },
       { k: 'export exports questionnaire portal datapoints exportar exportacion exportaciones cuestionario portal', p: ['framework exports', 'export cdp', 'export to csrd', 'export esrs', 'export ifrs', 'exportar niif', 'exportaciones por marco', 'export to cdp', 'exportar a cdp', 'fill cdp', 'llenar cdp', 'csrd export', 'esrs e1', 'ifrs s2', 'niif s2', 'sb 253 report', 'cdp questionnaire', 'cuestionario de cdp'], a: () => ({ html: L(`<p><b>Framework exports</b> (under Reports) lay the ledger out the way ${fwList().map(f => f[1]).join(', ')} ask for it: each datapoint with its value, a status (filled, to complete, outside CO2Trace) and a note. Open one to print it or download the CSV to copy into each portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} of ${fw.ok + fw.todo} filled`; }).join(' · ')}.</p>`, `<p>Las <b>exportaciones por marco</b> (en Reportes) ordenan el registro como lo piden ${fwList().map(f => f[1]).join(', ')}: cada dato con su valor, un estado (lleno, por completar, fuera de CO2Trace) y una nota. Ábrelas para imprimir o descarga el CSV para copiarlo a cada portal. ${fwList().map(([id]) => { const fw = fwData(id); return `${fw.short}: ${fw.ok} de ${fw.ok + fw.todo} llenos`; }).join(' · ')}.</p>`), acts: [go('Framework exports', 'Exportaciones por marco', 'fw')] }) },
@@ -6592,7 +7220,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
       { k: 'plan plans price prices pricing cost costs fee monthly subscription expert review reviews plan planes precio precios costo cuota mensual suscripcion experto revision revisiones', a: () => document.documentElement.classList.contains('no-plans') ? ({ html: L('<p>Pricing is shared on request. Write to <a href="mailto:support@co2trace.io">support@co2trace.io</a> and we will send it.</p>', '<p>Los precios se comparten a solicitud. Escribe a <a href="mailto:support@co2trace.io">support@co2trace.io</a> y te los enviamos.</p>') }) : ({ html: L(`<p>Three monthly plans by company size: <b>Small</b> (1–50 people) from $149 USD, <b>Medium</b> (51–250) $449 and <b>Large</b> (251+) from $1,190, before tax. Paying yearly gives two months free.</p><p>Every plan includes <b>scheduled expert reviews</b>: two a month on Small and Medium, three on Large. An LCA and GHG specialist goes through your data and evidence with you on a video call.</p>`, `<p>Tres planes mensuales según el tamaño de la empresa: <b>Pequeña</b> (1 a 50 personas) $2,490 MXN, <b>Mediana</b> (51 a 250) $7,490 y <b>Grande</b> (más de 250) desde $19,900, más IVA. El pago anual da dos meses gratis.</p><p>Todos los planes incluyen <b>revisiones programadas con expertos</b>: dos al mes en Pequeña y Mediana, tres en Grande. Un especialista en ACV y GEI revisa tus datos y tu evidencia contigo por videollamada.</p>`), acts: [go('See the plans', 'Ver los planes', 'plans')] }) },
       { k: 'evidence document documents receipt invoice bill attach file files verify verified missing coverage evidencia documento factura recibo adjuntar archivo verificar verificada faltante cobertura', a: live.evidence },
       { k: 'rene coa threshold umbral mexico semarnat cedula 25000 25 000 obligatorio obligatory', a: live.rene },
-      { k: 'start started begin getting use how first blank example tutorial video demo walkthrough watch empezar empiezo comenzar inicio iniciar usar como funciona ejemplo blanco video demostracion ver', a: () => ({ html: L(`<p><b>Explore an example</b> lists four fictional companies of different sizes and industries; pick one to see its dashboard. To use your own data, pick <b>Your own data</b>, then three steps:</p><ul><li><b>Project setup</b>: company, year, functional unit, country (US or MX) and boundary.</li><li><b>Activity ledger</b>: one line per activity in each life-cycle stage, with quantity, unit, supplier and months.</li><li><b>Dashboard</b> fills in as you type: totals by scope, category, stage, supplier and month.</li></ul><p>The <b>How to use CO2Trace</b> section plays the steps as you scroll, and the full video is at the end of the page.</p>`, `<p><b>Explora un ejemplo</b> muestra cuatro empresas ficticias de distinto tamaño e industria; elige una para ver su tablero. Para usar tus datos, elige <b>Tus propios datos</b> y sigue tres pasos:</p><ul><li><b>Configuración del proyecto</b>: empresa, año, unidad funcional, país (US o MX) y límite del sistema.</li><li><b>Registro de actividades</b>: una línea por actividad en cada etapa del ciclo de vida, con cantidad, unidad, proveedor y meses.</li><li>El <b>tablero</b> se llena mientras capturas: totales por alcance, categoría, etapa, proveedor y mes.</li></ul><p>La sección <b>Cómo usar CO2Trace</b> muestra los pasos al desplazarte, y el video completo está al final de la página.</p>`), acts: [go('How to use', 'Cómo usar', 'how'), go('Watch the video', 'Ver el video', 'demo'), go('Examples', 'Ejemplos', 'examples')] }) },
+      { k: 'start started begin getting use how first blank example tutorial video demo walkthrough watch checklist reminder reminders calendar ics monthly empezar empiezo comenzar inicio iniciar usar como funciona ejemplo blanco video demostracion ver lista recordatorio recordatorios calendario mensual', a: () => ({ html: L(`<p>Use the <b>Getting-started checklist</b> (after How to use): five steps with a progress bar — how it works, an example, evidence, a sample report, then an account. Progress is saved in this browser. Download <b>monthly reminders (.ics)</b> from the same section to put a calendar event on the 5th of each month of the reporting year.</p><p><b>Explore an example</b> lists four fictional companies; pick one to see its dashboard. Own data needs a company account on the public site. The <b>How to use CO2Trace</b> section plays the steps as you scroll, and the full video is at the end of the page.</p>`, `<p>Usa la <b>lista para empezar</b> (después de Cómo usar): cinco pasos con barra de avance — cómo funciona, un ejemplo, evidencia, un reporte de muestra y luego una cuenta. El avance se guarda en este navegador. Descarga los <b>recordatorios mensuales (.ics)</b> en la misma sección para un evento el día 5 de cada mes del año de reporte.</p><p><b>Explora un ejemplo</b> muestra cuatro empresas ficticias; elige una para ver su tablero. En el sitio público, tus propios datos requieren una cuenta de empresa. La sección <b>Cómo usar CO2Trace</b> muestra los pasos al desplazarte, y el video completo está al final de la página.</p>`), acts: [go('Getting started', 'Empezar', 'start'), go('How to use', 'Cómo usar', 'how'), go('Watch the video', 'Ver el video', 'demo'), go('Examples', 'Ejemplos', 'examples')] }) },
       { k: 'add line row activity enter quantity unit delete remove agregar linea fila actividad capturar cantidad unidad borrar eliminar quitar', a: () => ({ html: L(`<p>In each stage of the ledger press <b>+ Add line</b>, pick the activity (fuel, electricity, material, transport…), then enter the quantity, unit, supplier and the months it happened. The kg CO₂e/unit comes from the factor library. The <b>×</b> on a line removes it.</p>`, `<p>En cada etapa del registro presiona <b>+ Agregar línea</b>, elige la actividad (combustible, electricidad, material, transporte…) y captura cantidad, unidad, proveedor y los meses en que ocurrió. Los kg CO₂e/unidad vienen de la biblioteca de factores. La <b>×</b> de una línea la elimina.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },
       { k: 'factor factors emission ef library source custom edit change own epa defra ecoinvent factores biblioteca fuente editar cambiar propio', a: () => ({ html: L(`<p>Each activity uses a cited factor from the library (EPA, eGRID, IPCC and LCI datasets for the US; SEMARNAT and FESEN for México). Factors are stored as kg of each gas per unit and characterised with the chosen GWPs. You can edit a line’s factor or pick <b>Custom</b> to enter your own; edited lines are marked.</p>`, `<p>Cada actividad usa un factor citado de la biblioteca (SEMARNAT y FESEN para México; EPA, eGRID, IPCC y bases ICV para EE. UU.). Los factores se guardan como kg de cada gas por unidad y se caracterizan con los PCG elegidos. Puedes editar el factor de una línea o elegir <b>Personalizado</b> para capturar el tuyo; las líneas editadas quedan marcadas.</p>`), acts: [go('Libraries and method', 'Bibliotecas y método', 'libList')] }) },
       { k: 'database databases library libraries uslci epa supply chain useeio exiobase agribalyse weee spend naics search base bases datos buscar gasto', a: () => ({ html: L(`<p>Press <b>+ From database</b> in any stage to search the factor databases and add a line: <b>EPA supply chain</b> factors (US, per USD spent, by NAICS), <b>EXIOBASE 3.8.2</b> (per EUR spent, 49 regions including México), <b>USLCI</b> (US process data: materials, energy, transport, grid mixes), <b>AGRIBALYSE 3.2</b> (food, per kg) and <b>WEEE LCI</b> (end of life of electrical equipment). Each value is kg of each gas per unit, so it follows the GWP method you choose. The line keeps its source and licence.</p>`, `<p>Presiona <b>+ Desde base de datos</b> en cualquier etapa para buscar en las bases de factores y agregar una línea: factores de <b>cadena de suministro de la EPA</b> (EE. UU., por USD gastado, por NAICS), <b>EXIOBASE 3.8.2</b> (por EUR gastado, 49 regiones incluida México), <b>USLCI</b> (procesos de EE. UU.: materiales, energía, transporte, mezclas de red), <b>AGRIBALYSE 3.2</b> (alimentos, por kg) y <b>WEEE LCI</b> (fin de vida de aparatos eléctricos). Cada valor es kg de cada gas por unidad, así que sigue el método de PCG que elijas. La línea guarda su fuente y licencia.</p>`), acts: [go('Open the ledger', 'Ir al registro', 'ledgerTitle')] }) },
@@ -6706,7 +7334,7 @@ ${REP_CSS}  .gs td:first-child{width:42%}
   renderMeta();
   renderStages();
   // signed in on the way back: reload so the page starts as the account's workspace instead of the public site
-  if (CFG) cloud.finish().then(after => { if (PUBLIC && cloud.signedIn()) { location.reload(); return; } renderAcct(); if (after === 'own') openOwn(''); });
+  if (CFG && window.top === window.self) cloud.finish().then(after => { if (PUBLIC && cloud.signedIn()) { location.reload(); return; } renderAcct(); if (after === 'own') openOwn(''); });
 })();
 </script>
 <script>

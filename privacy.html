@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072AC8">
+<title>Privacy · CO2Trace</title>
+<link rel="icon" type="image/svg+xml" href="brand/co2trace-icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+:root {
+  --brand: #072AC8; --forest: #252422; --forest-accent: #CCD5AE;
+  --bg: #EEF0EB; --surface: #FFFFFF; --ink: #1D2B35; --muted: #5A6A74; --line: #DADFD5;
+  --f: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11141C; --surface: #191E2A; --ink: #E9ECF3; --muted: #A0A8BA; --line: #2F3748;
+    --brand: #A9B9F5;
+  }
+}
+* { box-sizing: border-box; }
+html { overflow-x: clip; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--f); color: var(--ink); background: var(--bg);
+  padding: max(24px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(32px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+}
+.wrap { width: min(100%, 720px); margin: 0 auto; display: grid; gap: 16px; }
+.card {
+  padding: clamp(28px, 5vw, 48px);
+  background: var(--surface); border-radius: 18px; border: 1px solid var(--line);
+  display: grid; gap: 18px; text-align: left;
+}
+.brand {
+  font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand); text-decoration: none;
+}
+.eyebrow {
+  margin: 0; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+h1 {
+  margin: 0; font-size: clamp(28px, 6vw, 40px); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; color: var(--brand);
+}
+.sub {
+  margin: 0; font-size: clamp(22px, 4.5vw, 28px); font-weight: 500; letter-spacing: -.02em; line-height: 1.15; color: var(--forest);
+}
+@media (prefers-color-scheme: dark) { .sub { color: var(--ink); } }
+h2 {
+  margin: 8px 0 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--ink);
+}
+p, li { margin: 0; font-size: 15.5px; font-weight: 300; color: var(--muted); line-height: 1.55; max-width: 62ch; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .92em; font-weight: 400; color: var(--ink);
+}
+.es { padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
+.acts { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 12px 20px; border-radius: 999px; text-decoration: none;
+  font-family: var(--f); font-size: 15px; font-weight: 500; box-sizing: border-box;
+}
+.btn.solid { background: var(--brand); color: #FFFFFF; }
+.btn.line { border: 1.5px solid var(--line); color: var(--ink); background: transparent; }
+a.inline { color: var(--brand); }
+@media (max-width: 640px) {
+  .acts { flex-direction: column; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <a class="brand" href="index.html">CO2Trace</a>
+      <p class="eyebrow">Privacy</p>
+      <h1>Privacy</h1>
+      <p>This page describes how co2trace.io works today: what stays on your device, what we do not collect, and how to reach us.</p>
+
+      <h2>What stays in your browser</h2>
+      <p>Your ledger is saved on this device in the browser. Nothing is sent to a CO2Trace server yet.</p>
+      <ul>
+        <li>Project ledger: localStorage key <code>lca-ledger-v1</code></li>
+        <li>Your own ledger while an example is open: localStorage key <code>lca-ledger-own</code></li>
+        <li>Chart view choices: localStorage key <code>lca-ui-v1</code></li>
+        <li>Evidence file blobs: IndexedDB database <code>lca-evidence</code>, store <code>files</code></li>
+      </ul>
+      <p>Clearing site data, using another browser or another device starts fresh. Export a CSV if you need a backup.</p>
+
+      <h2>Accounts and contact</h2>
+      <p>The Create account / Sign in box only checks the fields on the page. It does not transmit a password or other account data. Company accounts with cloud storage are not live yet.</p>
+      <p>Questions: <a class="inline" href="mailto:support@co2trace.io">support@co2trace.io</a>. We answer in English or Spanish within one business day.</p>
+
+      <h2>What we do not do today</h2>
+      <ul>
+        <li>No analytics or tracking pixels on co2trace.io</li>
+        <li>No CO2Trace server receiving your ledger, evidence or form submissions</li>
+      </ul>
+
+      <h2>Third-party assets</h2>
+      <p>Pages load Hanken Grotesk from Google Fonts. The home page also loads Lenis (smooth scrolling) from a pinned jsDelivr copy. Those hosts may see a normal request for the font or script file; they do not receive your ledger.</p>
+
+      <div class="es" lang="es-MX">
+        <p class="sub">Privacidad</p>
+        <p>Esta página describe cómo funciona co2trace.io hoy: qué se queda en tu dispositivo, qué no recopilamos y cómo contactarnos.</p>
+
+        <h2>Qué se queda en tu navegador</h2>
+        <p>Tu inventario se guarda en este dispositivo, en el navegador. Todavía no se envía nada a un servidor de CO2Trace.</p>
+        <ul>
+          <li>Inventario del proyecto: clave de localStorage <code>lca-ledger-v1</code></li>
+          <li>Tu propio inventario mientras ves un ejemplo: clave <code>lca-ledger-own</code></li>
+          <li>Preferencias de gráficas: clave <code>lca-ui-v1</code></li>
+          <li>Archivos de evidencia: base IndexedDB <code>lca-evidence</code>, almacén <code>files</code></li>
+        </ul>
+        <p>Si borras los datos del sitio, cambias de navegador o de dispositivo, empiezas de cero. Exporta un CSV si necesitas respaldo.</p>
+
+        <h2>Cuentas y contacto</h2>
+        <p>La caja Crear cuenta / Iniciar sesión solo revisa los campos en la página. No transmite la contraseña ni otros datos de cuenta. Las cuentas de empresa con nube aún no están activas.</p>
+        <p>Preguntas: <a class="inline" href="mailto:support@co2trace.io">support@co2trace.io</a>. Respondemos en español o en inglés en un día hábil.</p>
+
+        <h2>Qué no hacemos hoy</h2>
+        <ul>
+          <li>Sin analítica ni píxeles de seguimiento en co2trace.io</li>
+          <li>Sin servidor de CO2Trace que reciba tu inventario, evidencia o formularios</li>
+        </ul>
+
+        <h2>Recursos de terceros</h2>
+        <p>Las páginas cargan Hanken Grotesk desde Google Fonts. La página de inicio también carga Lenis (desplazamiento suave) desde una copia fijada en jsDelivr. Esos hosts pueden ver una petición normal del archivo de fuente o script; no reciben tu inventario.</p>
+      </div>
+
+      <div class="acts">
+        <a class="btn solid" href="index.html">Go to CO2Trace home <span aria-hidden="true">↗</span></a>
+        <a class="btn line" href="index.html" lang="es-MX">Ir al inicio de CO2Trace</a>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
